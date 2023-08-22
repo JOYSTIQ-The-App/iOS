@@ -279,7 +279,8 @@
 				9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */,
 				9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */,
 			);
-			path = Placeholders;
+			name = Placeholders;
+			path = JOYSTIQ/Placeholders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

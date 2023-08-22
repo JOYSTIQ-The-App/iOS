@@ -3,7 +3,7 @@
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
 ## Placeholder content that can't be uploaded to github
-JOYSTIQ/Placeholders/*
+**/Placeholders/*
 
 **/.DS_Store
 
