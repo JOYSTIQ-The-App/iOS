@@ -5,6 +5,8 @@
 ## Placeholder content that can't be uploaded to github
 JOYSTIQ/Placeholders/*
 
+**/.DS_Store
+
 ## User settings
 xcuserdata/
 
