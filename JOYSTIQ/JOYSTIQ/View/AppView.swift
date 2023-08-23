@@ -9,9 +9,6 @@ import SwiftUI
 
 struct AppView: View {
     
-    //Determines logged status
-    @EnvironmentObject var userSession: UserSession
-    
     //Tab state to control views based on nav bar interaction
     @State private var selectedTab = 0
     @State private var showPostScreen = false

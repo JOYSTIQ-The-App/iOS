@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5BA74B352121C85BDC510698 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */; };
 		9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */; };
 		9941DC242A93F02300215948 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC232A93F02300215948 /* Assets.xcassets */; };
 		9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC262A93F02300215948 /* Preview Assets.xcassets */; };
@@ -38,7 +39,6 @@
 		9941DC722A93F6F000215948 /* CommentCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC532A93F6F000215948 /* CommentCount.swift */; };
 		9941DC732A93F6F000215948 /* PostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC542A93F6F000215948 /* PostContentView.swift */; };
 		9941DC742A93F6F000215948 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC552A93F6F000215948 /* CommentView.swift */; };
-		9941DC752A93F6F000215948 /* LoginScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC572A93F6F000215948 /* LoginScreenView.swift */; };
 		9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC592A93F6F000215948 /* ContentFilter.swift */; };
 		9941DC772A93F6F000215948 /* LeaderboardContentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */; };
 		9941DC782A93F6F000215948 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC5B2A93F6F000215948 /* HeaderView.swift */; };
@@ -53,9 +53,19 @@
 		9941DC8D2A94008200215948 /* HairTest5.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC842A94008100215948 /* HairTest5.usdc */; };
 		9941DC8E2A94008200215948 /* skintone6.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC852A94008200215948 /* skintone6.usdc */; };
 		9941DC8F2A94008200215948 /* FinalMascModel.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC862A94008200215948 /* FinalMascModel.usdc */; };
+		995085DB2A95A4DD003996B6 /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 995085DA2A95A4DD003996B6 /* AWSCognitoAuthPlugin */; };
+		995085DD2A95A4DD003996B6 /* AWSS3StoragePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 995085DC2A95A4DD003996B6 /* AWSS3StoragePlugin */; };
+		995085DF2A95A4DD003996B6 /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 995085DE2A95A4DD003996B6 /* Amplify */; };
+		995085E22A95A6AE003996B6 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E12A95A6AE003996B6 /* AuthService.swift */; };
+		995085E52A95A73D003996B6 /* TextColoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E42A95A73D003996B6 /* TextColoring.swift */; };
+		995085E82A95A805003996B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E72A95A805003996B6 /* LoginView.swift */; };
+		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
+		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
+		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		9941DC1C2A93F02100215948 /* JOYSTIQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JOYSTIQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JOYSTIQApp.swift; sourceTree = "<group>"; };
 		9941DC232A93F02300215948 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,7 +98,6 @@
 		9941DC532A93F6F000215948 /* CommentCount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCount.swift; sourceTree = "<group>"; };
 		9941DC542A93F6F000215948 /* PostContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContentView.swift; sourceTree = "<group>"; };
 		9941DC552A93F6F000215948 /* CommentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
-		9941DC572A93F6F000215948 /* LoginScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginScreenView.swift; sourceTree = "<group>"; };
 		9941DC592A93F6F000215948 /* ContentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentFilter.swift; sourceTree = "<group>"; };
 		9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardContentFilter.swift; sourceTree = "<group>"; };
 		9941DC5B2A93F6F000215948 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
@@ -103,6 +112,12 @@
 		9941DC842A94008100215948 /* HairTest5.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = HairTest5.usdc; sourceTree = "<group>"; };
 		9941DC852A94008200215948 /* skintone6.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = skintone6.usdc; sourceTree = "<group>"; };
 		9941DC862A94008200215948 /* FinalMascModel.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = FinalMascModel.usdc; sourceTree = "<group>"; };
+		995085E12A95A6AE003996B6 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		995085E42A95A73D003996B6 /* TextColoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextColoring.swift; sourceTree = "<group>"; };
+		995085E72A95A805003996B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
+		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,12 +126,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				9941DC7C2A93F80F00215948 /* SceneKit.framework in Frameworks */,
+				995085DF2A95A4DD003996B6 /* Amplify in Frameworks */,
+				995085DB2A95A4DD003996B6 /* AWSCognitoAuthPlugin in Frameworks */,
+				995085DD2A95A4DD003996B6 /* AWSS3StoragePlugin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		50A8F028F539BD12FEF5CD88 /* AmplifyConfig */ = {
+			isa = PBXGroup;
+			children = (
+				39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */,
+				FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */,
+			);
+			name = AmplifyConfig;
+			sourceTree = "<group>";
+		};
 		9941DC132A93F02100215948 = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +151,7 @@
 				9941DC1E2A93F02100215948 /* JOYSTIQ */,
 				9941DC1D2A93F02100215948 /* Products */,
 				9941DC7A2A93F80E00215948 /* Frameworks */,
+				50A8F028F539BD12FEF5CD88 /* AmplifyConfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,6 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */,
+				995085E02A95A690003996B6 /* API */,
+				995085E32A95A72B003996B6 /* Extensions */,
 				9941DC372A93F6F000215948 /* View */,
 				9941DC232A93F02300215948 /* Assets.xcassets */,
 				9941DC332A93F60B00215948 /* LaunchScreen.storyboard */,
@@ -158,6 +188,7 @@
 		9941DC372A93F6F000215948 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				995085E62A95A7F4003996B6 /* Authentication */,
 				9941DC402A93F6F000215948 /* AppView.swift */,
 				9941DC382A93F6F000215948 /* Home */,
 				9941DC412A93F6F000215948 /* Leaderboard */,
@@ -165,7 +196,6 @@
 				9941DC482A93F6F000215948 /* Connect */,
 				9941DC4A2A93F6F000215948 /* PostViews */,
 				9941DC502A93F6F000215948 /* HomeExtras */,
-				9941DC562A93F6F000215948 /* LoginView */,
 				9941DC582A93F6F000215948 /* Extras */,
 			);
 			path = View;
@@ -236,14 +266,6 @@
 			path = HomeExtras;
 			sourceTree = "<group>";
 		};
-		9941DC562A93F6F000215948 /* LoginView */ = {
-			isa = PBXGroup;
-			children = (
-				9941DC572A93F6F000215948 /* LoginScreenView.swift */,
-			);
-			path = LoginView;
-			sourceTree = "<group>";
-		};
 		9941DC582A93F6F000215948 /* Extras */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +305,32 @@
 			path = JOYSTIQ/Placeholders;
 			sourceTree = "<group>";
 		};
+		995085E02A95A690003996B6 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				995085E12A95A6AE003996B6 /* AuthService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		995085E32A95A72B003996B6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				995085E42A95A73D003996B6 /* TextColoring.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		995085E62A95A7F4003996B6 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				995085E72A95A805003996B6 /* LoginView.swift */,
+				995085E92A95A817003996B6 /* SignUpView.swift */,
+				995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -299,6 +347,11 @@
 			dependencies = (
 			);
 			name = JOYSTIQ;
+			packageProductDependencies = (
+				995085DA2A95A4DD003996B6 /* AWSCognitoAuthPlugin */,
+				995085DC2A95A4DD003996B6 /* AWSS3StoragePlugin */,
+				995085DE2A95A4DD003996B6 /* Amplify */,
+			);
 			productName = JOYSTIQ;
 			productReference = 9941DC1C2A93F02100215948 /* JOYSTIQ.app */;
 			productType = "com.apple.product-type.application";
@@ -327,6 +380,9 @@
 				Base,
 			);
 			mainGroup = 9941DC132A93F02100215948;
+			packageReferences = (
+				995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */,
+			);
 			productRefGroup = 9941DC1D2A93F02100215948 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -356,6 +412,8 @@
 				9941DC8D2A94008200215948 /* HairTest5.usdc in Resources */,
 				9941DC8F2A94008200215948 /* FinalMascModel.usdc in Resources */,
 				9941DC8A2A94008200215948 /* Erics.usdc in Resources */,
+				C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */,
+				5BA74B352121C85BDC510698 /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
+				995085E22A95A6AE003996B6 /* AuthService.swift in Sources */,
 				9941DC722A93F6F000215948 /* CommentCount.swift in Sources */,
 				9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */,
 				9941DC632A93F6F000215948 /* InteractionButtonMenu.swift in Sources */,
@@ -377,9 +436,12 @@
 				9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */,
 				9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */,
 				9941DC772A93F6F000215948 /* LeaderboardContentFilter.swift in Sources */,
+				995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */,
+				995085EA2A95A817003996B6 /* SignUpView.swift in Sources */,
 				9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */,
 				9941DC5E2A93F6F000215948 /* CommentSectionView.swift in Sources */,
 				9941DC792A93F6F000215948 /* Triangle.swift in Sources */,
+				995085E52A95A73D003996B6 /* TextColoring.swift in Sources */,
 				9941DC732A93F6F000215948 /* PostContentView.swift in Sources */,
 				9941DC5D2A93F6F000215948 /* DropDownView.swift in Sources */,
 				9941DC742A93F6F000215948 /* CommentView.swift in Sources */,
@@ -394,7 +456,7 @@
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */,
-				9941DC752A93F6F000215948 /* LoginScreenView.swift in Sources */,
+				995085E82A95A805003996B6 /* LoginView.swift in Sources */,
 				9941DC6E2A93F6F000215948 /* NewClipPostView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,6 +662,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aws-amplify/amplify-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		995085DA2A95A4DD003996B6 /* AWSCognitoAuthPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */;
+			productName = AWSCognitoAuthPlugin;
+		};
+		995085DC2A95A4DD003996B6 /* AWSS3StoragePlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */;
+			productName = AWSS3StoragePlugin;
+		};
+		995085DE2A95A4DD003996B6 /* Amplify */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */;
+			productName = Amplify;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9941DC142A93F02100215948 /* Project object */;
 }

@@ -1,35 +1,38 @@
-//  Created by cs dev on 4/5/23.
+//
+//  JOYSTIQApp.swift
+//  JOYSTIQ
+//
+//  Created by Connor Sottosanti on 4/5/23.
 //
 
 import SwiftUI
+import Amplify
+import AWSCognitoAuthPlugin
+//import AmplifyPlugins
 
 @main
 struct JOYSTIQApp: App {
-    
-    @StateObject var userSession = UserSession()
-    
-    
-    var body: some Scene {
-        
-        WindowGroup {
-            
-            if userSession.isLoggedIn {
-            
-                AppView().environmentObject(userSession)
-                
-            } else {
-                
-                LoginScreenView().environmentObject(userSession)
-                
-            }
-            
-            
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.configure()
+            print("Amplify configured with auth plugin")
+        } catch {
+            // This is a fatal error. Crash the app so it's obvious something went wrong.
+            // In production, you should display an appropriate error message to the user.
+            fatalError("Failed to initialize Amplify with \(error)")
         }
-        
     }
     
-}
-
-class UserSession: ObservableObject {
-    @Published var isLoggedIn = false
+    @StateObject var authService = AuthService()
+    
+    var body: some Scene {
+        WindowGroup {
+            if authService.isSignedIn {
+                AppView().environmentObject(authService)
+            } else {
+                LoginView().environmentObject(authService)
+            }
+        }
+    }
 }

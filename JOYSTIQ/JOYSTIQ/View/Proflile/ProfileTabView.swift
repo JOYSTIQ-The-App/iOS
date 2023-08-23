@@ -16,6 +16,9 @@ extension View {
 
 struct ProfileTabView: View {
     
+    //handles logged state
+    @EnvironmentObject var authService: AuthService
+    
     var body: some View {
         
         ScrollView (.vertical, showsIndicators: true) {
@@ -129,7 +132,19 @@ struct ProfileTabView: View {
                     .padding(.bottom, 50)
                     .offset(y: -50)
                 
-              
+                Button("Logout") {
+                    Task {
+                        await authService.signOutLocally()
+                        await authService.fetchCurrentAuthSession()
+                    }
+                }
+                .foregroundColor(.black)
+                .frame(width: 120.0, height: 50.0)
+                .background(Color("AccentColor"))
+                .cornerRadius(10)
+                
+                Spacer()
+                    .frame(height: 100.0)
                 
             }//End Main VStack
             .background(Color("Black1"))
