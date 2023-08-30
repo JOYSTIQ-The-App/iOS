@@ -61,6 +61,7 @@
 		995085E82A95A805003996B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E72A95A805003996B6 /* LoginView.swift */; };
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
+		999DD0EA2A9E725D00FCD0E4 /* DarkenButtonConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999DD0E92A9E725D00FCD0E4 /* DarkenButtonConfig.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +118,7 @@
 		995085E72A95A805003996B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
+		999DD0E92A9E725D00FCD0E4 /* DarkenButtonConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkenButtonConfig.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -301,8 +303,7 @@
 				9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */,
 				9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */,
 			);
-			name = Placeholders;
-			path = JOYSTIQ/Placeholders;
+			path = Placeholders;
 			sourceTree = "<group>";
 		};
 		995085E02A95A690003996B6 /* API */ = {
@@ -316,6 +317,7 @@
 		995085E32A95A72B003996B6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				999DD0E92A9E725D00FCD0E4 /* DarkenButtonConfig.swift */,
 				995085E42A95A73D003996B6 /* TextColoring.swift */,
 			);
 			path = Extensions;
@@ -430,6 +432,7 @@
 				9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */,
 				9941DC632A93F6F000215948 /* InteractionButtonMenu.swift in Sources */,
 				9941DC6D2A93F6F000215948 /* DiscPostView.swift in Sources */,
+				999DD0EA2A9E725D00FCD0E4 /* DarkenButtonConfig.swift in Sources */,
 				9941DC622A93F6F000215948 /* UserBannerPostView.swift in Sources */,
 				9941DC652A93F6F000215948 /* LeaderboardBanners.swift in Sources */,
 				9941DC672A93F6F000215948 /* Extra.swift in Sources */,
@@ -583,10 +586,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"JOYSTIQ/Preview Content\"";
-				DEVELOPMENT_TEAM = 3CJ7U26B8W;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
@@ -603,6 +608,8 @@
 				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = gg.joystiq.JOYSTIQ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = JOYSTIQ;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -614,10 +621,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"JOYSTIQ/Preview Content\"";
-				DEVELOPMENT_TEAM = 3CJ7U26B8W;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
@@ -634,6 +643,8 @@
 				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = gg.joystiq.JOYSTIQ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = JOYSTIQ;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
