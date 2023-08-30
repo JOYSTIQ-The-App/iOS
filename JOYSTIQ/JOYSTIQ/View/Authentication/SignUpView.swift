@@ -170,6 +170,7 @@ struct SignUpView: View {
             else { //Bool navToConfirm is true
                 
                 ConfirmSignUpView(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp).environmentObject(AuthService())
+                            
    
             }
             
