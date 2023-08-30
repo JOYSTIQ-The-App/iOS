@@ -188,8 +188,8 @@
 		9941DC372A93F6F000215948 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				995085E62A95A7F4003996B6 /* Authentication */,
 				9941DC402A93F6F000215948 /* AppView.swift */,
+				995085E62A95A7F4003996B6 /* Authentication */,
 				9941DC382A93F6F000215948 /* Home */,
 				9941DC412A93F6F000215948 /* Leaderboard */,
 				9941DC442A93F6F000215948 /* Proflile */,
