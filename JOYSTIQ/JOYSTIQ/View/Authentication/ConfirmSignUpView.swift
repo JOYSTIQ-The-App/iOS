@@ -37,29 +37,40 @@ struct ConfirmSignUpView: View {
                         text: $confirmationCode
                     )
                     .placeholder(when: confirmationCode.isEmpty) {
-                        Text("Confirmation Code").foregroundColor(.gray)
+                        Text("Confirmation Code").foregroundColor(.white).opacity(0.4)
                     }
                     .padding(.all, 15.0)
-                    .foregroundColor(.green)
-                    .background(Color("Black1"))
+                    .foregroundColor(.white)
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
+                    .cornerRadius(10)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color(UIColor.separator))
                     
-                    HStack{
+                   
+                    //Confirm code button
+                    Button(action: {
                         
-                        Button("Confirm") {
-                            
-                            Task {
-                                authService.isConfirmed = await authService.confirmSignUp(for: username, with: confirmationCode)
-                            }
-                            
+                        Task {
+                            authService.isConfirmed = await authService.confirmSignUp(for: username, with: confirmationCode)
                         }
-                        .buttonStyle(DarkeningButtonStyle())
                         
-                    } //END Hstack with confirm button
-                    .padding(.vertical, 5.0)
-                    .padding(.horizontal, 20.0)
+                    }, label: {
+                        
+                        Text("Confirm")
+                            .foregroundColor(.white)
+                            .frame(width: UIScreen.main.bounds.width * 0.65, height: 50)
+                            .background(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                    startPoint: .topTrailing,
+                                    endPoint: .bottomLeading
+                                )
+                            )
+                            .cornerRadius(30)
+                    })
+                    .contentShape(Rectangle()) // This makes the entire frame tappable
+                    .padding(.vertical, 20)
                     .onReceive(authService.$isConfirmed) { isConfirmed in
                         if isConfirmed {
                             // Pop this view off the stack, taking the user back to the login screen
@@ -67,6 +78,9 @@ struct ConfirmSignUpView: View {
                             authService.signUpRequested = false
                         }
                     }
+                  //END Confirm code button
+                    
+                    
                     
                 }
                 .padding(.all, 20.0)

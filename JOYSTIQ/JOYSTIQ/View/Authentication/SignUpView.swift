@@ -41,14 +41,15 @@ struct SignUpView: View {
                         text: $username
                     )
                     .placeholder(when: username.isEmpty) {
-                        Text("Username").foregroundColor(.gray)
+                        Text("Username").foregroundColor(.white).opacity(0.4)
                     }
                     .padding(.all, 15.0)
-                    .foregroundColor(.green)
-                    .background(Color("Black1"))
+                    .foregroundColor(.white)
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
+                    .cornerRadius(10)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color(UIColor.separator))
                     
                     //EMAIL
                     TextField (
@@ -56,14 +57,15 @@ struct SignUpView: View {
                         text: $email
                     )
                     .placeholder(when: email.isEmpty) {
-                        Text("Email").foregroundColor(.gray)
+                        Text("Email").foregroundColor(.white).opacity(0.4)
                     }
                     .padding(.all, 15.0)
-                    .foregroundColor(.green)
-                    .background(Color("Black1"))
+                    .foregroundColor(.white)
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
+                    .cornerRadius(10)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color(UIColor.separator))
                     
                     //PASSWORD
                     SecureField (
@@ -71,14 +73,15 @@ struct SignUpView: View {
                         text: $password
                     )
                     .placeholder(when: password.isEmpty) {
-                        Text("Password").foregroundColor(.gray)
+                        Text("Password").foregroundColor(.white).opacity(0.4)
                     }
                     .padding(.all, 15.0)
-                    .foregroundColor(.green)
-                    .background(Color("Black1"))
+                    .foregroundColor(.white)
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
+                    .cornerRadius(10)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color(UIColor.separator))
                     
                     //CONFIRM PASSWORD
                     SecureField (
@@ -86,19 +89,21 @@ struct SignUpView: View {
                         text: $confirmpassword
                     )
                     .placeholder(when: confirmpassword.isEmpty) {
-                        Text("Confirm Password").foregroundColor(.gray)
+                        Text("Confirm Password").foregroundColor(.white).opacity(0.4)
                     }
                     .padding(.all, 15.0)
-                    .foregroundColor(.green)
-                    .background(Color("Black1"))
+                    .foregroundColor(.white)
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
+                    .cornerRadius(10)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color(UIColor.separator))
                     
                     
                     //Nav Link & Sign up button
                     NavigationLink(destination: ConfirmSignUpView(username: username), isActive: $authService.isSignedUp) {
                         
+                        /*
                         Button("Sign Up") {
                             
                             //if Valid email, valid/available username, matching password
@@ -111,7 +116,35 @@ struct SignUpView: View {
                         .background(Color("AccentColor"))
                         .cornerRadius(10)
                         .padding(.top, 10)
-                    }
+                        */
+                        
+                        //Login button
+                        Button(action: {
+                            
+                            Task {
+                                authService.isSignedUp = await authService.signUp(username: username, email: email, password: password)
+                            }
+                            
+                        }, label: {
+                            Text("Sign Up")
+                                .foregroundColor(.white)
+                                .frame(width: UIScreen.main.bounds.width * 0.65, height: 50)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                        startPoint: .topTrailing,
+                                        endPoint: .bottomLeading
+                                    )
+                                )
+                                .cornerRadius(30)
+                        })
+                        .contentShape(Rectangle()) // This makes the entire frame tappable
+                        
+                        
+                        
+                        
+                    } //END NavLink
+                    .padding(.top, 10)
                     
                     
                 } //END VStack for entries and sign up button

@@ -38,65 +38,66 @@ struct LoginView: View {
                         text: $username
                     )
                     .placeholder(when: username.isEmpty) {
-                        Text("Username").foregroundColor(.white).opacity(0.6)
+                        Text("Username").foregroundColor(.white).opacity(0.4)
                     }
                     .padding(.all, 15.0)
-                    .foregroundColor(.black)
-                    .background(Color("LightGray"))
-                    .opacity(0.8)
+                    .foregroundColor(.white)
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
                     .cornerRadius(10)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color(UIColor.separator))
+                    
                     
                     SecureField(
                         "",
                         text: $password
                     )
                     .placeholder(when: password.isEmpty) {
-                        Text("Password").foregroundColor(.white).opacity(0.6)
+                        Text("Password").foregroundColor(.white).opacity(0.4)
                     }
                     .padding(.all, 15.0)
-                    .foregroundColor(.black)
-                    .background(Color("LightGray"))
-                    .opacity(0.8)
+                    .foregroundColor(.white)
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
                     .cornerRadius(10)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color(UIColor.separator))
                     
                     
                     
                     
-                    VStack { //Hstack for forgot pass and login
+                    VStack { //Hstack for login button and forgot pass
                         
-                        Button("Login") {
+                        //Login button
+                        Button(action: {
                             
                             Task {
                                 await authService.signIn(username: username, password: password)
                             }
                             
-                        }
-                        .foregroundColor(.white)
-                        .frame(width: UIScreen.main.bounds.width * 0.7, height: 50)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
-                                startPoint: .topTrailing,
-                                endPoint: .bottomLeading
-                            )
-                        )
-                        .cornerRadius(30)
-                        
-                        
-                        
+                        }, label: {
+                            Text("Login")
+                                .foregroundColor(.white)
+                                .frame(width: UIScreen.main.bounds.width * 0.65, height: 50)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                        startPoint: .topTrailing,
+                                        endPoint: .bottomLeading
+                                    )
+                                )
+                                .cornerRadius(30)
+                        })
+                        .contentShape(Rectangle()) // This makes the entire frame tappable
+
+                        //Forgot password button
                         Button("Forgot password?") {
                             /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
                         }
                         .foregroundColor(Color("LightGray"))
                         .frame(width: 160, height: 30)
                         .cornerRadius(10)
-                        .padding(.top, 10)
                         
                         
                     } //END HStack for forgot pass and login
