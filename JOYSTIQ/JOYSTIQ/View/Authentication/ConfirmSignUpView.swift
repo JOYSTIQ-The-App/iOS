@@ -17,80 +17,132 @@ struct ConfirmSignUpView: View {
     @State private var confirmationCode: String = ""
     @State private var navigateToNextView = false
     
+    @Binding var navigateToConfirmSignUp: Bool
+    
     var body: some View {
-        ZStack {
-            Color("Black0")
-                .edgesIgnoringSafeArea(.all)
-            VStack{
+        
+            
+            VStack { //VStack for main container
+                
                 Spacer()
-                    .frame(height: 100.0)
+            
+                Image("JS_Logo2")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100, height: 100, alignment: .center)
+            
                 
-                VStack(spacing: 10.0){
-                    Image("JS_Logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 100, alignment: .center)
-                }
-                
-                VStack(alignment: .center){
+                VStack(alignment: .center) {
+                    
                     TextField(
                         "",
                         text: $confirmationCode
                     )
                     .placeholder(when: confirmationCode.isEmpty) {
-                        Text("Confirmation Code").foregroundColor(.gray)
+                        Text("Confirmation Code").foregroundColor(.white).opacity(0.4)
                     }
                     .padding(.all, 15.0)
                     .foregroundColor(.white)
-                    .background(Color("LightGray"))
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
+                    .cornerRadius(10)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color(UIColor.separator))
                     
-                    HStack{
-                        Button("Confirm") {
+                   
+                    HStack(spacing: 20) { //for cancel and confirm buttons
+                        
+                        //Cancel button
+                        Button(action: {
+                            
+                            //CANCEL CONFIRMATION PROCESS
+                            navigateToConfirmSignUp.toggle()
+                            
+                        }, label: {
+                            
+                            Text("Cancel")
+                                .foregroundColor(.white)
+                                .frame(width: UIScreen.main.bounds.width * 0.35, height: 50)
+                                .background(LinearGradient(
+                                    gradient: Gradient(colors: [Color.red, Color(red: 0.9, green: 0.3, blue: 0)]),
+                                                startPoint: .topTrailing,
+                                                endPoint: .bottomLeading
+                                            ))
+                                .cornerRadius(30)
+                        })
+                        .contentShape(Rectangle()) // This makes the entire frame tappable
+                        .padding(.vertical, 20)
+                        //END cancel code button
+                        
+
+                        
+                        //Confirm code button
+                        Button(action: {
+                            
                             Task {
                                 authService.isConfirmed = await authService.confirmSignUp(for: username, with: confirmationCode)
                             }
+                            
+                        }, label: {
+                            
+                            Text("Confirm")
+                                .foregroundColor(.white)
+                                .frame(width: UIScreen.main.bounds.width * 0.45, height: 50)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                        startPoint: .topTrailing,
+                                        endPoint: .bottomLeading
+                                    )
+                                )
+                                .cornerRadius(30)
+                        })
+                        .contentShape(Rectangle()) // This makes the entire frame tappable
+                        .padding(.vertical, 20)
+                        .onReceive(authService.$isConfirmed) { isConfirmed in
+                            if isConfirmed {
+                                // Pop this view off the stack, taking the user back to the login screen
+                                authService.isSignedUp = false
+                                authService.signUpRequested = false
+                            }
                         }
-                        .foregroundColor(.black)
-                        .frame(width: 120.0, height: 50.0)
-                        .background(Color("AccentColor"))
-                        .cornerRadius(10)
+                      //END Confirm code button
                         
                     }
-                    .padding(.vertical, 5.0)
-                    .padding(.horizontal, 20.0)
-                    .onReceive(authService.$isConfirmed) { isConfirmed in
-                        if isConfirmed {
-                            // Pop this view off the stack, taking the user back to the login screen
-                            authService.isSignedUp = false
-                            authService.signUpRequested = false
-                        }
-                    }
+                    
+                    
+                    
+                    
                     
                 }
                 .padding(.all, 20.0)
                 
                 Spacer()
-                    .frame(height: 200.0)
                 
-                VStack(spacing: 20.0){
-                    Text(/*@START_MENU_TOKEN@*/"JOYSTIQ"/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(.white)
-                        .font(.system(size: 14, weight: .light, design: .serif))
-                        .italic()
-                }
-                .padding(.all, 20.0)
+                Image("SmallTitle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 110, height: 20, alignment: .center)
 
-            }
-        }
-    }
+            } //END VStack main container
+            .padding(.bottom, 50)
+            .edgesIgnoringSafeArea(.all)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                    startPoint: .topTrailing,
+                    endPoint: .bottomLeading
+                )
+            )
+        
+            
+        
+    } //END Body
 }
 
 struct ConfirmSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfirmSignUpView(username: "SampleUsername").environmentObject(AuthService())
+        ConfirmSignUpView(username: "SampleUsername", navigateToConfirmSignUp: .constant(false)).environmentObject(AuthService())
     }
 }
 

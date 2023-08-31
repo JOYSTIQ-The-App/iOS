@@ -16,102 +16,173 @@ struct SignUpView: View {
     @State private var username: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var confirmpassword: String = ""
     @State private var navigateToConfirmSignUp = false
     
     var body: some View {
+        
         NavigationView {
-            ZStack {
-                Color("Black0")
-                    .edgesIgnoringSafeArea(.all)
-                VStack{
+              
+            
+            if !navigateToConfirmSignUp {
+                
+                VStack { //VStack for main container
+                    
                     Spacer()
-                        .frame(height: 100.0)
                     
-                    VStack(spacing: 10.0){
-                        Image("JS_Logo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 100, height: 100, alignment: .center)
-                    }
+                    Image("JS_Logo2")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 100, alignment: .center)
                     
-                    VStack(alignment: .center){
+                    
+                    VStack(alignment: .center) { //VStack for entries and sign up button
+                        
+                        //USERNAME
                         TextField(
                             "",
                             text: $username
                         )
                         .placeholder(when: username.isEmpty) {
-                            Text("Username").foregroundColor(.gray)
+                            Text("Username").foregroundColor(.white).opacity(0.4)
                         }
                         .padding(.all, 15.0)
                         .foregroundColor(.white)
-                        .background(Color("LightGray"))
+                        .background(Color("LightGray").opacity(0.4))
+                        .border(Color(UIColor.separator))
+                        .cornerRadius(10)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
-                        .border(Color(UIColor.separator))
                         
-                        TextField(
+                        //EMAIL
+                        TextField (
                             "",
                             text: $email
                         )
                         .placeholder(when: email.isEmpty) {
-                            Text("Email").foregroundColor(.gray)
+                            Text("Email").foregroundColor(.white).opacity(0.4)
                         }
                         .padding(.all, 15.0)
                         .foregroundColor(.white)
-                        .background(Color("LightGray"))
+                        .background(Color("LightGray").opacity(0.4))
+                        .border(Color(UIColor.separator))
+                        .cornerRadius(10)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
-                        .border(Color(UIColor.separator))
                         
-                        SecureField(
+                        //PASSWORD
+                        SecureField (
                             "",
                             text: $password
                         )
                         .placeholder(when: password.isEmpty) {
-                            Text("Password").foregroundColor(.gray)
+                            Text("Password").foregroundColor(.white).opacity(0.4)
                         }
                         .padding(.all, 15.0)
                         .foregroundColor(.white)
-                        .background(Color("LightGray"))
+                        .background(Color("LightGray").opacity(0.4))
                         .border(Color(UIColor.separator))
+                        .cornerRadius(10)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                         
-                        HStack{
-                            NavigationLink(destination: ConfirmSignUpView(username: username), isActive: $authService.isSignedUp) {
-                                Button("Sign Up") {
-                                    Task {
-                                        authService.isSignedUp = await authService.signUp(username: username, email: email, password: password)
-                                    }
-                                }
-                                .foregroundColor(.black)
-                                .frame(width: 120.0, height: 50.0)
-                                .background(Color("AccentColor"))
-                                .cornerRadius(10)
-                            }
+                        //CONFIRM PASSWORD
+                        SecureField (
+                            "",
+                            text: $confirmpassword
+                        )
+                        .placeholder(when: confirmpassword.isEmpty) {
+                            Text("Confirm Password").foregroundColor(.white).opacity(0.4)
                         }
-                        .padding(.vertical, 5.0)
-                        .padding(.horizontal, 20.0)
+                        .padding(.all, 15.0)
+                        .foregroundColor(.white)
+                        .background(Color("LightGray").opacity(0.4))
+                        .border(Color(UIColor.separator))
+                        .cornerRadius(10)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                         
-                    }
+                        
+                        
+                        
+                        
+                        Button(action: {
+                            
+                            //If requirements are met, toggle nav to confirm
+                            //valid/availble username, valid email, passwords match
+                            navigateToConfirmSignUp.toggle()
+                            
+                            /*
+                            Task {
+                                authService.isSignedUp = await authService.signUp(username: username, email: email, password: password)
+                            }
+                             */
+                            
+                        }, label: {
+                            Text("Sign Up")
+                                .foregroundColor(.white)
+                                .frame(width: UIScreen.main.bounds.width * 0.65, height: 50)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                        startPoint: .topTrailing,
+                                        endPoint: .bottomLeading
+                                    )
+                                )
+                                .cornerRadius(30)
+                        })
+                        .contentShape(Rectangle()) //makes entire frame tappable
+                        .padding(.top, 10)
+                        
+   
+                        
+                    } //END VStack for entries and sign up button
                     .padding(.all, 20.0)
+                    .padding(.bottom, 50)
+                    
                     
                     Spacer()
-                        .frame(height: 200.0)
                     
-                    VStack(spacing: 20.0){
-                        Text(/*@START_MENU_TOKEN@*/"JOYSTIQ"/*@END_MENU_TOKEN@*/)
-                            .foregroundColor(.white)
-                            .font(.system(size: 14, weight: .light, design: .serif))
-                            .italic()
-                    }
-                    .padding(.all, 20.0)
-
-                }
+        
+                    Image("SmallTitle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 110, height: 20, alignment: .center)
+              
+                    
+                } //END VStack for main container
+                .padding(.bottom, 50)
+                .edgesIgnoringSafeArea(.all)
+                //.background(Color("Black0"))
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                        startPoint: .topTrailing,
+                        endPoint: .bottomLeading
+                    )
+                )
+                
+                
+            } //END if NOT navToConfirm
+                 
+            
+            
+            else { //Bool navToConfirm is true
+                
+                ConfirmSignUpView(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp).environmentObject(AuthService())
+                            
+   
             }
-        }
-    }
+            
+     
+            
+        } //END Nav view
+        
+    } //END Body
     
     
 }
+
 
 
 struct SignUpScreenView_Previews: PreviewProvider {
