@@ -195,7 +195,6 @@
 				9941DC442A93F6F000215948 /* Proflile */,
 				9941DC482A93F6F000215948 /* Connect */,
 				9941DC4A2A93F6F000215948 /* PostViews */,
-				9941DC502A93F6F000215948 /* HomeExtras */,
 				9941DC582A93F6F000215948 /* Extras */,
 			);
 			path = View;
@@ -204,13 +203,14 @@
 		9941DC382A93F6F000215948 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				9941DC392A93F6F000215948 /* DropDownView.swift */,
-				9941DC3A2A93F6F000215948 /* CommentSectionView.swift */,
-				9941DC3B2A93F6F000215948 /* NotificationTabView.swift */,
 				9941DC3C2A93F6F000215948 /* HomeTabView.swift */,
 				9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */,
+				9941DC392A93F6F000215948 /* DropDownView.swift */,
+				9941DC3B2A93F6F000215948 /* NotificationTabView.swift */,
 				9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */,
 				9941DC3F2A93F6F000215948 /* InteractionButtonMenu.swift */,
+				9941DC3A2A93F6F000215948 /* CommentSectionView.swift */,
+				9941DC502A93F6F000215948 /* HomeExtras */,
 			);
 			path = Home;
 			sourceTree = "<group>";

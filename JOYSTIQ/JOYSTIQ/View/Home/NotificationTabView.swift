@@ -8,17 +8,42 @@
 import SwiftUI
 
 struct NotificationTabView: View {
+
+    
+    let sampleNotis = [
+        "User123 liked your post",
+        "Nadeshot started following you",
+        "You've earned a gold trophy for reaching 1M followers!",
+        "You're fat",
+        "Nooch commented \"Mid + Ratio + You're a beta\"",
+        "User123 liked your post",
+        "User123 liked your post"
+    ]
+    
+    let notiTypes = [
+        "post",
+        "user",
+        "medal",
+        "user",
+        "user",
+        "post",
+        "post"
+    ]
+    
+    
+
     
     
     var body: some View {
         
         VStack {
-          
-            Text("Notifications")
-                .font(.title2)
-                .foregroundColor(.green)
-                .padding(.top, UIScreen.main.bounds.height * 0.1)
-            
+      
+            Image("NotificationsText")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 180, height: 40)
+                .padding(.top, UIScreen.main.bounds.height * 0.07)
+
             Divider()
                 .background(.green)
             
@@ -26,13 +51,17 @@ struct NotificationTabView: View {
             //scrollview for displaying notifications
             ScrollView(.vertical, showsIndicators: false) {
                 
-                ForEach(0..<10) { i in
-                    NotiView()
+
+                ForEach(sampleNotis.indices, id: \.self) { index in
+                    
+                    NotiView(notificationMessage: sampleNotis[index], notiType: notiTypes[index])
                     
                 }
+
                 
             } //end scrollview for displaying notifications
             .frame(width: UIScreen.main.bounds.width)
+            .padding(.top, 10)
             
             Spacer()
 
@@ -40,7 +69,14 @@ struct NotificationTabView: View {
         } //END MAIN Vstack
         .edgesIgnoringSafeArea(.all)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .background(Color("Black0"))
+        //.background(Color("Black0"))
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
         
     } //END body
     

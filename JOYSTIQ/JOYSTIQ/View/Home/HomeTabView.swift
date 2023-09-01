@@ -39,6 +39,7 @@ struct HomeTabView: View {
                                 .frame(width: 22, height: 22)
                                 .padding(.leading, 20)
                                 .foregroundColor(Color("LightGray"))
+                                
                             
                         }
                         
@@ -54,11 +55,10 @@ struct HomeTabView: View {
                             showDropDown.toggle()
                             
                         }) {
-                            Image("JS_Logo")
+                            Image("JS_Logo2")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 50)
-                                .foregroundColor(.green)
                                 .padding(.leading, 5)
                                 .padding(.bottom, 10)
                                 .padding(.top, 5)
@@ -68,12 +68,12 @@ struct HomeTabView: View {
                         
                         Spacer()
                         
-                        
+                        //MESSENGER
                         Button(action: {}) {
                             Image(systemName: "tray.full.fill")
                                 .resizable()
                                 .frame(width: 31, height: 22)
-                                .foregroundColor(Color("Black0"))
+                                .foregroundColor(Color.clear)
                                 .padding(.trailing, 20)
                             
                         }
@@ -82,11 +82,25 @@ struct HomeTabView: View {
                         
                     } // END HSTACK with Header
                     .frame(height: 65)
-                    .background(Color("Black0"))
-                    //bottom green border
-                    .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.green), alignment: .bottom)
+                    //.background(Color("Black3"))
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
                     
-                    //--------------START HEADER------------------
+                    //bottom green border
+                    .overlay(
+                        Rectangle()
+                            .fill(LinearGradient(gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .frame(width: UIScreen.main.bounds.width, height: 1),
+                            alignment: .bottom
+                            
+                    )
+                    
+                    //--------------END HEADER------------------
                     
                     
                     
@@ -128,7 +142,7 @@ struct HomeTabView: View {
                       
                         
                     } // END scroll view for home content
-                    .background(Color("Black0"))
+                    .background(Color("Black0")) // Fills gap? for each post
                     //.disabled(showDropDown)
                     //.disabled(showCommentSection)
                     

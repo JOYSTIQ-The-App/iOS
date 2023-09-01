@@ -97,7 +97,6 @@ struct AppView: View {
                                 .scaledToFit()
                                 .frame(width: 35, height: 35)
                                 .foregroundColor(Color.green)
-                                .shadow(color: selectedTab == 2 ? Color.green.opacity(0.5) : Color.clear, radius: 16, x: 0, y: 8)
                             
                             
                             Image(systemName: "plus")
@@ -107,7 +106,6 @@ struct AppView: View {
                                 .foregroundColor(Color.green)
                                 .padding()
                                 .cornerRadius(12)
-                                .shadow(color: selectedTab == 2 ? Color.green.opacity(0.5) : Color.clear, radius: 16, x: 0, y: 8)
                             
                         } // END Zstack with for post button
                         .frame(width: UIScreen.main.bounds.width * 0.18, height: 25)
@@ -158,15 +156,30 @@ struct AppView: View {
                 } //END HStack for nav bar
                 .disabled(showCommentSection)
                 .frame(width: UIScreen.main.bounds.width, height: 70)
-                .background(Color("Black0"))
+                //.background(Color.clear)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                )
+                
+                
                 //border above nav bar
-                .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.green), alignment: .top)
+                .overlay(
+                    Rectangle()
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .frame(width: UIScreen.main.bounds.width, height: 1),
+                        alignment: .top
+                        
+                )
                 
                 
                  
             } //END MAIN VStack
+            //Entire background, behind feed and nav bar
             .background(Color("Black0"))
-            
             
             
             // ------------------START Comment Section---------------------
