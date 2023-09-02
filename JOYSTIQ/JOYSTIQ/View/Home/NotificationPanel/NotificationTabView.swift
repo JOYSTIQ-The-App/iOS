@@ -15,12 +15,26 @@ struct NotificationTabView: View {
         "Nadeshot started following you",
         "You've earned a gold trophy for reaching 1M followers!",
         "User456 liked your post",
-        "Nooch commented \"Mid + ratio + you're a beta\"",
+        "Tarik commented \"Mid + ratio + you're a beta\"",
+        "User789 liked your post",
+        "User123 liked your post",
+        "User123 liked your post",
+        "Nadeshot started following you",
+        "You've earned a gold trophy for reaching 1M followers!",
+        "User456 liked your post",
+        "Tarik commented \"Mid + ratio + you're a beta\"",
         "User789 liked your post",
         "User123 liked your post"
     ]
     
     let notiTypes = [
+        "post",
+        "user",
+        "medal",
+        "user",
+        "user",
+        "post",
+        "post",
         "post",
         "user",
         "medal",
@@ -71,7 +85,7 @@ struct NotificationTabView: View {
         //.background(Color("Black0"))
         .background(
             LinearGradient(
-                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark3")]),
                 startPoint: .top,
                 endPoint: .bottom
             )

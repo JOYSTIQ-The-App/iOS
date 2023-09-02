@@ -19,28 +19,48 @@ struct UserBannerPostView: View {
             
             ZStack(alignment: .leading) { //ZStack for user picture and username banner
                 
+                
+                /*
+                 DEFAULT Image
+                 
                 Image(systemName: "person") // Replace "profile_picture" with user avatar snapshot
-                    .frame(width: 65, height: 60)
+                    .frame(width: 55, height: 55)
                     .font(.system(size: 40))
                     .foregroundColor(.black)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.black, lineWidth: 3))
                     .background(Circle().foregroundColor(.green))
                     .zIndex(1)
+                */
+                
+                Image("TestAvatar4")
+                    .frame(width: 55, height: 55)
+                    .scaleEffect(0.3)
+                    .foregroundColor(.black)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    .zIndex(1)
+                
                     
                 
                 Text("Username")
-                    .font(.title2)
                     .foregroundColor(.black)
-                    .frame(width: 200, height: 40)
-                    .background(RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(Color("LightGray"))
-                        .opacity(0.8))
+                    .frame(width: UIScreen.main.bounds.width * 0.35, height: 35)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.white, Color.gray]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        ))
+                    .cornerRadius(10)
                     .zIndex(0)
-                    .padding(.leading, 40)
+                    .padding(.leading, 30)
+                    
           
             } //Zstack for user banner
-            .frame(width: 260, height: 60)
+            .frame(width: UIScreen.main.bounds.width * 0.44, height: 60)
+            .padding(.leading, 13)
+            
 
                  
             
@@ -59,7 +79,7 @@ struct UserBannerPostView: View {
             
         } //END HStack for pfp + username banner + game title
         .frame(width: UIScreen.main.bounds.width, alignment: .leading)
-        .background(Color("Black0"))
+        .background(Color("GradientDark3"))
         
         
         

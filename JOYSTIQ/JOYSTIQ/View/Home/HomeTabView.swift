@@ -125,10 +125,9 @@ struct HomeTabView: View {
                     //START Feed View. ScrollView for posts.
                     ScrollView(.vertical, showsIndicators: false) {
                         
-                        //top padding for first post
                         Rectangle()
-                            .foregroundColor(Color("Black0"))
-                            .frame(height: 1)
+                            .foregroundColor(Color("GradientDark3"))
+                            .frame(height: 0.01)
                         
                         
                         //iterate through post list and display each
@@ -150,8 +149,8 @@ struct HomeTabView: View {
                          
                                 
                             } //end main Vstack for post
-                            .background(Color("Black0"))
-                            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("CustomGray")), alignment: .bottom)
+                            .background(Color("GradientDark3"))
+                            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
                             
                             
                             
@@ -160,7 +159,7 @@ struct HomeTabView: View {
                       
                         
                     } // END scroll view for home content
-                    .background(Color("Black0")) // Fills gap? for each post
+                    .background(Color("GradientDark3")) // Fills gap? for each post
                     //.disabled(showDropDown)
                     //.disabled(showCommentSection)
                     

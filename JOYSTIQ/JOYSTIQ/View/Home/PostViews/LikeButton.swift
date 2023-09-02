@@ -39,13 +39,13 @@ struct LikeButton: View {
                 
             }) {
                 Image(systemName: isLiked ? "heart.fill" : "heart")
-                    .foregroundColor(isLiked ? .red : .accentColor)
-                    .imageScale(.large)
+                    .foregroundColor(isLiked ? .red : .white.opacity(0.8))
+                    .imageScale(.medium)
                     .padding(.trailing, 5)
             }
             
             Text(formatNumber(likesCount))
-                .foregroundColor(.green)
+                .foregroundColor(.white).opacity(0.8)
             
         } //end Hstack for like button and like count
 

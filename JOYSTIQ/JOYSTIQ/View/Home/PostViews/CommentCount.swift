@@ -20,7 +20,7 @@ struct CommentCount: View {
         HStack(spacing: 0) { //for comment counter
             
             Text(formatNumber(commentCount))
-                .foregroundColor(.green)
+                .foregroundColor(.white).opacity(0.8)
             
         } //end Hstack for like button and like count
 

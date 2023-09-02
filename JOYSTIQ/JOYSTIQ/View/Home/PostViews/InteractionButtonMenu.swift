@@ -21,6 +21,7 @@ struct InteractionButtonMenu: View {
             //pass post UUID to likebutton view
             LikeButton(likesCount: Int.random(in: 100...10000))
                 .padding(.trailing, 10)
+                
             
             
             Button(action: {
@@ -29,7 +30,8 @@ struct InteractionButtonMenu: View {
                 
             }) {
                 Image(systemName: "message")
-                    .imageScale(.large)
+                    .imageScale(.medium)
+                    .foregroundColor(.white).opacity(0.8)
             }
             
             CommentCount(commentCount: Int.random(in: 100...1000))
@@ -49,17 +51,18 @@ struct InteractionButtonMenu: View {
                 
             } label: {
                 
-                Image(systemName: "ellipsis")
-                    .imageScale(.large)
+                Image(systemName: "flag")
+                    .imageScale(.medium)
                     .padding(.trailing, 10)
+                    .foregroundColor(.white).opacity(0.8)
                     
             }
    
             
             
         } //END Hstack for interaction buttons
-        .padding()
-        .padding(.horizontal, 5)
+        .padding(.horizontal, 20)
+        .padding(.bottom, 12)
         
     } //end body
     
@@ -68,5 +71,6 @@ struct InteractionButtonMenu: View {
 struct InteractionButtonMenu_Previews: PreviewProvider {
     static var previews: some View {
         InteractionButtonMenu(showCommentSection: .constant(false), showingReportAlert: .constant(false))
+            .background(Color("GradientDark3"))
     }
 }

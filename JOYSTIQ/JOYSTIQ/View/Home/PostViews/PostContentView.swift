@@ -25,7 +25,7 @@ struct PostContentView: View {
                 let player = AVPlayer(url: videoURL)
                 
                 VideoPlayer(player: player)
-                    .frame(width: UIScreen.main.bounds.width-30, height: 220)
+                    .frame(width: UIScreen.main.bounds.width-40, height: 220)
                     .cornerRadius(10)
                 
             } else {
@@ -38,8 +38,8 @@ struct PostContentView: View {
             
             // Caption
             Text("This is a sample caption of a few lines of text. Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
-                .font(.body)
-                .foregroundColor(.white)
+                .font(.system(size: 16))
+                .foregroundColor(.white.opacity(0.9))
                 .padding(.vertical, 15)
                 .padding(.horizontal, 20)
           
@@ -55,7 +55,7 @@ struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         
         PostContentView(intVal: 1)
-            .background(Color("Black0"))
+            .background(Color("GradientDark"))
         
     }
 }

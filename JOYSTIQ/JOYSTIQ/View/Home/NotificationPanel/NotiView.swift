@@ -26,7 +26,7 @@ struct NotiView: View {
                         gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
                         startPoint: .topTrailing,
                         endPoint: .bottomLeading
-                    ).opacity(0.8)
+                    ).opacity(0.4)
                 )
                 .cornerRadius(10)
                 .padding(.leading, 5)

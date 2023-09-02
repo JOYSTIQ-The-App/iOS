@@ -177,11 +177,7 @@ struct DropDownView: View {
                         Text("Close")
                             .foregroundColor(.white)
                             .frame(width: UIScreen.main.bounds.width * 0.30, height: 40)
-                            .background(LinearGradient(
-                                gradient: Gradient(colors: [Color("CustomGray"), Color.gray]),
-                                            startPoint: .bottomLeading,
-                                            endPoint: .topTrailing
-                                        ))
+                            .background(Color.gray.opacity(0.8))
                             .cornerRadius(30)
                     })
                     .contentShape(Rectangle()) // This makes the entire frame tappable

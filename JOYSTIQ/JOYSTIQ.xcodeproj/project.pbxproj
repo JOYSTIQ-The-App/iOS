@@ -30,7 +30,6 @@
 		9941DC692A93F6F000215948 /* AccoladeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC472A93F6F000215948 /* AccoladeBanner.swift */; };
 		9941DC6A2A93F6F000215948 /* ConnectTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC492A93F6F000215948 /* ConnectTabView.swift */; };
 		9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4B2A93F6F000215948 /* CreatePostView.swift */; };
-		9941DC6C2A93F6F000215948 /* ClipPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4C2A93F6F000215948 /* ClipPostView.swift */; };
 		9941DC6D2A93F6F000215948 /* DiscPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4D2A93F6F000215948 /* DiscPostView.swift */; };
 		9941DC6E2A93F6F000215948 /* NewClipPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4E2A93F6F000215948 /* NewClipPostView.swift */; };
 		9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */; };
@@ -89,7 +88,6 @@
 		9941DC472A93F6F000215948 /* AccoladeBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccoladeBanner.swift; sourceTree = "<group>"; };
 		9941DC492A93F6F000215948 /* ConnectTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectTabView.swift; sourceTree = "<group>"; };
 		9941DC4B2A93F6F000215948 /* CreatePostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
-		9941DC4C2A93F6F000215948 /* ClipPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipPostView.swift; sourceTree = "<group>"; };
 		9941DC4D2A93F6F000215948 /* DiscPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscPostView.swift; sourceTree = "<group>"; };
 		9941DC4E2A93F6F000215948 /* NewClipPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewClipPostView.swift; sourceTree = "<group>"; };
 		9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDiscPostView.swift; sourceTree = "<group>"; };
@@ -194,7 +192,7 @@
 				9941DC412A93F6F000215948 /* Leaderboard */,
 				9941DC442A93F6F000215948 /* Proflile */,
 				9941DC482A93F6F000215948 /* Connect */,
-				9941DC4A2A93F6F000215948 /* PostViews */,
+				9941DC4A2A93F6F000215948 /* CreatePostViews */,
 				9941DC582A93F6F000215948 /* Extras */,
 			);
 			path = View;
@@ -206,11 +204,9 @@
 				9941DC3C2A93F6F000215948 /* HomeTabView.swift */,
 				9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */,
 				9941DC392A93F6F000215948 /* DropDownView.swift */,
-				9941DC3B2A93F6F000215948 /* NotificationTabView.swift */,
-				9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */,
-				9941DC3F2A93F6F000215948 /* InteractionButtonMenu.swift */,
-				9941DC3A2A93F6F000215948 /* CommentSectionView.swift */,
-				9941DC502A93F6F000215948 /* HomeExtras */,
+				99C65B2B2AA3C79700FC2188 /* NotificationPanel */,
+				99C65B2A2AA3C75600FC2188 /* CommentSection */,
+				99C65B292AA3C72100FC2188 /* PostViews */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -242,28 +238,15 @@
 			path = Connect;
 			sourceTree = "<group>";
 		};
-		9941DC4A2A93F6F000215948 /* PostViews */ = {
+		9941DC4A2A93F6F000215948 /* CreatePostViews */ = {
 			isa = PBXGroup;
 			children = (
 				9941DC4B2A93F6F000215948 /* CreatePostView.swift */,
-				9941DC4C2A93F6F000215948 /* ClipPostView.swift */,
 				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
 				9941DC4E2A93F6F000215948 /* NewClipPostView.swift */,
 				9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */,
 			);
-			path = PostViews;
-			sourceTree = "<group>";
-		};
-		9941DC502A93F6F000215948 /* HomeExtras */ = {
-			isa = PBXGroup;
-			children = (
-				9941DC512A93F6F000215948 /* LikeButton.swift */,
-				9941DC522A93F6F000215948 /* NotiView.swift */,
-				9941DC532A93F6F000215948 /* CommentCount.swift */,
-				9941DC542A93F6F000215948 /* PostContentView.swift */,
-				9941DC552A93F6F000215948 /* CommentView.swift */,
-			);
-			path = HomeExtras;
+			path = CreatePostViews;
 			sourceTree = "<group>";
 		};
 		9941DC582A93F6F000215948 /* Extras */ = {
@@ -328,6 +311,36 @@
 				995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		99C65B292AA3C72100FC2188 /* PostViews */ = {
+			isa = PBXGroup;
+			children = (
+				9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */,
+				9941DC542A93F6F000215948 /* PostContentView.swift */,
+				9941DC3F2A93F6F000215948 /* InteractionButtonMenu.swift */,
+				9941DC532A93F6F000215948 /* CommentCount.swift */,
+				9941DC512A93F6F000215948 /* LikeButton.swift */,
+			);
+			path = PostViews;
+			sourceTree = "<group>";
+		};
+		99C65B2A2AA3C75600FC2188 /* CommentSection */ = {
+			isa = PBXGroup;
+			children = (
+				9941DC3A2A93F6F000215948 /* CommentSectionView.swift */,
+				9941DC552A93F6F000215948 /* CommentView.swift */,
+			);
+			path = CommentSection;
+			sourceTree = "<group>";
+		};
+		99C65B2B2AA3C79700FC2188 /* NotificationPanel */ = {
+			isa = PBXGroup;
+			children = (
+				9941DC3B2A93F6F000215948 /* NotificationTabView.swift */,
+				9941DC522A93F6F000215948 /* NotiView.swift */,
+			);
+			path = NotificationPanel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,7 +458,6 @@
 				9941DC5D2A93F6F000215948 /* DropDownView.swift in Sources */,
 				9941DC742A93F6F000215948 /* CommentView.swift in Sources */,
 				9941DC6A2A93F6F000215948 /* ConnectTabView.swift in Sources */,
-				9941DC6C2A93F6F000215948 /* ClipPostView.swift in Sources */,
 				9941DC702A93F6F000215948 /* LikeButton.swift in Sources */,
 				9941DC692A93F6F000215948 /* AccoladeBanner.swift in Sources */,
 				9941DC642A93F6F000215948 /* AppView.swift in Sources */,

@@ -54,7 +54,7 @@ struct AppView: View {
                                 "house")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: UIScreen.main.bounds.width * 0.11, height: 25)
+                        .frame(width: UIScreen.main.bounds.width * 0.10, height: 22)
                         .foregroundColor(Color("LightGray"))
                         .padding()
                         .cornerRadius(12)
@@ -73,7 +73,7 @@ struct AppView: View {
                         Image(systemName: selectedTab == 1 ? "medal.fill" : "medal")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: UIScreen.main.bounds.width * 0.12, height: 25)
+                            .frame(width: UIScreen.main.bounds.width * 0.12, height: 24)
                             .foregroundColor(Color("LightGray"))
                             .padding()
                             .cornerRadius(12)
@@ -95,14 +95,14 @@ struct AppView: View {
                             Image(systemName: "square")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 35, height: 35)
+                                .frame(width: 32, height: 32)
                                 .foregroundColor(Color.green)
                             
                             
                             Image(systemName: "plus")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 22, height: 22)
+                                .frame(width: 20, height: 20)
                                 .foregroundColor(Color.green)
                                 .padding()
                                 .cornerRadius(12)
@@ -126,7 +126,7 @@ struct AppView: View {
                         Image(systemName: selectedTab == 3 ? "point.3.filled.connected.trianglepath.dotted" : "point.3.connected.trianglepath.dotted")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: UIScreen.main.bounds.width * 0.12, height: 23)
+                            .frame(width: UIScreen.main.bounds.width * 0.11, height: 21)
                             .foregroundColor(Color("LightGray"))
                             .padding()
                             .cornerRadius(12)
@@ -143,7 +143,7 @@ struct AppView: View {
                         Image(systemName: selectedTab == 4 ? "person.crop.square.fill" : "person.crop.square")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: UIScreen.main.bounds.width * 0.11, height: 25)
+                            .frame(width: UIScreen.main.bounds.width * 0.11, height: 24)
                             .padding()
                             .foregroundColor(Color("LightGray"))
                             .shadow(color: selectedTab == 4 ? Color.white.opacity(0.5) : Color.clear, radius: 16, x: 0, y: 8)
@@ -155,11 +155,11 @@ struct AppView: View {
                     
                 } //END HStack for nav bar
                 .disabled(showCommentSection)
-                .frame(width: UIScreen.main.bounds.width, height: 70)
+                .frame(width: UIScreen.main.bounds.width, height: 55)
                 //.background(Color.clear)
                 .background(
                     LinearGradient(
-                        gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                        gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
                         startPoint: .bottom,
                         endPoint: .top
                     )
@@ -179,7 +179,7 @@ struct AppView: View {
                  
             } //END MAIN VStack
             //Entire background, behind feed and nav bar
-            .background(Color("Black0"))
+            //.background(Color("Black0"))
             
             
             // ------------------START Comment Section---------------------
