@@ -17,8 +17,8 @@ struct NotiView: View {
         HStack() { //HStack for username + comment string
 
             Text(notificationMessage)
-                .font(.system(size: 16))
-                .padding(.all, 15)
+                .font(.system(size: 14))
+                .padding(.all, 10)
                 .foregroundColor(.white)
                 .lineLimit(3)
                 .background(
@@ -42,10 +42,11 @@ struct NotiView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 25, height: 25)
+                        .foregroundColor(.white)
                         .zIndex(1)
                     
                     Rectangle()
-                        .frame(width: 50, height: 50)
+                        .frame(width: 40, height: 40)
                         .foregroundColor(Color("LightGray").opacity(0.3))
                         .cornerRadius(10)
                         .zIndex(0)
@@ -62,11 +63,12 @@ struct NotiView: View {
                         Image(systemName: "person.circle")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 30, height: 30)
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(.white)
                             .zIndex(1)
                         
                         Rectangle()
-                            .frame(width: 50, height: 50)
+                            .frame(width: 40, height: 40)
                             .foregroundColor(Color("LightGray").opacity(0.3))
                             .cornerRadius(10)
                             .zIndex(0)
@@ -81,11 +83,11 @@ struct NotiView: View {
                         Image("TrophyGold")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 50, height: 50)
+                            .frame(width: 40, height: 40)
                             .zIndex(1)
                         
                         Rectangle()
-                            .frame(width: 50, height: 50)
+                            .frame(width: 40, height: 40)
                             .foregroundColor(Color("LightGray").opacity(0.3))
                             .cornerRadius(10)
                             .zIndex(0)
@@ -104,6 +106,9 @@ struct NotiView: View {
         .padding(.bottom, 10)
         .padding(.horizontal, 8)
         .frame(width: UIScreen.main.bounds.width)
+        .overlay(Rectangle()
+            .frame(width: UIScreen.main.bounds.width * 0.95, height: 1, alignment: .bottom)
+            .foregroundColor(Color("LightGray").opacity(0.1)), alignment: .bottom)
         
     }
     

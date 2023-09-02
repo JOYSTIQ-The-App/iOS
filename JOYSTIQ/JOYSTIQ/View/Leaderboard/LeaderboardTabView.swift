@@ -135,10 +135,8 @@ struct LeaderboardTabView: View {
                                 
                             } //end main Vstack for post
                             .background(Color("Black0"))
-                            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("CustomGray")), alignment: .bottom)
                             
-                            
-                            LeaderboardBottom(placeValue: i)
+                            //LeaderboardBottom(placeValue: i)
                                 
                             
                             

@@ -14,9 +14,9 @@ struct NotificationTabView: View {
         "User123 liked your post",
         "Nadeshot started following you",
         "You've earned a gold trophy for reaching 1M followers!",
-        "You're fat",
-        "Nooch commented \"Mid + Ratio + You're a beta\"",
-        "User123 liked your post",
+        "User456 liked your post",
+        "Nooch commented \"Mid + ratio + you're a beta\"",
+        "User789 liked your post",
         "User123 liked your post"
     ]
     
@@ -41,8 +41,8 @@ struct NotificationTabView: View {
             Image("NotificationsText")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 180, height: 40)
-                .padding(.top, UIScreen.main.bounds.height * 0.07)
+                .frame(width: 180, height: 30)
+                .padding(.top, UIScreen.main.bounds.height * 0.08)
 
             Divider()
                 .background(.green)
@@ -61,7 +61,6 @@ struct NotificationTabView: View {
                 
             } //end scrollview for displaying notifications
             .frame(width: UIScreen.main.bounds.width)
-            .padding(.top, 10)
             
             Spacer()
 

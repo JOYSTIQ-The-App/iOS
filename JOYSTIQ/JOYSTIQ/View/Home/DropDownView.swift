@@ -40,11 +40,11 @@ struct DropDownView: View {
                         
                         Text("We want your feedback! What changes would you like to see?")
                             .foregroundColor(.white)
-                            //.frame(width: UIScreen.main.bounds.width * 0.7)
+                            .font(.system(size: 18))
                             .multilineTextAlignment(.center)
                             .lineLimit(2) // Set the maximum number of lines to 1
                             .minimumScaleFactor(0.5)
-                            .padding(.bottom, 20)
+                            .padding(.bottom, 10)
                         
                         
                         TextField(
@@ -137,7 +137,7 @@ struct DropDownView: View {
                                 Image(systemName: "cup.and.saucer.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 45, height: 45)
                                     .foregroundColor(.green)
                                     .padding()
                                     .zIndex(1)
@@ -178,14 +178,15 @@ struct DropDownView: View {
                             .foregroundColor(.white)
                             .frame(width: UIScreen.main.bounds.width * 0.30, height: 40)
                             .background(LinearGradient(
-                                gradient: Gradient(colors: [Color("LightGray"), Color.gray]),
-                                            startPoint: .topTrailing,
-                                            endPoint: .bottomLeading
+                                gradient: Gradient(colors: [Color("CustomGray"), Color.gray]),
+                                            startPoint: .bottomLeading,
+                                            endPoint: .topTrailing
                                         ))
                             .cornerRadius(30)
                     })
                     .contentShape(Rectangle()) // This makes the entire frame tappable
                     .padding(.top, 20)
+                    .offset(y: 20)
                     
                     
                     
