@@ -19,7 +19,7 @@ struct PostContentView: View {
         
         VStack(spacing: 0) { //for video/image content and caption
             
-        
+        /*
             if let videoURL = Bundle.main.url(forResource: "TrimmedClip" + String(intVal), withExtension: "mp4") {
                 
                 let player = AVPlayer(url: videoURL)
@@ -33,7 +33,13 @@ struct PostContentView: View {
                     .fill(Color.gray)
                     .frame(width: UIScreen.main.bounds.width * 0.8, height: 250)
             }
+          */
             
+            
+            Rectangle()
+                .fill(Color.black.opacity(0.4))
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 220)
+                .cornerRadius(10)
           
             
             // Caption

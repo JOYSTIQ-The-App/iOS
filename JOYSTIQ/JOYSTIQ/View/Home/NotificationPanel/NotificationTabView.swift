@@ -74,7 +74,10 @@ struct NotificationTabView: View {
 
                 
             } //end scrollview for displaying notifications
-            .frame(width: UIScreen.main.bounds.width)
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.77)
+            
+            
+            //VStack{}.frame(width: UIScreen.main.bounds.width, height: 55)
             
             Spacer()
 

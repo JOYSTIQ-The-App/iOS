@@ -15,8 +15,6 @@
 		9941DC312A93F50E00215948 /* TrimmedClip2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */; };
 		9941DC322A93F50E00215948 /* TrimmedClip3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */; };
 		9941DC342A93F60B00215948 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC332A93F60B00215948 /* LaunchScreen.storyboard */; };
-		9941DC5D2A93F6F000215948 /* DropDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC392A93F6F000215948 /* DropDownView.swift */; };
-		9941DC5E2A93F6F000215948 /* CommentSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3A2A93F6F000215948 /* CommentSectionView.swift */; };
 		9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3B2A93F6F000215948 /* NotificationTabView.swift */; };
 		9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3C2A93F6F000215948 /* HomeTabView.swift */; };
 		9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */; };
@@ -61,6 +59,7 @@
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
+		99728E282AA652F5005ADC37 /* CommentSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99728E272AA652F5005ADC37 /* CommentSectionView.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -74,8 +73,6 @@
 		9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip2.mp4; sourceTree = "<group>"; };
 		9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip3.mp4; sourceTree = "<group>"; };
 		9941DC332A93F60B00215948 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9941DC392A93F6F000215948 /* DropDownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownView.swift; sourceTree = "<group>"; };
-		9941DC3A2A93F6F000215948 /* CommentSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentSectionView.swift; sourceTree = "<group>"; };
 		9941DC3B2A93F6F000215948 /* NotificationTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTabView.swift; sourceTree = "<group>"; };
 		9941DC3C2A93F6F000215948 /* HomeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 		9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabViewModel.swift; sourceTree = "<group>"; };
@@ -117,6 +114,7 @@
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
+		99728E272AA652F5005ADC37 /* CommentSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSectionView.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,7 +203,7 @@
 			children = (
 				9941DC3C2A93F6F000215948 /* HomeTabView.swift */,
 				9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */,
-				9941DC392A93F6F000215948 /* DropDownView.swift */,
+				996C9CF62AA50A9A001693BF /* DropDown2.swift */,
 				99C65B2B2AA3C79700FC2188 /* NotificationPanel */,
 				99C65B2A2AA3C75600FC2188 /* CommentSection */,
 				99C65B292AA3C72100FC2188 /* PostViews */,
@@ -258,7 +256,6 @@
 				9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */,
 				9941DC5B2A93F6F000215948 /* HeaderView.swift */,
 				9941DC5C2A93F6F000215948 /* Triangle.swift */,
-				996C9CF62AA50A9A001693BF /* DropDown2.swift */,
 			);
 			path = Extras;
 			sourceTree = "<group>";
@@ -331,8 +328,8 @@
 		99C65B2A2AA3C75600FC2188 /* CommentSection */ = {
 			isa = PBXGroup;
 			children = (
-				9941DC3A2A93F6F000215948 /* CommentSectionView.swift */,
 				9941DC552A93F6F000215948 /* CommentView.swift */,
+				99728E272AA652F5005ADC37 /* CommentSectionView.swift */,
 			);
 			path = CommentSection;
 			sourceTree = "<group>";
@@ -455,11 +452,9 @@
 				995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */,
 				995085EA2A95A817003996B6 /* SignUpView.swift in Sources */,
 				9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */,
-				9941DC5E2A93F6F000215948 /* CommentSectionView.swift in Sources */,
 				9941DC792A93F6F000215948 /* Triangle.swift in Sources */,
 				995085E52A95A73D003996B6 /* TextColoring.swift in Sources */,
 				9941DC732A93F6F000215948 /* PostContentView.swift in Sources */,
-				9941DC5D2A93F6F000215948 /* DropDownView.swift in Sources */,
 				9941DC742A93F6F000215948 /* CommentView.swift in Sources */,
 				9941DC6A2A93F6F000215948 /* ConnectTabView.swift in Sources */,
 				9941DC702A93F6F000215948 /* LikeButton.swift in Sources */,
@@ -467,6 +462,7 @@
 				9941DC642A93F6F000215948 /* AppView.swift in Sources */,
 				9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */,
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
+				99728E282AA652F5005ADC37 /* CommentSectionView.swift in Sources */,
 				9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,

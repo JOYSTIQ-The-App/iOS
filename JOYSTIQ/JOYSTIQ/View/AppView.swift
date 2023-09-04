@@ -156,7 +156,6 @@ struct AppView: View {
                 } //END HStack for nav bar
                 .disabled(showCommentSection)
                 .frame(width: UIScreen.main.bounds.width, height: 55)
-                //.background(Color.clear)
                 .background(
                     LinearGradient(
                         gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
@@ -164,8 +163,6 @@ struct AppView: View {
                         endPoint: .top
                     )
                 )
-                
-                
                 //border above nav bar
                 .overlay(
                     Rectangle()
@@ -176,41 +173,47 @@ struct AppView: View {
                 )
                 
                 
+                
                  
             } //END MAIN VStack
-            //Entire background, behind feed and nav bar
-            //.background(Color("Black0"))
+           
             
             
             // ------------------START Comment Section---------------------
+            
+            
             if showCommentSection {
                 
-                VStack(spacing: 0) {
-                    
-                    Spacer ()
-                    
-                    Color.black.opacity(0.5)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            showCommentSection = false
-                        }
-                    
-                    CommentSectionView(showCommentSection: $showCommentSection)
-                    
-                    
-                } //END VStack for
-                .edgesIgnoringSafeArea(.all)
+                // Needs animation in and out
+                Color(.black)
+                    .opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {                   
+                        showCommentSection.toggle()
+
+                    }
+
+    
+                
+                CommentSectionView(showCommentSection: $showCommentSection)
+                    .transition(.move(edge: .bottom))
+                    .animation(.spring())
+                
                 
                 
             } //end If showCommentSection
+            
             // ------------------END Comment Section---------------------
+            
+       
+
             
             
         } //end ZStack for Vstack w/ view and nav bar and comment section
-        
+       
 
         
-    }
+    } //end body
     
     
 }

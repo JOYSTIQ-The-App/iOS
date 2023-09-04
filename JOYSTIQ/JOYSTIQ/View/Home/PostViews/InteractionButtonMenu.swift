@@ -61,7 +61,7 @@ struct InteractionButtonMenu: View {
             
             
         } //END Hstack for interaction buttons
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 22)
         .padding(.bottom, 12)
         
     } //end body

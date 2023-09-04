@@ -190,7 +190,7 @@ struct DropDown2: View {
                             .cornerRadius(30)
                     })
                     .contentShape(Rectangle()) // This makes the entire frame tappable
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 20)
                             
                     
                     
