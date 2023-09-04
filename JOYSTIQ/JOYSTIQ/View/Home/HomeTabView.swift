@@ -190,7 +190,7 @@ struct HomeTabView: View {
                            showDropDown = false
                        }
                    
-                   DropDownView(showDropDown: $showDropDown)
+                   DropDown2(showDropDown: $showDropDown)
                     
                    
                 } //END If showdropdown

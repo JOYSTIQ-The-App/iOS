@@ -60,6 +60,7 @@
 		995085E82A95A805003996B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E72A95A805003996B6 /* LoginView.swift */; };
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
+		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +116,7 @@
 		995085E72A95A805003996B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
+		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -256,6 +258,7 @@
 				9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */,
 				9941DC5B2A93F6F000215948 /* HeaderView.swift */,
 				9941DC5C2A93F6F000215948 /* Triangle.swift */,
+				996C9CF62AA50A9A001693BF /* DropDown2.swift */,
 			);
 			path = Extras;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
 				995085E22A95A6AE003996B6 /* AuthService.swift in Sources */,
 				9941DC722A93F6F000215948 /* CommentCount.swift in Sources */,
+				996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */,
 				9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */,
 				9941DC632A93F6F000215948 /* InteractionButtonMenu.swift in Sources */,
 				9941DC6D2A93F6F000215948 /* DiscPostView.swift in Sources */,

@@ -1,36 +1,41 @@
 //
-//  DropDownView.swift
+//  DropDown2.swift
 //  JOYSTIQ
 //
-//  Created by Connor Sottosanti on 6/21/23.
+//  Created by Connor Sottosanti on 9/3/23.
 //
 
 import SwiftUI
 
-struct DropDownView: View {
+struct DropDown2: View {
+    
     
     @Binding var showDropDown: Bool
     @State private var feedbacktext = ""
     
     let buymeacoffeeLink = "https://www.buymeacoffee.com/joystiq"
-
+    
+    
+    
     var body: some View {
         
-        VStack { //to push zstack to top
+        VStack(spacing: 0) { //VSTACK for drop down scroll view and triangle
+               
+            Triangle()
+                .frame(width: 30, height: 15)
+                .foregroundColor(Color.black)
+                .zIndex(1)
+       
             
-            ZStack { //for menu image and menu content
+            ZStack { //for menu and background Stacks
                 
-                Image("JSmenu3")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.height * 0.70)
-                
-                VStack { //for feedback vstack / coffee vstack / close
+                VStack { //START VStack with title [feedback], [coffee], close button
                     
-                    
-                    Divider() //Create line to seperate feedback from coffee
-                        .background(Color.green)
-                        .frame(width: UIScreen.main.bounds.width * 0.7)
+                    Image("MenuText")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: UIScreen.main.bounds.width * 0.5, height: 30, alignment: .center)
+                        .padding(.top, 20)
                         .padding(.bottom, 20)
                     
                     
@@ -38,7 +43,6 @@ struct DropDownView: View {
                         
                         Text("We want your feedback! What changes would you like to see?")
                             .foregroundColor(.white)
-                            .font(.system(size: 18))
                             .multilineTextAlignment(.center)
                             .lineLimit(2) // Set the maximum number of lines to 1
                             .minimumScaleFactor(0.5)
@@ -101,12 +105,10 @@ struct DropDownView: View {
                     )
                     .cornerRadius(15)
                     
-                    
-                    
                     VStack(){ //Start coffee vstack
                         
                         Text("Support the JOYSTIQ Team!")
-                            .foregroundColor(.white)
+                            .foregroundColor(Color.white)
                             .padding(.bottom, 10)
                         
                         
@@ -136,7 +138,7 @@ struct DropDownView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 45, height: 45)
-                                    .foregroundColor(.green)
+                                    .foregroundColor(.brown)
                                     .padding()
                                     .zIndex(1)
                                 
@@ -153,17 +155,26 @@ struct DropDownView: View {
                             } //end Zstack for coffee button
                             
                         }
-                        
-                        
-                        
+           
                         
                     } //END coffee VStack
-                    .frame(width: UIScreen.main.bounds.width * 0.7)
+                    .frame(width: UIScreen.main.bounds.width * 0.58)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 5)
+                    .background(
+                        RadialGradient(
+                            gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight")]),
+                            center: .center,
+                                startRadius: 0,
+                                endRadius: 200
+                        )
+                    )
+                    .cornerRadius(10)
                     .padding(.top, 20)
+                    
                     
                     Spacer()
                     
-
                     
                     //Close button
                     Button(action: {
@@ -173,58 +184,56 @@ struct DropDownView: View {
                     }, label: {
                         
                         Text("Close")
-                            .foregroundColor(.white)
-                            .frame(width: UIScreen.main.bounds.width * 0.30, height: 40)
-                            .background(Color.gray.opacity(0.8))
+                            .foregroundColor(.white.opacity(0.8))
+                            .frame(width: UIScreen.main.bounds.width * 0.25, height: 40)
+                            .background(.gray.opacity(0.8))
                             .cornerRadius(30)
                     })
                     .contentShape(Rectangle()) // This makes the entire frame tappable
-                    .padding(.top, 20)
-                    .offset(y: 20)
+                    .padding(.bottom, 30)
+                            
                     
                     
                     
                     
-                    
-                } //end Vstack for feedback vstack / coffee vstack / close
-                .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.height * 0.55)
-                .padding(.top, 30)
+                } //end VStack for [feedback], [coffee], close
+                .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.height * 0.65)
+                .background(Color("Black1"))
+                .cornerRadius(10)
+                .zIndex(1)
+                
+                
+                //for background outline
+                VStack{
+                }
+                .frame(width: UIScreen.main.bounds.width * 0.86, height: UIScreen.main.bounds.height * 0.655)
+                .background(Color.black)
+                .cornerRadius(10)
+                .zIndex(0)
                 
                 
                 
-                     
-            } //end Zstack with menu image and menu content
+                
+            } //end ZStack for menu and background stacks
+                    
+                    
+            
+            
             
             
             Spacer()
             
             
-        } //end vstack with zstack and spacer
-        .padding(.top, UIScreen.main.bounds.height * 0.06)
+                    
+        } //END main vstack with modal view and triangle
+        .padding(.top, UIScreen.main.bounds.height * 0.055)
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
+    } //END Body
     
 }
 
-
-struct DropDownView_Previews: PreviewProvider {
+struct DropDown2_Previews: PreviewProvider {
     static var previews: some View {
-        DropDownView(showDropDown: .constant(true))
+        DropDown2(showDropDown: .constant(true))
     }
 }
-
