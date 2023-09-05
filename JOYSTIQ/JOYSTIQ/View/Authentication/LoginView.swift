@@ -16,6 +16,9 @@ struct LoginView: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var isSignUpButtonTapped: Bool = false
+    @State private var navigateToConfirmSignUp = false
+    @State private var navigateToForgotPassword = false
+    @State private var errorMessage: String? = nil
     
     var body: some View {
         
@@ -64,18 +67,31 @@ struct LoginView: View {
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                     
-                    
+                    if let error = errorMessage {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .padding(.top, 8)
+                            .padding(.bottom, 8)
+                    }
                     
                     
                     VStack { //Hstack for login button and forgot pass
                         
                         //Login button
                         Button(action: {
-                            
                             Task {
-                                await authService.signIn(username: username, password: password)
+                                await authService.signIn(username: username, password: password) { isSuccess, shouldNavigate in
+                                    if isSuccess {
+                                        navigateToConfirmSignUp = shouldNavigate
+                                        errorMessage = nil
+                                    } else {
+                                        // Resetting the values if the login failed
+                                        username = ""
+                                        password = ""
+                                        errorMessage = "Username or password does not exist."
+                                    }
+                                }
                             }
-                            
                         }, label: {
                             Text("Login")
                                 .foregroundColor(.white)
@@ -90,14 +106,19 @@ struct LoginView: View {
                                 .cornerRadius(30)
                         })
                         .contentShape(Rectangle()) // This makes the entire frame tappable
+                        
+                        NavigationLink("", destination: ConfirmSignUpView(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp).environmentObject(AuthService()), isActive: $navigateToConfirmSignUp)
+
 
                         //Forgot password button
                         Button("Forgot password?") {
-                            /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/ /*@END_MENU_TOKEN@*/
+                            navigateToForgotPassword = true
                         }
                         .foregroundColor(Color("LightGray"))
                         .frame(width: 160, height: 30)
                         .cornerRadius(10)
+                        
+                        NavigationLink("", destination: ForgotPasswordView(navigateToForgotPassword: $navigateToForgotPassword), isActive: $navigateToForgotPassword)
                         
                         
                     } //END HStack for forgot pass and login
@@ -166,4 +187,3 @@ struct LoginView_Previews: PreviewProvider {
         LoginView().environmentObject(AuthService())
     }
 }
-

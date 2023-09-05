@@ -55,12 +55,13 @@ struct ConfirmSignUpView: View {
                         //Cancel button
                         Button(action: {
                             
-                            //CANCEL CONFIRMATION PROCESS
-                            navigateToConfirmSignUp.toggle()
+                            Task {
+                                await authService.resendConfirmationCode(for: username)
+                            }
                             
                         }, label: {
                             
-                            Text("Cancel")
+                            Text("Resend")
                                 .foregroundColor(.white)
                                 .frame(width: UIScreen.main.bounds.width * 0.35, height: 50)
                                 .background(LinearGradient(
@@ -81,6 +82,11 @@ struct ConfirmSignUpView: View {
                             
                             Task {
                                 authService.isConfirmed = await authService.confirmSignUp(for: username, with: confirmationCode)
+                                
+                                // Check if code confirmation was successful and then toggle navigation
+                                if authService.isConfirmed {
+                                    navigateToConfirmSignUp.toggle()
+                                }
                             }
                             
                         }, label: {
