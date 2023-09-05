@@ -16,7 +16,6 @@ struct HomeTabView: View {
     
     //From app view, comments need to overlay nav bar
     @Binding var showCommentSection: Bool
-     
     
     var body: some View {
         
@@ -151,7 +150,7 @@ struct HomeTabView: View {
                             } //end main Vstack for post
                             .background(Color("GradientDark3"))
                             .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
-                            
+                        
                             
                             
                         } //end for each
