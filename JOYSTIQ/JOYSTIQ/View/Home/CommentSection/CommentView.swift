@@ -14,12 +14,12 @@ struct CommentView: View {
     
     var body: some View {
   
-        HStack() { //HStack for username + comment string
+        HStack { //HStack for username + comment string
             
             VStack { //for avatar image
                 
                 Image("TestAvatar4")
-                    .frame(width: 45, height: 45)
+                    .frame(width: 40, height: 40)
                     .scaleEffect(0.24)
                     .foregroundColor(.black)
                     .clipShape(Circle())
@@ -31,20 +31,22 @@ struct CommentView: View {
             } //END Vstack for avatar image
             
             
-            
             VStack(alignment: .leading, spacing: 0) { //for username and comment
                 
                 Text(userName)
-                    .foregroundColor(.black)
+                    .foregroundColor(.gray)
+                    .font(.system(size: 14))
                 
                 
                 Text(commentString)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
+                    .font(.system(size: 16))
                 
                 
                 
                 
             } //END VStack for username and comment
+            .padding(.bottom, 10)
             
          
 
@@ -53,7 +55,6 @@ struct CommentView: View {
         } //END HStack for comment
         .padding(.horizontal, 20)
         .frame(width: UIScreen.main.bounds.width)
-        .frame(maxHeight: 100)
         
         
         

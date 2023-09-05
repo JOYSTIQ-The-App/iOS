@@ -16,6 +16,8 @@ struct CommentSectionView: View {
     @Binding var showCommentSection: Bool
     @State private var isDragging = false
     @State private var dragOffset: CGFloat = 0
+    
+    @State private var userComment: String = ""
 
     var body: some View {
         
@@ -78,16 +80,18 @@ struct CommentSectionView: View {
                         ForEach(0..<10) { i in
                             // Comment section content
                             CommentView(userName: usernameArray[i], commentString: commentArray[i])
+                                .padding(.bottom, 5)
                             
                         }
                         
                     } //END VStack containing comments
                     .frame(width: UIScreen.main.bounds.width)
                     .padding(.top, 10)
+                    .padding(.bottom, 10)
                     
                     
                 } //END Scrollview for comments
-                .frame(height: geometry.size.height * 0.6)
+                .frame(height: geometry.size.height * 0.5)
                 .background(
                     LinearGradient(
                         gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark")]),
@@ -95,13 +99,55 @@ struct CommentSectionView: View {
                         endPoint: .bottom
                     )
                 )
+                
 
  
-         
+                HStack { //for user comment
+                    
+                    TextField(
+                        "",
+                        text: $userComment
+                    )
+                    .placeholder(when: userComment.isEmpty) {
+                        Text("comment").foregroundColor(.white).opacity(0.4)
+                    }
+                    .padding(.all, 10)
+                    .foregroundColor(.white)
+                    .background(Color("LightGray").opacity(0.4))
+                    .border(Color(UIColor.separator))
+                    .cornerRadius(10)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                    
+                    Button(action: {
+                       //send comment, reset textfield
+                        userComment = ""
+                        
+                    }) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(.green)
+                            
+                        
+                    }
+                    
+                    
+                    
+                } //end hstack for user comment
+                .padding(.horizontal, 20)
+                .frame(height: 90)
+                .background(Color("GradientDark"))
+                .overlay(
+                    Rectangle()
+                        .fill(.gray.opacity(0.3))
+                        .frame(width: UIScreen.main.bounds.width, height: 1),
+                        alignment: .top
+                        
+                )
                 
                 
-                
-            }
+            } //END VStack for container
             
             
             
