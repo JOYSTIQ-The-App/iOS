@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-joystiq-dev-222418-authRole",
+      "UnauthRoleArn": "arn:aws:iam::209802122676:role/amplify-joystiq-dev-222418-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::209802122676:role/amplify-joystiq-dev-222418-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-joystiq-dev-222418-deployment",
+      "UnauthRoleName": "amplify-joystiq-dev-222418-unauthRole",
+      "StackName": "amplify-joystiq-dev-222418",
+      "StackId": "arn:aws:cloudformation:us-east-1:209802122676:stack/amplify-joystiq-dev-222418/29f2d1c0-415c-11ee-b8e0-0a0c26c80175",
+      "AmplifyAppId": "d3jxk2xinm1e2l"
+    },
+    "categories": {
+      "auth": {
+        "joystiqfbf44177": {}
+      }
+    }
+  }
+}
