@@ -50,21 +50,13 @@ struct NotificationTabView: View {
     
     var body: some View {
         
-        VStack {
+        VStack (spacing: 0) {
       
-            Image("NotificationsText")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 180, height: 30)
-                .padding(.top, UIScreen.main.bounds.height * 0.08)
-
-            Divider()
-                .background(.green)
-            
-            
+   
             //scrollview for displaying notifications
             ScrollView(.vertical, showsIndicators: false) {
-                
+
+            
 
                 ForEach(sampleNotis.indices, id: \.self) { index in
                     
@@ -74,21 +66,25 @@ struct NotificationTabView: View {
 
                 
             } //end scrollview for displaying notifications
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.77)
+            .frame(width: UIScreen.main.bounds.width)
+            .padding(.top, 10)
+            .overlay(
+                Rectangle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .frame(width: UIScreen.main.bounds.width, height: 1),
+                    alignment: .top
+                    
+            )
             
-            
-            //VStack{}.frame(width: UIScreen.main.bounds.width, height: 55)
-            
-            Spacer()
+
 
             
         } //END MAIN Vstack
-        .edgesIgnoringSafeArea(.all)
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        //.background(Color("Black0"))
+        //.edgesIgnoringSafeArea(.all)
+        .frame(width: UIScreen.main.bounds.width)
         .background(
             LinearGradient(
-                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark3")]),
+                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
                 startPoint: .top,
                 endPoint: .bottom
             )

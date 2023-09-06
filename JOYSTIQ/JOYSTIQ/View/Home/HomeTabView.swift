@@ -30,19 +30,28 @@ struct HomeTabView: View {
                     
                     HStack(spacing: 0) {  //HStack for Header (noti bell - Logo - Messenger)
                         
-                        //TEST FOR NAV LINK
-                        NavigationLink(destination: NotificationTabView()) {
-                            
-                            Image(systemName: "bell.fill")
-                                .resizable()
-                                .frame(width: 22, height: 22)
-                                .padding(.leading, 20)
-                                .foregroundColor(Color("LightGray"))
-                                
-                            
-                        }
-                        
 
+                        NavigationLink(destination: NotificationTabView().navigationBarTitleDisplayMode(.inline)
+                                       
+                           //custom nav title view with image
+                            .toolbar {
+                                ToolbarItem(placement: .principal) {
+                                    Image("NotificationsText")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 140, height: 26)
+                                }
+                            }) {
+                                
+                                Image(systemName: "bell.fill")
+                                    .resizable()
+                                    .frame(width: 22, height: 22)
+                                    .padding(.leading, 20)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                                
+                            }
+                  
                         
                         Spacer()
                         
@@ -164,6 +173,7 @@ struct HomeTabView: View {
                     
 
                 } //END Vstack with headerview and feed view
+                .background(Color("GradientDark3"))
                 //alert for report post
                 .alert(isPresented: $showingReportAlert) {
                     Alert(
@@ -180,19 +190,24 @@ struct HomeTabView: View {
 
                 
                 // ------------------START MODAL / Drop Down View---------------------
+                 
                 if showDropDown {
                    
                    //create a shadow effect on the background. click backround to exit
-                   Color.black.opacity(0.5)
+                    
+                   Color.black.opacity(0.6)
                        .edgesIgnoringSafeArea(.all)
                        .onTapGesture {
                            showDropDown = false
                        }
                    
+                    
                    DropDown2(showDropDown: $showDropDown)
+                        
                     
                    
                 } //END If showdropdown
+                 
                 // --------------------END MODAL-------------------
                 
                 
@@ -201,7 +216,7 @@ struct HomeTabView: View {
             //create custom thank you alert for feedback submission
             
         } //end nav view
-            
+        .accentColor(Color("LightGray"))
 
         
     }

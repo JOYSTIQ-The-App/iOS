@@ -57,7 +57,7 @@ struct AppView: View {
                     .foregroundColor(Color("LightGray"))
                     .padding()
                     .cornerRadius(12)
-                    .shadow(color: selectedTab == 0 ? Color.white.opacity(0.5) : Color.clear, radius: 16, x: 0, y: 8)
+                    .shadow(color: selectedTab == 0 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
                     
                     
                 })
@@ -76,7 +76,7 @@ struct AppView: View {
                         .foregroundColor(Color("LightGray"))
                         .padding()
                         .cornerRadius(12)
-                        .shadow(color: selectedTab == 1 ? Color.white.opacity(0.5) : Color.clear, radius: 16, x: 0, y: 8)
+                        .shadow(color: selectedTab == 1 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
                     
                     
                 })
@@ -129,7 +129,7 @@ struct AppView: View {
                         .foregroundColor(Color("LightGray"))
                         .padding()
                         .cornerRadius(12)
-                        .shadow(color: selectedTab == 3 ? Color.white.opacity(0.5) : Color.clear, radius: 16, x: 0, y: 8)
+                        .shadow(color: selectedTab == 3 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
                         
                     
                 })
@@ -145,7 +145,7 @@ struct AppView: View {
                         .frame(width: UIScreen.main.bounds.width * 0.11, height: 24)
                         .padding()
                         .foregroundColor(Color("LightGray"))
-                        .shadow(color: selectedTab == 4 ? Color.white.opacity(0.5) : Color.clear, radius: 16, x: 0, y: 8)
+                        .shadow(color: selectedTab == 4 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
                         
                     
                 })
@@ -176,7 +176,7 @@ struct AppView: View {
              
         } //END MAIN VStack
         .sheet(isPresented: $showCommentSection) {
-            CommentSection2()
+            CommentSectionView()
                 .presentationDetents([.fraction(0.7)])
                 .presentationDragIndicator(.visible)
         }

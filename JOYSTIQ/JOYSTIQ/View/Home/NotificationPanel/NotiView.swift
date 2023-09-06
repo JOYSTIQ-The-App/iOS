@@ -41,23 +41,12 @@ struct NotiView: View {
                 
                 } else if notiType == "user" {
                     
-                    ZStack {
-                        
-                        Image(systemName: "person.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(.white)
-                            .zIndex(1)
-                        
-                        Rectangle()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(Color("LightGray").opacity(0.3))
-                            .cornerRadius(10)
-                            .zIndex(0)
-                
-                    }
-                    .padding(.trailing, 5)
+                    Image("TestAvatar4")
+                        .frame(width: 40, height: 40)
+                        .scaleEffect(0.2)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white, lineWidth: 1))
+      
                     
                 } else if notiType == "medal" {
                     
@@ -88,14 +77,12 @@ struct NotiView: View {
                 .lineLimit(3)
                 .background(
                     LinearGradient(
-                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                        gradient: Gradient(colors: [Color("LightGray"), Color.gray]),
                         startPoint: .topTrailing,
                         endPoint: .bottomLeading
                     ).opacity(0.4)
                 )
-                .cornerRadius(10, corners: .topRight)
-                .cornerRadius(10, corners: .bottomRight)
-                .cornerRadius(10, corners: .bottomLeft)
+                .cornerRadius(10, corners: [.topRight, .bottomRight, .bottomLeft])
             
             
             
@@ -117,6 +104,6 @@ struct NotiView: View {
 
 struct NotiView_Previews: PreviewProvider {
     static var previews: some View {
-        NotiView(notificationMessage: "test test test test test test", notiType: "medal")
+        NotiView(notificationMessage: "test test test test test test", notiType: "user")
     }
 }

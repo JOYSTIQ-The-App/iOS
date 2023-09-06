@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CommentSection2: View {
+struct CommentSectionView: View {
     
     let usernameArray = ["user1", "username2", "username123", "user4", "user5","username6","user7","governer","xeppa","user9"]
     
