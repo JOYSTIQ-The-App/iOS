@@ -45,24 +45,46 @@ class AuthService: ObservableObject {
         }
     }
 
-    func signIn(username: String, password: String) async {
+
+    func signIn(username: String, password: String, completion: @escaping (Bool, Bool) -> Void) async {
         do {
-            let signInResult = try await Amplify.Auth.signIn(
-                username: username,
-                password: password
-                )
+            let signInResult = try await Amplify.Auth.signIn(username: username, password: password)
+            let nextStep = signInResult.nextStep
 
-            DispatchQueue.main.async {
-                self.isSignedIn = signInResult.isSignedIn
-            }
+            if case .confirmSignUp(let info) = nextStep {
+                print("Confirm signup additional info \(String(describing: info))")
+                if signInResult.isSignedIn {
+                    print("Sign in succeeded")
+                } else {
+                    print("Nah need to confirm that email dawg.")
+                }
+                completion(true, true)
 
-            if signInResult.isSignedIn {
-                print("Sign in succeeded")
+                // User was not confirmed during the signup process.
+                // Invoke `confirmSignUp` api to confirm the user if
+                // they have the confirmation code. If they do not have the
+                // confirmation code, invoke `resendSignUpCode` to send the
+                // code again.
+                // After the user is confirmed, invoke the `signIn` api again.
+            } else if case .done = nextStep {
+                // Use has successfully signed in to the app
+                print("Signin complete")
+                completion(true, false)
+                
+                DispatchQueue.main.async {
+                    self.isSignedIn = signInResult.isSignedIn
+                }
+
+                if signInResult.isSignedIn {
+                    print("Sign in succeeded")
+                }
             }
         } catch let error as AuthError {
             print("Sign in failed \(error)")
+            completion(false, false)
         } catch {
             print("Unexpected error: \(error)")
+            completion(false, false)
         }
     }
     
@@ -81,6 +103,7 @@ class AuthService: ObservableObject {
             } else {
                 print("SignUp Complete")
             }
+            
             return signUpResult.isSignUpComplete
         } catch let error as AuthError {
             print("An error occurred while registering a user \(error)")
@@ -105,6 +128,57 @@ class AuthService: ObservableObject {
         } catch {
             print("Unexpected error: \(error)")
             return false
+        }
+    }
+    
+    func resendConfirmationCode(for username: String) async -> Bool {
+        do {
+            let _ = try await Amplify.Auth.resendSignUpCode(for: username)
+            print("Resend code successfully sent")
+            return true
+        } catch let error as AuthError {
+            print("An error occurred while resending confirmation code \(error)")
+            return false
+        } catch {
+            print("Unexpected error: \(error)")
+            return false
+        }
+    }
+    
+    func resetPassword(username: String, completion: @escaping (Bool) -> Void) async {
+        do {
+            let resetResult = try await Amplify.Auth.resetPassword(for: username)
+            switch resetResult.nextStep {
+                case .confirmResetPasswordWithCode(let deliveryDetails, let info):
+                    print("Confirm reset password with code send to - \(deliveryDetails) \(String(describing: info))")
+                case .done:
+                    print("Reset completed")
+            }
+            completion(true)
+        } catch let error as AuthError {
+            print("Reset password failed with error \(error)")
+            completion(false)
+        } catch {
+            print("Unexpected error: \(error)")
+            completion(false)
+        }
+    }
+    
+    func confirmResetPassword(username: String, newPassword: String, confirmationCode: String, completion: @escaping (Bool) -> Void) async {
+        do {
+            try await Amplify.Auth.confirmResetPassword(
+                for: username,
+                with: newPassword,
+                confirmationCode: confirmationCode
+            )
+            print("Password reset confirmed")
+            completion(true)
+        } catch let error as AuthError {
+            print("Reset password failed with error \(error)")
+            completion(false)
+        } catch {
+            print("Unexpected error: \(error)")
+            completion(false)
         }
     }
 

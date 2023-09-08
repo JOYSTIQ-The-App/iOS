@@ -18,6 +18,7 @@ struct SignUpView: View {
     @State private var password: String = ""
     @State private var confirmpassword: String = ""
     @State private var navigateToConfirmSignUp = false
+    @State private var errorMessage: String? = nil
     
     var body: some View {
         
@@ -102,21 +103,33 @@ struct SignUpView: View {
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         
-                        
-                        
+                        if let error = errorMessage {
+                            Text(error)
+                                .foregroundColor(.red)
+                                .padding(.top, 8)
+                                .padding(.bottom, 8)
+                        }
                         
                         
                         Button(action: {
                             
                             //If requirements are met, toggle nav to confirm
                             //valid/availble username, valid email, passwords match
-                            navigateToConfirmSignUp.toggle()
-                            
-                            /*
                             Task {
-                                authService.isSignedUp = await authService.signUp(username: username, email: email, password: password)
+                                if password == confirmpassword {
+                                    // Attempt to sign up
+                                    authService.isSignedUp = await authService.signUp(username: username, email: email, password: password)
+                                    
+                                    // Check if sign-up was successful and then toggle navigation
+                                    if authService.isSignedUp {
+                                        navigateToConfirmSignUp.toggle()
+                                    }
+                                } else {
+                                    errorMessage = "Passwords do not match."
+                                }
+                                
                             }
-                             */
+                             
                             
                         }, label: {
                             Text("Sign Up")
