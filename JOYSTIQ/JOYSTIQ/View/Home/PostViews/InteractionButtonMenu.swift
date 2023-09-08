@@ -20,24 +20,18 @@ struct InteractionButtonMenu: View {
             
             //pass post UUID to likebutton view
             LikeButton(likesCount: Int.random(in: 100...10000))
-                .padding(.trailing, 10)
+                .padding(.trailing, 5)
                 
             
+            CommentButton(commentCount: Int.random(in: 50...1000))
+                .onTapGesture {
+                    showCommentSection.toggle()
+                }
             
-            Button(action: {
-                // Handle comment button action
-                showCommentSection.toggle()
-                
-            }) {
-                Image(systemName: "message")
-                    .imageScale(.medium)
-                    .foregroundColor(.white).opacity(0.8)
-            }
-            
-            CommentCount(commentCount: Int.random(in: 100...1000))
             
             
             Spacer()
+            
             
          
             Menu {
@@ -52,7 +46,7 @@ struct InteractionButtonMenu: View {
             } label: {
                 
                 Image(systemName: "flag")
-                    .imageScale(.medium)
+                    .imageScale(.small)
                     .padding(.trailing, 10)
                     .foregroundColor(.white).opacity(0.8)
                     
@@ -61,8 +55,8 @@ struct InteractionButtonMenu: View {
             
             
         } //END Hstack for interaction buttons
-        .padding(.horizontal, 22)
-        .padding(.bottom, 12)
+        .padding(.horizontal, 25)
+        .padding(.bottom, 8)
         
     } //end body
     

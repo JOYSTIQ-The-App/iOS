@@ -129,11 +129,11 @@ struct CommentSectionView: View {
     
 }
 
-/*
+
 
 struct CommentSection2_Previews: PreviewProvider {
     static var previews: some View {
-        CommentSection2(showCommentSection: .constant(true))
+        CommentSectionView()
     }
 }
-*/
+

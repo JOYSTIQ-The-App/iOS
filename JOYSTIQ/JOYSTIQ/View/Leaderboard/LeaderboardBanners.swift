@@ -34,7 +34,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
         case 3:
             
@@ -42,7 +42,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
             
         case 4:
@@ -51,7 +51,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 60)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
             
         case 5:
@@ -60,7 +60,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 60)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
         case 6:
             
@@ -68,7 +68,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 78)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
         case 7:
             
@@ -76,7 +76,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 78)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
         case 8:
             
@@ -84,7 +84,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 78)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
         case 9:
             
@@ -92,7 +92,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 78)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
         case 10:
             
@@ -100,7 +100,7 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 78)
-                .padding(.top, 7)
+                //.padding(.top, 7)
             
         default:
             

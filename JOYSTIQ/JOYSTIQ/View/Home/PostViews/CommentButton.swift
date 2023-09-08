@@ -7,9 +7,11 @@
 
 import SwiftUI
 
-struct CommentCount: View {
+struct CommentButton: View {
     
     @State private var commentCount: Int
+    
+
     
     init(commentCount: Int) {
             self.commentCount = commentCount
@@ -19,10 +21,17 @@ struct CommentCount: View {
         
         HStack(spacing: 0) { //for comment counter
             
+            Image(systemName: "message")
+                .foregroundColor(Color.white.opacity(0.8))
+                .imageScale(.small)
+                .padding(.trailing, 5)
+            
             Text(formatNumber(commentCount))
+                .font(.system(size: 14))
                 .foregroundColor(.white).opacity(0.8)
             
         } //end Hstack for like button and like count
+        
 
         
     } //end body
@@ -37,8 +46,8 @@ struct CommentCount: View {
     
 }
 
-struct CommentCount_Previews: PreviewProvider {
+struct CommentButton_Previews: PreviewProvider {
     static var previews: some View {
-        CommentCount(commentCount: 0)
+        CommentButton(commentCount: 0).frame(width: UIScreen.main.bounds.width).background(.black)
     }
 }

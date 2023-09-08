@@ -12,6 +12,9 @@ struct LikeButton: View {
     @State private var isLiked = false
     @State private var likesCount: Int
     
+    //vibration for like button click
+    let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+    
     init(likesCount: Int) {
             self.likesCount = likesCount
         }
@@ -21,33 +24,34 @@ struct LikeButton: View {
         
         HStack(spacing: 0) { //for like buttona and like counter
             
-            Button(action: {
-                
-                if (isLiked) {
-                    
-                    likesCount -= 1
-                    isLiked.toggle()
-                    
-                }
-                else{
-                    
-                    likesCount += 1
-                    isLiked.toggle()
-                    
-                }
-                
-                
-            }) {
-                Image(systemName: isLiked ? "heart.fill" : "heart")
-                    .foregroundColor(isLiked ? .red : .white.opacity(0.8))
-                    .imageScale(.medium)
-                    .padding(.trailing, 5)
-            }
+           
+            Image(systemName: isLiked ? "heart.fill" : "heart")
+                .foregroundColor(isLiked ? .red : .white.opacity(0.8))
+                .imageScale(.small)
+                .padding(.trailing, 5)
+        
             
             Text(formatNumber(likesCount))
+                .font(.system(size: 14))
                 .foregroundColor(.white).opacity(0.8)
             
         } //end Hstack for like button and like count
+        .onTapGesture {
+            
+            if (isLiked) {
+                
+                likesCount -= 1
+                isLiked.toggle()
+                
+            }
+            else{
+                impactFeedbackGenerator.impactOccurred()
+                likesCount += 1
+                isLiked.toggle()
+                
+            }
+            
+        }
 
         
     } //end body
@@ -57,13 +61,13 @@ struct LikeButton: View {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         return numberFormatter.string(from: NSNumber(value: number)) ?? ""
-    } //end func
+    } //end formatNumber func
 
     
 }
 
 struct LikeButton_Previews: PreviewProvider {
     static var previews: some View {
-        LikeButton(likesCount: 0)
+        LikeButton(likesCount: 1234456).frame(width: UIScreen.main.bounds.width).background(.black)
     }
 }

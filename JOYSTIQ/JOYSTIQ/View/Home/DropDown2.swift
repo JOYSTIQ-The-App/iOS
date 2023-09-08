@@ -186,9 +186,9 @@ struct DropDown2: View {
                     
                     Text("Close")
                         .foregroundColor(.white.opacity(0.8))
-                        .frame(width: UIScreen.main.bounds.width * 0.25, height: 40)
+                        .frame(width: UIScreen.main.bounds.width * 0.20, height: 40)
                         .background(.gray.opacity(0.8))
-                        .cornerRadius(30)
+                        .cornerRadius(10)
                 })
                 .contentShape(Rectangle()) // This makes the entire frame tappable
                 .padding(.bottom, 20)
@@ -220,6 +220,7 @@ struct DropDown2: View {
 
 struct DropDown2_Previews: PreviewProvider {
     static var previews: some View {
-        DropDown2(showDropDown: .constant(true)).frame(width: UIScreen.main.bounds.width).background(.black)
+        DropDown2(showDropDown: .constant(true))
+        //.frame(width: UIScreen.main.bounds.width).background(.black)
     }
 }

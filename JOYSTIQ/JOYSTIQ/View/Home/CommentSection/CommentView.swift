@@ -20,7 +20,7 @@ struct CommentView: View {
                 
                 Image("TestAvatar4")
                     .frame(width: 40, height: 40)
-                    .scaleEffect(0.24)
+                    .scaleEffect(0.22)
                     .foregroundColor(.black)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
@@ -62,6 +62,16 @@ struct CommentView: View {
     
 }
 
+/*
+ 
+ Random color generator for testing avatar image strokes
+ 
+func randomColor() -> Color {
+    let colors: [Color] = [.white, .blue, .green, .red, .purple, .orange, .yellow]
+    let randomIndex = Int.random(in: 0..<colors.count)
+    return colors[randomIndex]
+}
+*/
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
         CommentView()

@@ -19,7 +19,6 @@ struct UserBannerPostView: View {
             
             ZStack(alignment: .leading) { //ZStack for user picture and username banner
                 
-                
                 /*
                  DEFAULT Image
                  
@@ -34,8 +33,8 @@ struct UserBannerPostView: View {
                 */
                 
                 Image("TestAvatar4")
-                    .frame(width: 55, height: 55)
-                    .scaleEffect(0.3)
+                    .frame(width: 45, height: 45)
+                    .scaleEffect(0.25)
                     .foregroundColor(.black)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
@@ -44,8 +43,9 @@ struct UserBannerPostView: View {
                     
                 
                 Text("Username")
+                    .font(.system(size: 15))
                     .foregroundColor(.black)
-                    .frame(width: UIScreen.main.bounds.width * 0.35, height: 35)
+                    .frame(width: UIScreen.main.bounds.width * 0.30, height: 30)
                     .background(
                         LinearGradient(
                             gradient: Gradient(colors: [Color.white, Color.gray]),
@@ -58,8 +58,8 @@ struct UserBannerPostView: View {
                     
           
             } //Zstack for user banner
-            .frame(width: UIScreen.main.bounds.width * 0.44, height: 60)
-            .padding(.leading, 13)
+            .frame(width: UIScreen.main.bounds.width * 0.4, height: 50)
+            .padding(.leading, 10)
             
 
                  
@@ -71,14 +71,17 @@ struct UserBannerPostView: View {
                 Image("Logo" + String(intVal))
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 35, height: 35)
                     .cornerRadius(10)
                     
             }
             
             
+            Spacer()
+            
+            
         } //END HStack for pfp + username banner + game title
-        .frame(width: UIScreen.main.bounds.width, alignment: .leading)
+        .frame(width: UIScreen.main.bounds.width)
         .background(Color("GradientDark3"))
         
         

@@ -29,7 +29,8 @@ struct AppView: View {
                         .disabled(showCommentSection)
                     
                 case 1:
-                    LeaderboardTabView()
+                    LeaderboardTabView(showCommentSection: $showCommentSection)
+                    .disabled(showCommentSection)
                 case 3:
                     ConnectTabView()
                 case 4:

@@ -15,6 +15,7 @@ struct PostContentView: View {
     //FROM CLIP POST View
     @State private var player = AVPlayer()
     
+    
     var body: some View {
         
         VStack(spacing: 0) { //for video/image content and caption
@@ -22,32 +23,40 @@ struct PostContentView: View {
         /*
             if let videoURL = Bundle.main.url(forResource: "TrimmedClip" + String(intVal), withExtension: "mp4") {
                 
-                let player = AVPlayer(url: videoURL)
-                
+            let player = AVPlayer(url: videoURL)
+                   
                 VideoPlayer(player: player)
                     .frame(width: UIScreen.main.bounds.width-40, height: 220)
                     .cornerRadius(10)
-                
+                    
+    
             } else {
+               
                 Rectangle()
                     .fill(Color.gray)
                     .frame(width: UIScreen.main.bounds.width * 0.8, height: 250)
             }
+          
           */
             
+           
             
+          
             Rectangle()
-                .fill(Color.black.opacity(0.4))
+                .fill(Color.black.opacity(0.5))
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 220)
                 .cornerRadius(10)
-          
+            
+            
+            
+            
             
             // Caption
             Text("This is a sample caption of a few lines of text. Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
-                .font(.system(size: 16))
+                .font(.system(size: UIScreen.main.bounds.height * 0.017))
                 .foregroundColor(.white.opacity(0.9))
-                .padding(.vertical, 15)
-                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
           
             
         } //end VStack for video/image content and caption
