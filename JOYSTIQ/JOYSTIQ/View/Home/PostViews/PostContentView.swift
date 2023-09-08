@@ -54,7 +54,7 @@ struct PostContentView: View {
             // Caption
             Text("This is a sample caption of a few lines of text. Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                 .font(.system(size: UIScreen.main.bounds.height * 0.017))
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(.white)
                 .padding(.vertical, 10)
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
           

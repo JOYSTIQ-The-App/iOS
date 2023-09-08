@@ -114,7 +114,7 @@ struct HomeTabView: View {
             //create custom thank you alert for feedback submission
             
         } //end nav view
-        .accentColor(Color("LightGray").opacity(0.7))
+        .accentColor(Color("LightGray"))
 
         
     }

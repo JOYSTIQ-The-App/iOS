@@ -21,7 +21,7 @@ struct LeaderboardBanners: View {
             
         case 1:
             
-            Image("newGold")
+            Image("GoldBanner")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
@@ -30,7 +30,7 @@ struct LeaderboardBanners: View {
             
         case 2:
             
-            Image("newSilver")
+            Image("SilverBanner")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
@@ -38,7 +38,7 @@ struct LeaderboardBanners: View {
             
         case 3:
             
-            Image("newBronze")
+            Image("BronzeBanner")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
@@ -47,59 +47,59 @@ struct LeaderboardBanners: View {
             
         case 4:
             
-            Image("4bannerNew")
+            Image("4banner")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 60)
+                .frame(width: UIScreen.main.bounds.width)
                 //.padding(.top, 7)
             
             
         case 5:
             
-            Image("5bannerNew")
+            Image("5banner")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 60)
+                .frame(width: UIScreen.main.bounds.width)
                 //.padding(.top, 7)
             
         case 6:
             
-            Image("6bannerNew")
+            Image("6banner")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 78)
+                .frame(width: UIScreen.main.bounds.width)
                 //.padding(.top, 7)
             
         case 7:
             
-            Image("7bannerNew")
+            Image("7banner")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 78)
+                .frame(width: UIScreen.main.bounds.width)
                 //.padding(.top, 7)
             
         case 8:
             
-            Image("8bannerNew")
+            Image("8banner")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 78)
+                .frame(width: UIScreen.main.bounds.width)
                 //.padding(.top, 7)
             
         case 9:
             
-            Image("9bannerNew")
+            Image("9banner")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 78)
+                .frame(width: UIScreen.main.bounds.width)
                 //.padding(.top, 7)
             
         case 10:
             
-            Image("10bannerNew")
+            Image("10banner")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 78)
+                .frame(width: UIScreen.main.bounds.width)
                 //.padding(.top, 7)
             
         default:

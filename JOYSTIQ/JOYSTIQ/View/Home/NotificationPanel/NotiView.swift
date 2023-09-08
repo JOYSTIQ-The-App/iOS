@@ -19,6 +19,20 @@ struct NotiView: View {
             
             if notiType == "post" {
                 
+                Image("TestAvatar4")
+                    .frame(width: 40, height: 40)
+                    .scaleEffect(0.2)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 1))
+                
+                Text(notificationMessage)
+                    .font(.system(size: 14))
+                    .padding(.leading, 5)
+                    .foregroundColor(.white)
+                    .lineLimit(3)
+                
+                Spacer()
+                
                 ZStack {
                     
                     Image(systemName: "play.circle")
@@ -46,6 +60,16 @@ struct NotiView: View {
                         .scaleEffect(0.2)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(Color.white, lineWidth: 1))
+                    
+                    Text(notificationMessage)
+                        .font(.system(size: 14))
+                        .padding(.leading, 5)
+                        .foregroundColor(.white)
+                        .lineLimit(3)
+                    
+                    Spacer()
+                    
+                    
       
                     
                 } else if notiType == "medal" {
@@ -65,16 +89,25 @@ struct NotiView: View {
                             .zIndex(0)
                 
                     }
-                    .padding(.trailing, 5)
+                    
+                    Text(notificationMessage)
+                        .font(.system(size: 14))
+                        .padding(.leading, 5)
+                        .foregroundColor(.white)
+                        .lineLimit(3)
+                    
+                    Spacer()
                     
                     
                 }
             
+            /*
             Text(notificationMessage)
                 .font(.system(size: 14))
                 .padding(.all, 10)
                 .foregroundColor(.white)
                 .lineLimit(3)
+            
                 .background(
                     LinearGradient(
                         gradient: Gradient(colors: [Color("LightGray"), Color.gray]),
@@ -83,15 +116,14 @@ struct NotiView: View {
                     ).opacity(0.4)
                 )
                 .cornerRadius(10, corners: [.topRight, .bottomRight, .bottomLeft])
+            */
             
-            
-            
-            Spacer()
+
             
             
             
         } //END HStack for notification
-        .padding(.bottom, 10)
+        .padding(.bottom, 5)
         .padding(.horizontal, 8)
         .frame(width: UIScreen.main.bounds.width)
         .overlay(Rectangle()
@@ -104,6 +136,7 @@ struct NotiView: View {
 
 struct NotiView_Previews: PreviewProvider {
     static var previews: some View {
-        NotiView(notificationMessage: "test test test test test test", notiType: "user")
+        NotiView(notificationMessage: "test test test test test test", notiType: "medal")
+            .frame(width: UIScreen.main.bounds.width).background(Color("GradientDark"))
     }
 }

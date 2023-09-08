@@ -19,7 +19,7 @@ struct CommentView: View {
             VStack { //for avatar image
                 
                 Image("TestAvatar4")
-                    .frame(width: 40, height: 40)
+                    .frame(width: 35, height: 35)
                     .scaleEffect(0.22)
                     .foregroundColor(.black)
                     .clipShape(Circle())
@@ -35,12 +35,12 @@ struct CommentView: View {
                 
                 Text(userName)
                     .foregroundColor(.gray)
-                    .font(.system(size: 14))
+                    .font(.system(size: 12))
                 
                 
                 Text(commentString)
                     .foregroundColor(.white)
-                    .font(.system(size: 16))
+                    .font(.system(size: 14))
                 
                 
                 

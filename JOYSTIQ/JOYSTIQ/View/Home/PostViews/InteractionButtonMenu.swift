@@ -48,7 +48,7 @@ struct InteractionButtonMenu: View {
                 Image(systemName: "flag")
                     .imageScale(.small)
                     .padding(.trailing, 10)
-                    .foregroundColor(.white).opacity(0.8)
+                    .foregroundColor(.white).opacity(0.7)
                     
             }
    

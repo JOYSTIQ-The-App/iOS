@@ -26,14 +26,14 @@ struct LikeButton: View {
             
            
             Image(systemName: isLiked ? "heart.fill" : "heart")
-                .foregroundColor(isLiked ? .red : .white.opacity(0.8))
+                .foregroundColor(isLiked ? .red : .white.opacity(0.7))
                 .imageScale(.small)
                 .padding(.trailing, 5)
         
             
             Text(formatNumber(likesCount))
                 .font(.system(size: 14))
-                .foregroundColor(.white).opacity(0.8)
+                .foregroundColor(.white).opacity(0.7)
             
         } //end Hstack for like button and like count
         .onTapGesture {

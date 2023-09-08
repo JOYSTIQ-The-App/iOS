@@ -11,20 +11,20 @@ struct NotificationTabView: View {
 
     
     let sampleNotis = [
-        "User123 liked your post",
-        "Nadeshot started following you",
+        "User123 liked your post.",
+        "Nadeshot started following you.",
         "You've earned a gold trophy for reaching 1M followers!",
-        "User456 liked your post",
+        "User456 liked your post.",
         "Tarik commented \"Mid + ratio + you're a beta\"",
-        "User789 liked your post",
-        "User123 liked your post",
-        "User123 liked your post",
-        "Nadeshot started following you",
+        "User789 liked your post.",
+        "User123 liked your post.",
+        "User123 liked your post.",
+        "Nadeshot started following you.",
         "You've earned a gold trophy for reaching 1M followers!",
-        "User456 liked your post",
+        "User456 liked your post.",
         "Tarik commented \"Mid + ratio + you're a beta\"",
-        "User789 liked your post",
-        "User123 liked your post"
+        "User789 liked your post.",
+        "User123 liked your post."
     ]
     
     let notiTypes = [
@@ -84,7 +84,7 @@ struct NotificationTabView: View {
         .frame(width: UIScreen.main.bounds.width)
         .background(
             LinearGradient(
-                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
+                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark3")]),
                 startPoint: .top,
                 endPoint: .bottom
             )

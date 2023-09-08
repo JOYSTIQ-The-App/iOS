@@ -22,13 +22,13 @@ struct CommentButton: View {
         HStack(spacing: 0) { //for comment counter
             
             Image(systemName: "message")
-                .foregroundColor(Color.white.opacity(0.8))
+                .foregroundColor(Color.white.opacity(0.7))
                 .imageScale(.small)
                 .padding(.trailing, 5)
             
             Text(formatNumber(commentCount))
                 .font(.system(size: 14))
-                .foregroundColor(.white).opacity(0.8)
+                .foregroundColor(.white).opacity(0.7)
             
         } //end Hstack for like button and like count
         

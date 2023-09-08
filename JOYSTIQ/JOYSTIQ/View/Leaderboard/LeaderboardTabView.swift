@@ -53,7 +53,6 @@ struct LeaderboardTabView: View {
                             } //end main Vstack for post
                             .background(Color("GradientDark3"))
                             
-                            
                         } //end for each
                             
                      
