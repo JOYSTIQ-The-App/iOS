@@ -256,6 +256,7 @@ struct SceneKitView: UIViewRepresentable {
         
         //add shorts as scene node
         scene.rootNode.addChildNode(flopsNode)
+
         
         // Load the sword model
         let backURL = Bundle.main.url(forResource: "sword", withExtension: "usdc")!
@@ -275,6 +276,8 @@ struct SceneKitView: UIViewRepresentable {
         //add shorts as scene node
         scene.rootNode.addChildNode(backNode)
         
+   
+         
         // Load the glasses model
         let glassesURL = Bundle.main.url(forResource: "glasses", withExtension: "usdc")!
         let glassesScene = try! SCNScene(url: glassesURL, options: nil)

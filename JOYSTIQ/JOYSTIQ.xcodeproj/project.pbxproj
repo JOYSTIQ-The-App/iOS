@@ -17,8 +17,6 @@
 		9941DC312A93F50E00215948 /* TrimmedClip2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */; };
 		9941DC322A93F50E00215948 /* TrimmedClip3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */; };
 		9941DC342A93F60B00215948 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC332A93F60B00215948 /* LaunchScreen.storyboard */; };
-		9941DC5D2A93F6F000215948 /* DropDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC392A93F6F000215948 /* DropDownView.swift */; };
-		9941DC5E2A93F6F000215948 /* CommentSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3A2A93F6F000215948 /* CommentSectionView.swift */; };
 		9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3B2A93F6F000215948 /* NotificationTabView.swift */; };
 		9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3C2A93F6F000215948 /* HomeTabView.swift */; };
 		9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */; };
@@ -32,13 +30,12 @@
 		9941DC692A93F6F000215948 /* AccoladeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC472A93F6F000215948 /* AccoladeBanner.swift */; };
 		9941DC6A2A93F6F000215948 /* ConnectTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC492A93F6F000215948 /* ConnectTabView.swift */; };
 		9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4B2A93F6F000215948 /* CreatePostView.swift */; };
-		9941DC6C2A93F6F000215948 /* ClipPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4C2A93F6F000215948 /* ClipPostView.swift */; };
 		9941DC6D2A93F6F000215948 /* DiscPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4D2A93F6F000215948 /* DiscPostView.swift */; };
 		9941DC6E2A93F6F000215948 /* NewClipPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4E2A93F6F000215948 /* NewClipPostView.swift */; };
 		9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */; };
 		9941DC702A93F6F000215948 /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC512A93F6F000215948 /* LikeButton.swift */; };
 		9941DC712A93F6F000215948 /* NotiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC522A93F6F000215948 /* NotiView.swift */; };
-		9941DC722A93F6F000215948 /* CommentCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC532A93F6F000215948 /* CommentCount.swift */; };
+		9941DC722A93F6F000215948 /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC532A93F6F000215948 /* CommentButton.swift */; };
 		9941DC732A93F6F000215948 /* PostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC542A93F6F000215948 /* PostContentView.swift */; };
 		9941DC742A93F6F000215948 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC552A93F6F000215948 /* CommentView.swift */; };
 		9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC592A93F6F000215948 /* ContentFilter.swift */; };
@@ -63,6 +60,9 @@
 		995085E82A95A805003996B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E72A95A805003996B6 /* LoginView.swift */; };
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
+		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
+		999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */; };
+		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -78,8 +78,6 @@
 		9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip2.mp4; sourceTree = "<group>"; };
 		9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip3.mp4; sourceTree = "<group>"; };
 		9941DC332A93F60B00215948 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9941DC392A93F6F000215948 /* DropDownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownView.swift; sourceTree = "<group>"; };
-		9941DC3A2A93F6F000215948 /* CommentSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentSectionView.swift; sourceTree = "<group>"; };
 		9941DC3B2A93F6F000215948 /* NotificationTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTabView.swift; sourceTree = "<group>"; };
 		9941DC3C2A93F6F000215948 /* HomeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 		9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabViewModel.swift; sourceTree = "<group>"; };
@@ -93,13 +91,12 @@
 		9941DC472A93F6F000215948 /* AccoladeBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccoladeBanner.swift; sourceTree = "<group>"; };
 		9941DC492A93F6F000215948 /* ConnectTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectTabView.swift; sourceTree = "<group>"; };
 		9941DC4B2A93F6F000215948 /* CreatePostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
-		9941DC4C2A93F6F000215948 /* ClipPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipPostView.swift; sourceTree = "<group>"; };
 		9941DC4D2A93F6F000215948 /* DiscPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscPostView.swift; sourceTree = "<group>"; };
 		9941DC4E2A93F6F000215948 /* NewClipPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewClipPostView.swift; sourceTree = "<group>"; };
 		9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDiscPostView.swift; sourceTree = "<group>"; };
 		9941DC512A93F6F000215948 /* LikeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		9941DC522A93F6F000215948 /* NotiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotiView.swift; sourceTree = "<group>"; };
-		9941DC532A93F6F000215948 /* CommentCount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCount.swift; sourceTree = "<group>"; };
+		9941DC532A93F6F000215948 /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
 		9941DC542A93F6F000215948 /* PostContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContentView.swift; sourceTree = "<group>"; };
 		9941DC552A93F6F000215948 /* CommentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		9941DC592A93F6F000215948 /* ContentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentFilter.swift; sourceTree = "<group>"; };
@@ -121,6 +118,9 @@
 		995085E72A95A805003996B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
+		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
+		999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTESTS.swift; sourceTree = "<group>"; };
+		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,8 +198,7 @@
 				9941DC412A93F6F000215948 /* Leaderboard */,
 				9941DC442A93F6F000215948 /* Proflile */,
 				9941DC482A93F6F000215948 /* Connect */,
-				9941DC4A2A93F6F000215948 /* PostViews */,
-				9941DC502A93F6F000215948 /* HomeExtras */,
+				9941DC4A2A93F6F000215948 /* CreatePostViews */,
 				9941DC582A93F6F000215948 /* Extras */,
 			);
 			path = View;
@@ -208,13 +207,13 @@
 		9941DC382A93F6F000215948 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				9941DC392A93F6F000215948 /* DropDownView.swift */,
-				9941DC3A2A93F6F000215948 /* CommentSectionView.swift */,
-				9941DC3B2A93F6F000215948 /* NotificationTabView.swift */,
+				9941DC5B2A93F6F000215948 /* HeaderView.swift */,
 				9941DC3C2A93F6F000215948 /* HomeTabView.swift */,
 				9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */,
-				9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */,
-				9941DC3F2A93F6F000215948 /* InteractionButtonMenu.swift */,
+				996C9CF62AA50A9A001693BF /* DropDown2.swift */,
+				99C65B2B2AA3C79700FC2188 /* NotificationPanel */,
+				99C65B2A2AA3C75600FC2188 /* CommentSection */,
+				99C65B292AA3C72100FC2188 /* PostViews */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -222,8 +221,8 @@
 		9941DC412A93F6F000215948 /* Leaderboard */ = {
 			isa = PBXGroup;
 			children = (
-				9941DC422A93F6F000215948 /* LeaderboardBanners.swift */,
 				9941DC432A93F6F000215948 /* LeaderboardTabView.swift */,
+				9941DC422A93F6F000215948 /* LeaderboardBanners.swift */,
 			);
 			path = Leaderboard;
 			sourceTree = "<group>";
@@ -246,28 +245,15 @@
 			path = Connect;
 			sourceTree = "<group>";
 		};
-		9941DC4A2A93F6F000215948 /* PostViews */ = {
+		9941DC4A2A93F6F000215948 /* CreatePostViews */ = {
 			isa = PBXGroup;
 			children = (
 				9941DC4B2A93F6F000215948 /* CreatePostView.swift */,
-				9941DC4C2A93F6F000215948 /* ClipPostView.swift */,
 				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
 				9941DC4E2A93F6F000215948 /* NewClipPostView.swift */,
 				9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */,
 			);
-			path = PostViews;
-			sourceTree = "<group>";
-		};
-		9941DC502A93F6F000215948 /* HomeExtras */ = {
-			isa = PBXGroup;
-			children = (
-				9941DC512A93F6F000215948 /* LikeButton.swift */,
-				9941DC522A93F6F000215948 /* NotiView.swift */,
-				9941DC532A93F6F000215948 /* CommentCount.swift */,
-				9941DC542A93F6F000215948 /* PostContentView.swift */,
-				9941DC552A93F6F000215948 /* CommentView.swift */,
-			);
-			path = HomeExtras;
+			path = CreatePostViews;
 			sourceTree = "<group>";
 		};
 		9941DC582A93F6F000215948 /* Extras */ = {
@@ -275,7 +261,6 @@
 			children = (
 				9941DC592A93F6F000215948 /* ContentFilter.swift */,
 				9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */,
-				9941DC5B2A93F6F000215948 /* HeaderView.swift */,
 				9941DC5C2A93F6F000215948 /* Triangle.swift */,
 			);
 			path = Extras;
@@ -334,6 +319,37 @@
 				990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		99C65B292AA3C72100FC2188 /* PostViews */ = {
+			isa = PBXGroup;
+			children = (
+				9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */,
+				9941DC542A93F6F000215948 /* PostContentView.swift */,
+				9941DC3F2A93F6F000215948 /* InteractionButtonMenu.swift */,
+				9941DC532A93F6F000215948 /* CommentButton.swift */,
+				9941DC512A93F6F000215948 /* LikeButton.swift */,
+				999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */,
+			);
+			path = PostViews;
+			sourceTree = "<group>";
+		};
+		99C65B2A2AA3C75600FC2188 /* CommentSection */ = {
+			isa = PBXGroup;
+			children = (
+				9941DC552A93F6F000215948 /* CommentView.swift */,
+				99E2F6792AA7B5D1000117FA /* CommentSection2.swift */,
+			);
+			path = CommentSection;
+			sourceTree = "<group>";
+		};
+		99C65B2B2AA3C79700FC2188 /* NotificationPanel */ = {
+			isa = PBXGroup;
+			children = (
+				9941DC3B2A93F6F000215948 /* NotificationTabView.swift */,
+				9941DC522A93F6F000215948 /* NotiView.swift */,
+			);
+			path = NotificationPanel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -431,8 +447,9 @@
 			files = (
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
 				995085E22A95A6AE003996B6 /* AuthService.swift in Sources */,
-				9941DC722A93F6F000215948 /* CommentCount.swift in Sources */,
-				990D3D9B2AA2946800E8488E /* ResetPasswordView.swift in Sources */,
+				999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */,
+				9941DC722A93F6F000215948 /* CommentButton.swift in Sources */,
+				996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */,
 				9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */,
 				9941DC632A93F6F000215948 /* InteractionButtonMenu.swift in Sources */,
 				9941DC6D2A93F6F000215948 /* DiscPostView.swift in Sources */,
@@ -446,19 +463,17 @@
 				995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */,
 				995085EA2A95A817003996B6 /* SignUpView.swift in Sources */,
 				9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */,
-				9941DC5E2A93F6F000215948 /* CommentSectionView.swift in Sources */,
 				9941DC792A93F6F000215948 /* Triangle.swift in Sources */,
 				995085E52A95A73D003996B6 /* TextColoring.swift in Sources */,
 				9941DC732A93F6F000215948 /* PostContentView.swift in Sources */,
-				9941DC5D2A93F6F000215948 /* DropDownView.swift in Sources */,
 				9941DC742A93F6F000215948 /* CommentView.swift in Sources */,
 				9941DC6A2A93F6F000215948 /* ConnectTabView.swift in Sources */,
-				9941DC6C2A93F6F000215948 /* ClipPostView.swift in Sources */,
 				9941DC702A93F6F000215948 /* LikeButton.swift in Sources */,
 				9941DC692A93F6F000215948 /* AccoladeBanner.swift in Sources */,
 				9941DC642A93F6F000215948 /* AppView.swift in Sources */,
 				9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */,
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
+				99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */,
 				9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
@@ -604,7 +619,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -639,7 +654,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

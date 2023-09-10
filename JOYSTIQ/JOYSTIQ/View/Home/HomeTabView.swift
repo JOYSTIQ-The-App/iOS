@@ -16,7 +16,6 @@ struct HomeTabView: View {
     
     //From app view, comments need to overlay nav bar
     @Binding var showCommentSection: Bool
-     
     
     var body: some View {
         
@@ -26,83 +25,20 @@ struct HomeTabView: View {
                 
                 VStack(spacing: 0){ //START VStack with headerview and feed scrollview
                     
-        
-                    //--------------START HEADER------------------
-                    
-                    HStack(spacing: 0) {  //HStack for Header (noti bell - Logo - Messenger)
-                        
-                        //TEST FOR NAV LINK
-                        NavigationLink(destination: NotificationTabView()) {
-                            
-                            Image(systemName: "bell.fill")
-                                .resizable()
-                                .frame(width: 22, height: 22)
-                                .padding(.leading, 20)
-                                .foregroundColor(Color("LightGray"))
-                            
-                        }
-                        
-
-                        
-                        Spacer()
-                        
-                        
-                        Button(action: {
-                            
-                            //open drop down menu
-                            // bool modal?
-                            showDropDown.toggle()
-                            
-                        }) {
-                            Image("JS_Logo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 50)
-                                .foregroundColor(.green)
-                                .padding(.leading, 5)
-                                .padding(.bottom, 10)
-                                .padding(.top, 5)
-                        }
-                         
-
-                        
-                        Spacer()
-                        
-                        
-                        Button(action: {}) {
-                            Image(systemName: "tray.full.fill")
-                                .resizable()
-                                .frame(width: 31, height: 22)
-                                .foregroundColor(Color("Black0"))
-                                .padding(.trailing, 20)
-                            
-                        }
-                        
-                        
-                        
-                    } // END HSTACK with Header
-                    .frame(height: 65)
-                    .background(Color("Black0"))
-                    //bottom green border
-                    .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color.green), alignment: .bottom)
-                    
-                    //--------------START HEADER------------------
-                    
-                    
+                    HeaderView(showDropDown: $showDropDown)
                     
                     //START Feed View. ScrollView for posts.
                     ScrollView(.vertical, showsIndicators: false) {
                         
-                        //top padding for first post
                         Rectangle()
-                            .foregroundColor(Color("Black0"))
-                            .frame(height: 1)
+                            .foregroundColor(Color("GradientDark3"))
+                            .frame(height: 0.01)
                         
                         
                         //iterate through post list and display each
                         ForEach(1..<4) { i in
                             
-                            VStack(spacing: 0) {
+                            LazyVStack(spacing: 0) {
                                
                                 //needs pfp, username, game name
                                 UserBannerPostView(intVal: i)
@@ -118,9 +54,9 @@ struct HomeTabView: View {
                          
                                 
                             } //end main Vstack for post
-                            .background(Color("Black0"))
-                            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("CustomGray")), alignment: .bottom)
-                            
+                            .background(Color("GradientDark3"))
+                            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                        
                             
                             
                         } //end for each
@@ -128,12 +64,13 @@ struct HomeTabView: View {
                       
                         
                     } // END scroll view for home content
-                    .background(Color("Black0"))
+                    .background(Color("GradientDark3")) // Fills gap? for each post
                     //.disabled(showDropDown)
                     //.disabled(showCommentSection)
                     
 
                 } //END Vstack with headerview and feed view
+                .background(Color("GradientDark3"))
                 //alert for report post
                 .alert(isPresented: $showingReportAlert) {
                     Alert(
@@ -150,28 +87,34 @@ struct HomeTabView: View {
 
                 
                 // ------------------START MODAL / Drop Down View---------------------
+                 
                 if showDropDown {
                    
                    //create a shadow effect on the background. click backround to exit
-                   Color.black.opacity(0.5)
+                    
+                   Color.black.opacity(0.6)
                        .edgesIgnoringSafeArea(.all)
                        .onTapGesture {
                            showDropDown = false
                        }
                    
-                   DropDownView(showDropDown: $showDropDown)
+                    
+                   DropDown2(showDropDown: $showDropDown)
+                        
                     
                    
                 } //END If showdropdown
+                 
                 // --------------------END MODAL-------------------
                 
                 
                            
-            } //END ZStack with Header/feed + DropDown + Comments
+            } //END ZStack with Header/feed + DropDown
+            
             //create custom thank you alert for feedback submission
             
         } //end nav view
-            
+        .accentColor(Color("LightGray"))
 
         
     }

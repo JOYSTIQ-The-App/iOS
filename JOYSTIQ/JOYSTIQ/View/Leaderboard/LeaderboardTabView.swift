@@ -10,157 +10,92 @@ import AVKit
 
 struct LeaderboardTabView: View {
     
+    @State private var showDropDown = false
+    
+    @State private var showingReportAlert = false
+    
+    //From app view, comments need to overlay nav bar
+    @Binding var showCommentSection: Bool
+    
     var body: some View {
         
-        
-        VStack(spacing: 0) { //Main VStack
+        NavigationView { //start nav view
             
-            HeaderView()
-            
-           
-            ZStack(alignment: .topTrailing) {
+            ZStack { //for leaderboard and drop down menu
                 
-
-
-                //Scroll view has banners and posts
-                ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 0) { //Main VStack
                     
-                    VStack(spacing: 0) {
+                    HeaderView(showDropDown: $showDropDown)
+                    
+                    //START Feed View. ScrollView for posts.
+                    ScrollView(.vertical, showsIndicators: false) {
                         
+                        
+                        //iterate through post list and display each
                         ForEach(1..<11) { i in
                             
-                            LeaderboardBanners(placeValue: i)
-                            
-                            //ClipPostView(intValue: i)
-                            
-                            //-----------------START CONTENT---------------------
-                            
-                            
-                                
-                            VStack(spacing: 0) {
+                            LazyVStack(spacing: 0) {
+                                LeaderboardBanners(placeValue: i)
+                                    .padding(.bottom, 5)
                                
-                                // Banner
-                                
+                                //needs pfp, username, game name
                                 UserBannerPostView(intVal: i)
-                                
-                                
-                                 
-                                if let videoURL = Bundle.main.url(forResource: "TrimmedClip" + String(i), withExtension: "mp4") {
-                                    
-                                    let player = AVPlayer(url: videoURL)
-                                    
-                                    VideoPlayer(player: player)
-                                        .frame(width: UIScreen.main.bounds.width-30, height: 220)
-                                        .cornerRadius(10)
-                                        .padding(.vertical, 10)
-                                    
-                                } else {
-                                    Rectangle()
-                                        .fill(Color.gray)
-                                        .frame(width: UIScreen.main.bounds.width * 0.9, height: 230)
-                                        .cornerRadius(15)
-                                }
-                                
-                                
-                                     
-                                
-                                // Caption
-                                Text("Username: This is a sample caption of a few lines of text. Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
-                                    .font(.body)
-                                    .foregroundColor(.white)
-                                    .padding(.vertical, 15)
-                                    .padding(.horizontal, 20)
-                                
-                                
-                                
-                                
-                                //---------- START INTERACTION BUTTONS -------------------------
-                                
-                                // Hstack for interaction buttons
-                                HStack {
-                                    
-                                    //pass post UUID to likebutton view
-                                    LikeButton(likesCount: Int.random(in: 100...200000))
-                                    
-                                    Button(action: {
-                                        // Handle comment button action
-                                        //showCommentSection.toggle()
                                         
-                                    }) {
-                                        Image(systemName: "message")
-                                            .imageScale(.large)
-                                    }
-                                    
-                                    CommentCount(commentCount: Int.random(in: 100...10000))
-                                    
-                                    
-                                    Spacer()
-                                    
-                                   
-                                    
-                                 
-                                    Menu {
-                                        
-                                        Button(action: {
-                                            //report dialogue
-                                            //showingReportAlert = true
-                                        }) {
-                                            Text("Report Post")
-                                        }
-                                        
-                                    } label: {
-                                        
-                                        HStack() {
-                                            
-                                            Image(systemName: "ellipsis")
-                                                .imageScale(.large)
-                                                .padding(.trailing, 10)
-                                            
-                                        }
-                                        
-                                    }
-                           
-                                    
-                                    
-                                } //END Hstack for interaction buttons
-                                .padding()
-                                .padding(.horizontal, 5)
-                                .shadow(radius: 2)
-                                .zIndex(1)
-                            
+                                //needs content and caption
+                                PostContentView(intVal: i)
                                 
-                                //---------- END INTERACTION BUTTONS -------------------------
-                                
+                                //needs [like count, isLiked boolean, comment count, comments]
+                                //possible UPID for report
+                                //needs showCommentSection bool, showingReportAlert bool
+                                InteractionButtonMenu(showCommentSection: $showCommentSection, showingReportAlert: $showingReportAlert)
                          
                                 
                             } //end main Vstack for post
-                            .background(Color("Black0"))
-                            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("CustomGray")), alignment: .bottom)
+                            .background(Color("GradientDark3"))
                             
+                        } //end for each
                             
-                            LeaderboardBottom(placeValue: i)
-                                
-                            
-                            
-                            //------------------END CONTENT----------------------
-                            
-                        }
-                        
-                    } //END Vstack for content
+                     
+                    } // END scroll view for home content
+                    .background(Color("GradientDark3")) // Fills gap? for each post
+                          
                     
-                } // END scroll view for home content
- 
+                } //END Main VStack
+                //alert for report post
+                .alert(isPresented: $showingReportAlert) {
+                    Alert(
+                        title: Text("Report Post"),
+                        message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
+                        primaryButton: .default(Text("Report"), action: {
+                            //makeAPICall() - provide post ID
+                        }),
+                        secondaryButton: .cancel(Text("Cancel"))
+                    )
+                }
                 
-            
-                //LeaderboardContentFilter()
-                    //.zIndex(1)
-              
+                // ------------------START Drop Down View---------------------
+                if showDropDown {
+                    
+                    //create a shadow effect on the background. click backround to exit
+                    Color.black.opacity(0.6)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            showDropDown = false
+                        }
+                    
+                    
+                    DropDown2(showDropDown: $showDropDown)
+                    
+                } //END If showdropdown
+                // --------------------END Drop Down View-------------------
                 
-            } //END Zstack containing posts and filter
-            .background(Color("Black0"))
+                
+            } //end ZStack for leaderboard and drop down menu
             
-        } //END Main VStack
-        .background(Color("Black1"))
+            
+            
+            
+        }//end nav view
         
     } //END BODY
     
@@ -169,6 +104,6 @@ struct LeaderboardTabView: View {
 
 struct LeaderboardTabView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardTabView()
+        LeaderboardTabView(showCommentSection: .constant(false))
     }
 }
