@@ -122,7 +122,7 @@ struct ForgotPasswordView: View {
             }
             
             else {
-                ResetPasswordView(username: username, navigateToResetPassword: $navigateToResetPassword, navigateToForgotPassword: $navigateToForgotPassword).environmentObject(AuthService())
+                //ResetPasswordView(username: username, navigateToResetPassword: $navigateToResetPassword, navigateToForgotPassword: $navigateToForgotPassword).environmentObject(AuthService())
             }
             
         }
