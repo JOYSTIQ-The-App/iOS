@@ -66,6 +66,7 @@
 		99A5C1532AAE6DD300CDD4AD /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */; };
 		99A5C1562AAE720100CDD4AD /* WardrobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1552AAE720100CDD4AD /* WardrobeView.swift */; };
 		99A5C1582AAE962500CDD4AD /* DefaultShirt.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 99A5C1572AAE962500CDD4AD /* DefaultShirt.usdc */; };
+		99B243762AAFA572004427A7 /* RedDefaultShirt.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 99B243752AAFA572004427A7 /* RedDefaultShirt.usdc */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
@@ -129,6 +130,9 @@
 		99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
 		99A5C1552AAE720100CDD4AD /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
 		99A5C1572AAE962500CDD4AD /* DefaultShirt.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = DefaultShirt.usdc; path = ../../DefaultShirt.usdc; sourceTree = "<group>"; };
+		99B243742AAFA171004427A7 /* DefaultShirt.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = DefaultShirt.usdc; sourceTree = "<group>"; };
+		99B243752AAFA572004427A7 /* RedDefaultShirt.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = RedDefaultShirt.usdc; path = ../../RedDefaultShirt.usdc; sourceTree = "<group>"; };
+		99B243772AAFA575004427A7 /* RedDefaultShirt.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = RedDefaultShirt.usdc; sourceTree = "<group>"; };
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -160,7 +164,9 @@
 		9941DC132A93F02100215948 = {
 			isa = PBXGroup;
 			children = (
+				99B243752AAFA572004427A7 /* RedDefaultShirt.usdc */,
 				99A5C1572AAE962500CDD4AD /* DefaultShirt.usdc */,
+				99B243732AAFA169004427A7 /* AvatarStuff */,
 				9941DC7D2A94003400215948 /* Placeholders */,
 				9941DC1E2A93F02100215948 /* JOYSTIQ */,
 				9941DC1D2A93F02100215948 /* Products */,
@@ -335,6 +341,15 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		99B243732AAFA169004427A7 /* AvatarStuff */ = {
+			isa = PBXGroup;
+			children = (
+				99B243772AAFA575004427A7 /* RedDefaultShirt.usdc */,
+				99B243742AAFA171004427A7 /* DefaultShirt.usdc */,
+			);
+			path = AvatarStuff;
+			sourceTree = "<group>";
+		};
 		99C65B292AA3C72100FC2188 /* PostViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -432,6 +447,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99B243762AAFA572004427A7 /* RedDefaultShirt.usdc in Resources */,
 				99A5C1582AAE962500CDD4AD /* DefaultShirt.usdc in Resources */,
 				9941DC8E2A94008200215948 /* skintone6.usdc in Resources */,
 				9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */,

@@ -62,7 +62,7 @@ struct SceneKitView: UIViewRepresentable {
     
         scnView.scene = scene
         scnView.allowsCameraControl = true
-        scnView.backgroundColor = UIColor.red
+        scnView.backgroundColor = UIColor.white
         
         
         return scnView
@@ -85,12 +85,12 @@ struct SceneKitView: UIViewRepresentable {
     func addNode(named name: String) {
         
         // Load the Hair model
-        let shirtURL = Bundle.main.url(forResource: name, withExtension: "usdc")!
-        let shirtScene = try! SCNScene(url: shirtURL, options: nil)
-        let shirtNode = shirtScene.rootNode
+        let nodeURL = Bundle.main.url(forResource: name, withExtension: "usdc")!
+        let nodeScene = try! SCNScene(url: nodeURL, options: nil)
+        let newNode = nodeScene.rootNode
         
         //add shorts as scene node
-        scene.rootNode.addChildNode(shirtNode)
+        scene.rootNode.addChildNode(newNode)
         
     }
 

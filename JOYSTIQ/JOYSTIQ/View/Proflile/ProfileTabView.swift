@@ -12,6 +12,8 @@ struct ProfileTabView: View {
     //handles logged state
     @EnvironmentObject var authService: AuthService
     
+    @Binding var hideNavBar: Bool
+    
     var body: some View {
         
         NavigationView { //start nav view
@@ -24,84 +26,94 @@ struct ProfileTabView: View {
                     VStack(spacing: 0) { //VStack for [avatar] / [bio / username overlay]
                         
                         
-                        VStack { //VStack for avatar
-                            
-                            //SceneKitView(named: "skintone6")
-                                //.frame(height: 350)
-                                //.offset(y: 20)
-                                //.edgesIgnoringSafeArea(.top)
-                                
-                            Rectangle()
-                                .frame(width: UIScreen.main.bounds.width, height: 350)
-                                .foregroundColor(.clear)
-                                .edgesIgnoringSafeArea(.top)
-                            
-                            
                         
-                        }
-                        .background(
+                        ZStack(alignment: .bottom) { //for avatar background and own profile settings
+                            
                             
                             Image("default3")
                                 .resizable()
+                                .frame(width: UIScreen.main.bounds.width, height: 350)
+                                .edgesIgnoringSafeArea(.top)
                                 .aspectRatio(contentMode: .fill)
-                                    
-                        )
-                        
-                        //--------------------OWN PROFILE SETTINGS----------------
-                        
-                        
-                        HStack { //for own profile options
-                            
-           
-                            NavigationLink(destination: ProfileSettingsView().navigationBarTitleDisplayMode(.inline)
-                                           
-                               //custom nav title view with image
-                                .toolbar {
-                                    ToolbarItem(placement: .principal) {
-                                        
-                                        Text("Profile Settings")
-                                        
-                                    }
-                                }) {
-                                    
-                                    Image(systemName: "gearshape.fill")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .foregroundColor(Color("LightGray"))
-                                    
-                                    
-                                }
-                            
-                            
-                            Spacer()
-                            
-                            NavigationLink(destination: WardrobeView()
-                                           
-                               //custom nav title view with image
-                                .toolbar {
-                                    ToolbarItem(placement: .principal) {
-                                        
-                                        Text("Wardrobe")
-                                        
-                                    }
-                                }) {
-                                    
-                                    Image(systemName: "tshirt.fill")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .foregroundColor(Color("LightGray"))
-                                    
-                                    
-                                }
                             
 
                             
+                            HStack { //for own profile options
+                                
+                                
+                                NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar).navigationBarTitleDisplayMode(.inline)
+                                               
+                                   //custom nav title view with image
+                                    .toolbar {
+                                        ToolbarItem(placement: .principal) {
+                                            
+                                            Text("Wardrobe")
+                                            
+                                        }
+                                    }) {
+                                        
+                                        ZStack { //for wardrobe button
+
+                                            Image(systemName: "square")
+                                                .resizable()
+                                                .frame(width: 35, height: 35)
+                                                .foregroundColor(Color("LightGray"))
+                                            
+                                            
+                                            Image(systemName: "tshirt.fill")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .foregroundColor(Color("LightGray"))
+                                            
+                                        } //end zstack for wardrobe button
+           
+                                    }
+                                
+           
+                                Spacer()
+                                
+                                          
+                                NavigationLink(destination: ProfileSettingsView(hideNavBar: $hideNavBar).navigationBarTitleDisplayMode(.inline)
+                                               
+                                   //custom nav title view with image
+                                    .toolbar {
+                                        ToolbarItem(placement: .principal) {
+                                            
+                                            Text("Settings")
+                                                .font(.system(size: 18))
+                                                .foregroundColor(Color(.label))
+                                            
+                                        }
+                                    }) {
+                                        
+                                        ZStack { //for settings button
+
+                                            Image(systemName: "square")
+                                                .resizable()
+                                                .frame(width: 35, height: 35)
+                                                .foregroundColor(Color("LightGray"))
+                                            
+                                            
+                                            Image(systemName: "gearshape.fill")
+                                                .resizable()
+                                                .frame(width: 20, height: 20)
+                                                .foregroundColor(Color("LightGray"))
+                                            
+                                        } //end zstack for settings button
+                                        
+                                        
+                                    }
+                                
                             
-                        }
-                        .frame(width: UIScreen.main.bounds.width, height: 50)
-                        .background(Color.blue)
+                                
+                            }//end hstack for own profile settings / wardrobe
+                            .frame(width: UIScreen.main.bounds.width * 0.9, height: 50)
+                            .padding(.bottom, 15)
+
+              
+                            
+                        } //end ZStack for avatar background and own profile settings
                         
-                        //--------------------END OWN PROFILE SETTINGS----------------
                         
                             
                         VStack { //VStack for Bio and Social/resume buttons
@@ -176,29 +188,10 @@ struct ProfileTabView: View {
                         .offset(x: -120)
                     
                     Spacer()
+                        .frame(height: 200)
                   
                
-                    
-                    Text("<< CONTENT GOES HERE >>")
-                        .foregroundColor(.gray)
-                        .frame(height: 300)
-                        .font(.system(size: 25))
-                        .padding(.bottom, 50)
-                        .offset(y: -50)
-                    
-                    Button("Logout") {
-                        Task {
-                            await authService.signOutLocally()
-                            await authService.fetchCurrentAuthSession()
-                        }
-                    }
-                    .foregroundColor(.black)
-                    .frame(width: 120.0, height: 50.0)
-                    .background(Color("AccentColor"))
-                    .cornerRadius(10)
-                    
-                    Spacer()
-                        .frame(height: 100.0)
+
                     
                 }//End Main VStack
                 //.background(Color("Black1"))
@@ -215,10 +208,11 @@ struct ProfileTabView: View {
             } //End Scroll View
             .edgesIgnoringSafeArea(.top)
             .edgesIgnoringSafeArea(.bottom)
+            .onAppear{hideNavBar = false}
             
             
         }
-        .accentColor(.green)
+        .accentColor(Color(.label))
         
        
         
@@ -274,6 +268,6 @@ struct GameDropDownMenu: View {
 
 struct ProfileTabView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileTabView()
+        ProfileTabView(hideNavBar: .constant(false))
     }
 }
