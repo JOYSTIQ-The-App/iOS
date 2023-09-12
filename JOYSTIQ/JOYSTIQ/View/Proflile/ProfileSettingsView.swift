@@ -28,7 +28,7 @@ struct ProfileSettingsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundColor(Color("LightGray"))
+                            .foregroundColor(Color(.label))
                             .padding(.trailing, 5)
                             
                         Text("Bio")
@@ -47,7 +47,7 @@ struct ProfileSettingsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundColor(Color("LightGray"))
+                            .foregroundColor(Color(.label))
                             .padding(.trailing, 5)
                             
                         Text("Resume")
@@ -64,7 +64,7 @@ struct ProfileSettingsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundColor(Color("LightGray"))
+                            .foregroundColor(Color(.label))
                             .padding(.trailing, 5)
                             
                         Text("Socials")

@@ -116,9 +116,21 @@ struct ProfileTabView: View {
                         
                         
                             
-                        VStack { //VStack for Bio and Social/resume buttons
+                        VStack(alignment: .leading) { //VStack for Bio and Social/resume buttons
                                
-                            HStack(spacing: 20) { //Socials hstack
+                            HStack(spacing: 30) { //Socials hstack
+                                
+                                
+                                //Username banner
+                                Text("User12345")
+                                    .frame(width: 160, height: 40)
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.black)
+                                    .background(Color("ColorGreen"))
+                                    .cornerRadius(15)
+
+                                
+                                
                                 
                                 Button( action: {
                                         //button action here
@@ -128,45 +140,45 @@ struct ProfileTabView: View {
                                         //PAGE CONTENT
                                         
                                         Image(systemName: "network")
-                                            .font(.system(size: 33))
-                                            .foregroundColor(.green)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(Color.green)
                                         
                                     })
                                 
                                 
-                                //Username banner
-                                Text("User12345")
-                                    .frame(width: 200, height: 40)
-                                    .font(.system(size: 22))
-                                    .foregroundColor(.black)
-                                    .background(Color("ColorGreen"))
-                                    .cornerRadius(20)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 10)
-                                
-                                
+
                                 
                                 Button( action: {
                                         //button action here
                                     }, label: {
                                         
                                         Image(systemName: "list.bullet.clipboard.fill")
-                                            .font(.system(size: 30))
-                                            .foregroundColor(.green)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(Color.green)
                                         
                                     })
                                 
+                                Spacer()
+                                
+                                
                                 
                             } //END Socials HStack
+                            .padding(.horizontal, 10)
+                            .padding(.top, 10)
                             
                             
                             Text("I am the cod goat \nFollow me on twitch.tv/codGoat \n100T content creator")
-                                .padding()
-                                .frame(width: UIScreen.main.bounds.width - 30, height: 90, alignment: .topLeading)
-                                .font(.system(size: 16))
+                                .padding(.all, 13)
+                                .frame(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.height * 0.09, alignment: .topLeading)
+                                .font(.system(size: UIScreen.main.bounds.width * 0.035))
                                 .foregroundColor(Color("LightGray"))
-                                .background(Color("Black0"))
+                                .background(Color("Black0").opacity(0.4))
                                 .cornerRadius(15)
+                                .padding(.leading, 10)
                                 
                    
                             
@@ -181,14 +193,16 @@ struct ProfileTabView: View {
                     //Accolade banner
                     AccoladeBanner()
                     
+                    /*
                     //Content filter
                     GameDropDownMenu()
                         .padding(15)
                         .frame(width: UIScreen.main.bounds.width)
                         .offset(x: -120)
+                    */
                     
                     Spacer()
-                        .frame(height: 200)
+                        .frame(height: 300)
                   
                
 

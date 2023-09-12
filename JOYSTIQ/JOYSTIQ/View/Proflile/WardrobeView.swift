@@ -157,6 +157,7 @@ struct WardrobeView: View {
           
             } //end navigation view
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
+            .accentColor(Color(.label))
             
         
             
