@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5BA74B352121C85BDC510698 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */; };
 		990D3D992AA2930800E8488E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D982AA2930800E8488E /* ForgotPasswordView.swift */; };
-		990D3D9B2AA2946800E8488E /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */; };
 		9941DC242A93F02300215948 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC232A93F02300215948 /* Assets.xcassets */; };
 		9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC262A93F02300215948 /* Preview Assets.xcassets */; };
@@ -62,6 +61,7 @@
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
 		999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */; };
+		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
@@ -120,6 +120,8 @@
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
 		999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTESTS.swift; sourceTree = "<group>"; };
+		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
+		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,7 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */,
-				995085E02A95A690003996B6 /* API */,
+				995085E02A95A690003996B6 /* Services */,
 				995085E32A95A72B003996B6 /* Extensions */,
 				9941DC372A93F6F000215948 /* View */,
 				9941DC232A93F02300215948 /* Assets.xcassets */,
@@ -293,12 +295,14 @@
 			path = Placeholders;
 			sourceTree = "<group>";
 		};
-		995085E02A95A690003996B6 /* API */ = {
+		995085E02A95A690003996B6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				995085E12A95A6AE003996B6 /* AuthService.swift */,
+				99D8B7982AB119AC00733B73 /* S3Service.swift */,
+				99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */,
 			);
-			path = API;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		995085E32A95A72B003996B6 /* Extensions */ = {
@@ -476,6 +480,7 @@
 				99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */,
 				9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
+				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,
