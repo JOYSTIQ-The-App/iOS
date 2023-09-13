@@ -12,6 +12,9 @@ struct DropDown2: View {
     
     @Binding var showDropDown: Bool
     @State private var feedbacktext = ""
+    @State private var username = "Anonymous"
+    
+    private let feedbackService = FeedbackService()
     
     let buymeacoffeeLink = "https://www.buymeacoffee.com/joystiq"
     
@@ -68,12 +71,18 @@ struct DropDown2: View {
                     //Submit feedback button
                     Button(action: {
                         
-                        // Action to perform on submit...
-                        
-                        //TO DO: Dont allow submit if empty
+                        // Check if feedback text is not empty
+                        if !feedbacktext.isEmpty {
+                            // Username is currently "Anonymous"
+                            feedbackService.sendFeedback(username: username, feedbackText: feedbacktext)
+                            
+                            feedbacktext = ""
+                            showDropDown.toggle()
+                        } else {
+                            print("Feedback text cannot be empty.")
+                        }
                         
                         feedbacktext = ""
-                        showDropDown.toggle()
                         
                     }, label: {
                         Text("Submit")

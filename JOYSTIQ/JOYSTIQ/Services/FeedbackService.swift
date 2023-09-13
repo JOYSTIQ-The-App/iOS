@@ -13,7 +13,7 @@ struct Feedback: Codable {
 
 class FeedbackService {
     
-    func sendFeedback(feedbackText: String, username: String) {
+    func sendFeedback(username: String, feedbackText: String) {
         // Check if feedback text or username is empty
         if feedbackText.isEmpty || username.isEmpty {
             print("Feedback text and username cannot be empty.")
