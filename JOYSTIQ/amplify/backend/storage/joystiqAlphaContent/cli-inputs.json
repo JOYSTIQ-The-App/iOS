@@ -1,0 +1,14 @@
+{
+  "resourceName": "joystiqAlphaContent",
+  "policyUUID": "3fbddeaf",
+  "bucketName": "joystiqd839c802234a428eb45eee5d4378901e",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

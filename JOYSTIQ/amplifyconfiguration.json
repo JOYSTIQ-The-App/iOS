@@ -12,15 +12,15 @@
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "us-east-1:bbbfc505-769f-4e69-bcea-fbe54f75303e",
+                            "PoolId": "us-east-1:eeea2287-0d06-48ae-b080-9508771aeb00",
                             "Region": "us-east-1"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "us-east-1_Juuhdgnk6",
-                        "AppClientId": "2d4vfoprcjfpccrr0ai4rik0a9",
+                        "PoolId": "us-east-1_IXKWZCDZK",
+                        "AppClientId": "5gntfnldm8sp8nsrk0gi7p5dao",
                         "Region": "us-east-1"
                     }
                 },
@@ -44,7 +44,22 @@
                             "EMAIL"
                         ]
                     }
+                },
+                "S3TransferUtility": {
+                    "Default": {
+                        "Bucket": "joystiqd839c802234a428eb45eee5d4378901e222418-dev",
+                        "Region": "us-east-1"
+                    }
                 }
+            }
+        }
+    },
+    "storage": {
+        "plugins": {
+            "awsS3StoragePlugin": {
+                "bucket": "joystiqd839c802234a428eb45eee5d4378901e222418-dev",
+                "region": "us-east-1",
+                "defaultAccessLevel": "guest"
             }
         }
     }
