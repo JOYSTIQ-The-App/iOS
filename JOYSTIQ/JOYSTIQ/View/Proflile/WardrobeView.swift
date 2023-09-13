@@ -19,7 +19,10 @@ struct WardrobeView: View {
         VStack (spacing: 0) { //Main VStack for sceneKitView and wardrobe controls
             
             
-            Spacer()
+            
+            Divider()
+                .frame(height: 5)
+                .background(Color.gray)
                    
             sceneKitView
                 .frame(height: UIScreen.main.bounds.height * 0.5)
@@ -30,141 +33,192 @@ struct WardrobeView: View {
                 .background(Color.gray)
 
             
+            
+            
             NavigationView {
                 
-                HStack { //for wardrobe controls
+                    
+                Grid(horizontalSpacing: 40, verticalSpacing: 30) { //start grid for cosmetic customizations menu
+                    
+                    GridRow { //start gridrow1
+                        
+                        NavigationLink(destination: ShirtColorSwitcherView(sceneView: $sceneKitView)) { //start navlink
+                            
+                            ZStack { //for torso button
+
+                                Image(systemName: "square")
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                                
+                                Image(systemName: "tshirt.fill")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                            } //end zstack for torso button
+                            
+                            
+                                                    
+                        } //end navLink
+
+                        
+                        ZStack {
+
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image(systemName: "questionmark")
+                                .resizable()
+                                .frame(width: 25, height: 40)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
+                        
+                        
+                        ZStack {
+
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image(systemName: "questionmark")
+                                .resizable()
+                                .frame(width: 25, height: 40)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
+                        
+                        
+                        
+                    } //end gridrow1
+                    
+                    GridRow { //start gridrow2
+                        
+                        ZStack {
+
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image(systemName: "questionmark")
+                                .resizable()
+                                .frame(width: 25, height: 40)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
+                        
+                        ZStack {
+
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image(systemName: "questionmark")
+                                .resizable()
+                                .frame(width: 25, height: 40)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
+                        
+                        ZStack {
+
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image(systemName: "questionmark")
+                                .resizable()
+                                .frame(width: 25, height: 40)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
+                        
+                        
+                    } //end gridrow2
                     
                     
-                    Grid(horizontalSpacing: 40, verticalSpacing: 30) { //start grid for cosmetic customizations menu
-                        
-                        GridRow { //start gridrow1
-                            
-                            NavigationLink(destination: ShirtColorSwitcherView(sceneView: $sceneKitView)) { //start navlink
-                                
-                                ZStack { //for torso button
-
-                                    Image(systemName: "square")
-                                        .resizable()
-                                        .frame(width: 80, height: 80)
-                                        .foregroundColor(Color("LightGray"))
-                                    
-                                    
-                                    Image(systemName: "tshirt.fill")
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
-                                        .foregroundColor(Color("LightGray"))
-                                    
-                                } //end zstack for torso button
-                                
-                                
-                                                        
-                            } //end navLink
-
-                            
-                            ZStack {
-
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "questionmark")
-                                    .resizable()
-                                    .frame(width: 25, height: 40)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            }
-                            
-                            
-                            ZStack {
-
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "questionmark")
-                                    .resizable()
-                                    .frame(width: 25, height: 40)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            }
-                            
-                            
-                            
-                        } //end gridrow1
-                        
-                        GridRow { //start gridrow2
-                            
-                            ZStack {
-
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "questionmark")
-                                    .resizable()
-                                    .frame(width: 25, height: 40)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            }
-                            
-                            ZStack {
-
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "questionmark")
-                                    .resizable()
-                                    .frame(width: 25, height: 40)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            }
-                            
-                            ZStack {
-
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "questionmark")
-                                    .resizable()
-                                    .frame(width: 25, height: 40)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            }
-                            
-                            
-                        } //end gridrow2
-                        
-                        
-                    } //end grid for cosmetic customizations menu/
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
+                    Divider()
+                        .frame(width: UIScreen.main.bounds.width * 0.7, height: 1)
+                        .background(Color.gray)
                     
-                     
-                } //end Hstack for wardrobe controls
-                .background(Color.black)
+                    
+                    HStack(spacing: 20) { //for save and cancel buttons
+                        
+                        //Cancel button
+                        Button(action: {
+                            
+                            
+                        }, label: {
+                            
+                            Text("Cancel")
+                                .foregroundColor(.white)
+                                .frame(width: UIScreen.main.bounds.width * 0.25, height: 45)
+                                .background(LinearGradient(
+                                    gradient: Gradient(colors: [Color.red, Color(red: 0.9, green: 0.3, blue: 0)]),
+                                                startPoint: .topTrailing,
+                                                endPoint: .bottomLeading
+                                            ))
+                                .cornerRadius(30)
+                        })
+                        .contentShape(Rectangle())
+                    
+                        
 
+                        
+                        //Confirm code button
+                        Button(action: {
+                            
+                            
+                            
+                        }, label: {
+                            
+                            Text("Save")
+                                .foregroundColor(.white)
+                                .frame(width: UIScreen.main.bounds.width * 0.35, height: 45)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                        startPoint: .topTrailing,
+                                        endPoint: .bottomLeading
+                                    )
+                                )
+                                .cornerRadius(30)
+                        })
+                        .contentShape(Rectangle())
+                        
           
+                        
+                    } //end HStack for save and cancel buttons
+                    
+                    
+                } //end grid for cosmetic customizations menu/
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
+                .background(Color.black)
+                     
+    
             } //end navigation view
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-            .accentColor(Color(.label))
+            .accentColor(Color.white.opacity(0.8))
             
         
             
         } //end Main VStack for scenekitview and wardrobe controls
         .edgesIgnoringSafeArea(.all)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .background(Color("LightGray"))
+        .background(Color("GradientDark"))
         .onAppear {
             hideNavBar = true
         }

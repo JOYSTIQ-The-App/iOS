@@ -143,10 +143,10 @@ struct ProfileTabView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 25, height: 25)
-                                            .foregroundColor(Color.green)
+                                            .foregroundColor(Color.black)
                                         
                                     })
-                                
+                                    .buttonStyle(NeumorphicButtonStyle())
                                 
 
                                 
@@ -275,8 +275,34 @@ struct GameDropDownMenu: View {
 
 
 
-
-
+struct NeumorphicButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(width: 50, height: 50)
+            .background(
+                Group {
+                    if configuration.isPressed {
+                        Circle()
+                            .fill(Color.gray)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.gray, lineWidth: 4)
+                            )
+                            .shadow(color: Color.black.opacity(0.2), radius: 6, x: 6, y: 6)
+                            .shadow(color: Color.white.opacity(0.7), radius: 6, x: -6, y: -6)
+                    } else {
+                        Circle()
+                            .fill(Color.gray)
+                            .shadow(color: Color.black.opacity(0.4), radius: 2, x: 2, y: 2)
+                            .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
+                            
+                    }
+                }
+            )
+            .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
+            
+    }
+}
 
 
 
