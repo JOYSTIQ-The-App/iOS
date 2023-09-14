@@ -118,18 +118,26 @@ struct ProfileTabView: View {
                             
                         VStack(alignment: .leading) { //VStack for Bio and Social/resume buttons
                                
-                            HStack(spacing: 30) { //Socials hstack
+                            HStack(spacing: 10) { //Socials hstack
                                 
                                 
-                                //Username banner
-                                Text("User12345")
-                                    .frame(width: 160, height: 40)
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.black)
-                                    .background(Color("ColorGreen"))
-                                    .cornerRadius(15)
-
-                                
+                                ZStack { //for name plate
+                                    
+                                    Image("NamePlate4")
+                                        .resizable()
+                                        .scaledToFit()
+                                        
+                                    
+                                    //Username banner
+                                    Text("User12345")
+                                        .font(.system(size: 18))
+                                        .foregroundColor(Color("LightGray"))
+                                    
+                                    
+                                }//end ZStack for name plate
+                                .frame(width: 180, height: 50)
+                                .shadow(color: Color.black, radius: 6, x: 2, y: 4)
+                                .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
                                 
                                 
                                 Button( action: {
@@ -143,7 +151,7 @@ struct ProfileTabView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 25, height: 25)
-                                            .foregroundColor(Color.black)
+                                            .foregroundColor(Color("LightGray"))
                                         
                                     })
                                     .buttonStyle(NeumorphicButtonStyle())
@@ -158,28 +166,74 @@ struct ProfileTabView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 25, height: 25)
-                                            .foregroundColor(Color.green)
+                                            .foregroundColor(Color("LightGray"))
                                         
                                     })
+                                .buttonStyle(NeumorphicButtonStyle())
                                 
+                                
+                               
+                                
+                   
                                 Spacer()
-                                
-                                
+                            
                                 
                             } //END Socials HStack
                             .padding(.horizontal, 10)
                             .padding(.top, 10)
                             
                             
-                            Text("I am the cod goat \nFollow me on twitch.tv/codGoat \n100T content creator")
+                            Text("I am the cod goat")
                                 .padding(.all, 13)
-                                .frame(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.height * 0.09, alignment: .topLeading)
+                                .frame(alignment: .topLeading)
                                 .font(.system(size: UIScreen.main.bounds.width * 0.035))
                                 .foregroundColor(Color("LightGray"))
                                 .background(Color("Black0").opacity(0.4))
                                 .cornerRadius(15)
                                 .padding(.leading, 10)
+                            
+                     
+                            
+                            
+                            
+                            /*
+                            
+                            //followers button
+                            Button( action: {
+                                    //button action here
+                                }, label: {
+                                    
+                                    VStack {
+                                        
+                                        Text("12")
+                                            .font(.system(size: 16))
+                                        
+                                        Text("followers")
+                                            .font(.system(size: 8))
+                                        
+                                        
+                                    }
+                                    
+                                })
+                            .frame(width: 50 , height: 50)
+                            .buttonStyle(NeumorphicRectangleButtonStyle2())
+                            
+                            
+                            //following button
+                            Button( action: {
+                                    //button action here
+                                }, label: {
+                                    
+                                    Image(systemName: "list.bullet.clipboard.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 25, height: 25)
+                                        .foregroundColor(Color("LightGray"))
+                                    
+                                })
+                            .buttonStyle(NeumorphicButtonStyle())
                                 
+                             */
                    
                             
                         } //END bio vstack
@@ -276,25 +330,30 @@ struct GameDropDownMenu: View {
 
 
 struct NeumorphicButtonStyle: ButtonStyle {
+    
     func makeBody(configuration: Configuration) -> some View {
+        
         configuration.label
-            .frame(width: 50, height: 50)
+            .frame(width: 45, height: 45)
             .background(
                 Group {
                     if configuration.isPressed {
+                        
                         Circle()
-                            .fill(Color.gray)
+                            .fill(Color("GradientDark").opacity(0.8))
                             .overlay(
                                 Circle()
-                                    .stroke(Color.gray, lineWidth: 4)
+                                    .stroke(Color("GradientDark"), lineWidth: 2)
                             )
-                            .shadow(color: Color.black.opacity(0.2), radius: 6, x: 6, y: 6)
-                            .shadow(color: Color.white.opacity(0.7), radius: 6, x: -6, y: -6)
+                            .shadow(color: Color.black.opacity(0.2), radius: 3, x: 3, y: 3)
+                            .shadow(color: Color.white.opacity(0.5), radius: 2, x: -1, y: -1)
+                        
                     } else {
+                        
                         Circle()
-                            .fill(Color.gray)
-                            .shadow(color: Color.black.opacity(0.4), radius: 2, x: 2, y: 2)
-                            .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
+                            .fill(Color("GradientLight"))
+                            .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                            .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                             
                     }
                 }
@@ -304,7 +363,94 @@ struct NeumorphicButtonStyle: ButtonStyle {
     }
 }
 
+struct NeumorphicButtonStyle2: ButtonStyle {
+    
+    func makeBody(configuration: Configuration) -> some View {
+        
+        configuration.label
+            .frame(width: 50, height: 50)
+            .background(
+                Group {
+                    if configuration.isPressed {
+                        
+                        Circle()
+                            .fill(Color("GradientDark").opacity(0.8))
+                            .overlay(
+                                Circle()
+                                    .stroke(Color("GradientDark"), lineWidth: 2)
+                            )
+                            .shadow(color: Color.black.opacity(0.2), radius: 2, x: 3, y: 3)
+                            .shadow(color: Color.gray.opacity(0.5), radius: 1, x: -1, y: -1)
+                        
+                    } else {
+                        
+                        Circle()
+                            .fill(Color("GradientLight").opacity(0.8))
+                            .shadow(color: Color.black.opacity(0.4), radius: 1, x: 2, y: 2)
+                            .shadow(color: Color("LightGray").opacity(0.4), radius: 1, x: -1, y: -1)
+                            
+                    }
+                }
+            )
+            .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
+            
+    }
+}
 
+struct NeumorphicRectangleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(10)
+            .background(
+                Group {
+                    if configuration.isPressed {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color("GradientDark").opacity(0.8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color("GradientDark"), lineWidth: 1)
+                                    .shadow(color: Color.black.opacity(0.6), radius: 2, x: 2, y: 2)
+                                    .shadow(color: Color.white.opacity(0.4), radius: 2, x: -2, y: -2)
+                            )
+                    } else {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color("GradientLight"))
+                            .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                            .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
+                    }
+                }
+            )
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+    }
+}
+
+struct NeumorphicRectangleButtonStyle2: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(10)
+            .background(
+                Group {
+                    if configuration.isPressed {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.gray.opacity(0.8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color("GradientDark"), lineWidth: 1)
+                                    .shadow(color: Color.black.opacity(0.6), radius: 2, x: 2, y: 2)
+                                    .shadow(color: Color.white.opacity(0.4), radius: 2, x: -2, y: -2)
+                            )
+                            //.padding(1)
+                    } else {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color("LightGray"))
+                            .shadow(color: Color.black.opacity(0.6), radius: 2, x: 2, y: 2)
+                            .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
+                    }
+                }
+            )
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+    }
+}
 
 struct ProfileTabView_Previews: PreviewProvider {
     static var previews: some View {

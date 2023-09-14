@@ -80,9 +80,10 @@ struct ProfileSettingsView: View {
                 NavigationLink(destination: ChangeUsernameView()) {
                     Text("Change Username")
                 }
-                NavigationLink(destination: ResetPasswordView()) {
-                    Text("Reset Password")
-                }
+                
+                //NavigationLink(destination: ResetPasswordView()) {
+                    //Text("Reset Password")
+                //}
                 
                 Button(action: {
                     
@@ -130,11 +131,11 @@ struct ChangeUsernameView: View {
     }
 }
 
-struct ResetPasswordView: View {
-    var body: some View {
-        Text("Reset Password View")
-    }
-}
+//struct ResetPasswordView: View {
+  //  var body: some View {
+   //     Text("Reset Password View")
+   // }
+//}
 
 struct ProfileSettingsView_Previews: PreviewProvider {
     static var previews: some View {

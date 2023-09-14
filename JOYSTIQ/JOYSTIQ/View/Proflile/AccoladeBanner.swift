@@ -74,7 +74,7 @@ struct AccoladeBanner: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("LightGray"))
                         
                     case "game_only":
                         
@@ -82,7 +82,7 @@ struct AccoladeBanner: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("LightGray"))
     
                     
                     default:
@@ -91,19 +91,19 @@ struct AccoladeBanner: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("LightGray"))
                         
                     } // END Switch determining button type
                     
                 }) //END Button for accolade filter
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                    .fill(.gray)
-                    .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1)
-                    
-                )
-                .padding(.leading, 20)
-                
+                //.background(
+                 //   RoundedRectangle(cornerRadius: 15)
+                 //   .fill(.gray)
+                  //  .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1)
+                 
+               // )
+                .padding(.leading, 10)
+                .buttonStyle(NeumorphicRectangleButtonStyle())
                 
                 
                 

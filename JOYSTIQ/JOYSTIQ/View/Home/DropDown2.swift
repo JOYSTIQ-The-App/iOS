@@ -191,6 +191,7 @@ struct DropDown2: View {
                         .cornerRadius(10)
                 })
                 .contentShape(Rectangle()) // This makes the entire frame tappable
+                
                 .padding(.bottom, 20)
                 
                 
@@ -209,7 +210,9 @@ struct DropDown2: View {
             
         } //END main vstack with modal view and triangle
         .padding(.top, UIScreen.main.bounds.height * 0.055)
-        .shadow(color: Color.green.opacity(0.25), radius: 35, x: 0, y: 35)
+        //.shadow(color: Color.green.opacity(0.25), radius: 35, x: 0, y: 35)
+        .shadow(color: Color.green.opacity(0.5), radius: 5, x: 2, y: 2)
+        .shadow(color: Color.green.opacity(0.5), radius: 5, x: -2, y: -2)
         
         
         
