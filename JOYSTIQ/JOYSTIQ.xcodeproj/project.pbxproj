@@ -61,11 +61,15 @@
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
+		9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */; };
+		9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */; };
+		9989F6942AB3B26500A1B6F2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6932AB3B26500A1B6F2 /* ProfileView.swift */; };
+		9989F6962AB3B28700A1B6F2 /* WardrobeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6952AB3B28700A1B6F2 /* WardrobeView2.swift */; };
+		9989F6982AB3C5C100A1B6F2 /* WardrobeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */; };
 		999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */; };
 		99A5C14F2AAE67B000CDD4AD /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C14E2AAE67B000CDD4AD /* SceneKitView.swift */; };
 		99A5C1512AAE68BA00CDD4AD /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1502AAE68BA00CDD4AD /* RoundedCorner.swift */; };
 		99A5C1532AAE6DD300CDD4AD /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */; };
-		99A5C1562AAE720100CDD4AD /* WardrobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1552AAE720100CDD4AD /* WardrobeView.swift */; };
 		99A5C1582AAE962500CDD4AD /* DefaultShirt.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 99A5C1572AAE962500CDD4AD /* DefaultShirt.usdc */; };
 		99B243762AAFA572004427A7 /* RedDefaultShirt.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 99B243752AAFA572004427A7 /* RedDefaultShirt.usdc */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
@@ -127,11 +131,15 @@
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
+		9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicButtons.swift; sourceTree = "<group>"; };
+		9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
+		9989F6932AB3B26500A1B6F2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		9989F6952AB3B28700A1B6F2 /* WardrobeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView2.swift; sourceTree = "<group>"; };
+		9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView3.swift; sourceTree = "<group>"; };
 		999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTESTS.swift; sourceTree = "<group>"; };
 		99A5C14E2AAE67B000CDD4AD /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 		99A5C1502AAE68BA00CDD4AD /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
-		99A5C1552AAE720100CDD4AD /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
 		99A5C1572AAE962500CDD4AD /* DefaultShirt.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = DefaultShirt.usdc; path = ../../DefaultShirt.usdc; sourceTree = "<group>"; };
 		99B243742AAFA171004427A7 /* DefaultShirt.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = DefaultShirt.usdc; sourceTree = "<group>"; };
 		99B243752AAFA572004427A7 /* RedDefaultShirt.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = RedDefaultShirt.usdc; path = ../../RedDefaultShirt.usdc; sourceTree = "<group>"; };
@@ -251,12 +259,13 @@
 		9941DC442A93F6F000215948 /* Proflile */ = {
 			isa = PBXGroup;
 			children = (
+				9989F6902AB3B12E00A1B6F2 /* TestDELETEME */,
 				9941DC462A93F6F000215948 /* ProfileTabView.swift */,
 				9941DC472A93F6F000215948 /* AccoladeBanner.swift */,
 				9941DC452A93F6F000215948 /* SceneKitExtras.swift */,
 				99A5C14E2AAE67B000CDD4AD /* SceneKitView.swift */,
 				99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */,
-				99A5C1552AAE720100CDD4AD /* WardrobeView.swift */,
+				9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */,
 			);
 			path = Proflile;
 			sourceTree = "<group>";
@@ -333,6 +342,7 @@
 				99A5C1502AAE68BA00CDD4AD /* RoundedCorner.swift */,
 				995085E42A95A73D003996B6 /* TextColoring.swift */,
 				9941DC5C2A93F6F000215948 /* Triangle.swift */,
+				9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -347,6 +357,17 @@
 				990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		9989F6902AB3B12E00A1B6F2 /* TestDELETEME */ = {
+			isa = PBXGroup;
+			children = (
+				9989F6932AB3B26500A1B6F2 /* ProfileView.swift */,
+				9989F6952AB3B28700A1B6F2 /* WardrobeView2.swift */,
+				9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */,
+			);
+			name = TestDELETEME;
+			path = ../Extras/TestDELETEME;
 			sourceTree = "<group>";
 		};
 		99B243732AAFA169004427A7 /* AvatarStuff */ = {
@@ -485,6 +506,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
+				9989F6962AB3B28700A1B6F2 /* WardrobeView2.swift in Sources */,
+				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
 				995085E22A95A6AE003996B6 /* AuthService.swift in Sources */,
 				99A5C14F2AAE67B000CDD4AD /* SceneKitView.swift in Sources */,
 				999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */,
@@ -496,6 +519,7 @@
 				9941DC6D2A93F6F000215948 /* DiscPostView.swift in Sources */,
 				9941DC622A93F6F000215948 /* UserBannerPostView.swift in Sources */,
 				9941DC652A93F6F000215948 /* LeaderboardBanners.swift in Sources */,
+				9989F6942AB3B26500A1B6F2 /* ProfileView.swift in Sources */,
 				990D3D992AA2930800E8488E /* ForgotPasswordView.swift in Sources */,
 				9941DC672A93F6F000215948 /* SceneKitExtras.swift in Sources */,
 				9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */,
@@ -519,11 +543,12 @@
 				9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
-				99A5C1562AAE720100CDD4AD /* WardrobeView.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				993F862A2AB2966C00919BA2 /* LeaderboardBottom.swift in Sources */,
+				9989F6982AB3C5C100A1B6F2 /* WardrobeView3.swift in Sources */,
 				9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,
+				9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */,
 				9941DC6E2A93F6F000215948 /* NewClipPostView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

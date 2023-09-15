@@ -31,6 +31,7 @@ struct AccoladeBanner: View {
                 Image("AccBannerAtt2")
                     .resizable()
                     .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.height * 0.07)
+                    .shadow(color: Color.black, radius: 3, x: 4, y: 4)
                 
             } //end Hstack for space and image
             

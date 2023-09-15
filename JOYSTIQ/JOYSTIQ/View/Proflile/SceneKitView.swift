@@ -10,10 +10,16 @@ import SceneKit
 
 struct SceneKitView: UIViewRepresentable {
     
+    @State private var profileImage: UIImage?
+    
     @State private var nodeToRemoveName: String? = nil
     @State private var nodeToAddName: String? = nil
     
+    
+    
+    
     let scene: SCNScene
+    
 
     init(named name: String) {
         
@@ -25,7 +31,9 @@ struct SceneKitView: UIViewRepresentable {
         
         //configureCamera()
       
+        
         //create light nodes
+        
         createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(-Float.pi / 2, 0, 0))
         
         createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(Float.pi / 2, 0, 0))
@@ -39,6 +47,8 @@ struct SceneKitView: UIViewRepresentable {
   
      
     }
+    
+    
     
     private static func loadScene(named name: String) -> SCNScene? {
         
@@ -55,20 +65,20 @@ struct SceneKitView: UIViewRepresentable {
         
         return scene
     }
-    
 
     func makeUIView(context: Context) -> SCNView {
+        
         let scnView = SCNView()
     
         scnView.scene = scene
         scnView.allowsCameraControl = true
-        scnView.backgroundColor = UIColor.white
-        
+        scnView.backgroundColor = UIColor.clear
         
         return scnView
+
+        
     }
-    
-    
+
     
     //function for removing nodes
     func removeNode(named name: String) {
@@ -93,10 +103,32 @@ struct SceneKitView: UIViewRepresentable {
         scene.rootNode.addChildNode(newNode)
         
     }
+    
 
-    
-    
-    
+    //function for adding nodes
+    func takeSnapshot() -> UIImage {
+        
+        let size = CGSize(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.5)
+        
+        let scnView = SCNView(frame: CGRect(origin: .zero, size: size))
+        scnView.scene = scene
+        
+        scnView.backgroundColor = UIColor.clear
+        scene.background.contents = UIColor.clear
+        scene.lightingEnvironment.contents = UIColor.clear
+        scnView.isOpaque = true
+        
+        
+        // Perform a snapshot
+        let snapshot = scnView.snapshot()
+
+            
+        return snapshot
+        
+    }
+
+
+
     
     func updateUIView(_ scnView: SCNView, context: Context) {
         // Update the SCNView if needed
@@ -132,8 +164,8 @@ struct SceneKitView: UIViewRepresentable {
     }
    
 
-
-    /* WORKING CAMERA FUNC - FACES TOP PERSPECTIVE
+    
+    /*
     private func configureCamera() {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -152,6 +184,7 @@ struct SceneKitView: UIViewRepresentable {
 
 
 }
+
 
 struct SceneKitView_Previews: PreviewProvider {
     static var previews: some View {

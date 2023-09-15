@@ -2,9 +2,8 @@
 //  WardrobeView.swift
 //  JOYSTIQ
 //
-//  Created by Connor Sottosanti on 9/14/23.
+//  Created by Connor Sottosanti on 9/10/23.
 //
-
 
 import SwiftUI
 
@@ -15,15 +14,12 @@ struct WardrobeView: View {
     //@Binding var sceneView: SceneKitView
     @State private var sceneKitView = SceneKitView(named: "skintone6")
     
-    //vars for avatar image modifications
-    @Binding var profileImage: UIImage?
-
  
     var body: some View {
         
         VStack (spacing: 0) { //Main VStack for sceneKitView and wardrobe controls
             
-            Spacer()
+            
             
             Divider()
                 .frame(height: 5)
@@ -36,10 +32,7 @@ struct WardrobeView: View {
             Divider()
                 .frame(height: 5)
                 .background(Color.gray)
-            
-            
 
-   
             
             
             
@@ -189,8 +182,7 @@ struct WardrobeView: View {
                         //Confirm code button
                         Button(action: {
                             
-                            self.profileImage = sceneKitView.takeSnapshot()
-               
+                            //self.image = sceneKitView.takeSnapshot()
                             
                         }, label: {
                             
@@ -227,7 +219,7 @@ struct WardrobeView: View {
         } //end Main VStack for scenekitview and wardrobe controls
         .edgesIgnoringSafeArea(.all)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .background(Color.clear)
+        .background(Color("GradientDark"))
         .onAppear {
             hideNavBar = true
         }
@@ -237,6 +229,8 @@ struct WardrobeView: View {
 }
 
 struct ShirtColorSwitcherView: View {
+    
+    
     
     @Binding var sceneView: SceneKitView
     
@@ -319,8 +313,7 @@ struct ShirtColorSwitcherView: View {
 
 struct WardrobeView_Previews: PreviewProvider {
     static var previews: some View {
-        WardrobeView(hideNavBar: .constant(true), profileImage: .constant(UIImage(systemName: "person.circle")!))
-        //profileImage: .constant(UIImage(systemName: "person.circle")!)
+        WardrobeView(hideNavBar: .constant(true))
     }
 }
 
