@@ -64,6 +64,8 @@
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
 		99F590E62AB223FE00AD5F8C /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */; };
+		99F590EB2AB230AB00AD5F8C /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */; };
+		99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B7982AB119AC00733B73 /* S3Service.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -124,6 +126,8 @@
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
 		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
+		99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
+		99F590ED2AB627F800AD5F8C /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +181,7 @@
 				995085E02A95A690003996B6 /* Services */,
 				995085E32A95A72B003996B6 /* Extensions */,
 				9941DC372A93F6F000215948 /* View */,
+				99F590E92AB2309000AD5F8C /* Util */,
 				9941DC232A93F02300215948 /* Assets.xcassets */,
 				9941DC332A93F60B00215948 /* LaunchScreen.storyboard */,
 				9941DC252A93F02300215948 /* Preview Content */,
@@ -357,6 +362,15 @@
 			path = NotificationPanel;
 			sourceTree = "<group>";
 		};
+		99F590E92AB2309000AD5F8C /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */,
+				99F590ED2AB627F800AD5F8C /* AVPlayerView.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -457,6 +471,7 @@
 				9941DC722A93F6F000215948 /* CommentButton.swift in Sources */,
 				996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */,
 				9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */,
+				99F590EB2AB230AB00AD5F8C /* MediaPicker.swift in Sources */,
 				9941DC632A93F6F000215948 /* InteractionButtonMenu.swift in Sources */,
 				9941DC6D2A93F6F000215948 /* DiscPostView.swift in Sources */,
 				9941DC622A93F6F000215948 /* UserBannerPostView.swift in Sources */,
@@ -485,6 +500,7 @@
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */,
+				99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,
 				9941DC6E2A93F6F000215948 /* NewClipPostView.swift in Sources */,
 			);

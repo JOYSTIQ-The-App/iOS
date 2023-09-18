@@ -1,171 +1,162 @@
 //
-//  ContentPostView.swift
+//  NewPostView.swift
 //  JOYSTIQ
 //
-//  Created by Connor Sottosanti on 4/28/23.
+//  Created by Stephen Sottosanti on 9/13/23.
 //
 
+import Foundation
 import SwiftUI
+import AVKit
+import AVFoundation
+
 
 struct CreatePostView: View {
+    @Binding var showing: Bool
+
+    @State private var title = ""
+    @State private var game = ""
+    @State private var text = ""
+    @State private var selectedImage: UIImage?
+    @State private var selectedVideoURL: URL?
+    @State private var isMediaPickerShown = false
+    @State private var uploadInProgress = false
+    @State private var uploadCompleted = false
     
-    @Binding var isPresented: Bool
-    @State private var selectedPostType = 0
-    @State private var videoURL: URL?
-    
+    @ObservedObject var s3Service = S3Service()
 
     var body: some View {
-        
-        VStack {
-            
-            VStack(spacing: 1) { //Vstack for x button and create post text
+        NavigationView {
+            Form {
+                TextField("Title", text: $title)
+                TextField("Game", text: $game)
                 
-                HStack { //Hstack for x button
-                    
-                    Button(action: {
-                        isPresented = false
-                        // Dismiss the pop-up window
-                        //UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
-                        
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .padding()
-                        
+                ZStack(alignment: .topLeading) {
+                    TextEditor(text: $text)
+                        .frame(height: 100)
+                        .border(Color.gray, width: 1)
+                    if text.isEmpty {
+                        Text("Questing, grinding, or chilling? Share your journey.")
+                            .foregroundColor(.gray)
+                            .padding(.leading, 5)
+                            .padding(.top, 8)
                     }
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        isPresented = false                        // Dismiss the pop-up window
-                        //UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
-                        
-                        //POST THE VIDEO AND BRING THEM TO HOME
-                        
-                    }) {
-                        ZStack {
-                            Rectangle()
-                                .frame(width: 95, height: 45)
-                                .foregroundColor(.green)
-                                .cornerRadius(10)
-                                .padding(.trailing, 5)
-                            
-                            
-                            Image(systemName: "chevron.right.circle")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(.black)
-                                .offset(x: 25)
-                            
-                            
-                            Text("Post")
-                                .foregroundColor(.black)
-                                .font(.system(size: 20))
-                                .fontWeight(.medium)
-                                .offset(x: -20)
-                            
-                            
-                            
-                        } //END ZSTACK with post button
-                        
-                        
+                }
+                
+                if selectedImage != nil {
+                    VStack {
+                        Text("Image selected")
+                        Button("Delete Image") {
+                            selectedImage = nil
+                        }
+                        .foregroundColor(.red)
                     }
-                    
-                                  
-                    
-                }//END Hstack with create post and x button
-                .padding(.top, 10)
-                .padding(.horizontal, 5)
+                }
                 
-                Text("Create a post!")
-                    .padding(.top, 20)
-                    .font(.system(size: 40))
-                    .foregroundColor(.green)
-                
-            } //END VSTACK for x button and create post text
-                  
-            HStack(spacing: 0) { //HStack for buttons to switch post type
-                            
-                Button(action: {
-                    selectedPostType = 0
-                }, label: {
-                    
-                    Text("Clip")
-                        .foregroundColor(selectedPostType == 0 ? .black : .black)
-                        .font(.system(size: 20))
-                        .frame(width: UIScreen.main.bounds.width / 2, height: 50)
-                        .overlay(Rectangle().frame(width: nil, height: 5, alignment: .bottom).foregroundColor(selectedPostType == 0 ? Color.green : Color("LightGray")), alignment: .bottom)
-   
-                })
-                .background(Color("LightGray"))
-                
-                //Rectangle()
-                //  .foregroundColor(.green)
-                //.frame(width: 5, height: 70)
-                
-                
-                Button(action: {
-                    selectedPostType = 1
-                }, label: {
-                    
-                    Text("Discussion")
-                        .foregroundColor(selectedPostType == 1 ? .black : .black)
-                        .font(.system(size: 20))
-                        .frame(width: UIScreen.main.bounds.width / 2, height: 50)
-                        .overlay(Rectangle().frame(width: nil, height: 5, alignment: .bottom).foregroundColor(selectedPostType == 1 ? Color.green : Color("LightGray")), alignment: .bottom)
-                       
-                })
-                     
-                
-            } //END Hstack for buttons for post type
-            .background(Color("LightGray"))
-            .border(Color.gray, width: 1)
-            
-            if selectedPostType == 0 {
-                NewClipPostView()
-            } else if selectedPostType == 1 {
-                NewDiscPostView()
+                if selectedVideoURL != nil {
+                    VStack {
+                        Text("Video selected")
+                        Button("Delete Video") {
+                            selectedVideoURL = nil
+                        }
+                        .foregroundColor(.red)
+                    }
+                }
+
+                Button("Select Media") {
+                    isMediaPickerShown = true
+                }
+                .sheet(isPresented: $isMediaPickerShown) {
+                    MediaPicker(selectedImage: $selectedImage, selectedVideoURL: $selectedVideoURL, isPickerShown: $isMediaPickerShown, sourceType: .photoLibrary)
+                }
+
+                Button("Submit") {
+                    uploadContent()
+                }
+                .disabled(uploadInProgress)
             }
-        
-           
-           
-           
+            .navigationTitle("New Post")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        // Dismiss the sheet:
+                        showing = false
+                    }
+                }
+            }
+        }
+    }
+    
+/*
+    func getSize(of image: UIImage) -> String {
+        guard let data = image.jpegData(compressionQuality: 1.0) else {
+            return "Unknown size"
+        }
+        let size = Double(data.count) / (1024 * 1024) // MB
+        return String(format: "%.2f MB", size)
+    }
+    
+    func getSize(of url: URL) -> String {
+        do {
+            let fileAttributes = try FileManager.default.attributesOfItem(atPath: url.path)
+            if let fileSizeNumber = fileAttributes[.size] as? NSNumber {
+                let fileSize = fileSizeNumber.doubleValue
+                let sizeInMB = fileSize / (1024 * 1024)
+                return String(format: "%.2f MB", sizeInMB)
+            }
+        } catch {
+            print("Error accessing file size: \(error)")
+        }
+        return "Unknown size"
+    }
+*/
+    
+    func uploadContent() {
+        if let image = selectedImage {
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+                print("Failed to convert UIImage to Data")
+                return
+            }
+            
+            uploadData(imageData)
+        } else if let videoURL = selectedVideoURL {
+            do {
+                let videoData = try Data(contentsOf: videoURL)
+                uploadData(videoData)
+            } catch {
+                print("Error reading video data: \(error)")
+            }
+        } else {
+            print("No media selected for upload.")
+        }
+    }
 
-           /*
-           Button(action: {
-               // Show a video picker to select a video from the user's library
-               /*
-               let picker = UIImagePickerController()
-               picker.sourceType = .savedPhotosAlbum
-               picker.mediaTypes = [kUTTypeMovie as String]
-               picker.allowsEditing = true
-               picker.delegate = self
-               UIApplication.shared.windows.first?.rootViewController?.present(picker, animated: true, completion: nil)
-                */
-           }) {
-               Text("Select Video")
-           }
+    func uploadData(_ data: Data) {
+        uploadInProgress = true
 
-            */
-           
+        Task {
+            do {
+                let key = try await s3Service.uploadData(data)
+                print("Uploaded successfully with key: \(key)")
+            } catch {
+                print("Error uploading: \(error)")
+            }
+            
+            uploadInProgress = false
+            showing = false  // Dismiss the sheet here
+        }
+    }
 
-           Spacer()
-
-           
-       } //END Main VStack
-       .background(Color("Black1"))
-   }
 }
 
 
-/*
-struct ContentPostView_Previews: PreviewProvider {
-    
-    @State static var showScreenForever = true
-    
+
+
+struct CreateView_Previews: PreviewProvider {
+    @State static private var isPresented = true
+
     static var previews: some View {
-        CreatePostView(isPresented: $showScreenForever)
+        CreatePostView(showing: $isPresented)
     }
 }
-*/
+
