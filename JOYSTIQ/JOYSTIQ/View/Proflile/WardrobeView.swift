@@ -7,40 +7,97 @@
 
 
 import SwiftUI
+import SceneKit
 
 struct WardrobeView: View {
     
     @Binding var hideNavBar: Bool
+
+    @Binding var avatarSnapshot: UIImage?
+    @Binding var enviroInt: Int
     
-    //@Binding var sceneView: SceneKitView
-    @State private var sceneKitView = SceneKitView(named: "skintone6")
+    @State private var sceneKitView = SceneKitView7(named: "CamTest6")
     
-    //vars for avatar image modifications
-    @Binding var profileImage: UIImage?
+    
+    //vars to controll cosmetics
+    //private var currentShirt = "Shirt"
 
  
     var body: some View {
         
         VStack (spacing: 0) { //Main VStack for sceneKitView and wardrobe controls
             
-            Spacer()
+            //Spacer()
             
             Divider()
                 .frame(height: 5)
                 .background(Color.gray)
                    
+            
             sceneKitView
-                .frame(height: UIScreen.main.bounds.height * 0.5)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.6)
             
             
             Divider()
                 .frame(height: 5)
                 .background(Color.gray)
             
-            
+            /*
+            VStack(spacing: 10) { //for buttons
+                
+                Button(action: {
+                    // Remove the previously added node from the scene
+                    
+                    avatarSnapshot = sceneKitView.takeTheSnapshot()
+                    
+                    
+                }) {
+                    Text("Save")
+                }
+                
+                Button(action: {
+                    // Remove the previously added node from the scene
+                    
+                    sceneKitView.removeaNode(named: "Shirt")
+                    
+                    
+                }) {
+                    Text("Remove Shirt")
+                }
+                
+                Button(action: {
+                    // Remove the previously added node from the scene
+                    
+                    sceneKitView.addaNode(named: "RedShirt")
+                    
+                    
+                }) {
+                    Text("Add Red Shirt")
+                }
+                
+                
+                Button(action: {
+                    // Remove the previously added node from the scene
+                    
+                    sceneKitView.addaNode(named: "AnhHair")
+                    
+                    
+                }) {
+                    Text("Add Hair")
+                }
+                
 
-   
+                
+                Button("Environment change") {
+                    enviroInt = (enviroInt == 0) ? 1 : 0
+                }
+                
+            } //end VStack for buttons
+            */
             
+            
+            
+   
             
             
             NavigationView {
@@ -50,7 +107,7 @@ struct WardrobeView: View {
                     
                     GridRow { //start gridrow1
                         
-                        NavigationLink(destination: ShirtColorSwitcherView(sceneView: $sceneKitView)) { //start navlink
+                        NavigationLink(destination: ShirtColorSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
                             
                             ZStack { //for torso button
 
@@ -186,10 +243,10 @@ struct WardrobeView: View {
                         
 
                         
-                        //Confirm code button
+                        //Save button
                         Button(action: {
                             
-                            self.profileImage = sceneKitView.takeSnapshot()
+                            avatarSnapshot = sceneKitView.takeTheSnapshot()
                
                             
                         }, label: {
@@ -221,16 +278,17 @@ struct WardrobeView: View {
             } //end navigation view
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
             .accentColor(Color.white.opacity(0.8))
-            
+             
         
             
         } //end Main VStack for scenekitview and wardrobe controls
-        .edgesIgnoringSafeArea(.all)
+        //.edgesIgnoringSafeArea(.all)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background(Color.clear)
         .onAppear {
             hideNavBar = true
         }
+        
         
     }
     
@@ -238,7 +296,7 @@ struct WardrobeView: View {
 
 struct ShirtColorSwitcherView: View {
     
-    @Binding var sceneView: SceneKitView
+    @Binding var sceneKitView: SceneKitView7
     
     var body: some View {
         
@@ -261,7 +319,7 @@ struct ShirtColorSwitcherView: View {
                     
                 }
                 .onTapGesture {
-                    sceneView.removeNode(named: "Shirt")
+                    sceneKitView.removeaNode(named: "Shirt")
 
                 }
                 
@@ -280,7 +338,7 @@ struct ShirtColorSwitcherView: View {
                     
                 }
                 .onTapGesture {
-                    sceneView.addNode(named: "RedDefaultShirt")
+                    sceneKitView.addaNode(named: "RedShirt")
                 }
                 
                 
@@ -299,7 +357,7 @@ struct ShirtColorSwitcherView: View {
                     
                 }
                 .onTapGesture {
-                    sceneView.addNode(named: "DefaultShirt")
+                    //sceneView.addNode(named: "DefaultShirt")
                 }
                 
                 
@@ -319,7 +377,7 @@ struct ShirtColorSwitcherView: View {
 
 struct WardrobeView_Previews: PreviewProvider {
     static var previews: some View {
-        WardrobeView(hideNavBar: .constant(true), profileImage: .constant(UIImage(systemName: "person.circle")!))
+        WardrobeView(hideNavBar: .constant(true), avatarSnapshot: .constant(UIImage(systemName: "person.circle")!), enviroInt: .constant(1))
         //profileImage: .constant(UIImage(systemName: "person.circle")!)
     }
 }

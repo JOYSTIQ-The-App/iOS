@@ -14,10 +14,12 @@ struct WardrobeView2: View {
 
     
     //@Binding var sceneView: SceneKitView
-    @State private var sceneKitView = SceneKitView(named: "skintone6")
+    @State private var sceneKitView = SceneKitView(named: "sword")
     
     //vars for avatar image modifications
     @Binding var profileImage: UIImage?
+    
+    @State private var testImage: UIImage? = nil
 
  
     var body: some View {
@@ -42,9 +44,20 @@ struct WardrobeView2: View {
                 
                 Image(uiImage: image)
                     .resizable()
-                    .background(.red)
-                    .foregroundColor(.red)
-                    .accentColor(.red)
+                    .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.width * 0.5)
+                
+                
+            }
+            else {
+                Text("No image selected")
+                    .frame(width: 100, height: 50)
+            }
+            
+            //avatar image
+            if let image = testImage {
+                
+                Image(uiImage: image)
+                    .resizable()
                     .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.width * 0.5)
                 
                 
@@ -59,6 +72,7 @@ struct WardrobeView2: View {
             Button(action: {
                 
                 self.profileImage = sceneKitView.takeSnapshot()
+                testImage = sceneKitView.takeSnapshot()
    
                 
             }, label: {

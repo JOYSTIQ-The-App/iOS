@@ -20,9 +20,6 @@ struct ProfileView: View {
                 if let image = profileImage {
                     Image(uiImage: image)
                         .resizable()
-                        .background(.red)
-                        .foregroundColor(.red)
-                        .accentColor(.red)
                         .frame(width: 150, height: 150)
                     
                 } else {

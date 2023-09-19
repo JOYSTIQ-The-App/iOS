@@ -14,7 +14,9 @@ struct ProfileTabView: View {
     
     @Binding var hideNavBar: Bool
 
-    @State private var profileImage: UIImage? // State to hold the avatar image
+    
+    @State private var avatarSnapshot: UIImage? // State to hold the avatar image
+    @State private var enviroInt: Int = 0 // State to hold the environment int
     
     var body: some View {
         
@@ -30,12 +32,14 @@ struct ProfileTabView: View {
                         ZStack { //ZStack for Z[environment / self options] and avatar image
                             
                             //avatar image
-                            if let image = profileImage {
+                            if let image = avatarSnapshot {
                                 
                                 Image(uiImage: image)
                                     .resizable()
-                                    .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.width * 0.7)
-                                    .padding(.top, 20)
+                                    //.frame(width: UIScreen.main.bounds.width * 0.48, height: UIScreen.main.bounds.height * 0.3)
+                                    .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.height * 0.28)
+                                    .scaleEffect(1.5)
+                                    .padding(.top, UIScreen.main.bounds.height * 0.05)
                                     .zIndex(1)
                                 
                                 
@@ -49,7 +53,7 @@ struct ProfileTabView: View {
                             ZStack(alignment: .bottom) { //for avatar background and own profile settings
                                 
                                 
-                                Image("default3")
+                                Image(enviroInt == 1 ? "Bedroom" : "default3")
                                     .resizable()
                                     .frame(width: UIScreen.main.bounds.width, height: 350)
                                     .edgesIgnoringSafeArea(.top)
@@ -63,7 +67,7 @@ struct ProfileTabView: View {
                                 HStack { //for own profile options
                                     
                                     
-                                    NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, profileImage: $profileImage).navigationBarTitleDisplayMode(.inline)
+                                    NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt).navigationBarTitleDisplayMode(.inline)
                                                    
                                        //custom nav title view with image
                                         .toolbar {

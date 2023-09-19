@@ -241,6 +241,7 @@ struct AccoladeBanner: View {
                                     .cornerRadius(10)
                                     .padding(.top, UIScreen.main.bounds.width * 0.01)
                                     .padding(.trailing, UIScreen.main.bounds.width * 0.103)
+                                    
                                 
                             }
                             
@@ -255,6 +256,7 @@ struct AccoladeBanner: View {
                 }//END Scroll view for accolades
                 //.padding(.leading, UIScreen.main.bounds.width * 0.068)
                 .frame(width: UIScreen.main.bounds.width * 0.78)
+                .padding(.top, UIScreen.main.bounds.height * 0.008)
                 
             } //end HStack for button switcher and scrollview
       
