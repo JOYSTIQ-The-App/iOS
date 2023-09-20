@@ -19,7 +19,7 @@ struct DiscPostView: View {
         VStack(spacing: 0) {
            
             // Banner
-            UserBannerPostView(intVal: intValue)
+//            UserBannerPostView(userService: userService(), intVal: intValue)
 
             
             // Caption

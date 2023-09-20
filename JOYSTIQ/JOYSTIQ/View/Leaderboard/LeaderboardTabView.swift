@@ -8,7 +8,8 @@
 import SwiftUI
 import AVKit
 
-struct LeaderboardTabView: View {
+struct LeaderboardTabView<UserServiceType: UserServiceProtocol>: View {
+    var userService: UserServiceType
     
     @State private var showDropDown = false
     
@@ -39,10 +40,10 @@ struct LeaderboardTabView: View {
                                     .padding(.bottom, 5)
                                
                                 //needs pfp, username, game name
-                                UserBannerPostView(intVal: i)
+                                UserBannerPostView(userService: userService, intVal: 1)
                                         
                                 //needs content and caption
-                                PostContentView(intVal: i)
+//                                PostContentView(intVal: i)
                                 
                                 //needs [like count, isLiked boolean, comment count, comments]
                                 //possible UPID for report
@@ -84,7 +85,7 @@ struct LeaderboardTabView: View {
                         }
                     
                     
-                    DropDown2(showDropDown: $showDropDown)
+                    DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
                     
                 } //END If showdropdown
                 // --------------------END Drop Down View-------------------
@@ -104,6 +105,6 @@ struct LeaderboardTabView: View {
 
 struct LeaderboardTabView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardTabView(showCommentSection: .constant(false))
+        LeaderboardTabView(userService: MockUserService(), showCommentSection: .constant(false))
     }
 }

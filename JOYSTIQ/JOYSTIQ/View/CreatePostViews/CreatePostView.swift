@@ -11,7 +11,11 @@ import AVKit
 import AVFoundation
 
 
-struct CreatePostView: View {
+struct CreatePostView<AuthServiceType: AuthServiceProtocol & ObservableObject, PostServiceType: PostServiceProtocol, S3ServiceType: S3ServiceProtocol & ObservableObject>: View {
+    @ObservedObject var authService: AuthServiceType
+    var postService: PostServiceType
+    @ObservedObject var s3Service: S3ServiceType
+    
     @Binding var isPresented: Bool
 
     @State private var title = ""
@@ -22,10 +26,6 @@ struct CreatePostView: View {
     @State private var isMediaPickerShown = false
     @State private var uploadInProgress = false
     @State private var uploadCompleted = false
-    
-    let apiService = APIService()
-    @ObservedObject var s3Service = S3Service()
-    @EnvironmentObject var authService: AuthService
 
     var body: some View {
         NavigationView {
@@ -167,8 +167,8 @@ struct CreatePostView: View {
 
         // Fetch the user's email and create the post
         Task {
-            if let email = try? await AuthService().fetchUserEmail() {
-                apiService.createPost(email: email, postData: postData) { result in
+            if let email = try? await authService.fetchUserEmail() {
+                postService.createPost(email: email, postData: postData) { result in
                     switch result {
                     case .success():
                         print("Post created successfully!")
@@ -193,7 +193,6 @@ struct CreateView_Previews: PreviewProvider {
     @State static private var isPresented = true
 
     static var previews: some View {
-        CreatePostView(isPresented: $isPresented)
+        CreatePostView(authService: MockAuthService(), postService: MockPostService(), s3Service: MockS3Service(), isPresented: $isPresented)
     }
 }
-

@@ -1,52 +1,20 @@
 //
-//  APIService.swift
+//  UserService.swift
 //  JOYSTIQ
 //
-//  Created by Stephen Sottosanti on 9/18/23.
+//  Created by Stephen Sottosanti on 9/20/23.
 //
 
 import Foundation
 
 
-class APIService {
+protocol UserServiceProtocol {
+    func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void)
+    func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void)
+}
+
+class UserService: UserServiceProtocol {
     let baseURL = "http://127.0.0.1:8080"
-    
-    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let postURL = URL(string: "\(baseURL)/handlers/create_post?email=\(email)") else {
-            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
-            return
-        }
-        
-        var request = URLRequest(url: postURL)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        do {
-            let jsonData = try JSONEncoder().encode(postData)
-            request.httpBody = jsonData
-        } catch {
-            completion(.failure(error))
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-                    let message = "Server returned status code: \(httpResponse.statusCode)"
-                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
-                    return
-                }
-                
-                completion(.success(()))
-            }
-        }
-        task.resume()
-    }
     
     func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void) {
         // Encode the email to ensure it's safe for URLs
@@ -126,6 +94,24 @@ class APIService {
         }
         task.resume()
     }
+}
 
+
+class MockUserService: UserServiceProtocol {
+    let baseURL = "http://127.0.0.1:8080"
     
+    func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void) {
+        // Mocked posts data
+        let mockPosts: [Post] = [
+            Post(id: 1, user_id: 1, s3_key: "s3key_user1_1", media: "none", title: "First Post by User1", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, created_at: "2023-09-19T19:58:06.499746Z"),
+            Post(id: 10, user_id: 5, s3_key: "s3key_user5_2", media: "none", title: "Second Post by User5", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, created_at: "2023-09-19T19:58:06.499746Z")
+        ]
+        
+        // Immediately call the completion with the mock data
+        completion(.success(mockPosts))
+    }
+    
+    func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void) {
+        completion(.success("Dev"))
+    }
 }

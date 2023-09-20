@@ -18,4 +18,6 @@ struct Post: Codable, Identifiable {
     var status: String
     var likes: Int
     var created_at: String
+    var updated_at: String?
+    var likes_count: Int?
 }

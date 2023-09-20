@@ -25,18 +25,18 @@ struct AppView: View {
             switch selectedTab {
                 
                 case 0:
-                    HomeTabView(showCommentSection: $showCommentSection)
+                    HomeTabView(authService: AuthService(), userService: UserService(), showCommentSection: $showCommentSection)
                         .disabled(showCommentSection)
                     
                 case 1:
-                    LeaderboardTabView(showCommentSection: $showCommentSection)
+                    LeaderboardTabView(userService: UserService(), showCommentSection: $showCommentSection)
                     .disabled(showCommentSection)
                 case 3:
                     ConnectTabView()
                 case 4:
                     ProfileTabView()
                 default:
-                    HomeTabView(showCommentSection: $showCommentSection).disabled(showCommentSection)
+                    HomeTabView(authService: AuthService(), userService: UserService(), showCommentSection: $showCommentSection).disabled(showCommentSection)
                 
             }
             
@@ -114,7 +114,7 @@ struct AppView: View {
                     
                 })
                 .sheet(isPresented: $showPostScreen) {
-                    CreatePostView(isPresented: $showPostScreen)
+                    CreatePostView(authService: AuthService(), postService: PostService(), s3Service: S3Service(), isPresented: $showPostScreen)
                 }
                 
                 

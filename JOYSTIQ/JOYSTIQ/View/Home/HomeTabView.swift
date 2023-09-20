@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct HomeTabView: View {
+struct HomeTabView<AuthServiceType: AuthServiceProtocol & ObservableObject, UserServiceType: UserServiceProtocol>: View {
+    @ObservedObject var authService: AuthServiceType
+    var userService: UserServiceType
     
-    let apiService = APIService()
     
-    @EnvironmentObject var authService: AuthService
     
     @State private var showDropDown = false
     
@@ -50,7 +50,7 @@ struct HomeTabView: View {
                                 // 1. Fetch the user's email
                                 if let email = try? await authService.fetchUserEmail() {
                                     // 2. Fetch the user feed using the retrieved email
-                                    apiService.getUserFeed(for: email) { result in
+                                    userService.getUserFeed(for: email) { result in
                                         switch result {
                                         case .success(let posts):
                                             print(posts)
@@ -77,7 +77,7 @@ struct HomeTabView: View {
                         LazyVStack(spacing: 0) {
                            
                             //needs pfp, username, game name
-                            UserBannerPostView(intVal: 1)
+                            UserBannerPostView(userService: userService, intVal: 1)
                                     
                             //needs content and caption
                             PostContentView(intVal: 1)
@@ -135,7 +135,7 @@ struct HomeTabView: View {
                        }
                    
                     
-                   DropDown2(showDropDown: $showDropDown)
+                    DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
                         
                     
                    
@@ -160,6 +160,6 @@ struct HomeTabView: View {
 
 struct HomeTabView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeTabView(showCommentSection: .constant(false))
+        HomeTabView(authService: MockAuthService(), userService: MockUserService(), showCommentSection: .constant(false))
     }
 }
