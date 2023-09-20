@@ -16,7 +16,7 @@ struct WardrobeView: View {
     @Binding var avatarSnapshot: UIImage?
     @Binding var enviroInt: Int
     
-    @State private var sceneKitView = SceneKitView7(named: "CamTest6")
+    @State private var sceneKitView = SceneKitView(named: "CamTest6")
     
     
     //vars to controll cosmetics
@@ -79,7 +79,7 @@ struct WardrobeView: View {
                 Button(action: {
                     // Remove the previously added node from the scene
                     
-                    sceneKitView.addaNode(named: "AnhHair")
+                    sceneKitView.addaNode(named: "elenahair")
                     
                     
                 }) {
@@ -296,7 +296,7 @@ struct WardrobeView: View {
 
 struct ShirtColorSwitcherView: View {
     
-    @Binding var sceneKitView: SceneKitView7
+    @Binding var sceneKitView: SceneKitView
     
     var body: some View {
         

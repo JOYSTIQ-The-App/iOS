@@ -8,7 +8,7 @@
 import SwiftUI
 import SceneKit
 
-struct SceneKitView7: UIViewRepresentable {
+struct SceneKitView: UIViewRepresentable {
     
     //@Binding var avatarSnapshot: UIImage?
     
@@ -30,7 +30,6 @@ struct SceneKitView7: UIViewRepresentable {
         //doesnt work
         self.scene.background.contents = UIColor.clear
 
-      
         
         //create light nodes
         createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(-Float.pi / 2, 0, 0))
@@ -177,7 +176,7 @@ struct SceneKitView7: UIViewRepresentable {
 struct ContentView7: View {
     
     @State private var avatarSnapshot: UIImage?
-    @State private var sceneKitView = SceneKitView7(named: "CamTest5")
+    @State private var sceneKitView = SceneKitView(named: "BodySkintTone")
 
     
     var body: some View {
