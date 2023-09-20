@@ -9,6 +9,10 @@ import SwiftUI
 
 struct HomeTabView: View {
     
+    let apiService = APIService()
+    
+    @EnvironmentObject var authService: AuthService
+    
     @State private var showDropDown = false
     
     // FROM INTERACTION BUTTON
@@ -27,6 +31,41 @@ struct HomeTabView: View {
                     
                     HeaderView(showDropDown: $showDropDown)
                     
+                    Button("Email") {
+                        Task {
+                            do {
+                                // Fetch the user's email
+                                if let email = try? await authService.fetchUserEmail() {
+                                    print(email)
+                                } else {
+                                    print("Error retrieving user email.")
+                                }
+                            }
+                        }
+                    }
+                    
+                    Button("Feed") {
+                        Task {
+                            do {
+                                // 1. Fetch the user's email
+                                if let email = try? await authService.fetchUserEmail() {
+                                    // 2. Fetch the user feed using the retrieved email
+                                    apiService.getUserFeed(for: email) { result in
+                                        switch result {
+                                        case .success(let posts):
+                                            print(posts)
+                                        case .failure(let error):
+                                            print("Error fetching user feed: \(error.localizedDescription)")
+                                        }
+                                    }
+                                } else {
+                                    print("Error retrieving user email.")
+                                }
+                            }
+                        }
+                    }
+
+                    
                     //START Feed View. ScrollView for posts.
                     ScrollView(.vertical, showsIndicators: false) {
                         
@@ -34,32 +73,29 @@ struct HomeTabView: View {
                             .foregroundColor(Color("GradientDark3"))
                             .frame(height: 0.01)
                         
-                        
-                        //iterate through post list and display each
-                        ForEach(1..<4) { i in
                             
-                            LazyVStack(spacing: 0) {
-                               
-                                //needs pfp, username, game name
-                                UserBannerPostView(intVal: i)
-                                        
-                                //needs content and caption
-                                PostContentView(intVal: i)
-                                
-                                //needs [like count, isLiked boolean, comment count, comments]
-                                //possible UPID for report
-                                //needs showCommentSection bool, showingReportAlert bool
-                                InteractionButtonMenu(showCommentSection: $showCommentSection, showingReportAlert: $showingReportAlert)
+                        LazyVStack(spacing: 0) {
+                           
+                            //needs pfp, username, game name
+                            UserBannerPostView(intVal: 1)
+                                    
+                            //needs content and caption
+                            PostContentView(intVal: 1)
+                            
+                            //needs [like count, isLiked boolean, comment count, comments]
+                            //possible UPID for report
+                            //needs showCommentSection bool, showingReportAlert bool
+                            InteractionButtonMenu(showCommentSection: $showCommentSection, showingReportAlert: $showingReportAlert)
 
-                         
-                                
-                            } //end main Vstack for post
-                            .background(Color("GradientDark3"))
-                            .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                     
+                            
+                        } //end main Vstack for post
+                        .background(Color("GradientDark3"))
+                        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
                         
                             
                             
-                        } //end for each
+                        
                             
                       
                         

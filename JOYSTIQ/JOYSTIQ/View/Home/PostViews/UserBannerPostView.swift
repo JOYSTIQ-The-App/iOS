@@ -13,6 +13,8 @@ struct UserBannerPostView: View {
     
     @State public var intVal: Int
     
+    let apiService = APIService()
+    
     var body: some View {
         
         HStack() { // HStack for username + banner and game title button
@@ -76,6 +78,11 @@ struct UserBannerPostView: View {
                     
             }
             
+            Button("Get Username") {
+                self.getUsername()
+            }
+
+            
             
             Spacer()
             
@@ -87,6 +94,19 @@ struct UserBannerPostView: View {
         
         
     } //END Body
+    
+    func getUsername() {
+        let userIdentifier: UserIdentifier = .email("ssottosanti@joystiq.gg")
+        apiService.getUsername(for: userIdentifier) { result in
+            switch result {
+            case .success(let username):
+                print(username)
+            case .failure(let error):
+                print("Error getting username: \(error.localizedDescription)")
+            }
+        }
+    }
+
     
 }
 

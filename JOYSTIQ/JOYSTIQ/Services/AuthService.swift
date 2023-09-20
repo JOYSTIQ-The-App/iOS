@@ -5,6 +5,7 @@
 //  Created by Stephen Sottosanti on 6/26/23.
 //
 
+import Foundation
 import SwiftUI
 import Amplify
 import AWSCognitoAuthPlugin
@@ -44,6 +45,28 @@ class AuthService: ObservableObject {
             print("Unexpected error: \(error)")
         }
     }
+    
+    func fetchUserEmail() async throws -> String? {
+        do {
+            let attributes = try await Amplify.Auth.fetchUserAttributes()
+            
+            for attribute in attributes {
+                if attribute.key == .email {
+                    print("Users email:", attribute.value)
+                    return attribute.value
+                }
+            }
+            
+            throw NSError(domain: "JOYSTIQ", code: 400, userInfo: [NSLocalizedDescriptionKey: "Email not found in user attributes"])
+        } catch let error as AuthError {
+            print("Fetching user attributes failed with error \(error)")
+            throw error
+        } catch {
+            print("Unexpected error: \(error)")
+            throw error
+        }
+    }
+
 
 
     func signIn(username: String, password: String, completion: @escaping (Bool, Bool) -> Void) async {

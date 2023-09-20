@@ -37,12 +37,9 @@ struct LoginView: View {
                 VStack(alignment: .center) { //VStack for username / pass / hstack [forgot / login]
                     
                     TextField(
-                        "",
+                        "Username",
                         text: $username
                     )
-                    .placeholder(when: username.isEmpty) {
-                        Text("Username").foregroundColor(.white).opacity(0.4)
-                    }
                     .padding(.all, 15.0)
                     .foregroundColor(.white)
                     .background(Color("LightGray").opacity(0.4))
@@ -53,12 +50,9 @@ struct LoginView: View {
                     
                     
                     SecureField(
-                        "",
+                        "Password",
                         text: $password
                     )
-                    .placeholder(when: password.isEmpty) {
-                        Text("Password").foregroundColor(.white).opacity(0.4)
-                    }
                     .padding(.all, 15.0)
                     .foregroundColor(.white)
                     .background(Color("LightGray").opacity(0.4))

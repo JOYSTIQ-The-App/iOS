@@ -15,7 +15,6 @@
 		9941DC302A93F50E00215948 /* TrimmedClip1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2D2A93F50900215948 /* TrimmedClip1.mp4 */; };
 		9941DC312A93F50E00215948 /* TrimmedClip2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */; };
 		9941DC322A93F50E00215948 /* TrimmedClip3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */; };
-		9941DC342A93F60B00215948 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC332A93F60B00215948 /* LaunchScreen.storyboard */; };
 		9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3B2A93F6F000215948 /* NotificationTabView.swift */; };
 		9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3C2A93F6F000215948 /* HomeTabView.swift */; };
 		9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */; };
@@ -23,7 +22,6 @@
 		9941DC632A93F6F000215948 /* InteractionButtonMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3F2A93F6F000215948 /* InteractionButtonMenu.swift */; };
 		9941DC642A93F6F000215948 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC402A93F6F000215948 /* AppView.swift */; };
 		9941DC652A93F6F000215948 /* LeaderboardBanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC422A93F6F000215948 /* LeaderboardBanners.swift */; };
-		9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC432A93F6F000215948 /* LeaderboardTabView.swift */; };
 		9941DC672A93F6F000215948 /* Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC452A93F6F000215948 /* Extra.swift */; };
 		9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC462A93F6F000215948 /* ProfileTabView.swift */; };
 		9941DC692A93F6F000215948 /* AccoladeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC472A93F6F000215948 /* AccoladeBanner.swift */; };
@@ -66,6 +64,13 @@
 		99F590E62AB223FE00AD5F8C /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */; };
 		99F590EB2AB230AB00AD5F8C /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */; };
 		99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B7982AB119AC00733B73 /* S3Service.swift */; };
+		99F590F02AB8DA2B00AD5F8C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590EF2AB8DA2B00AD5F8C /* APIService.swift */; };
+		99F590F52ABA3A1500AD5F8C /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590F42ABA3A1500AD5F8C /* PostData.swift */; };
+		99F590F82ABA3A7C00AD5F8C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590F72ABA3A7C00AD5F8C /* Post.swift */; };
+		99F590FA2ABA4AB300AD5F8C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590F92ABA4AB300AD5F8C /* Enums.swift */; };
+		99F590FB2ABA514200AD5F8C /* LeaderboardTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC432A93F6F000215948 /* LeaderboardTabView.swift */; };
+		99F590FD2ABA7A6F00AD5F8C /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590FC2ABA7A6F00AD5F8C /* LaunchScreen.swift */; };
+		99F590FF2ABA82B400AD5F8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99F590FE2ABA82B400AD5F8C /* LaunchScreen.storyboard */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -80,7 +85,6 @@
 		9941DC2D2A93F50900215948 /* TrimmedClip1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip1.mp4; sourceTree = "<group>"; };
 		9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip2.mp4; sourceTree = "<group>"; };
 		9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip3.mp4; sourceTree = "<group>"; };
-		9941DC332A93F60B00215948 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9941DC3B2A93F6F000215948 /* NotificationTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTabView.swift; sourceTree = "<group>"; };
 		9941DC3C2A93F6F000215948 /* HomeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
 		9941DC3D2A93F6F000215948 /* HomeTabViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabViewModel.swift; sourceTree = "<group>"; };
@@ -128,6 +132,12 @@
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
 		99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
 		99F590ED2AB627F800AD5F8C /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
+		99F590EF2AB8DA2B00AD5F8C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		99F590F42ABA3A1500AD5F8C /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
+		99F590F72ABA3A7C00AD5F8C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		99F590F92ABA4AB300AD5F8C /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		99F590FC2ABA7A6F00AD5F8C /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; wrapsLines = 0; };
+		99F590FE2ABA82B400AD5F8C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -179,11 +189,13 @@
 			children = (
 				9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */,
 				995085E02A95A690003996B6 /* Services */,
+				99F590F12ABA39ED00AD5F8C /* Models */,
 				995085E32A95A72B003996B6 /* Extensions */,
 				9941DC372A93F6F000215948 /* View */,
 				99F590E92AB2309000AD5F8C /* Util */,
 				9941DC232A93F02300215948 /* Assets.xcassets */,
-				9941DC332A93F60B00215948 /* LaunchScreen.storyboard */,
+				99F590FE2ABA82B400AD5F8C /* LaunchScreen.storyboard */,
+				99F590FC2ABA7A6F00AD5F8C /* LaunchScreen.swift */,
 				9941DC252A93F02300215948 /* Preview Content */,
 			);
 			path = JOYSTIQ;
@@ -304,9 +316,10 @@
 		995085E02A95A690003996B6 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				99F590EF2AB8DA2B00AD5F8C /* APIService.swift */,
 				995085E12A95A6AE003996B6 /* AuthService.swift */,
-				99D8B7982AB119AC00733B73 /* S3Service.swift */,
 				99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */,
+				99D8B7982AB119AC00733B73 /* S3Service.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -369,6 +382,24 @@
 				99F590ED2AB627F800AD5F8C /* AVPlayerView.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		99F590F12ABA39ED00AD5F8C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				99F590F62ABA3A2900AD5F8C /* PostModels */,
+				99F590F92ABA4AB300AD5F8C /* Enums.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		99F590F62ABA3A2900AD5F8C /* PostModels */ = {
+			isa = PBXGroup;
+			children = (
+				99F590F72ABA3A7C00AD5F8C /* Post.swift */,
+				99F590F42ABA3A1500AD5F8C /* PostData.swift */,
+			);
+			path = PostModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -444,7 +475,7 @@
 				9941DC8C2A94008200215948 /* flops.usdc in Resources */,
 				9941DC882A94008200215948 /* glasses.usdc in Resources */,
 				9941DC242A93F02300215948 /* Assets.xcassets in Resources */,
-				9941DC342A93F60B00215948 /* LaunchScreen.storyboard in Resources */,
+				99F590FF2ABA82B400AD5F8C /* LaunchScreen.storyboard in Resources */,
 				9941DC312A93F50E00215948 /* TrimmedClip2.mp4 in Resources */,
 				9941DC892A94008200215948 /* elenahair.usdc in Resources */,
 				9941DC8B2A94008200215948 /* Eyes Color.png in Resources */,
@@ -470,6 +501,7 @@
 				999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */,
 				9941DC722A93F6F000215948 /* CommentButton.swift in Sources */,
 				996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */,
+				99F590F02AB8DA2B00AD5F8C /* APIService.swift in Sources */,
 				9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */,
 				99F590EB2AB230AB00AD5F8C /* MediaPicker.swift in Sources */,
 				9941DC632A93F6F000215948 /* InteractionButtonMenu.swift in Sources */,
@@ -481,10 +513,13 @@
 				9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */,
 				9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */,
 				9941DC772A93F6F000215948 /* LeaderboardContentFilter.swift in Sources */,
+				99F590F52ABA3A1500AD5F8C /* PostData.swift in Sources */,
 				995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */,
 				995085EA2A95A817003996B6 /* SignUpView.swift in Sources */,
 				9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */,
+				99F590FA2ABA4AB300AD5F8C /* Enums.swift in Sources */,
 				9941DC792A93F6F000215948 /* Triangle.swift in Sources */,
+				99F590FD2ABA7A6F00AD5F8C /* LaunchScreen.swift in Sources */,
 				995085E52A95A73D003996B6 /* TextColoring.swift in Sources */,
 				9941DC732A93F6F000215948 /* PostContentView.swift in Sources */,
 				9941DC742A93F6F000215948 /* CommentView.swift in Sources */,
@@ -493,10 +528,11 @@
 				9941DC692A93F6F000215948 /* AccoladeBanner.swift in Sources */,
 				9941DC642A93F6F000215948 /* AppView.swift in Sources */,
 				9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */,
-				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
 				99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */,
+				99F590F82ABA3A7C00AD5F8C /* Post.swift in Sources */,
 				9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
+				99F590FB2ABA514200AD5F8C /* LeaderboardTabView.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */,
@@ -628,6 +664,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -639,7 +676,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.swift;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -661,6 +698,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -672,7 +710,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.swift;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (

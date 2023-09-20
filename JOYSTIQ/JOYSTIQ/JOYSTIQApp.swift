@@ -10,6 +10,21 @@ import Amplify
 import AWSCognitoAuthPlugin
 import AWSS3StoragePlugin
 
+class AppViewModel: ObservableObject {
+    @Published var isAppInitialized: Bool = false
+    @Published var authService = AuthService()
+
+    init() {
+        Task {
+            await authService.fetchCurrentAuthSession()
+            DispatchQueue.main.async {
+                self.isAppInitialized = true
+            }
+        }
+    }
+}
+
+
 @main
 struct JOYSTIQApp: App {
     init() {
@@ -25,15 +40,18 @@ struct JOYSTIQApp: App {
         }
     }
     
-    @StateObject var authService = AuthService()
-    
+    @StateObject var viewModel = AppViewModel()
+
     var body: some Scene {
         WindowGroup {
-            if authService.isSignedIn {
-                AppView().environmentObject(authService)
+            if !viewModel.isAppInitialized {
+                LaunchScreenView()
+            } else if viewModel.authService.isSignedIn {
+                AppView().environmentObject(viewModel.authService)
             } else {
-                LoginView().environmentObject(authService)
+                LoginView().environmentObject(viewModel.authService)
             }
         }
     }
 }
+
