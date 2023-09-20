@@ -27,9 +27,9 @@ struct ProfileView: View {
                         .padding(.bottom, 50)
                 }
                 
-                NavigationLink(destination: WardrobeView2(profileImage: $profileImage)) {
-                    Text("Edit Wardrobe")
-                }
+                //NavigationLink(destination: WardrobeView2(profileImage: $profileImage)) {
+                  //  Text("Edit Wardrobe")
+                //}
                 
             }
             .navigationBarTitle("Profile")

@@ -42,7 +42,7 @@ struct WardrobeView: View {
                 .frame(height: 5)
                 .background(Color.gray)
             
-            /*
+            
             VStack(spacing: 10) { //for buttons
                 
                 Button(action: {
@@ -93,13 +93,13 @@ struct WardrobeView: View {
                 }
                 
             } //end VStack for buttons
-            */
+            
             
             
             
    
             
-            
+            /*
             NavigationView {
                 
                     
@@ -278,7 +278,7 @@ struct WardrobeView: View {
             } //end navigation view
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
             .accentColor(Color.white.opacity(0.8))
-             
+             */
         
             
         } //end Main VStack for scenekitview and wardrobe controls

@@ -65,15 +65,12 @@
 		995085E82A95A805003996B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E72A95A805003996B6 /* LoginView.swift */; };
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
-		9962637A2AB677FB00CFE6F7 /* SceneKitView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996263792AB677FB00CFE6F7 /* SceneKitView3.swift */; };
 		996263862AB6897500CFE6F7 /* CamTest5.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 996263852AB6897500CFE6F7 /* CamTest5.usdc */; };
-		9969C7272AB7A67F00291A77 /* SceneKitView4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9969C7262AB7A67F00291A77 /* SceneKitView4.swift */; };
 		9969C7292AB7CCD500291A77 /* SceneKitView5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9969C7282AB7CCD500291A77 /* SceneKitView5.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
 		9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */; };
 		9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */; };
 		9989F6942AB3B26500A1B6F2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6932AB3B26500A1B6F2 /* ProfileView.swift */; };
-		9989F6962AB3B28700A1B6F2 /* WardrobeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6952AB3B28700A1B6F2 /* WardrobeView2.swift */; };
 		9989F6982AB3C5C100A1B6F2 /* WardrobeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */; };
 		999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */; };
 		99A5C14F2AAE67B000CDD4AD /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C14E2AAE67B000CDD4AD /* SceneKitView.swift */; };
@@ -145,15 +142,12 @@
 		995085E72A95A805003996B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
-		996263792AB677FB00CFE6F7 /* SceneKitView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView3.swift; sourceTree = "<group>"; };
 		996263852AB6897500CFE6F7 /* CamTest5.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = CamTest5.usdc; path = ../../CamTest5.usdc; sourceTree = "<group>"; };
-		9969C7262AB7A67F00291A77 /* SceneKitView4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView4.swift; sourceTree = "<group>"; };
 		9969C7282AB7CCD500291A77 /* SceneKitView5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView5.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
 		9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicButtons.swift; sourceTree = "<group>"; };
 		9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
 		9989F6932AB3B26500A1B6F2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		9989F6952AB3B28700A1B6F2 /* WardrobeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView2.swift; sourceTree = "<group>"; };
 		9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView3.swift; sourceTree = "<group>"; };
 		999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTESTS.swift; sourceTree = "<group>"; };
 		99A5C14E2AAE67B000CDD4AD /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
@@ -388,10 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				9989F6932AB3B26500A1B6F2 /* ProfileView.swift */,
-				9989F6952AB3B28700A1B6F2 /* WardrobeView2.swift */,
 				9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */,
-				996263792AB677FB00CFE6F7 /* SceneKitView3.swift */,
-				9969C7262AB7A67F00291A77 /* SceneKitView4.swift */,
 				9969C7282AB7CCD500291A77 /* SceneKitView5.swift */,
 				99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */,
 				990B8C042AB8E8FF00A2E794 /* SceneKitView7.swift */,
@@ -541,12 +532,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
-				9989F6962AB3B28700A1B6F2 /* WardrobeView2.swift in Sources */,
 				990B8C052AB8E8FF00A2E794 /* SceneKitView7.swift in Sources */,
 				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
 				995085E22A95A6AE003996B6 /* AuthService.swift in Sources */,
 				99A5C14F2AAE67B000CDD4AD /* SceneKitView.swift in Sources */,
-				9962637A2AB677FB00CFE6F7 /* SceneKitView3.swift in Sources */,
 				999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */,
 				9941DC722A93F6F000215948 /* CommentButton.swift in Sources */,
 				9969C7292AB7CCD500291A77 /* SceneKitView5.swift in Sources */,
@@ -560,7 +549,6 @@
 				9989F6942AB3B26500A1B6F2 /* ProfileView.swift in Sources */,
 				990D3D992AA2930800E8488E /* ForgotPasswordView.swift in Sources */,
 				9941DC672A93F6F000215948 /* SceneKitExtras.swift in Sources */,
-				9969C7272AB7A67F00291A77 /* SceneKitView4.swift in Sources */,
 				9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */,
 				9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */,
 				9941DC772A93F6F000215948 /* LeaderboardContentFilter.swift in Sources */,
