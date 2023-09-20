@@ -30,30 +30,21 @@ struct WardrobeView: View {
             //Spacer()
             
             Divider()
-                .frame(height: 5)
-                .background(Color.gray)
+                .frame(height: 2)
+                .background(Color.green)
                    
             
             sceneKitView
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.6)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
             
             
             Divider()
-                .frame(height: 5)
-                .background(Color.gray)
+                .frame(height: 2)
+                .background(Color.green)
             
-            
+            /*
             VStack(spacing: 10) { //for buttons
                 
-                Button(action: {
-                    // Remove the previously added node from the scene
-                    
-                    avatarSnapshot = sceneKitView.takeTheSnapshot()
-                    
-                    
-                }) {
-                    Text("Save")
-                }
                 
                 Button(action: {
                     // Remove the previously added node from the scene
@@ -93,33 +84,33 @@ struct WardrobeView: View {
                 }
                 
             } //end VStack for buttons
-            
+                 */
             
             
             
    
             
-            /*
+            
             NavigationView {
                 
                     
-                Grid(horizontalSpacing: 40, verticalSpacing: 30) { //start grid for cosmetic customizations menu
+                Grid(horizontalSpacing: 20, verticalSpacing: 30) { //start grid for cosmetic customizations menu
                     
                     GridRow { //start gridrow1
                         
-                        NavigationLink(destination: ShirtColorSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
+                        NavigationLink(destination: SkinToneSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
                             
                             ZStack { //for torso button
 
                                 Image(systemName: "square")
                                     .resizable()
-                                    .frame(width: 80, height: 80)
+                                    .frame(width: 50, height: 50)
                                     .foregroundColor(Color("LightGray"))
                                 
                                 
-                                Image(systemName: "tshirt.fill")
+                                Image(systemName: "figure.stand")
                                     .resizable()
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 15, height: 30)
                                     .foregroundColor(Color("LightGray"))
                                 
                             } //end zstack for torso button
@@ -129,33 +120,39 @@ struct WardrobeView: View {
                         } //end navLink
 
                         
-                        ZStack {
+                        //NavigationLink(destination: ShirtColorSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
+                            
+                            ZStack { //for torso button
 
-                            Image(systemName: "square")
-                                .resizable()
-                                .frame(width: 80, height: 80)
-                                .foregroundColor(Color("LightGray"))
+                                Image(systemName: "square")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                                
+                                Image(systemName: "tshirt.fill")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                            } //end zstack for torso button
                             
                             
-                            Image(systemName: "questionmark")
-                                .resizable()
-                                .frame(width: 25, height: 40)
-                                .foregroundColor(Color("LightGray"))
-                            
-                        }
+                                                    
+                       //} //end navLink
                         
                         
                         ZStack {
 
                             Image(systemName: "square")
                                 .resizable()
-                                .frame(width: 80, height: 80)
+                                .frame(width: 50, height: 50)
                                 .foregroundColor(Color("LightGray"))
                             
                             
                             Image(systemName: "questionmark")
                                 .resizable()
-                                .frame(width: 25, height: 40)
+                                .frame(width: 15, height: 20)
                                 .foregroundColor(Color("LightGray"))
                             
                         }
@@ -170,13 +167,13 @@ struct WardrobeView: View {
 
                             Image(systemName: "square")
                                 .resizable()
-                                .frame(width: 80, height: 80)
+                                .frame(width: 50, height: 50)
                                 .foregroundColor(Color("LightGray"))
                             
                             
                             Image(systemName: "questionmark")
                                 .resizable()
-                                .frame(width: 25, height: 40)
+                                .frame(width: 15, height: 20)
                                 .foregroundColor(Color("LightGray"))
                             
                         }
@@ -185,32 +182,33 @@ struct WardrobeView: View {
 
                             Image(systemName: "square")
                                 .resizable()
-                                .frame(width: 80, height: 80)
+                                .frame(width: 50, height: 50)
                                 .foregroundColor(Color("LightGray"))
                             
                             
                             Image(systemName: "questionmark")
                                 .resizable()
-                                .frame(width: 25, height: 40)
+                                .frame(width: 15, height: 20)
                                 .foregroundColor(Color("LightGray"))
                             
                         }
-                        
-                        ZStack {
-
-                            Image(systemName: "square")
-                                .resizable()
-                                .frame(width: 80, height: 80)
-                                .foregroundColor(Color("LightGray"))
+                        NavigationLink(destination: EnvironmentSwitcherView(enviroInt: $enviroInt)) {
                             
-                            
-                            Image(systemName: "questionmark")
-                                .resizable()
-                                .frame(width: 25, height: 40)
-                                .foregroundColor(Color("LightGray"))
-                            
+                            ZStack {
+                                
+                                Image(systemName: "square")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                                
+                                Image(systemName: "photo.on.rectangle.angled")
+                                    .resizable()
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                            }
                         }
-                        
                         
                     } //end gridrow2
                     
@@ -278,7 +276,7 @@ struct WardrobeView: View {
             } //end navigation view
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
             .accentColor(Color.white.opacity(0.8))
-             */
+             
         
             
         } //end Main VStack for scenekitview and wardrobe controls
@@ -294,6 +292,8 @@ struct WardrobeView: View {
     
 }
 
+
+/*
 struct ShirtColorSwitcherView: View {
     
     @Binding var sceneKitView: SceneKitView
@@ -373,7 +373,7 @@ struct ShirtColorSwitcherView: View {
     
     
 }
-
+*/
 
 struct WardrobeView_Previews: PreviewProvider {
     static var previews: some View {

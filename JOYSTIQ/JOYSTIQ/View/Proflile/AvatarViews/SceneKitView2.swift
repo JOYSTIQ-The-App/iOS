@@ -8,7 +8,7 @@
 import SwiftUI
 import SceneKit
 
-struct SceneKitView: UIViewRepresentable {
+struct SceneKitView2: UIViewRepresentable {
     
     //@Binding var avatarSnapshot: UIImage?
     
@@ -156,26 +156,34 @@ struct SceneKitView: UIViewRepresentable {
     
     
     //function for adding nodes
-    func addaNode(named name: String) {
+    func addaTextureEyes() {
         
+        
+        /*
         // Load the Hair model
-        let nodeURL = Bundle.main.url(forResource: name, withExtension: "usdc")!
+        let nodeURL = Bundle.main.url(forResource: "EricEyes", withExtension: "usdc")!
         let nodeScene = try! SCNScene(url: nodeURL, options: nil)
         let newNode = nodeScene.rootNode
         
+        // Set the desired color using a hex code
+        let hexColor = "#fc03d7"  // Replace with your hex color code
+
+    
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor(hexString: "#fc03d7")
+        // You can adjust other material properties like shininess, transparency, etc., as needed.
+        
+        newNode.childNode(withName: "Sphere", recursively: true)?.geometry?.materials = [material]
+        
+        
         //add shorts as scene node
         scene.rootNode.addChildNode(newNode)
+         */
+        //let newNode = scene.rootNode
         
-    }
-    
-    func changeSkinTone(named hexCode: String) {
-        
-
-        //apply new hex color to body node
         let material = SCNMaterial()
-        material.diffuse.contents = UIColor(hexString: hexCode)
-        scene.rootNode.childNode(withName: "Body", recursively: true)?.childNode(withName: "Vert_006", recursively: true)?.geometry?.materials = [material]
-        
+        material.diffuse.contents = UIColor(hexString: "#fc03d7")
+        scene.rootNode.childNode(withName: "Cylinder", recursively: true)?.geometry?.materials = [material]
         
     }
    
@@ -183,13 +191,31 @@ struct SceneKitView: UIViewRepresentable {
 
 }
 
+// UIColor extension to convert hex string to UIColor
+extension UIColor {
+    convenience init?(hexString: String) {
+        var hexSanitized = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+
+        var rgb: UInt64 = 0
+
+        Scanner(string: hexSanitized).scanHexInt64(&rgb)
+
+        let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+        let blue = CGFloat(rgb & 0x0000FF) / 255.0
+
+        self.init(red: red, green: green, blue: blue, alpha: 1.0)
+    }
+}
+
 //Usage
-struct ContentView7: View {
+struct ContentView2: View {
     
     @State private var avatarSnapshot: UIImage?
-    @State private var sceneKitView = SceneKitView(named: "CamTest6")
-    //var skinToneInt = 1// Replace 42 with your desired integer value
-
+    @State private var sceneKitView = SceneKitView2(named: "EricBody")
+    let newColor = UIColor(hexString: "#a903fc")
+    
     var body: some View {
         
         VStack {
@@ -200,11 +226,11 @@ struct ContentView7: View {
             
             
             //avatar image
-            if let image = avatarSnapshot {
+            if let image = UIImage(named: "Eyes Color.png") {
                 
                 Image(uiImage: image)
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
+                    .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.height * 0.1)
                     .scaleEffect(1.5)
                     .padding(.top, UIScreen.main.bounds.height * 0.05)
                     .zIndex(1)
@@ -222,51 +248,25 @@ struct ContentView7: View {
             Button(action: {
                 
                 // Remove the previously added node from the scene
-                avatarSnapshot = sceneKitView.takeTheSnapshot()
+                sceneKitView.addaTextureEyes()
                 
             }) {
                 Text("Capture Screenshot")
-            }
-            
-            Button(action: {
-                
-                // Remove the previously added node from the scene
-                let skinToneInt = 3
-                
-                switch skinToneInt {
-                    
-                case 1:
-                    sceneKitView.changeSkinTone(named: "#ffdab0") //white
-                case 2:
-                    sceneKitView.changeSkinTone(named: "#cc9252") //tan
-                case 3:
-                    sceneKitView.changeSkinTone(named: "#a37d5a") //black
-                default:
-                    sceneKitView.changeSkinTone(named: "#ffdab0") //white
-                    
-                }
-                
-                
-                
-                
-                
-            }) {
-                Text("Test Node")
             }
                 
             
         }
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .background(.blue)
+        .background(Color.init(uiColor: newColor!))
         
         
         
     } //end body
 }
 
-struct SwiftUIView7_Previews: PreviewProvider {
+struct SwiftUIView2_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView7()
+        ContentView2()
         //SceneKitView6()
     }
 }

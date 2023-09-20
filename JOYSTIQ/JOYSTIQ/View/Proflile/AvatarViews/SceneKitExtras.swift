@@ -177,5 +177,55 @@ private func createAmbientLight(color: UIColor, intensity: CGFloat) -> SCNNode {
  
  
  
+ //function for adding nodes and applying texture map
+ func addaTextureEyes() {
+     
+     // Load the Hair model
+     let nodeURL = Bundle.main.url(forResource: "EricEyes", withExtension: "usdc")!
+     let nodeScene = try! SCNScene(url: nodeURL, options: nil)
+     let newNode = nodeScene.rootNode
+     
+
+     // Load the texture map (PNG)
+     if let texture = UIImage(named: "Eyes Color.png") {
+         
+         let material = SCNMaterial()
+         material.diffuse.contents = texture
+         // You can adjust other material properties like shininess, transparency, etc., as needed.
+         
+         newNode.childNode(withName: "Sphere", recursively: true)?.geometry?.materials = [material]
+         
+     }
+     
+     //add shorts as scene node
+     scene.rootNode.addChildNode(newNode)
+     
+ }
+ 
+ 
+ //function for changing node material color
+ func addaTextureEyes() {
+ 
+     // Load the node
+     let nodeURL = Bundle.main.url(forResource: "EricEyes", withExtension: "usdc")!
+     let nodeScene = try! SCNScene(url: nodeURL, options: nil)
+     let newNode = nodeScene.rootNode
+     
+     // Set the desired color using a hex code
+     let hexColor = "#fc03d7"  // Replace with your hex color code
+     
+     //create material and apply color
+     let material = SCNMaterial()
+     material.diffuse.contents = UIColor(hexString: "#fc03d7")
+     
+     //apply colored material to node material
+     newNode.childNode(withName: "Sphere", recursively: true)?.geometry?.materials = [material]
+     
+     //add colored node to scene
+     scene.rootNode.addChildNode(newNode)
+ 
+ 
+ }
+ 
  
  */

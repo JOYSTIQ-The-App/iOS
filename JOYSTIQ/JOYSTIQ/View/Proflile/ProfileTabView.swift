@@ -53,7 +53,7 @@ struct ProfileTabView: View {
                             ZStack(alignment: .bottom) { //for avatar background and own profile settings
                                 
                                 
-                                Image(enviroInt == 1 ? "Bedroom" : "default3")
+                                Image(enviroInt == 1 ? "bedroomEnv" : "defaultEnv")
                                     .resizable()
                                     .frame(width: UIScreen.main.bounds.width, height: 350)
                                     .edgesIgnoringSafeArea(.top)
