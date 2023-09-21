@@ -26,21 +26,19 @@ struct SceneKitView: UIViewRepresentable {
         }
         
         self.scene = loadedScene
-        
-        //doesnt work
-        self.scene.background.contents = UIColor.clear
 
         
-        //create light nodes
-        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(-Float.pi / 2, 0, 0))
         
-        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(Float.pi / 2, 0, 0))
+        //create light nodes
+        createDirectionalLight(color: UIColor.white, intensity: 400.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(-Float.pi / 2, 0, 0))
+        
+        createDirectionalLight(color: UIColor.white, intensity: 400.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(Float.pi / 2, 0, 0))
         
         createDirectionalLight(color: UIColor.white, intensity: 200.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(0, 0, 0))
         
-        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: -Float.pi / 2, z: 0), direction: SCNVector3(0, -Float.pi / 2, 0))
+        createDirectionalLight(color: UIColor.white, intensity: 200.0, position: SCNVector3(x: 0, y: -Float.pi / 2, z: 0), direction: SCNVector3(0, -Float.pi / 2, 0))
         
-        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: Float.pi / 2, z: 0), direction: SCNVector3(0, Float.pi / 2, 0))
+        createDirectionalLight(color: UIColor.white, intensity: 200.0, position: SCNVector3(x: 0, y: Float.pi / 2, z: 0), direction: SCNVector3(0, Float.pi / 2, 0))
         
   
      
@@ -71,6 +69,7 @@ struct SceneKitView: UIViewRepresentable {
         scnView.scene = scene
         scnView.allowsCameraControl = true
         scnView.backgroundColor = UIColor.clear
+        scnView.showsStatistics = true
         
         return scnView
 
@@ -112,10 +111,10 @@ struct SceneKitView: UIViewRepresentable {
         let scnView = SCNView(frame: CGRect(origin: .zero, size: size))
         
         scnView.backgroundColor = UIColor.clear
+   
         scnView.scene = scene
         
         // Perform a snapshot
-        //avatarSnapshot = scnView.snapshot()
 
         return scnView.snapshot()
 
@@ -167,6 +166,29 @@ struct SceneKitView: UIViewRepresentable {
         scene.rootNode.addChildNode(newNode)
         
     }
+    
+    //function for removing one node and adding another
+    func replaceNode(named name: String, named name2: String) {
+        
+        if let nodeToRemove = scene.rootNode.childNode(withName: name, recursively: true) {
+            nodeToRemove.removeFromParentNode()
+        }
+
+        // Load the Hair model
+        let nodeURL = Bundle.main.url(forResource: name2, withExtension: "usdc")!
+        let nodeScene = try! SCNScene(url: nodeURL, options: nil)
+        let newNode = nodeScene.rootNode
+        
+        //add shorts as scene node
+        scene.rootNode.addChildNode(newNode)
+        
+        
+        
+        
+        
+        
+    }
+    
     
     func changeSkinTone(named hexCode: String) {
         
@@ -224,38 +246,25 @@ struct ContentView7: View {
             }) {
                 Text("Capture Screenshot")
             }
+        
+            
+            
             
             Button(action: {
                 
-                // Remove the previously added node from the scene
-                let skinToneInt = 2
-                
-                switch skinToneInt {
-                    
-                case 1:
-                    sceneKitView.changeSkinTone(named: "#ffdab0") //white
-                case 2:
-                    sceneKitView.changeSkinTone(named: "#cc9252") //tan
-                case 3:
-                    sceneKitView.changeSkinTone(named: "#a37d5a") //black
-                default:
-                    sceneKitView.changeSkinTone(named: "#ffdab0") //white
-                    
-                }
-                
+                sceneKitView.removeNode(named: "Shirt")
                 
             }) {
-                Text("Test Skin tone change")
+                Text("Test Replace")
             }
             
             
-            
             Button(action: {
                 
-                sceneKitView.addaNode(named: "Tanktop")
+                sceneKitView.addaNode(named: "AvatarNodes/Male/Footwear/sneakers")
                 
             }) {
-                Text("Test Flops")
+                Text("Test flops")
             }
             
           

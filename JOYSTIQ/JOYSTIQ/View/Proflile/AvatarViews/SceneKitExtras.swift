@@ -237,5 +237,15 @@ private func createAmbientLight(color: UIColor, intensity: CGFloat) -> SCNNode {
  }
 
  
+ //creating floor
+ let floor = SCNFloor()
+ floor.firstMaterial!.diffuse.contents = UIColor.white
+ floor.firstMaterial!.specular.contents = UIColor.white
+ floor.firstMaterial!.diffuse.contents = UIColor.black
+ 
+ let floorNode = SCNNode(geometry: floor)
+ scene.rootNode.addChildNode(floorNode)
+  
+ 
  
  */

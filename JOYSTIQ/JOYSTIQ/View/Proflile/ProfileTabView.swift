@@ -16,7 +16,7 @@ struct ProfileTabView: View {
 
     
     @State private var avatarSnapshot: UIImage? // State to hold the avatar image
-    @State private var enviroInt: Int = 0 // State to hold the environment int
+    @State private var enviroInt: Int = 0 // State to hold the environment int - determines avatar background
     
     var body: some View {
         

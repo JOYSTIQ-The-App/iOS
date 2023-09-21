@@ -44,8 +44,6 @@
 		9941DC782A93F6F000215948 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC5B2A93F6F000215948 /* HeaderView.swift */; };
 		9941DC792A93F6F000215948 /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC5C2A93F6F000215948 /* Triangle.swift */; };
 		9941DC7C2A93F80F00215948 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9941DC7B2A93F80F00215948 /* SceneKit.framework */; };
-		9941DC892A94008200215948 /* elenahair.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC802A94007E00215948 /* elenahair.usdc */; };
-		9941DC8C2A94008200215948 /* flops.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC832A94007F00215948 /* flops.usdc */; };
 		995085DB2A95A4DD003996B6 /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 995085DA2A95A4DD003996B6 /* AWSCognitoAuthPlugin */; };
 		995085DD2A95A4DD003996B6 /* AWSS3StoragePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 995085DC2A95A4DD003996B6 /* AWSS3StoragePlugin */; };
 		995085DF2A95A4DD003996B6 /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 995085DE2A95A4DD003996B6 /* Amplify */; };
@@ -61,9 +59,6 @@
 		997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */; };
 		997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 997062D62ABB8BFE005596A3 /* CamTest6.usdc */; };
 		997062D92ABBB298005596A3 /* HexColorConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D82ABBB298005596A3 /* HexColorConverter.swift */; };
-		997062DF2ABBC82A005596A3 /* loafers.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 997062DE2ABBC829005596A3 /* loafers.usdc */; };
-		997062E12ABBC8DC005596A3 /* sneakers.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 997062E02ABBC8DC005596A3 /* sneakers.usdc */; };
-		997062E32ABBCDA7005596A3 /* Tanktop.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 997062E22ABBCDA7005596A3 /* Tanktop.usdc */; };
 		9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */; };
 		9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */; };
 		9989F6942AB3B26500A1B6F2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6932AB3B26500A1B6F2 /* ProfileView.swift */; };
@@ -74,6 +69,9 @@
 		99A9F3C72AB7E246000F27E5 /* SceneKitView6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
+		99FD29EB2ABCE9780049AAFA /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99FD29EA2ABCE9770049AAFA /* AvatarNodes */; };
+		99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */; };
+		99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -117,8 +115,6 @@
 		9941DC5B2A93F6F000215948 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		9941DC5C2A93F6F000215948 /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
 		9941DC7B2A93F80F00215948 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
-		9941DC802A94007E00215948 /* elenahair.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = elenahair.usdc; sourceTree = "<group>"; };
-		9941DC832A94007F00215948 /* flops.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = flops.usdc; sourceTree = "<group>"; };
 		995085E12A95A6AE003996B6 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		995085E42A95A73D003996B6 /* TextColoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextColoring.swift; sourceTree = "<group>"; };
 		995085E72A95A805003996B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -131,9 +127,6 @@
 		997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSwitcherView.swift; sourceTree = "<group>"; };
 		997062D62ABB8BFE005596A3 /* CamTest6.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = CamTest6.usdc; path = ../../CamTest6.usdc; sourceTree = "<group>"; };
 		997062D82ABBB298005596A3 /* HexColorConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorConverter.swift; sourceTree = "<group>"; };
-		997062DE2ABBC829005596A3 /* loafers.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = loafers.usdc; path = ../../loafers.usdc; sourceTree = "<group>"; };
-		997062E02ABBC8DC005596A3 /* sneakers.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = sneakers.usdc; path = ../../sneakers.usdc; sourceTree = "<group>"; };
-		997062E22ABBCDA7005596A3 /* Tanktop.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Tanktop.usdc; path = ../../Tanktop.usdc; sourceTree = "<group>"; };
 		9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicButtons.swift; sourceTree = "<group>"; };
 		9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
 		9989F6932AB3B26500A1B6F2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -145,6 +138,9 @@
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
 		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
+		99FD29EA2ABCE9770049AAFA /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AvatarNodes; path = ../../AvatarNodes; sourceTree = "<group>"; };
+		99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairSwitcherView.swift; sourceTree = "<group>"; };
+		99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShirtSwitcherView.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,9 +171,7 @@
 		9941DC132A93F02100215948 = {
 			isa = PBXGroup;
 			children = (
-				997062E22ABBCDA7005596A3 /* Tanktop.usdc */,
-				997062E02ABBC8DC005596A3 /* sneakers.usdc */,
-				997062DE2ABBC829005596A3 /* loafers.usdc */,
+				99FD29EA2ABCE9770049AAFA /* AvatarNodes */,
 				997062D62ABB8BFE005596A3 /* CamTest6.usdc */,
 				9941DC7D2A94003400215948 /* Placeholders */,
 				9941DC1E2A93F02100215948 /* JOYSTIQ */,
@@ -307,9 +301,6 @@
 		9941DC7D2A94003400215948 /* Placeholders */ = {
 			isa = PBXGroup;
 			children = (
-				997062CA2ABB6BF0005596A3 /* MAvatarNodes */,
-				9941DC802A94007E00215948 /* elenahair.usdc */,
-				9941DC832A94007F00215948 /* flops.usdc */,
 				9941DC2D2A93F50900215948 /* TrimmedClip1.mp4 */,
 				9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */,
 				9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */,
@@ -351,19 +342,14 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
-		997062CA2ABB6BF0005596A3 /* MAvatarNodes */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MAvatarNodes;
-			sourceTree = "<group>";
-		};
 		997062D02ABB827F005596A3 /* WardrobeViews */ = {
 			isa = PBXGroup;
 			children = (
 				9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */,
 				997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */,
 				997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */,
+				99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */,
+				99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */,
 			);
 			path = WardrobeViews;
 			sourceTree = "<group>";
@@ -488,17 +474,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				997062E32ABBCDA7005596A3 /* Tanktop.usdc in Resources */,
-				997062E12ABBC8DC005596A3 /* sneakers.usdc in Resources */,
-				997062DF2ABBC82A005596A3 /* loafers.usdc in Resources */,
+				99FD29EB2ABCE9780049AAFA /* AvatarNodes in Resources */,
 				997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */,
 				9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */,
 				9941DC302A93F50E00215948 /* TrimmedClip1.mp4 in Resources */,
-				9941DC8C2A94008200215948 /* flops.usdc in Resources */,
 				9941DC242A93F02300215948 /* Assets.xcassets in Resources */,
 				9941DC342A93F60B00215948 /* LaunchScreen.storyboard in Resources */,
 				9941DC312A93F50E00215948 /* TrimmedClip2.mp4 in Resources */,
-				9941DC892A94008200215948 /* elenahair.usdc in Resources */,
 				9941DC322A93F50E00215948 /* TrimmedClip3.mp4 in Resources */,
 				C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */,
 				5BA74B352121C85BDC510698 /* amplifyconfiguration.json in Resources */,
@@ -512,6 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */,
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
 				990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */,
 				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
@@ -548,6 +531,7 @@
 				9941DC692A93F6F000215948 /* AccoladeBanner.swift in Sources */,
 				9941DC642A93F6F000215948 /* AppView.swift in Sources */,
 				9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */,
+				99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */,
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
 				99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */,
 				9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */,
