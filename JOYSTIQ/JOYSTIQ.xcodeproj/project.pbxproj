@@ -72,6 +72,7 @@
 		99F591022ABB81A000AD5F8C /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F591012ABB81A000AD5F8C /* UserService.swift */; };
 		99F591042ABB81AE00AD5F8C /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F591032ABB81AE00AD5F8C /* PostService.swift */; };
 		99F591052ABB8E1400AD5F8C /* DiscPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4D2A93F6F000215948 /* DiscPostView.swift */; };
+		99F591082ABCAD0B00AD5F8C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F591072ABCAD0B00AD5F8C /* User.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +141,7 @@
 		99F590FE2ABA82B400AD5F8C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		99F591012ABB81A000AD5F8C /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		99F591032ABB81AE00AD5F8C /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		99F591072ABCAD0B00AD5F8C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -390,6 +392,7 @@
 		99F590F12ABA39ED00AD5F8C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				99F591062ABCAD0100AD5F8C /* UserModels */,
 				99F590F62ABA3A2900AD5F8C /* PostModels */,
 				99F590F92ABA4AB300AD5F8C /* Enums.swift */,
 			);
@@ -403,6 +406,14 @@
 				99F590F42ABA3A1500AD5F8C /* PostData.swift */,
 			);
 			path = PostModels;
+			sourceTree = "<group>";
+		};
+		99F591062ABCAD0100AD5F8C /* UserModels */ = {
+			isa = PBXGroup;
+			children = (
+				99F591072ABCAD0B00AD5F8C /* User.swift */,
+			);
+			path = UserModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -520,6 +531,7 @@
 				995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */,
 				995085EA2A95A817003996B6 /* SignUpView.swift in Sources */,
 				9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */,
+				99F591082ABCAD0B00AD5F8C /* User.swift in Sources */,
 				99F590FA2ABA4AB300AD5F8C /* Enums.swift in Sources */,
 				9941DC792A93F6F000215948 /* Triangle.swift in Sources */,
 				99F590FD2ABA7A6F00AD5F8C /* LaunchScreen.swift in Sources */,

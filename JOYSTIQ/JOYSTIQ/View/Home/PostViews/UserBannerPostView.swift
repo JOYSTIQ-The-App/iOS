@@ -13,6 +13,9 @@ struct UserBannerPostView<UserServiceType: UserServiceProtocol>: View {
     var userService: UserServiceType
     
     @State public var intVal: Int
+    @State private var username: String = "Loading..."
+    
+    var userId: Int
     
     var body: some View {
         
@@ -43,7 +46,7 @@ struct UserBannerPostView<UserServiceType: UserServiceProtocol>: View {
                 
                     
                 
-                Text("Username")
+                Text(username)
                     .font(.system(size: 15))
                     .foregroundColor(.black)
                     .frame(width: UIScreen.main.bounds.width * 0.30, height: 30)
@@ -77,29 +80,25 @@ struct UserBannerPostView<UserServiceType: UserServiceProtocol>: View {
                     
             }
             
-            Button("Get Username") {
-                self.getUsername()
-            }
-
-            
-            
             Spacer()
             
             
         } //END HStack for pfp + username banner + game title
         .frame(width: UIScreen.main.bounds.width)
         .background(Color("GradientDark3"))
-        
-        
+        .onAppear {
+            getUsername()
+        }
         
     } //END Body
     
+    
     func getUsername() {
-        let userIdentifier: UserIdentifier = .email("ssottosanti@joystiq.gg")
+        let userIdentifier: UserIdentifier = .userId(userId)
         userService.getUsername(for: userIdentifier) { result in
             switch result {
-            case .success(let username):
-                print(username)
+            case .success(let fetchedUsername):
+                username = fetchedUsername
             case .failure(let error):
                 print("Error getting username: \(error.localizedDescription)")
             }
@@ -112,7 +111,7 @@ struct UserBannerPostView<UserServiceType: UserServiceProtocol>: View {
 
 struct UserBannerPostView_Previews: PreviewProvider {
     static var previews: some View {
-        UserBannerPostView(userService: MockUserService(), intVal: 1)
+        UserBannerPostView(userService: MockUserService(), intVal: 1, userId: 1)
     }
 }
 

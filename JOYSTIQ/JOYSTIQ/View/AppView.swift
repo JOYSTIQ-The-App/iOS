@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct AppView: View {
+struct AppView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
+    @EnvironmentObject var authService: AuthServiceType
+    @EnvironmentObject var user: User
     
     //Tab state to control views based on nav bar interaction
     @State private var selectedTab = 0
@@ -25,7 +27,8 @@ struct AppView: View {
             switch selectedTab {
                 
                 case 0:
-                    HomeTabView(authService: AuthService(), userService: UserService(), showCommentSection: $showCommentSection)
+                    HomeTabView<UserService>(userService: UserService(), showCommentSection: $showCommentSection)
+                        .environmentObject(user)
                         .disabled(showCommentSection)
                     
                 case 1:
@@ -36,7 +39,9 @@ struct AppView: View {
                 case 4:
                     ProfileTabView()
                 default:
-                    HomeTabView(authService: AuthService(), userService: UserService(), showCommentSection: $showCommentSection).disabled(showCommentSection)
+                    HomeTabView<UserService>(userService: UserService(), showCommentSection: $showCommentSection)
+                        .environmentObject(user)
+                        .disabled(showCommentSection)
                 
             }
             
@@ -193,6 +198,12 @@ struct AppView: View {
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
-        AppView()
+        let testUser = User()
+        testUser.email = "testEmail@example.com"
+        testUser.username = "testUsername"
+        
+        return AppView<MockAuthService>()
+            .environmentObject(MockAuthService())
+            .environmentObject(testUser)
     }
 }

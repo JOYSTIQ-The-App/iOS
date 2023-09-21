@@ -40,7 +40,7 @@ struct LeaderboardTabView<UserServiceType: UserServiceProtocol>: View {
                                     .padding(.bottom, 5)
                                
                                 //needs pfp, username, game name
-                                UserBannerPostView(userService: userService, intVal: 1)
+                                UserBannerPostView(userService: userService, intVal: 1, userId: 1)
                                         
                                 //needs content and caption
 //                                PostContentView(intVal: i)

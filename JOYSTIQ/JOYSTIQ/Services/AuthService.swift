@@ -269,10 +269,10 @@ class AuthService: AuthServiceProtocol {
 
 
 class MockAuthService: AuthServiceProtocol {
-    @Published var isSignedIn: Bool = true
-    @Published var isSignedUp: Bool = true
-    @Published var isConfirmed: Bool = true
-    @Published var signUpRequested: Bool = true
+    @Published var isSignedIn: Bool = false
+    @Published var isSignedUp: Bool = false
+    @Published var isConfirmed: Bool = false
+    @Published var signUpRequested: Bool = false
 
     init() {
         // Mock initialization

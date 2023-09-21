@@ -7,159 +7,112 @@
 
 import SwiftUI
 
-struct HomeTabView<AuthServiceType: AuthServiceProtocol & ObservableObject, UserServiceType: UserServiceProtocol>: View {
-    @ObservedObject var authService: AuthServiceType
+struct HomeTabView<UserServiceType: UserServiceProtocol>: View {
+    // MARK: - Properties
+    @EnvironmentObject var user: User
     var userService: UserServiceType
     
-    
-    
     @State private var showDropDown = false
-    
-    // FROM INTERACTION BUTTON
     @State private var showingReportAlert = false
-    
-    //From app view, comments need to overlay nav bar
+    @State private var posts: [Post] = []
     @Binding var showCommentSection: Bool
     
+    // MARK: - Body
     var body: some View {
-        
-        NavigationView { //start nav view
-            
-            ZStack { //ZStack for header/feed + dropdown
-                
-                VStack(spacing: 0){ //START VStack with headerview and feed scrollview
-                    
-                    HeaderView(showDropDown: $showDropDown)
-                    
-                    Button("Email") {
-                        Task {
-                            do {
-                                // Fetch the user's email
-                                if let email = try? await authService.fetchUserEmail() {
-                                    print(email)
-                                } else {
-                                    print("Error retrieving user email.")
-                                }
-                            }
-                        }
-                    }
-                    
-                    Button("Feed") {
-                        Task {
-                            do {
-                                // 1. Fetch the user's email
-                                if let email = try? await authService.fetchUserEmail() {
-                                    // 2. Fetch the user feed using the retrieved email
-                                    userService.getUserFeed(for: email) { result in
-                                        switch result {
-                                        case .success(let posts):
-                                            print(posts)
-                                        case .failure(let error):
-                                            print("Error fetching user feed: \(error.localizedDescription)")
-                                        }
-                                    }
-                                } else {
-                                    print("Error retrieving user email.")
-                                }
-                            }
-                        }
-                    }
-
-                    
-                    //START Feed View. ScrollView for posts.
-                    ScrollView(.vertical, showsIndicators: false) {
-                        
-                        Rectangle()
-                            .foregroundColor(Color("GradientDark3"))
-                            .frame(height: 0.01)
-                        
-                            
-                        LazyVStack(spacing: 0) {
-                           
-                            //needs pfp, username, game name
-                            UserBannerPostView(userService: userService, intVal: 1)
-                                    
-                            //needs content and caption
-                            PostContentView(intVal: 1)
-                            
-                            //needs [like count, isLiked boolean, comment count, comments]
-                            //possible UPID for report
-                            //needs showCommentSection bool, showingReportAlert bool
-                            InteractionButtonMenu(showCommentSection: $showCommentSection, showingReportAlert: $showingReportAlert)
-
-                     
-                            
-                        } //end main Vstack for post
-                        .background(Color("GradientDark3"))
-                        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
-                        
-                            
-                            
-                        
-                            
-                      
-                        
-                    } // END scroll view for home content
-                    .background(Color("GradientDark3")) // Fills gap? for each post
-                    //.disabled(showDropDown)
-                    //.disabled(showCommentSection)
-                    
-
-                } //END Vstack with headerview and feed view
-                .background(Color("GradientDark3"))
-                //alert for report post
-                .alert(isPresented: $showingReportAlert) {
-                    Alert(
-                        title: Text("Report Post"),
-                        message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
-                        primaryButton: .default(Text("Report"), action: {
-                            //makeAPICall() - provide post ID
-                        }),
-                        secondaryButton: .cancel(Text("Cancel"))
-                    )
-                }
-                
-                
-
-                
-                // ------------------START MODAL / Drop Down View---------------------
-                 
-                if showDropDown {
-                   
-                   //create a shadow effect on the background. click backround to exit
-                    
-                   Color.black.opacity(0.6)
-                       .edgesIgnoringSafeArea(.all)
-                       .onTapGesture {
-                           showDropDown = false
-                       }
-                   
-                    
-                    DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
-                        
-                    
-                   
-                } //END If showdropdown
-                 
-                // --------------------END MODAL-------------------
-                
-                
-                           
-            } //END ZStack with Header/feed + DropDown
-            
-            //create custom thank you alert for feedback submission
-            
-        } //end nav view
-        .accentColor(Color("LightGray"))
-
-        
+        NavigationView {
+            ZStack {
+                mainContent
+                dropDownView
+            }
+            .accentColor(Color("LightGray"))
+        }
     }
     
+    // MARK: - Subviews
+    private var mainContent: some View {
+        VStack(spacing: 0) {
+            HeaderView(showDropDown: $showDropDown)
+            feedView
+        }
+        .background(Color("GradientDark3"))
+        .alert(isPresented: $showingReportAlert, content: reportAlert)
+        .onAppear {
+            Task {
+                if let email = user.email {
+                    userService.getUserFeed(for: email) { result in
+                        switch result {
+                        case .success(let fetchedPosts):
+                            posts = fetchedPosts
+                        case .failure(let error):
+                            print("Error fetching user feed: \(error.localizedDescription)")
+                        }
+                    }
+                } else {
+                    print("Error retrieving user email.")
+                }
+            }
+        }
+    }
+    
+    private var feedView: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            LazyVStack(spacing: 0) {
+                ForEach(posts, id: \.id) { post in
+                    UserBannerPostView(userService: userService, intVal: 1, userId: post.user_id)
+                        .environmentObject(user)
+                    
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
+                            PostContentView(s3_key: s3Key, title: post.title, bodyText: post.body)
+                        } else {
+                            PostContentView(s3_key: nil, title: post.title, bodyText: post.body)
+                        }
+                    }
+                    
+                    
+                    InteractionButtonMenu(showCommentSection: $showCommentSection, showingReportAlert: $showingReportAlert)
+                        .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                    
+                    Spacer()
+                }
+            }
+            .background(Color("GradientDark3"))
+        }
+        .background(Color("GradientDark3"))
+    }
+    
+    private var dropDownView: some View {
+        ZStack {
+            if showDropDown {
+                Color.black.opacity(0.6)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture { showDropDown = false }
+                
+                DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
+            }
+        }
+    }
+
+    
+    // MARK: - Alert
+    private func reportAlert() -> Alert {
+        Alert(
+            title: Text("Report Post"),
+            message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
+            primaryButton: .default(Text("Report")),
+            secondaryButton: .cancel(Text("Cancel"))
+        )
+    }
 }
 
-
+// MARK: - Preview
 struct HomeTabView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeTabView(authService: MockAuthService(), userService: MockUserService(), showCommentSection: .constant(false))
+        let testUser = User()
+        testUser.email = "testEmail@example.com"
+        testUser.username = "testUsername"
+        
+        return HomeTabView<MockUserService>(userService: MockUserService(), showCommentSection: .constant(false))
+            .environmentObject(testUser)
     }
 }

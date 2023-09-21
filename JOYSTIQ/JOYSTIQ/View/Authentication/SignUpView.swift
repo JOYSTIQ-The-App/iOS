@@ -8,10 +8,10 @@
 import SwiftUI
 import Amplify
 
-struct SignUpView: View {
+struct SignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     
     //handles logged state
-    @EnvironmentObject var authService: AuthService
+    @EnvironmentObject var authService: AuthServiceType
     
     @State private var username: String = ""
     @State private var email: String = ""
@@ -182,7 +182,8 @@ struct SignUpView: View {
             
             else { //Bool navToConfirm is true
                 
-                ConfirmSignUpView(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp).environmentObject(AuthService())
+                ConfirmSignUpView<AuthService>(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp)
+                    .environmentObject(authService)
                             
    
             }
@@ -200,7 +201,8 @@ struct SignUpView: View {
 
 struct SignUpScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        SignUpView().environmentObject(AuthService())
+        SignUpView<MockAuthService>()
+            .environmentObject(MockAuthService())
     }
 }
 

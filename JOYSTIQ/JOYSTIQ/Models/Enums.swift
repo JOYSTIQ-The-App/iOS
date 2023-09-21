@@ -9,5 +9,5 @@ import Foundation
 
 enum UserIdentifier {
     case email(String)
-    case userID(String)
+    case userId(Int)
 }

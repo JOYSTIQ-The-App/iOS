@@ -12,44 +12,28 @@ import Amplify
 
 struct PostContentView: View {
     
-    @State public var intVal: Int
     //FROM CLIP POST View
 //    @State private var player: AVPlayer? = nil
     @State private var videoURL: URL?
+    
+    var s3_key: String?
+    var title: String?
+    var bodyText: String?
         
     private let s3Service = S3Service()
     
     
     var body: some View {
         
-        VStack(spacing: 0) { //for video/image content and caption
+        VStack(alignment: .leading, spacing: 0) {
             
-        
-//            if let videoURL = Bundle.main.url(forResource: "TrimmedClip" + String(intVal), withExtension: "mp4") {
-//
-//            let player = AVPlayer(url: videoURL)
-//
-//                VideoPlayer(player: player)
-//                    .frame(width: UIScreen.main.bounds.width-40, height: 220)
-//                    .cornerRadius(10)
-//
-//
-//            } else {
-//
-//                Rectangle()
-//                    .fill(Color.gray)
-//                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 250)
-//            }
-            // Use the player to play the video
-//            if let unwrappedPlayer = player {
-//                VideoPlayer(player: unwrappedPlayer)
-//                    .frame(width: UIScreen.main.bounds.width-40, height: 220)
-//                    .cornerRadius(10)
-//            } else {
-//                Rectangle()
-//                    .fill(Color.gray)
-//                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 250)
-//            }
+            if let title = title {
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding(.bottom, 5)
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
+            }
             
             // Use the fetched videoURL to play the video
             if let url = videoURL {
@@ -57,46 +41,33 @@ struct PostContentView: View {
                 VideoPlayer(player: player)
                     .frame(width: UIScreen.main.bounds.width-40, height: 220)
                     .cornerRadius(10)
-            } else {
-                Rectangle()
-                    .fill(Color.gray)
-                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 250)
             }
           
-            
-           
-            
-          
-//            Rectangle()
-//                .fill(Color.black.opacity(0.5))
-//                .frame(width: UIScreen.main.bounds.width * 0.9, height: 220)
-//                .cornerRadius(10)
-            
-            
-            
-            
-            
-            // Caption
-            Text("This is a sample caption of a few lines of text. Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
-                .font(.system(size: UIScreen.main.bounds.height * 0.017))
-                .foregroundColor(.white)
-                .padding(.vertical, 10)
-                .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
+            // Display body text if available
+            if let bodyText = bodyText {
+                Text(bodyText)
+                    .font(.system(size: UIScreen.main.bounds.height * 0.017))
+                    .foregroundColor(.white)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
+            }
           
             
         } //end VStack for video/image content and caption
         .padding(.top, 5)
         .onAppear {
-            Task {
-                do {
-                    // Fetch the video URL using Amplify
-                    videoURL = try await Amplify.Storage.getURL(key: "TrimmedClip3.mp4")
-                } catch {
-                    print("Error fetching video URL: \(error)")
+            // Fetch the video URL only if s3_key is present
+            if let key = s3_key {
+                Task {
+                    do {
+                        // Fetch the video URL using Amplify
+                        videoURL = try await Amplify.Storage.getURL(key: key)
+                    } catch {
+                        print("Error fetching video URL: \(error)")
+                    }
                 }
             }
         }
-        
         
 //        .onAppear {
 //            Task {
@@ -127,7 +98,7 @@ struct PostContentView: View {
 struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         
-        PostContentView(intVal: 1)
+        PostContentView(s3_key: nil, title: "title", bodyText: "text")
             .background(Color("GradientDark"))
         
     }
