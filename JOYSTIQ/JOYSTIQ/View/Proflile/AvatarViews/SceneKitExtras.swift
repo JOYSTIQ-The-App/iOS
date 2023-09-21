@@ -203,7 +203,7 @@ private func createAmbientLight(color: UIColor, intensity: CGFloat) -> SCNNode {
  }
  
  
- //function for changing node material color
+ //function for loading node, changing node material color, adding to scene
  func addaTextureEyes() {
  
      // Load the node
@@ -226,6 +226,16 @@ private func createAmbientLight(color: UIColor, intensity: CGFloat) -> SCNNode {
  
  
  }
+ 
+ //change node material color
+ func changeMaterialColor() {
+     
+     let material = SCNMaterial()
+     material.diffuse.contents = UIColor(hexString: "#fc03d7")
+     scene.rootNode.childNode(withName: "Cylinder", recursively: true)?.geometry?.materials = [material]
+     
+ }
+
  
  
  */

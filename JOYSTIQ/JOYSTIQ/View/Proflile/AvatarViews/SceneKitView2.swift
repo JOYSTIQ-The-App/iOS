@@ -158,29 +158,6 @@ struct SceneKitView2: UIViewRepresentable {
     //function for adding nodes
     func addaTextureEyes() {
         
-        
-        /*
-        // Load the Hair model
-        let nodeURL = Bundle.main.url(forResource: "EricEyes", withExtension: "usdc")!
-        let nodeScene = try! SCNScene(url: nodeURL, options: nil)
-        let newNode = nodeScene.rootNode
-        
-        // Set the desired color using a hex code
-        let hexColor = "#fc03d7"  // Replace with your hex color code
-
-    
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor(hexString: "#fc03d7")
-        // You can adjust other material properties like shininess, transparency, etc., as needed.
-        
-        newNode.childNode(withName: "Sphere", recursively: true)?.geometry?.materials = [material]
-        
-        
-        //add shorts as scene node
-        scene.rootNode.addChildNode(newNode)
-         */
-        //let newNode = scene.rootNode
-        
         let material = SCNMaterial()
         material.diffuse.contents = UIColor(hexString: "#fc03d7")
         scene.rootNode.childNode(withName: "Cylinder", recursively: true)?.geometry?.materials = [material]
@@ -191,23 +168,6 @@ struct SceneKitView2: UIViewRepresentable {
 
 }
 
-// UIColor extension to convert hex string to UIColor
-extension UIColor {
-    convenience init?(hexString: String) {
-        var hexSanitized = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-
-        var rgb: UInt64 = 0
-
-        Scanner(string: hexSanitized).scanHexInt64(&rgb)
-
-        let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-        let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-        let blue = CGFloat(rgb & 0x0000FF) / 255.0
-
-        self.init(red: red, green: green, blue: blue, alpha: 1.0)
-    }
-}
 
 //Usage
 struct ContentView2: View {

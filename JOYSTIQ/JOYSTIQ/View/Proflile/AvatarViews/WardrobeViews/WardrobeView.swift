@@ -42,59 +42,11 @@ struct WardrobeView: View {
                 .frame(height: 2)
                 .background(Color.green)
             
-            /*
-            VStack(spacing: 10) { //for buttons
-                
-                
-                Button(action: {
-                    // Remove the previously added node from the scene
-                    
-                    sceneKitView.removeaNode(named: "Shirt")
-                    
-                    
-                }) {
-                    Text("Remove Shirt")
-                }
-                
-                Button(action: {
-                    // Remove the previously added node from the scene
-                    
-                    sceneKitView.addaNode(named: "RedShirt")
-                    
-                    
-                }) {
-                    Text("Add Red Shirt")
-                }
-                
-                
-                Button(action: {
-                    // Remove the previously added node from the scene
-                    
-                    sceneKitView.addaNode(named: "elenahair")
-                    
-                    
-                }) {
-                    Text("Add Hair")
-                }
-                
-
-                
-                Button("Environment change") {
-                    enviroInt = (enviroInt == 0) ? 1 : 0
-                }
-                
-            } //end VStack for buttons
-                 */
-            
-            
-            
-   
-            
             
             NavigationView {
                 
                     
-                Grid(horizontalSpacing: 20, verticalSpacing: 30) { //start grid for cosmetic customizations menu
+                Grid(horizontalSpacing: 20, verticalSpacing: 20) { //start grid for cosmetic customizations menu
                     
                     GridRow { //start gridrow1
                         
@@ -115,9 +67,26 @@ struct WardrobeView: View {
                                 
                             } //end zstack for torso button
                             
-                            
-                                                    
                         } //end navLink
+                        
+                        ZStack {
+
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            Rectangle()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(.gray)
+                            
+                            
+                            Image("hairicon")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
 
                         
                         //NavigationLink(destination: ShirtColorSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
@@ -142,20 +111,7 @@ struct WardrobeView: View {
                        //} //end navLink
                         
                         
-                        ZStack {
-
-                            Image(systemName: "square")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .foregroundColor(Color("LightGray"))
-                            
-                            
-                            Image(systemName: "questionmark")
-                                .resizable()
-                                .frame(width: 15, height: 20)
-                                .foregroundColor(Color("LightGray"))
-                            
-                        }
+                        
                         
                         
                         
@@ -178,20 +134,26 @@ struct WardrobeView: View {
                             
                         }
                         
-                        ZStack {
+                        NavigationLink(destination: ShoeSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
+                            
+                            ZStack { //for torso button
 
-                            Image(systemName: "square")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .foregroundColor(Color("LightGray"))
+                                Image(systemName: "square")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                                
+                                Image(systemName: "shoeprints.fill")
+                                    .resizable()
+                                    .frame(width: 25, height: 30)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                            } //end zstack for torso button
                             
-                            
-                            Image(systemName: "questionmark")
-                                .resizable()
-                                .frame(width: 15, height: 20)
-                                .foregroundColor(Color("LightGray"))
-                            
-                        }
+                        } //end navLink
+                        
+                        
                         NavigationLink(destination: EnvironmentSwitcherView(enviroInt: $enviroInt)) {
                             
                             ZStack {
@@ -289,6 +251,89 @@ struct WardrobeView: View {
         
         
     }
+    
+}
+
+struct ShoeSwitcherView: View {
+    
+    @Binding var sceneKitView: SceneKitView
+    
+    var body: some View {
+        
+        Grid(horizontalSpacing: 40) { //start grid for cosmetic customizations menu
+            
+            GridRow { //start gridrow1
+                
+                ZStack {
+
+                    Image(systemName: "square")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(Color("LightGray"))
+                    
+                    
+                    Text("Sneakers")
+                        .font(.system(size: 12))
+                        .frame(width: 80, height: 25)
+                        .foregroundColor(Color("LightGray"))
+                    
+                }
+                .onTapGesture {
+                    sceneKitView.addaNode(named: "sneakers")
+
+                }
+                
+                ZStack {
+
+                    Image(systemName: "square")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(Color("LightGray"))
+                    
+                    
+                    Text("Loafers")
+                        .font(.system(size: 12))
+                        .frame(width: 80, height: 25)
+                        .foregroundColor(Color("LightGray"))
+                    
+                }
+                .onTapGesture {
+                    sceneKitView.addaNode(named: "loafers")
+
+                }
+                
+                
+                ZStack {
+
+                    Image(systemName: "square")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(Color("LightGray"))
+                    
+                    
+                    Text("Slides")
+                        .font(.system(size: 12))
+                        .frame(width: 80, height: 25)
+                        .foregroundColor(Color("LightGray"))
+                    
+                }
+                .onTapGesture {
+                    sceneKitView.addaNode(named: "flops")
+
+                }
+                
+                
+                
+            } //end gridrow1
+            .padding(.bottom, 40)
+            
+        } //end grid
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
+        .background(.black)
+        
+        
+    } //end body
+    
     
 }
 

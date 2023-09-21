@@ -38,9 +38,9 @@ struct SceneKitView: UIViewRepresentable {
         
         createDirectionalLight(color: UIColor.white, intensity: 200.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(0, 0, 0))
         
-        //createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: -Float.pi / 2, z: 0), direction: SCNVector3(0, -Float.pi / 2, 0))
+        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: -Float.pi / 2, z: 0), direction: SCNVector3(0, -Float.pi / 2, 0))
         
-       // createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: Float.pi / 2, z: 0), direction: SCNVector3(0, Float.pi / 2, 0))
+        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: Float.pi / 2, z: 0), direction: SCNVector3(0, Float.pi / 2, 0))
         
   
      
@@ -51,7 +51,7 @@ struct SceneKitView: UIViewRepresentable {
     private static func loadScene(named name: String) -> SCNScene? {
         
         guard let url = Bundle.main.url(forResource: name, withExtension: "usdc") else {
-            print("Failed to find the .dae file: \(name).usdc")
+            print("Failed to find the .usdc file: \(name).usdc")
             return nil
         }
         
@@ -170,12 +170,10 @@ struct SceneKitView: UIViewRepresentable {
     
     func changeSkinTone(named hexCode: String) {
         
-
         //apply new hex color to body node
         let material = SCNMaterial()
         material.diffuse.contents = UIColor(hexString: hexCode)
         scene.rootNode.childNode(withName: "Body", recursively: true)?.childNode(withName: "Vert_006", recursively: true)?.geometry?.materials = [material]
-        
         
     }
    
@@ -188,7 +186,6 @@ struct ContentView7: View {
     
     @State private var avatarSnapshot: UIImage?
     @State private var sceneKitView = SceneKitView(named: "CamTest6")
-    //var skinToneInt = 1// Replace 42 with your desired integer value
 
     var body: some View {
         
@@ -231,7 +228,7 @@ struct ContentView7: View {
             Button(action: {
                 
                 // Remove the previously added node from the scene
-                let skinToneInt = 3
+                let skinToneInt = 2
                 
                 switch skinToneInt {
                     
@@ -247,12 +244,21 @@ struct ContentView7: View {
                 }
                 
                 
+            }) {
+                Text("Test Skin tone change")
+            }
+            
+            
+            
+            Button(action: {
                 
-                
+                sceneKitView.addaNode(named: "Tanktop")
                 
             }) {
-                Text("Test Node")
+                Text("Test Flops")
             }
+            
+          
                 
             
         }

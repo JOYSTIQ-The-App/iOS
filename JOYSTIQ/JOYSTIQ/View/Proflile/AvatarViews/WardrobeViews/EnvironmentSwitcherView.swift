@@ -21,14 +21,14 @@ struct EnvironmentSwitcherView: View {
 
                     Image(systemName: "square")
                         .resizable()
-                        .frame(width: 90, height: 65)
-                        .foregroundColor(Color("LightGray"))
+                        .frame(width: 85, height: 65)
+                        .foregroundColor(enviroInt == 0 ? Color.green : Color("LightGray"))
                         .zIndex(1)
                     
                     Image("defaultEnv")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 60, height: 60)
+                        .frame(width: 65, height: 60)
                         .zIndex(0)
                 
                     
@@ -42,7 +42,7 @@ struct EnvironmentSwitcherView: View {
                     Image(systemName: "square")
                         .resizable()
                         .frame(width: 90, height: 65)
-                        .foregroundColor(Color("LightGray"))
+                        .foregroundColor(enviroInt == 1 ? Color.green : Color("LightGray"))
                         .zIndex(1)
                     
                     Image("bedroomEnv")
@@ -61,10 +61,12 @@ struct EnvironmentSwitcherView: View {
                 
                 
             } //end gridrow1
+            .padding(.bottom, 40)
             
         } //end grid
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
         .background(.black)
+        
         
     } //end body
     
@@ -72,6 +74,6 @@ struct EnvironmentSwitcherView: View {
 
 struct EnvironmentSwitcherView_Previews: PreviewProvider {
     static var previews: some View {
-        EnvironmentSwitcherView(enviroInt: .constant(1))
+        EnvironmentSwitcherView(enviroInt: .constant(0))
     }
 }
