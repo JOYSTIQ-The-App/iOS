@@ -69,9 +69,10 @@
 		99A9F3C72AB7E246000F27E5 /* SceneKitView6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
-		99FD29EB2ABCE9780049AAFA /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99FD29EA2ABCE9770049AAFA /* AvatarNodes */; };
 		99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */; };
 		99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */; };
+		99FD29FB2ABD1F0C0049AAFA /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99FD29FA2ABD1F0C0049AAFA /* AvatarNodes */; };
+		99FD29FD2ABD1FC90049AAFA /* EyebrowSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29FC2ABD1FC90049AAFA /* EyebrowSwitcherView.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -138,9 +139,10 @@
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
 		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
-		99FD29EA2ABCE9770049AAFA /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AvatarNodes; path = ../../AvatarNodes; sourceTree = "<group>"; };
 		99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairSwitcherView.swift; sourceTree = "<group>"; };
 		99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShirtSwitcherView.swift; sourceTree = "<group>"; };
+		99FD29FA2ABD1F0C0049AAFA /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AvatarNodes; path = ../../AvatarNodes; sourceTree = "<group>"; };
+		99FD29FC2ABD1FC90049AAFA /* EyebrowSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyebrowSwitcherView.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,7 +173,7 @@
 		9941DC132A93F02100215948 = {
 			isa = PBXGroup;
 			children = (
-				99FD29EA2ABCE9770049AAFA /* AvatarNodes */,
+				99FD29FA2ABD1F0C0049AAFA /* AvatarNodes */,
 				997062D62ABB8BFE005596A3 /* CamTest6.usdc */,
 				9941DC7D2A94003400215948 /* Placeholders */,
 				9941DC1E2A93F02100215948 /* JOYSTIQ */,
@@ -350,6 +352,7 @@
 				997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */,
 				99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */,
 				99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */,
+				99FD29FC2ABD1FC90049AAFA /* EyebrowSwitcherView.swift */,
 			);
 			path = WardrobeViews;
 			sourceTree = "<group>";
@@ -474,7 +477,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99FD29EB2ABCE9780049AAFA /* AvatarNodes in Resources */,
+				99FD29FB2ABD1F0C0049AAFA /* AvatarNodes in Resources */,
 				997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */,
 				9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */,
 				9941DC302A93F50E00215948 /* TrimmedClip1.mp4 in Resources */,
@@ -516,6 +519,7 @@
 				9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */,
 				9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */,
 				9941DC772A93F6F000215948 /* LeaderboardContentFilter.swift in Sources */,
+				99FD29FD2ABD1FC90049AAFA /* EyebrowSwitcherView.swift in Sources */,
 				995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */,
 				995085EA2A95A817003996B6 /* SignUpView.swift in Sources */,
 				9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */,

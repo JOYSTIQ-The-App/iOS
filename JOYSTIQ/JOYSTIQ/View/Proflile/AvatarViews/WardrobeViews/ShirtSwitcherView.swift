@@ -36,6 +36,8 @@ struct ShirtSwitcherView: View {
 
                 }
                 
+                
+                
                 ZStack {
 
                     Image(systemName: "square")
@@ -52,6 +54,27 @@ struct ShirtSwitcherView: View {
                 }
                 .onTapGesture {
                     sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/MTanktop")
+
+                }
+                
+                
+                
+                ZStack {
+
+                    Image(systemName: "square")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(Color("LightGray"))
+                    
+                    
+                    Text("Sweater")
+                        .font(.system(size: 12))
+                        .frame(width: 80, height: 25)
+                        .foregroundColor(Color("LightGray"))
+                    
+                }
+                .onTapGesture {
+                    sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/blacksweater")
 
                 }
                 

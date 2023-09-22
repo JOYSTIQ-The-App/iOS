@@ -90,6 +90,30 @@ struct WardrobeView: View {
                                 
                             }
                         }
+                        
+                        
+                        
+                        NavigationLink(destination: EyebrowSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
+                            
+                            ZStack { //for torso button
+
+                                Image(systemName: "square")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                                
+                                Image(systemName: "eyebrow")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(Color("LightGray"))
+                                
+                            } //end zstack for torso button
+                            
+                            
+                       } //end navLink
+                        
+                        
 
                         
                         NavigationLink(destination: ShirtSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
@@ -112,6 +136,8 @@ struct WardrobeView: View {
                             
                                                     
                        } //end navLink
+                        
+                        
                         
                         
                         
@@ -251,7 +277,7 @@ struct WardrobeView: View {
         } //end Main VStack for scenekitview and wardrobe controls
         //.edgesIgnoringSafeArea(.all)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .background(Color.clear)
+        .background(Color.gray)
         .onAppear {
             hideNavBar = true
         }

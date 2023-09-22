@@ -72,7 +72,6 @@ struct SceneKitView: UIViewRepresentable {
         scnView.showsStatistics = true
         
         return scnView
-
         
     }
 
@@ -179,7 +178,22 @@ struct SceneKitView: UIViewRepresentable {
         let nodeScene = try! SCNScene(url: nodeURL, options: nil)
         let newNode = nodeScene.rootNode
         
-        //add shorts as scene node
+        
+        //===========SWEATER EXPERIMENT=================
+
+        
+        if let texture = UIImage(named: "AvatarNodes/Textures/sweaterLogo.png") {
+            
+            let material = SCNMaterial()
+            material.diffuse.contents = texture
+            newNode.childNode(withName: "sweater", recursively: true)?.geometry?.materials = [material]
+            
+        }
+            
+
+        //===========SWEATER EXPERIMENT=================
+        
+        
         scene.rootNode.addChildNode(newNode)
         
         
@@ -196,6 +210,15 @@ struct SceneKitView: UIViewRepresentable {
         let material = SCNMaterial()
         material.diffuse.contents = UIColor(hexString: hexCode)
         scene.rootNode.childNode(withName: "Body", recursively: true)?.childNode(withName: "Vert_006", recursively: true)?.geometry?.materials = [material]
+        
+    }
+    
+    func changeEyebrow(named hexCode: String) {
+        
+        //apply new hex color to body node
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor(hexString: hexCode)
+        scene.rootNode.childNode(withName: "Brows", recursively: true)?.childNode(withName: "Vert_002", recursively: true)?.geometry?.materials = [material]
         
     }
    
@@ -261,7 +284,7 @@ struct ContentView7: View {
             
             Button(action: {
                 
-                sceneKitView.addaNode(named: "AvatarNodes/Male/Footwear/sneakers")
+                sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/blacksweater")
                 
             }) {
                 Text("Test flops")
