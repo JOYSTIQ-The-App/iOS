@@ -218,6 +218,38 @@ struct SceneKitView: UIViewRepresentable {
         
     }
     
+    func changeShirtColor(named style: String, named hexCode: String) {
+        
+        //apply new hex color to body node
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor(hexString: hexCode)
+        material.specular.contents = UIColor.white
+        material.specular.intensity = 0.2
+        
+        switch style {
+            
+        case "Shirt":
+            
+            
+            scene.rootNode.childNode(withName: "Shirt", recursively: true)?.childNode(withName: "BSurfaceMesh", recursively: true)?.geometry?.materials = [material]
+            
+            
+        case "Tanktop":
+            
+            
+            scene.rootNode.childNode(withName: "Tanktop", recursively: true)?.childNode(withName: "Cube", recursively: true)?.geometry?.materials = [material]
+            
+        default:
+            
+            print("Do nothing")
+            
+        } //end switch
+        
+        
+        
+    }
+    
+    
     func changeHairColor(named style: String, named hexCode: String) {
         
         //apply new hex color to body node

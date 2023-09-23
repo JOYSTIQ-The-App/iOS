@@ -14,9 +14,9 @@ struct ShirtSwitcherView: View {
     // Define your hairstyle and hair color options as arrays
     let torsoOptions = ["Shirt 0", "Shirt 1", "Shirt 2"]
     
-    let torsoColorOptions = ["Default", "Black", "Brown", "Blonde", "Red", "White"]
+    let torsoColorOptions = ["Default", "Red", "Green", "Blue", "Black", "White"]
     
-    @State private var currentStyle = "nil"
+    @State private var shirtStyle = "Shirt"
     
     @State private var selectedTorsoIndex = 0
     @State private var selectedTorsoColorIndex = 0
@@ -40,32 +40,37 @@ struct ShirtSwitcherView: View {
                     
                     selectedTorsoColorIndex = 0
                     
-                    if selectedTorsoIndex >= 1 {
+                    if selectedTorsoIndex >= 1 && selectedTorsoIndex != 0 {
+                        
                         selectedTorsoIndex -= 1
+                        
+                        switch selectedTorsoIndex {
+                            
+                        case 0: //from tanktop to shirt
+                            
+                            shirtStyle = "Shirt"
+                            sceneKitView.replaceNode(named: "Tanktop", named: "AvatarNodes/Male/Torso/MDefaultShirt")
+                            
+                        case 1: //replace sweater with tank tpp
+                        
+                            shirtStyle = "Tanktop"
+                            sceneKitView.replaceNode(named: "sweater_black", named: "AvatarNodes/Male/Torso/MTanktop")
+                         
+                            
+                        case 2:
+                           
+                            print("Do nothing")
+                        
+
+                        default:
+                            
+                            print("Do nothing")
+                            
+                            
+                        } //end switch
                     }
                     
-                    switch selectedTorsoIndex {
-                        
-                    case 0: //from tanktop to shirt
-                        
-                        sceneKitView.replaceNode(named: "Tanktop", named: "AvatarNodes/Male/Torso/MDefaultShirt")
-                        
-                    case 1: //replace sweater with tank tpp
                     
-                        sceneKitView.replaceNode(named: "sweater_black", named: "AvatarNodes/Male/Torso/MTanktop")
-                     
-                        
-                    case 2: //replace tank top with sweater
-                       
-                        print("Do nothing")
-                    
-
-                    default:
-                        
-                        print("Do nothing")
-                        
-                        
-                    } //end switch
                     
                 }
                 .foregroundColor(selectedTorsoIndex == 0 ? .gray : .green)
@@ -85,7 +90,7 @@ struct ShirtSwitcherView: View {
                     
                 
                 
-                // Right arrow button for hairstyle
+                // Right arrow button for shirt selection
                 Button(">") {
         
                     
@@ -105,12 +110,13 @@ struct ShirtSwitcherView: View {
                         case 1: //replace shirt with tank top
                         
                             sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/MTanktop")
+                            shirtStyle = "Tanktop"
                          
                             
                         case 2: //replace tank top with sweater
                            
                             sceneKitView.replaceNode(named: "Tanktop", named: "AvatarNodes/Male/Torso/blacksweater")
-                        
+                            shirtStyle = "sweater"
     
                         default:
                             
@@ -139,139 +145,142 @@ struct ShirtSwitcherView: View {
             .padding(.bottom, 10)
         
             
-            /*
-            HStack {
+            
+            
+            
+            
+            
+            if selectedTorsoIndex != 2 { //if prevent sweater color
                 
-                Image(systemName: "paintpalette.fill")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(Color("LightGray"))
-                    .padding(.trailing, 13)
-                
-                
-                Spacer()
-                
-                
-                // Left arrow button for hair color
-                Button("<") {
+                HStack { //for color selector
                     
-                    //selectedHairColorIndex = (selectedHairColorIndex - 1 + hairColorOptions.count) % hairColorOptions.count
+                    Image(systemName: "paintpalette.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(Color("LightGray"))
+                        .padding(.trailing, 13)
                     
                     
-                    if selectedHairColorIndex >= 1 {
-                        selectedHairColorIndex -= 1
+                    Spacer()
+                    
+                    
+                    // Left arrow button for shirt color
+                    Button("<") {
+                        
+                        
+                        if selectedTorsoColorIndex >= 1 && selectedTorsoColorIndex != 0 {
+                            
+                            selectedTorsoColorIndex -= 1
+                            
+                            switch selectedTorsoColorIndex {
+                                
+                            case 0:
+                                print("do nothing")
+                            
+                            case 1: //red
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#780000")
+                                
+                            case 2: //green
+                                       
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#025901")
+                                
+                            case 3: //blue
+                                       
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#044bbd")
+                                
+                            case 4: //black
+                                       
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#212121")
+                                
+                                
+                            default:
+                                print("do nothing")
+                                
+                                
+              
+                            }//end switch
+                            
+                        }
+                        
+                        
+                        
+                        
+                        
                     }
+                    .foregroundColor(selectedTorsoColorIndex == 0 ? .gray : .green)
+                    .padding(.all, 2)
+                    .font(.system(size: 28))
+                    .buttonStyle(NeumorphicButtonStyle())
+                    
+                    Text("\(torsoColorOptions[selectedTorsoColorIndex])")
+                        .font(.system(size: 18))
+                        .foregroundColor(Color("LightGray"))
+                        .frame(width: 200, height: 40)
+                        .background(Color("GradientLight"))
+                        .cornerRadius(5)
+                        .padding(.horizontal, 10)
+                        
+                    
+                    // Right arrow button for shirt color
+                    //["Default", "Red", "Green", "Blue", "Black", "White"]
+                    Button(">") {
+                        
+                        
+                        if selectedTorsoColorIndex <= 4 {
+                 
+                            selectedTorsoColorIndex += 1
+                            
+                            switch selectedTorsoColorIndex {
+                                
+                            case 0: //can't happen
+                                print("do nothing")
+                            
+                            case 1: //red
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#780000")
+                                
+                            case 2: //green
+                                       
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#025901")
+                                
+                            case 3: //blue
+                                       
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#044bbd")
+                                
+                            case 4: //black
+                                       
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#212121")
+                                
+                            case 5: //white
+                                       
+                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#d7d7d9")
+                                
+                            default:
+                                print("do nothing")
+                                
+                                
+                            } //end switch
+                            
+                        } //end if
+                        
+        
+                        
+                    }
+                    .foregroundColor(selectedTorsoColorIndex == 5 ? .gray : .green)
+                    .padding(.all, 2)
+                    .font(.system(size: 28))
+                    .buttonStyle(NeumorphicButtonStyle())
                     
                     
-                    switch selectedHairColorIndex {
-                        
-                    case 0:
-                        print("do nothing")
-                    
-                    case 1: //black color
-                        
-                        sceneKitView.changeHairColor(named: currentStyle, named: "#121212")
-                        sceneKitView.changeEyebrow(named: "#121212")
-                        
-                    case 2: //brown color
-                        
-                        sceneKitView.changeHairColor(named: currentStyle, named: "#7a5820")
-                        sceneKitView.changeEyebrow(named: "#7a5820")
-                        
-                    case 3: //blonde color
-                        
-                        sceneKitView.changeHairColor(named: currentStyle, named: "#faf0be")
-                        sceneKitView.changeEyebrow(named: "#faf0be")
-                        
-                    case 4: //red color
-                        
-                        sceneKitView.changeHairColor(named: currentStyle, named: "#943400")
-                        sceneKitView.changeEyebrow(named: "#943400")
-                        
-                    default:
-                        print("do nothing")
-                        
-                        
-      
-                    }//end switch
+                    Spacer()
                     
                     
-                }
-                .foregroundColor(selectedHairColorIndex == 0 ? .gray : .green)
-                .padding(.all, 2)
-                .font(.system(size: 28))
-                .buttonStyle(NeumorphicButtonStyle())
-                
-                Text("\(hairColorOptions[selectedHairColorIndex])")
-                    .font(.system(size: 18))
-                    .foregroundColor(Color("LightGray"))
-                    .frame(width: 200, height: 40)
-                    .background(Color("GradientLight"))
-                    .cornerRadius(5)
-                    .padding(.horizontal, 10)
-                    
-                
-                // Right arrow button for hair color
-                // hairColorOptions = ["Default", "Black", "Brown", "Blonde", "Red", "White"]
-                Button(">") {
-                    
-                    //selectedHairColorIndex = (selectedHairColorIndex + 1) % hairColorOptions.count
-                    
-                    if selectedHairColorIndex <= 4 {
-                        selectedHairColorIndex += 1
-                        
-                        switch selectedHairColorIndex {
-                            
-                        case 0:
-                            print("do nothing")
-                        
-                        case 1: //black color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#121212")
-                            sceneKitView.changeEyebrow(named: "#121212")
-                            
-                        case 2: //brown color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#7a5820")
-                            sceneKitView.changeEyebrow(named: "#7a5820")
-                            
-                        case 3: //blonde color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#faf0be")
-                            sceneKitView.changeEyebrow(named: "#faf0be")
-                            
-                        case 4: //red color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#943400")
-                            sceneKitView.changeEyebrow(named: "#943400")
-                            
-                        case 5: //white color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#ffffff")
-                            sceneKitView.changeEyebrow(named: "#ffffff")
-                            
-                        default:
-                            print("do nothing")
-                            
-                            
-                        } //end switch
-                        
-                    } //end if
-                    
-    
-                    
-                }
-                .foregroundColor(selectedHairColorIndex == 5 ? .gray : .green)
-                .padding(.all, 2)
-                .font(.system(size: 28))
-                .buttonStyle(NeumorphicButtonStyle())
+                }//end HStack for color selector
                 
                 
-                Spacer()
                 
-                
-            }//end HStack for color selector
-            */
+            } //end if prevent sweater color
+            
+            
             
             
             
