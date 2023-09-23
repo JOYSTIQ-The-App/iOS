@@ -11,14 +11,13 @@ import AVKit
 import AVFoundation
 
 
-struct CreatePostView<AuthServiceType: AuthServiceProtocol & ObservableObject, PostServiceType: PostServiceProtocol, S3ServiceType: S3ServiceProtocol & ObservableObject>: View {
+struct CreatePostView<AuthServiceType: AuthServiceProtocol & ObservableObject, APIServiceType: APIServiceProtocol, S3ServiceType: S3ServiceProtocol & ObservableObject>: View {
     @ObservedObject var authService: AuthServiceType
-    var postService: PostServiceType
+    var APIService: APIServiceType
     @ObservedObject var s3Service: S3ServiceType
     
     @Binding var isPresented: Bool
 
-    @State private var title = ""
     @State private var game = ""
     @State private var text = ""
     @State private var selectedImage: UIImage?
@@ -30,7 +29,6 @@ struct CreatePostView<AuthServiceType: AuthServiceProtocol & ObservableObject, P
     var body: some View {
         NavigationView {
             Form {
-                TextField("Title", text: $title)
                 TextField("Game", text: $game)
                 
                 ZStack(alignment: .topLeading) {
@@ -163,12 +161,12 @@ struct CreatePostView<AuthServiceType: AuthServiceProtocol & ObservableObject, P
             mediaType = "none"
         }
         
-        let postData = PostData(s3_key: s3Key, media: mediaType, title: title, game: game, body: text, status: "live")
+        let postData = PostData(s3_key: s3Key, media: mediaType, game: game, body: text, status: "live")
 
         // Fetch the user's email and create the post
         Task {
             if let email = try? await authService.fetchUserEmail() {
-                postService.createPost(email: email, postData: postData) { result in
+                APIService.createPost(email: email, postData: postData) { result in
                     switch result {
                     case .success():
                         print("Post created successfully!")
@@ -193,6 +191,6 @@ struct CreateView_Previews: PreviewProvider {
     @State static private var isPresented = true
 
     static var previews: some View {
-        CreatePostView(authService: MockAuthService(), postService: MockPostService(), s3Service: MockS3Service(), isPresented: $isPresented)
+        CreatePostView(authService: MockAuthService(), APIService: MockAPIService(), s3Service: MockS3Service(), isPresented: $isPresented)
     }
 }

@@ -12,7 +12,6 @@ struct Post: Codable, Identifiable {
     var user_id: Int
     var s3_key: S3Key?
     var media: String
-    var title: String?
     var game: String
     var body: String?
     var status: String

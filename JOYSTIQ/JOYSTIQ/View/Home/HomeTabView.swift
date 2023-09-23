@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct HomeTabView<UserServiceType: UserServiceProtocol>: View {
+struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
-    var userService: UserServiceType
+    var APIService: APIServiceType
     
     @State private var showDropDown = false
     @State private var showingReportAlert = false
@@ -24,6 +24,9 @@ struct HomeTabView<UserServiceType: UserServiceProtocol>: View {
                 mainContent
                 dropDownView
             }
+            .navigationBarItems(trailing: Button("Refresh") {
+                refreshPosts()
+            })
             .accentColor(Color("LightGray"))
         }
     }
@@ -39,7 +42,7 @@ struct HomeTabView<UserServiceType: UserServiceProtocol>: View {
         .onAppear {
             Task {
                 if let email = user.email {
-                    userService.getUserFeed(for: email) { result in
+                    APIService.getUserFeed(for: email) { result in
                         switch result {
                         case .success(let fetchedPosts):
                             posts = fetchedPosts
@@ -52,20 +55,21 @@ struct HomeTabView<UserServiceType: UserServiceProtocol>: View {
                 }
             }
         }
+
     }
     
     private var feedView: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: 0) {
-                ForEach(posts, id: \.id) { post in
-                    UserBannerPostView(userService: userService, intVal: 1, userId: post.user_id)
+                ForEach(posts) { post in
+                    UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
                         .environmentObject(user)
                     
                     LazyVStack(alignment: .leading, spacing: 0) {
                         if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                            PostContentView(s3_key: s3Key, title: post.title, bodyText: post.body)
+                            PostContentView(s3_key: s3Key, bodyText: post.body)
                         } else {
-                            PostContentView(s3_key: nil, title: post.title, bodyText: post.body)
+                            PostContentView(s3_key: nil, bodyText: post.body)
                         }
                     }
                     
@@ -92,6 +96,24 @@ struct HomeTabView<UserServiceType: UserServiceProtocol>: View {
             }
         }
     }
+    
+    // MARK: - Funtions
+    private func refreshPosts() {
+        Task {
+            if let email = user.email {
+                APIService.getUserFeed(for: email) { result in
+                    switch result {
+                    case .success(let fetchedPosts):
+                        posts = fetchedPosts
+                    case .failure(let error):
+                        print("Error fetching user feed: \(error.localizedDescription)")
+                    }
+                }
+            } else {
+                print("Error retrieving user email.")
+            }
+        }
+    }
 
     
     // MARK: - Alert
@@ -112,7 +134,7 @@ struct HomeTabView_Previews: PreviewProvider {
         testUser.email = "testEmail@example.com"
         testUser.username = "testUsername"
         
-        return HomeTabView<MockUserService>(userService: MockUserService(), showCommentSection: .constant(false))
+        return HomeTabView(APIService: MockAPIService(), showCommentSection: .constant(false))
             .environmentObject(testUser)
     }
 }

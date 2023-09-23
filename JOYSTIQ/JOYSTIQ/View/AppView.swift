@@ -27,19 +27,19 @@ struct AppView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
             switch selectedTab {
                 
                 case 0:
-                    HomeTabView<UserService>(userService: UserService(), showCommentSection: $showCommentSection)
+                    HomeTabView<APIService>(APIService: APIService(), showCommentSection: $showCommentSection)
                         .environmentObject(user)
                         .disabled(showCommentSection)
                     
                 case 1:
-                    LeaderboardTabView(userService: UserService(), showCommentSection: $showCommentSection)
+                    LeaderboardTabView<APIService>(APIService: APIService(), showCommentSection: $showCommentSection)
                     .disabled(showCommentSection)
                 case 3:
                     ConnectTabView()
                 case 4:
                     ProfileTabView()
                 default:
-                    HomeTabView<UserService>(userService: UserService(), showCommentSection: $showCommentSection)
+                    HomeTabView<APIService>(APIService: APIService(), showCommentSection: $showCommentSection)
                         .environmentObject(user)
                         .disabled(showCommentSection)
                 
@@ -119,7 +119,7 @@ struct AppView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
                     
                 })
                 .sheet(isPresented: $showPostScreen) {
-                    CreatePostView(authService: AuthService(), postService: PostService(), s3Service: S3Service(), isPresented: $showPostScreen)
+                    CreatePostView(authService: AuthService(), APIService: APIService(), s3Service: S3Service(), isPresented: $showPostScreen)
                 }
                 
                 

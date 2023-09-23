@@ -36,7 +36,7 @@ class AppViewModel: ObservableObject {
 
         // Fetch username
         let userIdentifier: UserIdentifier = .email("ssottosanti@joystiq.gg")
-        UserService().getUsername(for: userIdentifier) { result in
+        APIService().getUsername(for: userIdentifier) { result in
             switch result {
             case .success(let username):
                 print(username)

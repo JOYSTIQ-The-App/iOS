@@ -17,7 +17,6 @@ struct PostContentView: View {
     @State private var videoURL: URL?
     
     var s3_key: String?
-    var title: String?
     var bodyText: String?
         
     private let s3Service = S3Service()
@@ -26,14 +25,6 @@ struct PostContentView: View {
     var body: some View {
         
         VStack(alignment: .leading, spacing: 0) {
-            
-            if let title = title {
-                Text(title)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding(.bottom, 5)
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
-            }
             
             // Use the fetched videoURL to play the video
             if let url = videoURL {
@@ -98,7 +89,7 @@ struct PostContentView: View {
 struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         
-        PostContentView(s3_key: nil, title: "title", bodyText: "text")
+        PostContentView(s3_key: nil, bodyText: "text")
             .background(Color("GradientDark"))
         
     }
