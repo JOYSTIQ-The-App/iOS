@@ -95,19 +95,7 @@ struct SceneKitView: UIViewRepresentable {
         let nodeURL = Bundle.main.url(forResource: name, withExtension: "usdc")!
         let nodeScene = try! SCNScene(url: nodeURL, options: nil)
         let newNode = nodeScene.rootNode
-        
-        
-        if name == "longhair" {
-            
-            
-            let material = SCNMaterial()
-            material.diffuse.contents = UIColor.brown
-            
-            newNode.childNode(withName: "NurbsPath", recursively: true)?.childNode(withName: "NurbsPath", recursively: true)?.geometry?.materials = [material]
-            newNode.childNode(withName: "Sphere_003", recursively: true)?.childNode(withName: "Sphere_004", recursively: true)?.geometry?.materials = [material]
-            
-            
-        }
+
         
         //add shorts as scene node
         scene.rootNode.addChildNode(newNode)
@@ -235,14 +223,19 @@ struct SceneKitView: UIViewRepresentable {
         //apply new hex color to body node
         let material = SCNMaterial()
         material.diffuse.contents = UIColor(hexString: hexCode)
-        material.specular.contents = UIColor.white
+        
         
         switch style {
             
         case "AnhHair1":
             
+            material.specular.contents = UIColor.white
             material.shininess = 5
-            scene.rootNode.childNode(withName: "ShortHair", recursively: true)?.childNode(withName: "Plane", recursively: true)?.geometry?.materials = [material]
+            
+            let material2 = SCNMaterial()
+            material2.diffuse.contents = UIColor(hexString: hexCode)
+            
+            scene.rootNode.childNode(withName: "ShortHair", recursively: true)?.childNode(withName: "Plane", recursively: true)?.geometry?.materials = [material2]
             scene.rootNode.childNode(withName: "TopPart", recursively: true)?.childNode(withName: "NurbsPath_001", recursively: true)?.geometry?.materials = [material]
             
             
