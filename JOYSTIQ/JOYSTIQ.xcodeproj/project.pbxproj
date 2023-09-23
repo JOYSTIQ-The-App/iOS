@@ -52,7 +52,6 @@
 		995085E82A95A805003996B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E72A95A805003996B6 /* LoginView.swift */; };
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
-		9969C7292AB7CCD500291A77 /* SceneKitView5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9969C7282AB7CCD500291A77 /* SceneKitView5.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
 		997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062B22ABB6036005596A3 /* SceneKitView2.swift */; };
 		997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */; };
@@ -62,7 +61,6 @@
 		9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */; };
 		9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */; };
 		9989F6942AB3B26500A1B6F2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6932AB3B26500A1B6F2 /* ProfileView.swift */; };
-		9989F6982AB3C5C100A1B6F2 /* WardrobeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */; };
 		999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */; };
 		99A5C1512AAE68BA00CDD4AD /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1502AAE68BA00CDD4AD /* RoundedCorner.swift */; };
 		99A5C1532AAE6DD300CDD4AD /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */; };
@@ -71,8 +69,8 @@
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
 		99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */; };
 		99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */; };
-		99FD29FB2ABD1F0C0049AAFA /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99FD29FA2ABD1F0C0049AAFA /* AvatarNodes */; };
 		99FD29FD2ABD1FC90049AAFA /* EyebrowSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29FC2ABD1FC90049AAFA /* EyebrowSwitcherView.swift */; };
+		99FD4A212ABE74E2002A3474 /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99FD4A202ABE74E2002A3474 /* AvatarNodes */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -121,7 +119,6 @@
 		995085E72A95A805003996B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
-		9969C7282AB7CCD500291A77 /* SceneKitView5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView5.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
 		997062B22ABB6036005596A3 /* SceneKitView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView2.swift; sourceTree = "<group>"; };
 		997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinToneSwitcherView.swift; sourceTree = "<group>"; };
@@ -131,7 +128,6 @@
 		9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicButtons.swift; sourceTree = "<group>"; };
 		9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
 		9989F6932AB3B26500A1B6F2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView3.swift; sourceTree = "<group>"; };
 		999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTESTS.swift; sourceTree = "<group>"; };
 		99A5C1502AAE68BA00CDD4AD /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
@@ -141,8 +137,8 @@
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
 		99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairSwitcherView.swift; sourceTree = "<group>"; };
 		99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShirtSwitcherView.swift; sourceTree = "<group>"; };
-		99FD29FA2ABD1F0C0049AAFA /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AvatarNodes; path = ../../AvatarNodes; sourceTree = "<group>"; };
 		99FD29FC2ABD1FC90049AAFA /* EyebrowSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyebrowSwitcherView.swift; sourceTree = "<group>"; };
+		99FD4A202ABE74E2002A3474 /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AvatarNodes; path = ../../AvatarNodes; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,7 +169,7 @@
 		9941DC132A93F02100215948 = {
 			isa = PBXGroup;
 			children = (
-				99FD29FA2ABD1F0C0049AAFA /* AvatarNodes */,
+				99FD4A202ABE74E2002A3474 /* AvatarNodes */,
 				997062D62ABB8BFE005596A3 /* CamTest6.usdc */,
 				9941DC7D2A94003400215948 /* Placeholders */,
 				9941DC1E2A93F02100215948 /* JOYSTIQ */,
@@ -372,8 +368,6 @@
 			isa = PBXGroup;
 			children = (
 				9989F6932AB3B26500A1B6F2 /* ProfileView.swift */,
-				9989F6972AB3C5C100A1B6F2 /* WardrobeView3.swift */,
-				9969C7282AB7CCD500291A77 /* SceneKitView5.swift */,
 				99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */,
 			);
 			name = TestDELETEME;
@@ -477,7 +471,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99FD29FB2ABD1F0C0049AAFA /* AvatarNodes in Resources */,
+				99FD4A212ABE74E2002A3474 /* AvatarNodes in Resources */,
 				997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */,
 				9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */,
 				9941DC302A93F50E00215948 /* TrimmedClip1.mp4 in Resources */,
@@ -505,7 +499,6 @@
 				997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */,
 				999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */,
 				9941DC722A93F6F000215948 /* CommentButton.swift in Sources */,
-				9969C7292AB7CCD500291A77 /* SceneKitView5.swift in Sources */,
 				996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */,
 				99A5C1512AAE68BA00CDD4AD /* RoundedCorner.swift in Sources */,
 				9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */,
@@ -544,7 +537,6 @@
 				997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				993F862A2AB2966C00919BA2 /* LeaderboardBottom.swift in Sources */,
-				9989F6982AB3C5C100A1B6F2 /* WardrobeView3.swift in Sources */,
 				997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */,
 				9941DC612A93F6F000215948 /* HomeTabViewModel.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,

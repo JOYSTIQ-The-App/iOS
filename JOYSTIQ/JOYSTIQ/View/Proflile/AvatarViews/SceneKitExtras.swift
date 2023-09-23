@@ -247,5 +247,24 @@ private func createAmbientLight(color: UIColor, intensity: CGFloat) -> SCNNode {
  scene.rootNode.addChildNode(floorNode)
   
  
+ //applying logo texture map and coloring
+ if let texture = UIImage(named: "AvatarNodes/Textures/sweaterLogo.png") { //sweaterBaseClr_white.png
+     
+     if let texture2 = UIImage(named: "KnittedTexture.tif") {
+         
+         let material = SCNMaterial()
+         //material.diffuse.contents = texture2
+         material.emission.contents = UIColor.blue
+         material.normal.contents = texture
+         //material.multiply.contents = UIColor.blue
+         
+         
+         
+         
+         newNode.childNode(withName: "sweater", recursively: true)?.geometry?.materials = [material]
+     }
+     
+ }
+ 
  
  */

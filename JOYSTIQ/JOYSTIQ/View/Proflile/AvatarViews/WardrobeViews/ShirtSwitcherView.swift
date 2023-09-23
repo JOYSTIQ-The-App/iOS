@@ -95,7 +95,7 @@ struct ShirtSwitcherView: View {
 struct ShirtContentView: View {
     
     
-    @State private var sceneKitView = SceneKitView(named: "CamTest6")
+    @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
     
     var body: some View {
         

@@ -10,6 +10,7 @@ import SwiftUI
 struct SkinToneSwitcherView: View {
     
     @Binding var sceneKitView: SceneKitView
+    @Binding var selectionsArray: [String]
     
     var body: some View {
         
@@ -22,7 +23,7 @@ struct SkinToneSwitcherView: View {
                     Image(systemName: "square")
                         .resizable()
                         .frame(width: 60, height: 60)
-                        .foregroundColor(Color("LightGray"))
+                        .foregroundColor(selectionsArray[0] == "#ffdab0" ? Color.green : Color("LightGray"))
                         .zIndex(1)
                     
                     RoundedRectangle(cornerRadius: 10)
@@ -34,6 +35,7 @@ struct SkinToneSwitcherView: View {
                 }
                 .onTapGesture {
                     sceneKitView.changeSkinTone(named: "#ffdab0") //white
+                    selectionsArray[0] = "#ffdab0"
                 }
                 
                 ZStack {
@@ -41,7 +43,7 @@ struct SkinToneSwitcherView: View {
                     Image(systemName: "square")
                         .resizable()
                         .frame(width: 60, height: 60)
-                        .foregroundColor(Color("LightGray"))
+                        .foregroundColor(selectionsArray[0] == "#faba73" ? Color.green : Color("LightGray"))
                         .zIndex(1)
                     
                     RoundedRectangle(cornerRadius: 10)
@@ -53,6 +55,7 @@ struct SkinToneSwitcherView: View {
                 }
                 .onTapGesture {
                     sceneKitView.changeSkinTone(named: "#faba73") //tan
+                    selectionsArray[0] = "#faba73"
                 }
                 
                 
@@ -61,7 +64,7 @@ struct SkinToneSwitcherView: View {
                     Image(systemName: "square")
                         .resizable()
                         .frame(width: 60, height: 60)
-                        .foregroundColor(Color("LightGray"))
+                        .foregroundColor(selectionsArray[0] == "#a37d5a" ? Color.green : Color("LightGray"))
                         .zIndex(1)
                     
                     RoundedRectangle(cornerRadius: 10)
@@ -73,6 +76,7 @@ struct SkinToneSwitcherView: View {
                 }
                 .onTapGesture {
                     sceneKitView.changeSkinTone(named: "#a37d5a") //black
+                    selectionsArray[0] = "#a37d5a"
                 }
                 
                 
@@ -92,11 +96,13 @@ struct SkinToneSwitcherView: View {
 struct ContentView: View {
     
     
-    @State private var sceneKitView = SceneKitView(named: "CamTest6")
+    @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
+    @State private var selectionsArray: [String] = ["String 1", "String 2"]
+    
     
     var body: some View {
         
-        SkinToneSwitcherView(sceneKitView: $sceneKitView)
+        SkinToneSwitcherView(sceneKitView: $sceneKitView, selectionsArray: $selectionsArray)
         
     }
     

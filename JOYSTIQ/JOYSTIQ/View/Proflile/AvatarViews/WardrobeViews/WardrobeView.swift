@@ -16,13 +16,12 @@ struct WardrobeView: View {
     @Binding var avatarSnapshot: UIImage?
     @Binding var enviroInt: Int
     
-    @State private var sceneKitView = SceneKitView(named: "CamTest6")
+    @Binding var selectionsArray: [String]
     
-    
-    //vars to controll cosmetics
-    //private var currentShirt = "Shirt"
+    @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
 
- 
+
+
     var body: some View {
         
         VStack (spacing: 0) { //Main VStack for sceneKitView and wardrobe controls
@@ -50,7 +49,7 @@ struct WardrobeView: View {
                     
                     GridRow { //start gridrow1
                         
-                        NavigationLink(destination: SkinToneSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
+                        NavigationLink(destination: SkinToneSwitcherView(sceneKitView: $sceneKitView, selectionsArray: $selectionsArray)) { //start navlink
                             
                             ZStack { //for torso button
 
@@ -313,8 +312,7 @@ struct PantSwitcherView: View {
                     
                 }
                 .onTapGesture {
-                    sceneKitView.addaNode(named: "AvatarNodes/Male/Legs/MDefaultShorts")
-
+                    sceneKitView.replaceNode(named: "Shorts", named: "AvatarNodes/Male/Legs/sweatpants")
                 }
                 
                 ZStack {
@@ -377,7 +375,7 @@ struct ShoeSwitcherView: View {
                     
                 }
                 .onTapGesture {
-                    sceneKitView.addaNode(named: "AvatarNodes/Male/Footwear/sneakers")
+                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/sneakers")
 
                 }
                 
@@ -396,7 +394,7 @@ struct ShoeSwitcherView: View {
                     
                 }
                 .onTapGesture {
-                    sceneKitView.addaNode(named: "AvatarNodes/Male/Footwear/loafers")
+                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/loafers")
 
                 }
                 
@@ -416,7 +414,7 @@ struct ShoeSwitcherView: View {
                     
                 }
                 .onTapGesture {
-                    sceneKitView.addaNode(named: "AvatarNodes/Male/Footwear/flops")
+                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/flops")
 
                 }
                 
@@ -438,7 +436,7 @@ struct ShoeSwitcherView: View {
 
 struct WardrobeView_Previews: PreviewProvider {
     static var previews: some View {
-        WardrobeView(hideNavBar: .constant(true), avatarSnapshot: .constant(UIImage(systemName: "person.circle")!), enviroInt: .constant(1))
+        WardrobeView(hideNavBar: .constant(true), avatarSnapshot: .constant(UIImage(systemName: "person.circle")!), enviroInt: .constant(1), selectionsArray: .constant(["#ffdab0"]))
         //profileImage: .constant(UIImage(systemName: "person.circle")!)
     }
 }

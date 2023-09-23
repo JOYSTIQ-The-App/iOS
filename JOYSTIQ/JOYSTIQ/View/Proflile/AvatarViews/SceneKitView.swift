@@ -10,16 +10,16 @@ import SceneKit
 
 struct SceneKitView: UIViewRepresentable {
     
-    //@Binding var avatarSnapshot: UIImage?
     
     @State private var nodeToRemoveName: String? = nil
     @State private var nodeToAddName: String? = nil
     
     let scene: SCNScene
-    
+    let skinColor: String
 
-    init(named name: String) {
+    init(named name: String, skinColor: String) {
         
+        self.skinColor = skinColor
         
         guard let loadedScene = Self.loadScene(named: name) else {
             fatalError("Failed to load the scene: \(name)")
@@ -27,7 +27,8 @@ struct SceneKitView: UIViewRepresentable {
         
         self.scene = loadedScene
 
-        
+        //initialize scene with selections
+        //changeSkinTone(named: skinColor)
         
         //create light nodes
         createDirectionalLight(color: UIColor.white, intensity: 400.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(-Float.pi / 2, 0, 0))
@@ -95,14 +96,79 @@ struct SceneKitView: UIViewRepresentable {
         let nodeScene = try! SCNScene(url: nodeURL, options: nil)
         let newNode = nodeScene.rootNode
         
+        
+        if name == "longhair" {
+            
+            
+            let material = SCNMaterial()
+            material.diffuse.contents = UIColor.brown
+            
+            newNode.childNode(withName: "NurbsPath", recursively: true)?.childNode(withName: "NurbsPath", recursively: true)?.geometry?.materials = [material]
+            newNode.childNode(withName: "Sphere_003", recursively: true)?.childNode(withName: "Sphere_004", recursively: true)?.geometry?.materials = [material]
+            
+            
+        }
+        
         //add shorts as scene node
         scene.rootNode.addChildNode(newNode)
         
     }
     
+    //function for removing one node and adding another
+    func replaceNode(named name: String, named name2: String) {
+        
+        if let nodeToRemove = scene.rootNode.childNode(withName: name, recursively: true) {
+            nodeToRemove.removeFromParentNode()
+        }
 
-    // Working but white background
+        // Load the sweater model
+        let nodeURL = Bundle.main.url(forResource: name2, withExtension: "usdc")!
+        let nodeScene = try! SCNScene(url: nodeURL, options: nil)
+        let newNode = nodeScene.rootNode
+        
+        
+        //===========SWEATER EXPERIMENT=================
+
+        //applying logo texture map and coloring
+        
+        if name2 == "AvatarNodes/Male/Torso/blacksweater" {
+            
+            if let texture = UIImage(named: "AvatarNodes/Textures/sweaterLogo.png") { //sweaterBaseClr_white.png
+                    
+                    let material = SCNMaterial()
+                    //material.emission.contents = UIColor.blue
+                    material.diffuse.contents = texture
+                
+                    newNode.childNode(withName: "sweater", recursively: true)?.geometry?.materials = [material]
+                
+            }
+            
+        }
+        
+
+        
+        if name2 == "AvatarNodes/Male/Legs/sweatpants" {
+            
+            
+            let material = SCNMaterial()
+            material.diffuse.contents = UIImage(named: "AvatarNodes/Textures/sweatPantsLogo.png")
+            
+            newNode.childNode(withName: "sweatPants_002", recursively: true)?.geometry?.materials = [material]
+            
+            
+            
+        }
+
+        //===========SWEATER EXPERIMENT=================
+        
+        
+        scene.rootNode.addChildNode(newNode)
+        
+        
+    }
     
+
+    // captures snapshot of scene and assigns to profile page as UIImage
     func takeTheSnapshot() -> UIImage {
         
         let size = CGSize(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.5)
@@ -141,67 +207,9 @@ struct SceneKitView: UIViewRepresentable {
         //return lightNode
     }
     
-    //function for removing nodes
-    func removeaNode(named name: String) {
-        
-        nodeToRemoveName = name
-        
-        if let nodeToRemove = scene.rootNode.childNode(withName: name, recursively: true) {
-            nodeToRemove.removeFromParentNode()
-        }
-        
-    }
     
     
-    //function for adding nodes
-    func addaNode(named name: String) {
-        
-        // Load the Hair model
-        let nodeURL = Bundle.main.url(forResource: name, withExtension: "usdc")!
-        let nodeScene = try! SCNScene(url: nodeURL, options: nil)
-        let newNode = nodeScene.rootNode
-        
-        //add shorts as scene node
-        scene.rootNode.addChildNode(newNode)
-        
-    }
     
-    //function for removing one node and adding another
-    func replaceNode(named name: String, named name2: String) {
-        
-        if let nodeToRemove = scene.rootNode.childNode(withName: name, recursively: true) {
-            nodeToRemove.removeFromParentNode()
-        }
-
-        // Load the Hair model
-        let nodeURL = Bundle.main.url(forResource: name2, withExtension: "usdc")!
-        let nodeScene = try! SCNScene(url: nodeURL, options: nil)
-        let newNode = nodeScene.rootNode
-        
-        
-        //===========SWEATER EXPERIMENT=================
-
-        
-        if let texture = UIImage(named: "AvatarNodes/Textures/sweaterLogo.png") {
-            
-            let material = SCNMaterial()
-            material.diffuse.contents = texture
-            newNode.childNode(withName: "sweater", recursively: true)?.geometry?.materials = [material]
-            
-        }
-            
-
-        //===========SWEATER EXPERIMENT=================
-        
-        
-        scene.rootNode.addChildNode(newNode)
-        
-        
-        
-        
-        
-        
-    }
     
     
     func changeSkinTone(named hexCode: String) {
@@ -230,7 +238,7 @@ struct SceneKitView: UIViewRepresentable {
 struct ContentView7: View {
     
     @State private var avatarSnapshot: UIImage?
-    @State private var sceneKitView = SceneKitView(named: "CamTest6")
+    @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
 
     var body: some View {
         
@@ -275,19 +283,20 @@ struct ContentView7: View {
             
             Button(action: {
                 
-                sceneKitView.removeNode(named: "Shirt")
+                sceneKitView.addNode(named: "longhair")
                 
             }) {
-                Text("Test Replace")
+                Text("Test buzz")
             }
             
             
             Button(action: {
                 
+                
                 sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/blacksweater")
                 
             }) {
-                Text("Test flops")
+                Text("Test sweater")
             }
             
           
