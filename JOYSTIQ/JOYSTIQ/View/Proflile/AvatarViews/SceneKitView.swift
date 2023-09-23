@@ -229,6 +229,88 @@ struct SceneKitView: UIViewRepresentable {
         scene.rootNode.childNode(withName: "Brows", recursively: true)?.childNode(withName: "Vert_002", recursively: true)?.geometry?.materials = [material]
         
     }
+    
+    func changeHairColor(named style: String, named hexCode: String) {
+        
+        //apply new hex color to body node
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor(hexString: hexCode)
+        material.specular.contents = UIColor.white
+        
+        switch style {
+            
+        case "AnhHair1":
+            
+            material.shininess = 5
+            scene.rootNode.childNode(withName: "ShortHair", recursively: true)?.childNode(withName: "Plane", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "TopPart", recursively: true)?.childNode(withName: "NurbsPath_001", recursively: true)?.geometry?.materials = [material]
+            
+            
+        case "buzzcut":
+            
+            scene.rootNode.childNode(withName: "Sphere", recursively: true)?.childNode(withName: "Sphere", recursively: true)?.geometry?.materials = [material]
+            
+        case "afro":
+            
+            scene.rootNode.childNode(withName: "hair_sculpted", recursively: true)?.childNode(withName: "Plane_008", recursively: true)?.geometry?.materials = [material]
+            
+        case "curly":
+            
+            scene.rootNode.childNode(withName: "curly_lv1", recursively: true)?.childNode(withName: "Plane_001", recursively: true)?.geometry?.materials = [material]
+            
+        case "curly2":
+            
+            scene.rootNode.childNode(withName: "curly_lv2", recursively: true)?.childNode(withName: "Plane_002", recursively: true)?.geometry?.materials = [material]
+            
+        case "curly3":
+            
+            scene.rootNode.childNode(withName: "curly_lv4", recursively: true)?.childNode(withName: "Plane_004", recursively: true)?.geometry?.materials = [material]
+            
+        case "shorthair":
+            
+            scene.rootNode.childNode(withName: "ShortHair", recursively: true)?.childNode(withName: "Plane", recursively: true)?.geometry?.materials = [material]
+            
+            
+        case "mohawk":
+            
+            scene.rootNode.childNode(withName: "Mohawk_Spikey_Solid", recursively: true)?.childNode(withName: "Cone_003", recursively: true)?.geometry?.materials = [material]
+            
+        case "longhair":
+            
+            scene.rootNode.childNode(withName: "NurbsPath", recursively: true)?.childNode(withName: "NurbsPath", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "Sphere_003", recursively: true)?.childNode(withName: "Sphere_004", recursively: true)?.geometry?.materials = [material]
+            
+        case "elenahair":
+            
+            scene.rootNode.childNode(withName: "NurbsPath_001", recursively: true)?.childNode(withName: "NurbsPath_004", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_002", recursively: true)?.childNode(withName: "NurbsPath_005", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_003", recursively: true)?.childNode(withName: "NurbsPath_006", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_004", recursively: true)?.childNode(withName: "NurbsPath_007", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_005", recursively: true)?.childNode(withName: "NurbsPath_008", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_006", recursively: true)?.childNode(withName: "NurbsPath_017", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_007", recursively: true)?.childNode(withName: "NurbsPath_010", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_008", recursively: true)?.childNode(withName: "NurbsPath_018", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_009", recursively: true)?.childNode(withName: "NurbsPath_012", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_010", recursively: true)?.childNode(withName: "NurbsPath_013", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_011", recursively: true)?.childNode(withName: "NurbsPath_014", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_012", recursively: true)?.childNode(withName: "NurbsPath_001", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_013", recursively: true)?.childNode(withName: "NurbsPath_002", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_014", recursively: true)?.childNode(withName: "NurbsPath_003", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_015", recursively: true)?.childNode(withName: "NurbsPath_016", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_016", recursively: true)?.childNode(withName: "NurbsPath_019", recursively: true)?.geometry?.materials = [material]
+            scene.rootNode.childNode(withName: "NurbsPath_017", recursively: true)?.childNode(withName: "NurbsPath_011", recursively: true)?.geometry?.materials = [material]
+           
+            
+            
+            
+            
+        default:
+            
+            print("Hello, stranger!")
+        }
+        
+        
+    }
    
 
 
