@@ -253,7 +253,7 @@ struct WardrobeView: View {
         
             
         } //end Main VStack for scenekitview and wardrobe controls
-        //.edgesIgnoringSafeArea(.all)
+        .edgesIgnoringSafeArea(.all)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background(Color.gray)
         .onAppear {
@@ -266,151 +266,8 @@ struct WardrobeView: View {
 }
 
 
-struct PantSwitcherView: View {
-    
-    @Binding var sceneKitView: SceneKitView
-    
-    var body: some View {
-        
-        Grid(horizontalSpacing: 40) { //start grid for cosmetic customizations menu
-            
-            GridRow { //start gridrow1
-                
-                ZStack {
 
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    
-                    Text("Shorts")
-                        .font(.system(size: 12))
-                        .frame(width: 80, height: 25)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.replaceNode(named: "Shorts", named: "AvatarNodes/Male/Legs/sweatpants")
-                }
-                
-                ZStack {
 
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    
-                    Text("Pants")
-                        .font(.system(size: 12))
-                        .frame(width: 80, height: 25)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.replaceNode(named: "Shorts", named: "AvatarNodes/Male/Legs/MDefaultPants")
-
-                }
-                
-   
-
-                
-            } //end gridrow1
-            .padding(.bottom, 40)
-            
-        } //end grid
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-        .background(.black)
-        
-        
-    } //end body
-    
-    
-}
-
-struct ShoeSwitcherView: View {
-    
-    @Binding var sceneKitView: SceneKitView
-    
-    var body: some View {
-        
-        Grid(horizontalSpacing: 40) { //start grid for cosmetic customizations menu
-            
-            GridRow { //start gridrow1
-                
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    
-                    Text("Sneakers")
-                        .font(.system(size: 12))
-                        .frame(width: 80, height: 25)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/sneakers")
-
-                }
-                
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    
-                    Text("Loafers")
-                        .font(.system(size: 12))
-                        .frame(width: 80, height: 25)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/loafers")
-
-                }
-                
-                
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    
-                    Text("Slides")
-                        .font(.system(size: 12))
-                        .frame(width: 80, height: 25)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/flops")
-
-                }
-                
-                
-                
-            } //end gridrow1
-            .padding(.bottom, 40)
-            
-        } //end grid
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-        .background(.black)
-        
-        
-    } //end body
-    
-    
-}
 
 
 struct WardrobeView_Previews: PreviewProvider {

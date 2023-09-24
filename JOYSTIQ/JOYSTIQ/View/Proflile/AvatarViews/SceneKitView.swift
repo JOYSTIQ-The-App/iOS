@@ -10,7 +10,6 @@ import SceneKit
 
 struct SceneKitView: UIViewRepresentable {
     
-    
     @State private var nodeToRemoveName: String? = nil
     @State private var nodeToAddName: String? = nil
     
@@ -115,7 +114,7 @@ struct SceneKitView: UIViewRepresentable {
         let newNode = nodeScene.rootNode
         
         
-        //===========SWEATER EXPERIMENT=================
+        //===========SWEATER TEXTURES=================
 
         //applying logo texture map and coloring
         
@@ -126,35 +125,27 @@ struct SceneKitView: UIViewRepresentable {
                     let material = SCNMaterial()
                     //material.emission.contents = UIColor.blue
                     material.diffuse.contents = texture
-                
                     newNode.childNode(withName: "sweater", recursively: true)?.geometry?.materials = [material]
                 
             }
-            
+        
         }
         
-
         
         if name2 == "AvatarNodes/Male/Legs/sweatpants" {
             
-            
             let material = SCNMaterial()
             material.diffuse.contents = UIImage(named: "AvatarNodes/Textures/sweatPantsLogo.png")
-            
             newNode.childNode(withName: "sweatPants_002", recursively: true)?.geometry?.materials = [material]
             
-            
-            
+    
         }
 
-        //===========SWEATER EXPERIMENT=================
-        
+        //===========SWEATER TEXTURES=================
         
         scene.rootNode.addChildNode(newNode)
         
-        
     }
-    
 
     // captures snapshot of scene and assigns to profile page as UIImage
     func takeTheSnapshot() -> UIImage {
@@ -174,13 +165,11 @@ struct SceneKitView: UIViewRepresentable {
     }
 
 
-    
     func updateUIView(_ scnView: SCNView, context: Context) {
         // Update the SCNView if needed
     }
 
 
- 
 
     private func createDirectionalLight(color: UIColor, intensity: CGFloat, position: SCNVector3, direction: SCNVector3) {
         let lightNode = SCNNode()
@@ -194,10 +183,6 @@ struct SceneKitView: UIViewRepresentable {
         scene.rootNode.addChildNode(lightNode)
         //return lightNode
     }
-    
-    
-    
-    
     
     
     func changeSkinTone(named hexCode: String) {
@@ -249,6 +234,37 @@ struct SceneKitView: UIViewRepresentable {
         
     }
     
+    func changePantsColor(named style: String, named hexCode: String) {
+        
+        //apply new hex color to body node
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor(hexString: hexCode)
+        material.specular.contents = UIColor.white
+        material.specular.intensity = 0.2
+        
+        switch style {
+            
+        case "shorts":
+            
+            
+            scene.rootNode.childNode(withName: "Shorts", recursively: true)?.childNode(withName: "Wye_Joint", recursively: true)?.geometry?.materials = [material]
+            
+            
+        case "pants":
+            
+            
+            scene.rootNode.childNode(withName: "Pants", recursively: true)?.childNode(withName: "Cube_004", recursively: true)?.geometry?.materials = [material]
+            
+        default:
+            
+            print("Do nothing")
+            
+        } //end switch
+        
+        
+        
+    }
+    
     
     func changeHairColor(named style: String, named hexCode: String) {
         
@@ -262,7 +278,7 @@ struct SceneKitView: UIViewRepresentable {
         case "AnhHair1":
             
             material.specular.contents = UIColor.white
-            material.shininess = 5
+            material.specular.intensity = 0.4
             
             let material2 = SCNMaterial()
             material2.diffuse.contents = UIColor(hexString: hexCode)
@@ -307,6 +323,9 @@ struct SceneKitView: UIViewRepresentable {
             
         case "elenahair":
             
+            material.specular.contents = UIColor.white
+            material.specular.intensity = 0.4
+            
             scene.rootNode.childNode(withName: "NurbsPath_001", recursively: true)?.childNode(withName: "NurbsPath_004", recursively: true)?.geometry?.materials = [material]
             scene.rootNode.childNode(withName: "NurbsPath_002", recursively: true)?.childNode(withName: "NurbsPath_005", recursively: true)?.geometry?.materials = [material]
             scene.rootNode.childNode(withName: "NurbsPath_003", recursively: true)?.childNode(withName: "NurbsPath_006", recursively: true)?.geometry?.materials = [material]
@@ -341,7 +360,7 @@ struct SceneKitView: UIViewRepresentable {
 
 }
 
-//Usage
+//Scene tests
 struct ContentView7: View {
     
     @State private var avatarSnapshot: UIImage?
