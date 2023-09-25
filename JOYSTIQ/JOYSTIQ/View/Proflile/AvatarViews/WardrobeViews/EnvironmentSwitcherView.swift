@@ -13,6 +13,8 @@ struct EnvironmentSwitcherView: View {
     
     var body: some View {
         
+        
+        
         Grid(horizontalSpacing: 40) { //start grid for cosmetic customizations menu
             
             GridRow { //start gridrow1
@@ -65,7 +67,7 @@ struct EnvironmentSwitcherView: View {
             
         } //end grid
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-        .background(.black)
+        .background(Color("GradientDark"))
         
         
     } //end body

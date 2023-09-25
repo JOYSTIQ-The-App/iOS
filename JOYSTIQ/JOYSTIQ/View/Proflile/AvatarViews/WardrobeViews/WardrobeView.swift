@@ -191,6 +191,7 @@ struct WardrobeView: View {
                     
                     HStack(spacing: 20) { //for save and cancel buttons
                         
+                        /*
                         //Cancel button
                         Button(action: {
                             
@@ -208,7 +209,7 @@ struct WardrobeView: View {
                                 .cornerRadius(30)
                         })
                         .contentShape(Rectangle())
-                    
+                    */
                         
 
                         
@@ -222,7 +223,7 @@ struct WardrobeView: View {
                             
                             Text("Save")
                                 .foregroundColor(.white)
-                                .frame(width: UIScreen.main.bounds.width * 0.35, height: 45)
+                                .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
                                 .background(
                                     LinearGradient(
                                         gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
@@ -241,7 +242,7 @@ struct WardrobeView: View {
                     
                 } //end grid for cosmetic customizations menu/
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-                .background(Color.black)
+                .background(Color("GradientDark"))
                      
     
             } //end navigation view

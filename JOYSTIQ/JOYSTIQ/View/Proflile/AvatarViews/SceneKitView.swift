@@ -436,7 +436,7 @@ struct ContentView7: View {
             
             Button(action: {
                 
-                sceneKitView.addNode(named: "longhair")
+                //sceneKitView.addNode(named: "FrizzyTest")
                 
             }) {
                 Text("Test buzz")

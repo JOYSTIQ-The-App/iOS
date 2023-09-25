@@ -12,7 +12,7 @@ struct ShoeSwitcherView: View {
     @Binding var sceneKitView: SceneKitView
     
     // Define your hairstyle and hair color options as arrays
-    let ShoeOptions = ["Shoes 0", "Shoes 1", "Shoes 2", "Shoes3"]
+    let ShoeOptions = ["Shoes 0", "Shoes 1", "Shoes 2", "Shoes 3"]
     
     
     @State private var selectedShoeIndex = 0
@@ -23,7 +23,7 @@ struct ShoeSwitcherView: View {
             
             Text("Select Shoes")
                 .font(.system(size: 18))
-                .foregroundColor(Color("LightGray"))
+                .foregroundColor(Color.white)
             
             HStack (spacing: 5) {
                 
@@ -73,7 +73,7 @@ struct ShoeSwitcherView: View {
                             
                         case 2: //from slides to loafers
                             
-                            sceneKitView.removeNode(named: "Cube")
+                            sceneKitView.removeNode(named: "Cube_000")
                             sceneKitView.removeNode(named: "Cube_001")
                             sceneKitView.removeNode(named: "Cube_002")
                             sceneKitView.removeNode(named: "Cube_003")
@@ -91,9 +91,12 @@ struct ShoeSwitcherView: View {
                     
                 }
                 .foregroundColor(selectedShoeIndex == 0 ? .gray : .green)
-                .padding(.all, 2)
                 .font(.system(size: 28))
-                .buttonStyle(NeumorphicButtonStyle())
+                .frame(width: 40, height: 40)
+                .background(Color("GradientLight"))
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                 
                 
                 // Display the selected hairstyle and hair color
@@ -104,7 +107,8 @@ struct ShoeSwitcherView: View {
                     .background(Color("GradientLight"))
                     .cornerRadius(5)
                     .padding(.horizontal, 10)
-                    
+                    .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                    .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                 
                 
                 // Right arrow button for shirt selection
@@ -170,9 +174,12 @@ struct ShoeSwitcherView: View {
                     
                 }
                 .foregroundColor(selectedShoeIndex == 3 ? .gray : .green)
-                .padding(.all, 2)
                 .font(.system(size: 28))
-                .buttonStyle(NeumorphicButtonStyle())
+                .frame(width: 40, height: 40)
+                .background(Color("GradientLight"))
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
 
                 Spacer()
                 
@@ -184,7 +191,7 @@ struct ShoeSwitcherView: View {
         } //end VStack for style and color selectors
         .padding(.bottom, 60)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-        .background(.black)
+        .background(Color("GradientDark"))
         
     } //end body
     

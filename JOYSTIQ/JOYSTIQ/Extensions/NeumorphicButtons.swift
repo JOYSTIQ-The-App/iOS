@@ -116,19 +116,18 @@ struct NeumorphicRectangleButtonStyle2: ButtonStyle {
                 Group {
                     if configuration.isPressed {
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.gray.opacity(0.8))
+                            .fill(Color("GradientDark").opacity(0.8))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color("GradientDark"), lineWidth: 1)
                                     .shadow(color: Color.black.opacity(0.6), radius: 2, x: 2, y: 2)
                                     .shadow(color: Color.white.opacity(0.4), radius: 2, x: -2, y: -2)
                             )
-                            //.padding(1)
                     } else {
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.gray)
-                            .shadow(color: Color.black.opacity(0.6), radius: 2, x: 2, y: 2)
-                            //.shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
+                            .fill(Color("GradientLight"))
+                            .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                            .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                     }
                 }
             )

@@ -27,7 +27,7 @@ struct ShirtSwitcherView: View {
             
             Text("Select Shirt")
                 .font(.system(size: 18))
-                .foregroundColor(Color("LightGray"))
+                .foregroundColor(Color.white)
             
             
             HStack (spacing: 5) {
@@ -75,9 +75,12 @@ struct ShirtSwitcherView: View {
                     
                 }
                 .foregroundColor(selectedTorsoIndex == 0 ? .gray : .green)
-                .padding(.all, 2)
                 .font(.system(size: 28))
-                .buttonStyle(NeumorphicButtonStyle())
+                .frame(width: 40, height: 40)
+                .background(Color("GradientLight"))
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                 
                 
                 // Display the selected hairstyle and hair color
@@ -88,7 +91,8 @@ struct ShirtSwitcherView: View {
                     .background(Color("GradientLight"))
                     .cornerRadius(5)
                     .padding(.horizontal, 10)
-                    
+                    .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                    .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                 
                 
                 // Right arrow button for shirt selection
@@ -137,9 +141,12 @@ struct ShirtSwitcherView: View {
                     
                 }
                 .foregroundColor(selectedTorsoIndex == 2 ? .gray : .green)
-                .padding(.all, 2)
                 .font(.system(size: 28))
-                .buttonStyle(NeumorphicButtonStyle())
+                .frame(width: 40, height: 40)
+                .background(Color("GradientLight"))
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                 
                 
                 Spacer()
@@ -154,7 +161,7 @@ struct ShirtSwitcherView: View {
                 
                 Text("Select Color")
                     .font(.system(size: 18))
-                    .foregroundColor(Color("LightGray"))
+                    .foregroundColor(Color.white)
                 
                 HStack { //for color selector
                     
@@ -173,10 +180,12 @@ struct ShirtSwitcherView: View {
                                          
                     }
                     .foregroundColor(selectedTorsoColorIndex == 0 ? .gray : .green)
-                    .padding(.all, 2)
                     .font(.system(size: 28))
-                    .buttonStyle(NeumorphicButtonStyle())
-                    
+                    .frame(width: 40, height: 40)
+                    .background(Color("GradientLight"))
+                    .cornerRadius(10)
+                    .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                    .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                     
                     ZStack {
                         
@@ -185,6 +194,8 @@ struct ShirtSwitcherView: View {
                             .foregroundColor(Color("GradientLight"))
                             .cornerRadius(5)
                             .padding(.horizontal, 10)
+                            .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                            .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                         
                         Rectangle()
                             .frame(width: 150, height: 20)
@@ -210,9 +221,12 @@ struct ShirtSwitcherView: View {
                         
                     }
                     .foregroundColor(selectedTorsoColorIndex == 4 ? .gray : .green)
-                    .padding(.all, 2)
                     .font(.system(size: 28))
-                    .buttonStyle(NeumorphicButtonStyle())
+                    .frame(width: 40, height: 40)
+                    .background(Color("GradientLight"))
+                    .cornerRadius(10)
+                    .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                    .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                     
                     
                     Spacer()
@@ -226,14 +240,10 @@ struct ShirtSwitcherView: View {
             
             
             
-            
-            
-            
-            
         } //end VStack for style and color selectors
         .padding(.bottom, 60)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-        .background(.black)
+        .background(Color("GradientDark"))
         
     } //end body
     
