@@ -9,10 +9,10 @@
 import SwiftUI
 import Amplify
 
-struct ForgotPasswordView: View {
+struct ForgotPasswordView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     
     //handles logged state
-    @EnvironmentObject var authService: AuthService
+    @EnvironmentObject var authService: AuthServiceType
     
     @State private var username: String = ""
     @State private var navigateToResetPassword = false
@@ -62,6 +62,13 @@ struct ForgotPasswordView: View {
                                     await authService.resetPassword(username: username) { isSuccess in
                                         if isSuccess {
                                             navigateToResetPassword.toggle()
+                                            
+                                            // Check if code confirmation was successful and then toggle navigation
+                                            if authService.isConfirmed {
+                                                // Pop this view off the stack, taking the user back to the login screen
+                                                authService.isSignedUp = false
+                                                authService.signUpRequested = false
+                                            }
                                         }
                                     }
                                     
@@ -83,13 +90,7 @@ struct ForgotPasswordView: View {
                             })
                             .contentShape(Rectangle()) // This makes the entire frame tappable
                             .padding(.vertical, 20)
-                            .onReceive(authService.$isConfirmed) { isConfirmed in
-                                if isConfirmed {
-                                    // Pop this view off the stack, taking the user back to the login screen
-                                    authService.isSignedUp = false
-                                    authService.signUpRequested = false
-                                }
-                            }
+                            
                           //END Confirm code button
                             
                         }
@@ -122,7 +123,8 @@ struct ForgotPasswordView: View {
             }
             
             else {
-                ResetPasswordView(username: username, navigateToResetPassword: $navigateToResetPassword, navigateToForgotPassword: $navigateToForgotPassword).environmentObject(AuthService())
+                ResetPasswordView<AuthService>(username: username, navigateToResetPassword: $navigateToResetPassword, navigateToForgotPassword: $navigateToForgotPassword)
+                    .environmentObject(authService)
             }
             
         }
@@ -137,7 +139,8 @@ struct ForgotPasswordView: View {
 
 struct ForgotPasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        ForgotPasswordView(navigateToForgotPassword: .constant(false)).environmentObject(AuthService())
+        ForgotPasswordView<MockAuthService>(navigateToForgotPassword: .constant(false))
+            .environmentObject(MockAuthService())
     }
 }
 

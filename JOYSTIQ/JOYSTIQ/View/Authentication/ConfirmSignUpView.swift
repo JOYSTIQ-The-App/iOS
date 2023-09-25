@@ -8,10 +8,10 @@
 import SwiftUI
 import Amplify
 
-struct ConfirmSignUpView: View {
+struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     
     //handles logged state
-    @EnvironmentObject var authService: AuthService
+    @EnvironmentObject var authService: AuthServiceType
     
     let username: String
     @State private var confirmationCode: String = ""
@@ -86,6 +86,10 @@ struct ConfirmSignUpView: View {
                                 // Check if code confirmation was successful and then toggle navigation
                                 if authService.isConfirmed {
                                     navigateToConfirmSignUp.toggle()
+                                    
+                                    // Pop this view off the stack, taking the user back to the login screen
+                                    authService.isSignedUp = false
+                                    authService.signUpRequested = false
                                 }
                             }
                             
@@ -105,13 +109,7 @@ struct ConfirmSignUpView: View {
                         })
                         .contentShape(Rectangle()) // This makes the entire frame tappable
                         .padding(.vertical, 20)
-                        .onReceive(authService.$isConfirmed) { isConfirmed in
-                            if isConfirmed {
-                                // Pop this view off the stack, taking the user back to the login screen
-                                authService.isSignedUp = false
-                                authService.signUpRequested = false
-                            }
-                        }
+                        
                       //END Confirm code button
                         
                     }
@@ -148,7 +146,8 @@ struct ConfirmSignUpView: View {
 
 struct ConfirmSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfirmSignUpView(username: "SampleUsername", navigateToConfirmSignUp: .constant(false)).environmentObject(AuthService())
+        ConfirmSignUpView<MockAuthService>(username: "SampleUsername", navigateToConfirmSignUp: .constant(false))
+            .environmentObject(MockAuthService())
     }
 }
 

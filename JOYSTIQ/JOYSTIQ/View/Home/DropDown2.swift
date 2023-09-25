@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct DropDown2: View {
-    
+struct DropDown2<FeedbackServiceType: FeedbackServiceProtocol>: View {
+    var feedbackService: FeedbackServiceType
     
     @Binding var showDropDown: Bool
     @State private var feedbacktext = ""
     @State private var username = "Anonymous"
     
-    private let feedbackService = FeedbackService()
+    
     
     let buymeacoffeeLink = "https://www.buymeacoffee.com/joystiq"
     
@@ -229,7 +229,7 @@ struct DropDown2: View {
 
 struct DropDown2_Previews: PreviewProvider {
     static var previews: some View {
-        DropDown2(showDropDown: .constant(true))
+        DropDown2(feedbackService: MockFeedbackService(), showDropDown: .constant(true))
         //.frame(width: UIScreen.main.bounds.width).background(.black)
     }
 }

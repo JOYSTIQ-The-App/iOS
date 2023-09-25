@@ -10,6 +10,50 @@ import Amplify
 import AWSCognitoAuthPlugin
 import AWSS3StoragePlugin
 
+class AppViewModel: ObservableObject {
+    @Published var isAppInitialized: Bool = false
+    @Published var authService = AuthService()
+    @Published var user = User()
+    
+    init() {
+        Task {
+            await initializeApp()
+        }
+    }
+
+    func initializeApp() async {
+        print("initializing app")
+        print("fetching current auth session")
+        await authService.fetchCurrentAuthSession()
+        
+        // Fetch email
+        if let email = try? await authService.fetchUserEmail() {
+            user.email = email
+        } else {
+            print("Error retrieving user email.")
+        }
+
+        // Fetch username
+        let userIdentifier: UserIdentifier = .email("ssottosanti@joystiq.gg")
+        APIService().getUsername(for: userIdentifier) { result in
+            switch result {
+            case .success(let username):
+                DispatchQueue.main.async {
+                    self.user.username = username
+                }
+            case .failure(let error):
+                print("Error getting username: \(error.localizedDescription)")
+            }
+        }
+
+        DispatchQueue.main.async {
+            print("App is initialized")
+            self.isAppInitialized = true
+        }
+    }
+}
+
+
 @main
 struct JOYSTIQApp: App {
     init() {
@@ -25,15 +69,21 @@ struct JOYSTIQApp: App {
         }
     }
     
-    @StateObject var authService = AuthService()
+    @StateObject var viewModel = AppViewModel()
     
     var body: some Scene {
         WindowGroup {
-            if authService.isSignedIn {
-                AppView().environmentObject(authService)
+            if !viewModel.isAppInitialized {
+                LaunchScreenView()
+            } else if viewModel.authService.isSignedIn {
+                AppView<APIService, AuthService>(APIService: APIService())
+                    .environmentObject(viewModel.authService)
+                    .environmentObject(viewModel.user)
             } else {
-                LoginView().environmentObject(authService)
+                LoginView<AuthService>()
+                    .environmentObject(viewModel.authService)
             }
         }
     }
 }
+

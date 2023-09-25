@@ -11,10 +11,13 @@ import AVKit
 import AVFoundation
 
 
-struct CreatePostView: View {
-    @Binding var showing: Bool
+struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3ServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
+    var APIService: APIServiceType
+    var s3Service: S3ServiceType
+    @EnvironmentObject var authService: AuthServiceType
+    
+    @Binding var isPresented: Bool
 
-    @State private var title = ""
     @State private var game = ""
     @State private var text = ""
     @State private var selectedImage: UIImage?
@@ -22,13 +25,10 @@ struct CreatePostView: View {
     @State private var isMediaPickerShown = false
     @State private var uploadInProgress = false
     @State private var uploadCompleted = false
-    
-    @ObservedObject var s3Service = S3Service()
 
     var body: some View {
         NavigationView {
             Form {
-                TextField("Title", text: $title)
                 TextField("Game", text: $game)
                 
                 ZStack(alignment: .topLeading) {
@@ -80,7 +80,7 @@ struct CreatePostView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
                         // Dismiss the sheet:
-                        showing = false
+                        isPresented = false
                     }
                 }
             }
@@ -112,13 +112,15 @@ struct CreatePostView: View {
 */
     
     func uploadContent() {
+        // If an image is selected, convert to Data and upload
         if let image = selectedImage {
             guard let imageData = image.jpegData(compressionQuality: 0.8) else {
                 print("Failed to convert UIImage to Data")
                 return
             }
-            
             uploadData(imageData)
+
+        // If a video is selected, read its data and upload
         } else if let videoURL = selectedVideoURL {
             do {
                 let videoData = try Data(contentsOf: videoURL)
@@ -126,27 +128,60 @@ struct CreatePostView: View {
             } catch {
                 print("Error reading video data: \(error)")
             }
+            
+        // If no media is selected, just proceed to post creation
         } else {
             print("No media selected for upload.")
+            createPost(with: nil)  // Passing nil for the s3_key
         }
     }
-
+    
     func uploadData(_ data: Data) {
         uploadInProgress = true
 
         Task {
             do {
-                let key = try await s3Service.uploadData(data)
-                print("Uploaded successfully with key: \(key)")
+                let s3Key = try await s3Service.uploadData(data)
+                print("Uploaded successfully with key: \(s3Key)")
+                createPost(with: s3Key) // Call createPost with the uploaded s3Key
             } catch {
                 print("Error uploading: \(error)")
+                uploadInProgress = false
             }
-            
-            uploadInProgress = false
-            showing = false  // Dismiss the sheet here
         }
     }
 
+    func createPost(with s3Key: String?) {
+        let mediaType: String
+        if selectedImage != nil {
+            mediaType = "photo"
+        } else if selectedVideoURL != nil {
+            mediaType = "video"
+        } else {
+            mediaType = "none"
+        }
+        
+        let postData = PostData(s3_key: s3Key, media: mediaType, game: game, body: text, status: "live")
+
+        // Fetch the user's email and create the post
+        Task {
+            if let email = try? await authService.fetchUserEmail() {
+                APIService.createPost(email: email, postData: postData) { result in
+                    switch result {
+                    case .success():
+                        print("Post created successfully!")
+                    case .failure(let error):
+                        print("Error creating post: \(error.localizedDescription)")
+                    }
+                }
+            } else {
+                print("Error retrieving user email.")
+            }
+
+            uploadInProgress = false
+            isPresented = false  // Dismiss the sheet here
+        }
+    }
 }
 
 
@@ -156,7 +191,7 @@ struct CreateView_Previews: PreviewProvider {
     @State static private var isPresented = true
 
     static var previews: some View {
-        CreatePostView(showing: $isPresented)
+        CreatePostView<MockAPIService, MockS3Service, MockAuthService>(APIService: MockAPIService(), s3Service: MockS3Service(), isPresented: $isPresented)
+            .environmentObject(MockAuthService())
     }
 }
-
