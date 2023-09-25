@@ -13,6 +13,7 @@ protocol APIServiceProtocol {
     func getLeaderboardFeed(completion: @escaping (Result<[Post], Error>) -> Void)
     func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void)
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void)
+    func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
 }
 
 
@@ -162,6 +163,39 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
+    
+    func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
+        // Encode the username to ensure it's safe for URLs
+        guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidUsername", code: 400, userInfo: nil)))
+            return
+        }
+        
+        // Construct the URL with the query parameter
+        let searchURL = URL(string: "\(baseURL)/handlers/search_usernames?username=\(usernameEncoded)")!
+        
+        var request = URLRequest(url: searchURL)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let usernames = try JSONDecoder().decode([String].self, from: data)
+                        completion(.success(usernames))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
 }
 
 
@@ -206,4 +240,18 @@ class MockAPIService: APIServiceProtocol {
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void) {
         completion(.success("Dev"))
     }
+    
+    func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
+        // Simulate a delay to mimic network call
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            // Dummy data
+            let usernames = ["john_doe", "jane_doe", "johnny_apple", "jane123", "johnny_bravo"]
+            
+            // Filter the dummy data to get usernames that contain the search term
+            let filteredUsernames = usernames.filter { $0.contains(username) }
+            
+            completion(.success(filteredUsernames))
+        }
+    }
+
 }

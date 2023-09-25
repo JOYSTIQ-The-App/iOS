@@ -134,7 +134,7 @@ struct HomeTabView_Previews: PreviewProvider {
         testUser.email = "testEmail@example.com"
         testUser.username = "testUsername"
         
-        return HomeTabView(APIService: MockAPIService(), showCommentSection: .constant(false))
+        return HomeTabView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
             .environmentObject(testUser)
     }
 }

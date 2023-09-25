@@ -11,10 +11,10 @@ import AVKit
 import AVFoundation
 
 
-struct CreatePostView<AuthServiceType: AuthServiceProtocol & ObservableObject, APIServiceType: APIServiceProtocol, S3ServiceType: S3ServiceProtocol & ObservableObject>: View {
-    @ObservedObject var authService: AuthServiceType
+struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3ServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     var APIService: APIServiceType
-    @ObservedObject var s3Service: S3ServiceType
+    var s3Service: S3ServiceType
+    @EnvironmentObject var authService: AuthServiceType
     
     @Binding var isPresented: Bool
 
@@ -191,6 +191,7 @@ struct CreateView_Previews: PreviewProvider {
     @State static private var isPresented = true
 
     static var previews: some View {
-        CreatePostView(authService: MockAuthService(), APIService: MockAPIService(), s3Service: MockS3Service(), isPresented: $isPresented)
+        CreatePostView<MockAPIService, MockS3Service, MockAuthService>(APIService: MockAPIService(), s3Service: MockS3Service(), isPresented: $isPresented)
+            .environmentObject(MockAuthService())
     }
 }

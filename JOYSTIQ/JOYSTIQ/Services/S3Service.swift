@@ -9,7 +9,7 @@ import SwiftUI
 import Amplify
 import AWSS3StoragePlugin
 
-protocol S3ServiceProtocol: ObservableObject {
+protocol S3ServiceProtocol {
     func uploadData(_ data: Data) async throws -> String
 }
 

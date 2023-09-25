@@ -29,7 +29,6 @@ class AppViewModel: ObservableObject {
         // Fetch email
         if let email = try? await authService.fetchUserEmail() {
             user.email = email
-            print(email)
         } else {
             print("Error retrieving user email.")
         }
@@ -39,7 +38,6 @@ class AppViewModel: ObservableObject {
         APIService().getUsername(for: userIdentifier) { result in
             switch result {
             case .success(let username):
-                print(username)
                 DispatchQueue.main.async {
                     self.user.username = username
                 }
@@ -78,7 +76,7 @@ struct JOYSTIQApp: App {
             if !viewModel.isAppInitialized {
                 LaunchScreenView()
             } else if viewModel.authService.isSignedIn {
-                AppView<AuthService>()
+                AppView<APIService, AuthService>(APIService: APIService())
                     .environmentObject(viewModel.authService)
                     .environmentObject(viewModel.user)
             } else {
