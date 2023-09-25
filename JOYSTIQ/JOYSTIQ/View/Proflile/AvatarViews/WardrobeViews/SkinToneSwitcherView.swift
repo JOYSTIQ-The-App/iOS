@@ -10,80 +10,88 @@ import SwiftUI
 struct SkinToneSwitcherView: View {
     
     @Binding var sceneKitView: SceneKitView
-    @Binding var selectionsArray: [String]
+    
+    // [Black, brown, blonde, red, white]
+    let skinColorCodes =  ["#ffdab0", "#ffc380", "#bd9b7b", "#a37d5a", "#705032"]
+    
+    @State private var selectedSkinToneIndex = 0
+    
     
     var body: some View {
         
-        Grid(horizontalSpacing: 40) { //start grid for cosmetic customizations menu
+        VStack {
             
-            GridRow { //start gridrow1
+            Text("Select Skin Tone")
+                .font(.system(size: 18))
+                .foregroundColor(Color("LightGray"))
                 
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(selectionsArray[0] == "#ffdab0" ? Color.green : Color("LightGray"))
-                        .zIndex(1)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(Color(UIColor(hexString: "#ffdab0")!)) //white color
-                        .zIndex(0)
-                
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.changeSkinTone(named: "#ffdab0") //white
-                    selectionsArray[0] = "#ffdab0"
-                }
-                
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(selectionsArray[0] == "#faba73" ? Color.green : Color("LightGray"))
-                        .zIndex(1)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(Color(UIColor(hexString: "#faba73")!)) //tan color
-                        .zIndex(0)
-                
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.changeSkinTone(named: "#faba73") //tan
-                    selectionsArray[0] = "#faba73"
-                }
-                
-                
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(selectionsArray[0] == "#a37d5a" ? Color.green : Color("LightGray"))
-                        .zIndex(1)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(Color(UIColor(hexString: "#a37d5a")!)) //black color
-                        .zIndex(0)
-                
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.changeSkinTone(named: "#a37d5a") //black
-                    selectionsArray[0] = "#a37d5a"
-                }
-                
-                
-                
-            } //end gridrow1
             
-        } //end grid
+            HStack {
+                
+                Spacer()
+                
+                // Left arrow button for skin tone selector
+                Button("<") {
+                    
+                    if selectedSkinToneIndex >= 1 {
+                        selectedSkinToneIndex -= 1
+                        
+                        sceneKitView.changeSkinTone(named: skinColorCodes[selectedSkinToneIndex])
+                    }
+                    
+                }
+                .foregroundColor(selectedSkinToneIndex == 0 ? .gray : .green)
+                .padding(.all, 2)
+                .font(.system(size: 28))
+                .buttonStyle(NeumorphicButtonStyle())
+
+                
+                ZStack {
+                    
+                    Rectangle()
+                        .frame(width: 200, height: 40)
+                        .foregroundColor(Color("GradientLight"))
+                        .cornerRadius(5)
+                        .padding(.horizontal, 10)
+                    
+                    Rectangle()
+                        .frame(width: 150, height: 20)
+                        .foregroundColor(Color(UIColor(hexString: skinColorCodes[selectedSkinToneIndex])!))
+                        .cornerRadius(5)
+                }
+                    
+                
+                
+                // Right arrow button for skin tone selector
+                Button(">") {
+                    
+                    //selectedHairColorIndex = (selectedHairColorIndex + 1) % hairColorOptions.count
+                    
+                    if selectedSkinToneIndex <= 3 {
+                        selectedSkinToneIndex += 1
+                        
+                       
+                        sceneKitView.changeSkinTone(named: skinColorCodes[selectedSkinToneIndex])
+                        
+                    } //end if
+                    
+    
+                    
+                }
+                .foregroundColor(selectedSkinToneIndex == 4 ? .gray : .green)
+                .padding(.all, 2)
+                .font(.system(size: 28))
+                .buttonStyle(NeumorphicButtonStyle())
+                
+                
+                Spacer()
+                
+                
+            }//end HStack for color selector
+            
+            
+        } //end main VStack
+        .padding(.bottom, 60)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
         .background(.black)
         
@@ -93,16 +101,21 @@ struct SkinToneSwitcherView: View {
     
 }
 
-struct ContentView: View {
+struct ContentView9: View {
     
     
     @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
-    @State private var selectionsArray: [String] = ["String 1", "String 2"]
-    
     
     var body: some View {
         
-        SkinToneSwitcherView(sceneKitView: $sceneKitView, selectionsArray: $selectionsArray)
+        VStack {
+            
+            sceneKitView
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
+            
+            SkinToneSwitcherView(sceneKitView: $sceneKitView)
+            
+        }
         
     }
     
@@ -110,6 +123,6 @@ struct ContentView: View {
 
 struct SkinToneSwitcherView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView9()
     }
 }

@@ -16,8 +16,6 @@ struct WardrobeView: View {
     @Binding var avatarSnapshot: UIImage?
     @Binding var enviroInt: Int
     
-    @Binding var selectionsArray: [String]
-    
     @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
 
 
@@ -49,7 +47,7 @@ struct WardrobeView: View {
                     
                     GridRow { //start gridrow1
                         
-                        NavigationLink(destination: SkinToneSwitcherView(sceneKitView: $sceneKitView, selectionsArray: $selectionsArray)) { //start navlink
+                        NavigationLink(destination: SkinToneSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
                             
                             ZStack { //for torso button
 
@@ -272,7 +270,7 @@ struct WardrobeView: View {
 
 struct WardrobeView_Previews: PreviewProvider {
     static var previews: some View {
-        WardrobeView(hideNavBar: .constant(true), avatarSnapshot: .constant(UIImage(systemName: "person.circle")!), enviroInt: .constant(1), selectionsArray: .constant(["#ffdab0"]))
+        WardrobeView(hideNavBar: .constant(true), avatarSnapshot: .constant(UIImage(systemName: "person.circle")!), enviroInt: .constant(1))
         //profileImage: .constant(UIImage(systemName: "person.circle")!)
     }
 }

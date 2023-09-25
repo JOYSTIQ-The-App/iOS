@@ -12,10 +12,11 @@ struct HairSwitcherView: View {
     @Binding var sceneKitView: SceneKitView
     
     // Define your hairstyle and hair color options as arrays
-    let hairstyleOptions = ["Style 0", "Style 1", "Style 2", "Style 3", "Style 4", "Style 5", "Style 6", "Style 7", "Style 8", "Style 9"]
+    let hairstyleOptions = ["Style 0", "Style 1", "Style 2", "Style 3", "Style 4", "Style 5", "Style 6", "Style 7", "Style 8", "Style 9", "Style 10"]
     //let hairstyles =  ["shorthair", "buzzcut", "curly", "curly2", "curly3", "elenahair", "anhhair", "afro", "mohawk"]
     
-    let hairColorOptions = ["Default", "Black", "Brown", "Blonde", "Red", "White"]
+    //let hairColorOptions = ["Black", "Brown", "Blonde", "Red", "White"]
+    let hairColorCodes =  ["#121212", "#7a5820", "#faf0be", "#943400", "#ffffff"]
     
     @State private var currentStyle = "nil"
     
@@ -26,13 +27,11 @@ struct HairSwitcherView: View {
         
         VStack {
             
+            Text("Select style")
+                .font(.system(size: 18))
+                .foregroundColor(Color("LightGray"))
+            
             HStack (spacing: 5) {
-                
-                Image(systemName: "scissors.circle.fill")
-                    .resizable()
-                    .frame(width: 35, height: 35)
-                    .foregroundColor(Color("LightGray"))
-                 
                 
                 Spacer()
                 
@@ -114,15 +113,17 @@ struct HairSwitcherView: View {
                         
                     case 8:
                         currentStyle = "afro"
-                        //remove mohawk cut for afro
-                        sceneKitView.replaceNode(named: "Mohawk_Spikey_Solid", named: "AvatarNodes/Male/Hair/afro")
+                        //remove longhair cut for afro
+                        sceneKitView.removeNode(named: "NurbsPath")
+                        sceneKitView.replaceNode(named: "Sphere_003", named: "AvatarNodes/Male/Hair/afro")
                         
-                        /*
+                        
                     case 9:
-                        currentStyle = "mohawk"
-                        //remove flattop cut for mohawk
-                        sceneKitView.replaceNode(named: "FlatTop", named: "AvatarNodes/Male/Hair/Mohwawk")
-                        */
+                        
+                        currentStyle = "longhair"
+                        //remove mohawk cut for longhair
+                        sceneKitView.replaceNode(named: "Mohawk_Spikey_Solid", named: "AvatarNodes/Male/Hair/longhair")
+                        
                         
                     default:
                 
@@ -132,8 +133,8 @@ struct HairSwitcherView: View {
                         
                     }
                     
-                    //below wraps list
-                    //selectedHairstyleIndex = (selectedHairstyleIndex - 1 + hairstyleOptions.count) % hairstyleOptions.count
+                    sceneKitView.changeHairColor(named: currentStyle, named: "#121212")
+                    sceneKitView.changeEyebrow(named: "#121212")
                     
                 }
                 .foregroundColor(selectedHairstyleIndex == 0 ? .gray : .green)
@@ -161,7 +162,7 @@ struct HairSwitcherView: View {
                     
                     selectedHairColorIndex = 0
                     
-                    if selectedHairstyleIndex <= 8 { //do not exceed array length
+                    if selectedHairstyleIndex <= 9 { //do not exceed array length
                         
                         selectedHairstyleIndex += 1
                         
@@ -231,35 +232,33 @@ struct HairSwitcherView: View {
                             sceneKitView.replaceNode(named: "TopPart", named: "AvatarNodes/Male/Hair/afro")
                             
                         case 9:
-                            currentStyle = "mohawk"
-                            //replace afro with mohawk
-                            sceneKitView.replaceNode(named: "hair_sculpted", named: "AvatarNodes/Male/Hair/Mohwawk")
+                            currentStyle = "longhair"
+                            //replace afro with longhair
+                            sceneKitView.replaceNode(named: "hair_sculpted", named: "AvatarNodes/Male/Hair/longhair")
                             
-                        /*
+                        
                         case 10:
+                            currentStyle = "mohawk"
+                            //replace longhair with mohawk
+                            sceneKitView.removeNode(named: "NurbsPath")
+                            sceneKitView.replaceNode(named: "Sphere_003", named: "AvatarNodes/Male/Hair/Mohwawk")
                             
-                            //replace mohawk with flattop
-                            sceneKitView.replaceNode(named: "Mohawk_Spikey_Solid", named: "AvatarNodes/Male/Hair/flattop")
-                            */
-                            
-                            
-                        default:
                     
+                        default:
                             //do nothing
                             currentStyle = "bald"
                             
                             
-                        }
+                        } //end switch
                         
+                        sceneKitView.changeHairColor(named: currentStyle, named: "#121212")
+                        sceneKitView.changeEyebrow(named: "#121212")
                         
-                    }
-                    
-                    
-                    
+                    } //end if
                     
                     
                 }
-                .foregroundColor(selectedHairstyleIndex == 9 ? .gray : .green)
+                .foregroundColor(selectedHairstyleIndex == 10 ? .gray : .green)
                 .padding(.all, 2)
                 .font(.system(size: 28))
                 .buttonStyle(NeumorphicButtonStyle())
@@ -272,61 +271,26 @@ struct HairSwitcherView: View {
         
             
             
+            Text("Select color")
+                .font(.system(size: 18))
+                .foregroundColor(Color("LightGray"))
+                
+            
+            
+            
             HStack {
                 
-                Image(systemName: "paintpalette.fill")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(Color("LightGray"))
-                    .padding(.trailing, 13)
-                
-                
                 Spacer()
-                
                 
                 // Left arrow button for hair color
                 Button("<") {
                     
-                    //selectedHairColorIndex = (selectedHairColorIndex - 1 + hairColorOptions.count) % hairColorOptions.count
-                    
-                    
                     if selectedHairColorIndex >= 1 {
                         selectedHairColorIndex -= 1
+                        
+                        sceneKitView.changeHairColor(named: currentStyle, named: hairColorCodes[selectedHairColorIndex])
+                        sceneKitView.changeEyebrow(named: hairColorCodes[selectedHairColorIndex])
                     }
-                    
-                    
-                    switch selectedHairColorIndex {
-                        
-                    case 0:
-                        print("do nothing")
-                    
-                    case 1: //black color
-                        
-                        sceneKitView.changeHairColor(named: currentStyle, named: "#121212")
-                        sceneKitView.changeEyebrow(named: "#121212")
-                        
-                    case 2: //brown color
-                        
-                        sceneKitView.changeHairColor(named: currentStyle, named: "#7a5820")
-                        sceneKitView.changeEyebrow(named: "#7a5820")
-                        
-                    case 3: //blonde color
-                        
-                        sceneKitView.changeHairColor(named: currentStyle, named: "#faf0be")
-                        sceneKitView.changeEyebrow(named: "#faf0be")
-                        
-                    case 4: //red color
-                        
-                        sceneKitView.changeHairColor(named: currentStyle, named: "#943400")
-                        sceneKitView.changeEyebrow(named: "#943400")
-                        
-                    default:
-                        print("do nothing")
-                        
-                        
-      
-                    }//end switch
-                    
                     
                 }
                 .foregroundColor(selectedHairColorIndex == 0 ? .gray : .green)
@@ -334,6 +298,7 @@ struct HairSwitcherView: View {
                 .font(.system(size: 28))
                 .buttonStyle(NeumorphicButtonStyle())
                 
+                /*
                 Text("\(hairColorOptions[selectedHairColorIndex])")
                     .font(.system(size: 18))
                     .foregroundColor(Color("LightGray"))
@@ -341,59 +306,42 @@ struct HairSwitcherView: View {
                     .background(Color("GradientLight"))
                     .cornerRadius(5)
                     .padding(.horizontal, 10)
+                */
+                
+                ZStack {
+                    
+                    Rectangle()
+                        .frame(width: 200, height: 40)
+                        .foregroundColor(Color("GradientLight"))
+                        .cornerRadius(5)
+                        .padding(.horizontal, 10)
+                    
+                    Rectangle()
+                        .frame(width: 150, height: 20)
+                        .foregroundColor(Color(UIColor(hexString: hairColorCodes[selectedHairColorIndex])!))
+                        .cornerRadius(5)
+                }
                     
                 
+                
                 // Right arrow button for hair color
-                // hairColorOptions = ["Default", "Black", "Brown", "Blonde", "Red", "White"]
+                // hairColorOptions = ["Black", "Brown", "Blonde", "Red", "White"]
                 Button(">") {
                     
                     //selectedHairColorIndex = (selectedHairColorIndex + 1) % hairColorOptions.count
                     
-                    if selectedHairColorIndex <= 4 {
+                    if selectedHairColorIndex <= 3 {
                         selectedHairColorIndex += 1
                         
-                        switch selectedHairColorIndex {
-                            
-                        case 0:
-                            print("do nothing")
-                        
-                        case 1: //black color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#121212")
-                            sceneKitView.changeEyebrow(named: "#121212")
-                            
-                        case 2: //brown color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#7a5820")
-                            sceneKitView.changeEyebrow(named: "#7a5820")
-                            
-                        case 3: //blonde color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#faf0be")
-                            sceneKitView.changeEyebrow(named: "#faf0be")
-                            
-                        case 4: //red color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#943400")
-                            sceneKitView.changeEyebrow(named: "#943400")
-                            
-                        case 5: //white color
-                            
-                            sceneKitView.changeHairColor(named: currentStyle, named: "#ffffff")
-                            sceneKitView.changeEyebrow(named: "#ffffff")
-                            
-                        default:
-                            print("do nothing")
-                            
-                            
-                        } //end switch
+                        sceneKitView.changeHairColor(named: currentStyle, named: hairColorCodes[selectedHairColorIndex])
+                        sceneKitView.changeEyebrow(named: hairColorCodes[selectedHairColorIndex])
                         
                     } //end if
                     
     
                     
                 }
-                .foregroundColor(selectedHairColorIndex == 5 ? .gray : .green)
+                .foregroundColor(selectedHairColorIndex == 4 ? .gray : .green)
                 .padding(.all, 2)
                 .font(.system(size: 28))
                 .buttonStyle(NeumorphicButtonStyle())

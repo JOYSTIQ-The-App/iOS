@@ -21,13 +21,12 @@ struct ShoeSwitcherView: View {
         
         VStack {
             
+            Text("Select Shoes")
+                .font(.system(size: 18))
+                .foregroundColor(Color("LightGray"))
+            
             HStack (spacing: 5) {
                 
-                Image(systemName: "shoeprints.fill")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(Color("LightGray"))
-                    .padding(.trailing, 13)
                 
                 Spacer()
                 
@@ -224,87 +223,3 @@ struct ShoeSwitcherView_Previews: PreviewProvider {
         ShoeContentView()
     }
 }
-
-struct ShoeSwitcherView2: View {
-    
-    @Binding var sceneKitView: SceneKitView
-    
-    var body: some View {
-        
-        Grid(horizontalSpacing: 40) { //start grid for cosmetic customizations menu
-            
-            GridRow { //start gridrow1
-                
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    
-                    Text("Sneakers")
-                        .font(.system(size: 12))
-                        .frame(width: 80, height: 25)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/sneakers")
-
-                }
-                
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    
-                    Text("Loafers")
-                        .font(.system(size: 12))
-                        .frame(width: 80, height: 25)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/loafers")
-
-                }
-                
-                
-                ZStack {
-
-                    Image(systemName: "square")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    
-                    Text("Slides")
-                        .font(.system(size: 12))
-                        .frame(width: 80, height: 25)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .onTapGesture {
-                    sceneKitView.addNode(named: "AvatarNodes/Male/Footwear/flops")
-
-                }
-                
-                
-                
-            } //end gridrow1
-            .padding(.bottom, 40)
-            
-        } //end grid
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-        .background(.black)
-        
-        
-    } //end body
-    
-    
-}
-

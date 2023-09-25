@@ -14,7 +14,7 @@ struct ShirtSwitcherView: View {
     // Define your hairstyle and hair color options as arrays
     let torsoOptions = ["Shirt 0", "Shirt 1", "Shirt 2"]
     
-    let torsoColorOptions = ["Default", "Red", "Green", "Blue", "Black", "White"]
+    let torsoColorOptions = ["#025901", "#044bbd", "#780000", "#212121", "#d7d7d9"]
     
     @State private var shirtStyle = "Shirt"
     
@@ -25,13 +25,12 @@ struct ShirtSwitcherView: View {
         
         VStack {
             
+            Text("Select Shirt")
+                .font(.system(size: 18))
+                .foregroundColor(Color("LightGray"))
+            
+            
             HStack (spacing: 5) {
-                
-                Image(systemName: "tshirt.fill")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(Color("LightGray"))
-                 
                 
                 Spacer()
                 
@@ -49,12 +48,14 @@ struct ShirtSwitcherView: View {
                         case 0: //from tanktop to shirt
                             
                             shirtStyle = "Shirt"
+                            sceneKitView.removeNode(named: "LogoTrasnparent")
                             sceneKitView.replaceNode(named: "Tanktop", named: "AvatarNodes/Male/Torso/MDefaultShirt")
                             
                         case 1: //replace sweater with tank tpp
                         
                             shirtStyle = "Tanktop"
                             sceneKitView.replaceNode(named: "sweater_black", named: "AvatarNodes/Male/Torso/MTanktop")
+                            sceneKitView.changeShirtColor(named: shirtStyle, named: torsoColorOptions[0])
                          
                             
                         case 2:
@@ -111,10 +112,12 @@ struct ShirtSwitcherView: View {
                         
                             sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/MTanktop")
                             shirtStyle = "Tanktop"
+                            sceneKitView.changeShirtColor(named: shirtStyle, named: torsoColorOptions[0])
                          
                             
                         case 2: //replace tank top with sweater
                            
+                            sceneKitView.removeNode(named: "LogoTrasnparent")
                             sceneKitView.replaceNode(named: "Tanktop", named: "AvatarNodes/Male/Torso/blacksweater")
                             shirtStyle = "sweater"
     
@@ -147,125 +150,66 @@ struct ShirtSwitcherView: View {
             
             
             
-            
-            
-            
             if selectedTorsoIndex != 2 { //if prevent sweater color
+                
+                Text("Select Color")
+                    .font(.system(size: 18))
+                    .foregroundColor(Color("LightGray"))
                 
                 HStack { //for color selector
                     
-                    Image(systemName: "paintpalette.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(Color("LightGray"))
-                        .padding(.trailing, 13)
-                    
-                    
                     Spacer()
-                    
                     
                     // Left arrow button for shirt color
                     Button("<") {
-                        
                         
                         if selectedTorsoColorIndex >= 1 && selectedTorsoColorIndex != 0 {
                             
                             selectedTorsoColorIndex -= 1
                             
-                            switch selectedTorsoColorIndex {
-                                
-                            case 0:
-                                print("do nothing")
-                            
-                            case 1: //red
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#780000")
-                                
-                            case 2: //green
-                                       
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#025901")
-                                
-                            case 3: //blue
-                                       
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#044bbd")
-                                
-                            case 4: //black
-                                       
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#212121")
-                                
-                                
-                            default:
-                                print("do nothing")
-                                
-                                
-              
-                            }//end switch
+                            sceneKitView.changeShirtColor(named: shirtStyle, named: torsoColorOptions[selectedTorsoColorIndex])
                             
                         }
-                        
-                        
-                        
-                        
-                        
+                                         
                     }
                     .foregroundColor(selectedTorsoColorIndex == 0 ? .gray : .green)
                     .padding(.all, 2)
                     .font(.system(size: 28))
                     .buttonStyle(NeumorphicButtonStyle())
                     
-                    Text("\(torsoColorOptions[selectedTorsoColorIndex])")
-                        .font(.system(size: 18))
-                        .foregroundColor(Color("LightGray"))
-                        .frame(width: 200, height: 40)
-                        .background(Color("GradientLight"))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 10)
+                    
+                    ZStack {
+                        
+                        Rectangle()
+                            .frame(width: 200, height: 40)
+                            .foregroundColor(Color("GradientLight"))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 10)
+                        
+                        Rectangle()
+                            .frame(width: 150, height: 20)
+                            .foregroundColor(Color(UIColor(hexString: torsoColorOptions[selectedTorsoColorIndex])!))
+                            .cornerRadius(5)
+                        
+                    }
                         
                     
                     // Right arrow button for shirt color
-                    //["Default", "Red", "Green", "Blue", "Black", "White"]
+                    //["Red", "Green", "Blue", "Black", "White"]
                     Button(">") {
                         
                         
-                        if selectedTorsoColorIndex <= 4 {
+                        if selectedTorsoColorIndex <= 3 {
                  
                             selectedTorsoColorIndex += 1
                             
-                            switch selectedTorsoColorIndex {
-                                
-                            case 0: //can't happen
-                                print("do nothing")
+                            sceneKitView.changeShirtColor(named: shirtStyle, named: torsoColorOptions[selectedTorsoColorIndex])
                             
-                            case 1: //red
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#780000")
-                                
-                            case 2: //green
-                                       
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#025901")
-                                
-                            case 3: //blue
-                                       
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#044bbd")
-                                
-                            case 4: //black
-                                       
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#212121")
-                                
-                            case 5: //white
-                                       
-                                sceneKitView.changeShirtColor(named: shirtStyle, named: "#d7d7d9")
-                                
-                            default:
-                                print("do nothing")
-                                
-                                
-                            } //end switch
                             
                         } //end if
                         
-        
-                        
                     }
-                    .foregroundColor(selectedTorsoColorIndex == 5 ? .gray : .green)
+                    .foregroundColor(selectedTorsoColorIndex == 4 ? .gray : .green)
                     .padding(.all, 2)
                     .font(.system(size: 28))
                     .buttonStyle(NeumorphicButtonStyle())

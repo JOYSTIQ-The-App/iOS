@@ -140,6 +140,21 @@ struct SceneKitView: UIViewRepresentable {
             
     
         }
+        
+        if name2 == "AvatarNodes/Male/Torso/MTanktop" {
+            
+            let material = SCNMaterial()
+            material.diffuse.contents = UIImage(named: "AvatarNodes/Textures/LogoTrasnparent.png")
+            
+            let material2 = SCNMaterial()
+            material2.diffuse.contents = UIColor.white
+            
+            newNode.childNode(withName: "LogoTrasnparent", recursively: true)?.childNode(withName: "LogoTrasnparent", recursively: true)?.geometry?.materials = [material]
+            
+            newNode.childNode(withName: "Tanktop", recursively: true)?.childNode(withName: "Cube", recursively: true)?.geometry?.materials = [material2]
+            
+    
+        }
 
         //===========SWEATER TEXTURES=================
         
@@ -293,18 +308,27 @@ struct SceneKitView: UIViewRepresentable {
             
         case "afro":
             
+            material.specular.contents = UIColor.white
+            material.specular.intensity = 0.4
+            
             scene.rootNode.childNode(withName: "hair_sculpted", recursively: true)?.childNode(withName: "Plane_008", recursively: true)?.geometry?.materials = [material]
             
         case "curly":
             
+            material.specular.contents = UIColor.white
+            material.specular.intensity = 0.4
             scene.rootNode.childNode(withName: "curly_lv1", recursively: true)?.childNode(withName: "Plane_001", recursively: true)?.geometry?.materials = [material]
             
         case "curly2":
             
+            material.specular.contents = UIColor.white
+            material.specular.intensity = 0.4
             scene.rootNode.childNode(withName: "curly_lv2", recursively: true)?.childNode(withName: "Plane_002", recursively: true)?.geometry?.materials = [material]
             
         case "curly3":
             
+            material.specular.contents = UIColor.white
+            material.specular.intensity = 0.4
             scene.rootNode.childNode(withName: "curly_lv4", recursively: true)?.childNode(withName: "Plane_004", recursively: true)?.geometry?.materials = [material]
             
         case "shorthair":
@@ -317,6 +341,9 @@ struct SceneKitView: UIViewRepresentable {
             scene.rootNode.childNode(withName: "Mohawk_Spikey_Solid", recursively: true)?.childNode(withName: "Cone_003", recursively: true)?.geometry?.materials = [material]
             
         case "longhair":
+            
+            material.specular.contents = UIColor.white
+            material.specular.intensity = 0.4
             
             scene.rootNode.childNode(withName: "NurbsPath", recursively: true)?.childNode(withName: "NurbsPath", recursively: true)?.geometry?.materials = [material]
             scene.rootNode.childNode(withName: "Sphere_003", recursively: true)?.childNode(withName: "Sphere_004", recursively: true)?.geometry?.materials = [material]
@@ -419,7 +446,7 @@ struct ContentView7: View {
             Button(action: {
                 
                 
-                sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/blacksweater")
+                sceneKitView.replaceNode(named: "Shirt", named: "Tanktop2")
                 
             }) {
                 Text("Test sweater")

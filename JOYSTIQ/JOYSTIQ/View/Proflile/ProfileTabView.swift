@@ -17,7 +17,6 @@ struct ProfileTabView: View {
     @State private var avatarSnapshot: UIImage? // State to hold the avatar image
     @State private var enviroInt: Int = 0 // State to hold the environment int - determines avatar background
     
-    @State private var selectionsArray: [String] = ["#ffdab0"]
     
     var body: some View {
         
@@ -48,6 +47,7 @@ struct ProfileTabView: View {
                             else {
                                 Text("Create your Avatar!")
                                     .frame(width: 200, height: 50)
+                                    .foregroundColor(.black)
                                     .zIndex(1)
                             }
                             
@@ -68,7 +68,7 @@ struct ProfileTabView: View {
                                 HStack { //for own profile options
                                     
                                     
-                                    NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, selectionsArray: $selectionsArray).navigationBarTitleDisplayMode(.inline)
+                                    NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt).navigationBarTitleDisplayMode(.inline)
                                                    
                                        //custom nav title view with image
                                         .toolbar {

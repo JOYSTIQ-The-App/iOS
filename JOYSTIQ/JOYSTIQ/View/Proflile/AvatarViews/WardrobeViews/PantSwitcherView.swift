@@ -14,7 +14,9 @@ struct PantSwitcherView: View {
     // Define your hairstyle and hair color options as arrays
     let pantsOptions = ["Pants 0", "Pants 1", "Pants 2"]
     
-    let pantsColorOptions = ["Default", "Red", "Green", "Blue", "Black", "White"]
+    //let pantsColorOptions = ["Blue", "Green", "Red", "Black", "White"]
+    let pantsColorOptions = ["#044bbd", "#025901", "#780000", "#212121", "#d7d7d9"]
+    
     
     @State private var pantsStyle = "shorts"
     
@@ -25,17 +27,15 @@ struct PantSwitcherView: View {
         
         VStack {
             
+            Text("Select Pants")
+                .font(.system(size: 18))
+                .foregroundColor(Color("LightGray"))
+            
             HStack (spacing: 5) {
-                
-                Image(systemName: "pencil.circle")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(Color("LightGray"))
-                    .padding(.trailing, 13)
                 
                 Spacer()
                 
-                // Left arrow button for hairstyle
+                // Left arrow button for pants selection
                 Button("<") {
                     
                     selectedPantsColorIndex = 0
@@ -65,6 +65,9 @@ struct PantSwitcherView: View {
                             
                             
                         } //end switch
+                        
+                        sceneKitView.changePantsColor(named: pantsStyle, named: pantsColorOptions[selectedPantsColorIndex])
+                        
                     }
                     
                     
@@ -87,7 +90,7 @@ struct PantSwitcherView: View {
                     
                 
                 
-                // Right arrow button for shirt selection
+                // Right arrow button for pants selection
                 Button(">") {
         
                     
@@ -122,6 +125,7 @@ struct PantSwitcherView: View {
                             
                         } //end switch
                         
+                        sceneKitView.changePantsColor(named: pantsStyle, named: pantsColorOptions[0])
                         
                     } //end if
                     
@@ -149,14 +153,12 @@ struct PantSwitcherView: View {
             
             if selectedPantsIndex != 2 { //if prevent sweatpants color
                 
+                Text("Select Color")
+                    .font(.system(size: 18))
+                    .foregroundColor(Color("LightGray"))
+                
                 HStack { //for color selector
-                    
-                    Image(systemName: "paintpalette.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(Color("LightGray"))
-                        .padding(.trailing, 25)
-                    
+                  
                     
                     Spacer()
                     
@@ -169,32 +171,9 @@ struct PantSwitcherView: View {
                             
                             selectedPantsColorIndex -= 1
                             
-                            switch selectedPantsColorIndex {
-                                
-                            case 0:
-                                print("do nothing")
+                            sceneKitView.changePantsColor(named: pantsStyle, named: pantsColorOptions[selectedPantsColorIndex])
                             
-                            case 1: //red
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#780000")
-                                
-                            case 2: //green
-                                       
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#025901")
-                                
-                            case 3: //blue
-                                       
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#044bbd")
-                                
-                            case 4: //black
-                                       
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#212121")
-                                
-                            default:
-                                print("do nothing")
-                                
-                                
-              
-                            }//end switch
+                            
                             
                         }
                         
@@ -207,61 +186,37 @@ struct PantSwitcherView: View {
                     .padding(.all, 2)
                     .font(.system(size: 28))
                     .buttonStyle(NeumorphicButtonStyle())
-                    
-                    Text("\(pantsColorOptions[selectedPantsColorIndex])")
-                        .font(.system(size: 18))
-                        .foregroundColor(Color("LightGray"))
-                        .frame(width: 200, height: 40)
-                        .background(Color("GradientLight"))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 10)
+
                         
+                    ZStack {
+                        
+                        Rectangle()
+                            .frame(width: 200, height: 40)
+                            .foregroundColor(Color("GradientLight"))
+                            .cornerRadius(5)
+                            .padding(.horizontal, 10)
+                        
+                        Rectangle()
+                            .frame(width: 150, height: 20)
+                            .foregroundColor(Color(UIColor(hexString: pantsColorOptions[selectedPantsColorIndex])!))
+                            .cornerRadius(5)
+                        
+                    }
                     
-                    // Right arrow button for shirt color
-                    //["Default", "Red", "Green", "Blue", "Black", "White"]
+                    
+                    // Right arrow button for pants color
                     Button(">") {
                         
-                        
-                        if selectedPantsColorIndex <= 4 {
+                        if selectedPantsColorIndex <= 3 {
                  
                             selectedPantsColorIndex += 1
                             
-                            switch selectedPantsColorIndex {
-                                
-                            case 0: //can't happen
-                                print("do nothing")
+                            sceneKitView.changePantsColor(named: pantsStyle, named: pantsColorOptions[selectedPantsColorIndex])
                             
-                            case 1: //red
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#780000")
-                                
-                            case 2: //green
-                                       
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#025901")
-                                
-                            case 3: //blue
-                                       
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#044bbd")
-                                
-                            case 4: //black
-                                       
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#212121")
-                                
-                            case 5: //white
-                                       
-                                sceneKitView.changePantsColor(named: pantsStyle, named: "#d7d7d9")
-                                
-                            default:
-                                print("do nothing")
-                                
-                                
-                            } //end switch
-                            
-                        } //end if
-                        
-        
+                        }
                         
                     }
-                    .foregroundColor(selectedPantsColorIndex == 5 ? .gray : .green)
+                    .foregroundColor(selectedPantsColorIndex == 4 ? .gray : .green)
                     .padding(.all, 2)
                     .font(.system(size: 28))
                     .buttonStyle(NeumorphicButtonStyle())
