@@ -114,7 +114,7 @@ struct AppView: View {
                     
                 })
                 .sheet(isPresented: $showPostScreen) {
-                    CreatePostView(isPresented: $showPostScreen)
+                    CreatePostView(showing: $showPostScreen)
                 }
                 
                 
