@@ -9,11 +9,13 @@
 
 import SwiftUI
 
-struct UserBannerPostView: View {
+struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
+    var APIService: APIServiceType
     
     @State public var intVal: Int
+    @State private var username: String = "Loading..."
     
-    let apiService = APIService()
+    var userId: Int
     
     var body: some View {
         
@@ -44,7 +46,7 @@ struct UserBannerPostView: View {
                 
                     
                 
-                Text("Username")
+                Text(username)
                     .font(.system(size: 15))
                     .foregroundColor(.black)
                     .frame(width: UIScreen.main.bounds.width * 0.30, height: 30)
@@ -78,29 +80,25 @@ struct UserBannerPostView: View {
                     
             }
             
-            Button("Get Username") {
-                self.getUsername()
-            }
-
-            
-            
             Spacer()
             
             
         } //END HStack for pfp + username banner + game title
         .frame(width: UIScreen.main.bounds.width)
         .background(Color("GradientDark3"))
-        
-        
+        .onAppear {
+            getUsername()
+        }
         
     } //END Body
     
+    
     func getUsername() {
-        let userIdentifier: UserIdentifier = .email("ssottosanti@joystiq.gg")
-        apiService.getUsername(for: userIdentifier) { result in
+        let userIdentifier: UserIdentifier = .userId(userId)
+        APIService.getUsername(for: userIdentifier) { result in
             switch result {
-            case .success(let username):
-                print(username)
+            case .success(let fetchedUsername):
+                username = fetchedUsername
             case .failure(let error):
                 print("Error getting username: \(error.localizedDescription)")
             }
@@ -113,7 +111,7 @@ struct UserBannerPostView: View {
 
 struct UserBannerPostView_Previews: PreviewProvider {
     static var previews: some View {
-        UserBannerPostView(intVal: 1)
+        UserBannerPostView(APIService: MockAPIService(), intVal: 1, userId: 1)
     }
 }
 

@@ -9,7 +9,11 @@ import SwiftUI
 import Amplify
 import AWSS3StoragePlugin
 
-class S3Service: ObservableObject {
+protocol S3ServiceProtocol {
+    func uploadData(_ data: Data) async throws -> String
+}
+
+class S3Service: S3ServiceProtocol {
     
     // Uploads the provided data to S3 and returns the key
     func uploadData(_ data: Data) async throws -> String {
@@ -27,5 +31,12 @@ class S3Service: ObservableObject {
         print("Upload completed for key: \(key)")
         
         return key
+    }
+}
+
+class MockS3Service: S3ServiceProtocol {
+    func uploadData(_ data: Data) async throws -> String {
+        print("Mock: Simulating data upload...")
+        return "mock_key_\(UUID().uuidString)"
     }
 }

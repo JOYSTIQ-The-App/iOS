@@ -10,7 +10,25 @@ import SwiftUI
 import Amplify
 import AWSCognitoAuthPlugin
 
-class AuthService: ObservableObject {
+protocol AuthServiceProtocol: ObservableObject {
+    var isSignedIn: Bool { get set }
+    var isSignedUp: Bool { get set }
+    var isConfirmed: Bool { get set }
+    var signUpRequested: Bool { get set }
+    
+    func fetchCurrentAuthSession() async
+    func fetchUserEmail() async throws -> String?
+    func signIn(username: String, password: String, completion: @escaping (Bool, Bool) -> Void) async
+    func signUp(username: String, email: String, password: String) async -> Bool
+    func confirmSignUp(for username: String, with confirmationCode: String) async -> Bool
+    func resendConfirmationCode(for username: String) async -> Bool
+    func resetPassword(username: String, completion: @escaping (Bool) -> Void) async
+    func confirmResetPassword(username: String, newPassword: String, confirmationCode: String, completion: @escaping (Bool) -> Void) async
+    func signOutLocally() async
+}
+
+
+class AuthService: AuthServiceProtocol {
     @Published var isSignedIn: Bool = false
     @Published var isSignedUp: Bool = false
     @Published var isConfirmed: Bool = false
@@ -248,3 +266,62 @@ class AuthService: ObservableObject {
         }
     }
 }
+
+
+class MockAuthService: AuthServiceProtocol {
+    @Published var isSignedIn: Bool = false
+    @Published var isSignedUp: Bool = false
+    @Published var isConfirmed: Bool = false
+    @Published var signUpRequested: Bool = false
+
+    init() {
+        // Mock initialization
+    }
+
+    func fetchCurrentAuthSession() async {
+        // Mock fetching auth session
+        DispatchQueue.main.async {
+            self.isSignedIn = true
+        }
+    }
+    
+    func fetchUserEmail() async throws -> String? {
+        // Mock fetching user email
+        return "mockuser@example.com"
+    }
+
+    func signIn(username: String, password: String, completion: @escaping (Bool, Bool) -> Void) async {
+        // Mock sign in
+        completion(true, false)
+    }
+    
+    func signUp(username: String, email: String, password: String) async -> Bool {
+        // Mock sign up
+        return true
+    }
+    
+    func confirmSignUp(for username: String, with confirmationCode: String) async -> Bool {
+        // Mock confirm sign up
+        return true
+    }
+    
+    func resendConfirmationCode(for username: String) async -> Bool {
+        // Mock resend confirmation code
+        return true
+    }
+    
+    func resetPassword(username: String, completion: @escaping (Bool) -> Void) async {
+        // Mock reset password
+        completion(true)
+    }
+    
+    func confirmResetPassword(username: String, newPassword: String, confirmationCode: String, completion: @escaping (Bool) -> Void) async {
+        // Mock confirm reset password
+        completion(true)
+    }
+
+    func signOutLocally() async {
+        // Mock sign out locally
+    }
+}
+
