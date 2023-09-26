@@ -15,9 +15,6 @@
 		9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */; };
 		9941DC242A93F02300215948 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC232A93F02300215948 /* Assets.xcassets */; };
 		9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC262A93F02300215948 /* Preview Assets.xcassets */; };
-		9941DC302A93F50E00215948 /* TrimmedClip1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2D2A93F50900215948 /* TrimmedClip1.mp4 */; };
-		9941DC312A93F50E00215948 /* TrimmedClip2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */; };
-		9941DC322A93F50E00215948 /* TrimmedClip3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */; };
 		9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3B2A93F6F000215948 /* NotificationTabView.swift */; };
 		9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3C2A93F6F000215948 /* HomeTabView.swift */; };
 		9941DC622A93F6F000215948 /* UserBannerPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */; };
@@ -96,9 +93,6 @@
 		9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JOYSTIQApp.swift; sourceTree = "<group>"; };
 		9941DC232A93F02300215948 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9941DC262A93F02300215948 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		9941DC2D2A93F50900215948 /* TrimmedClip1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip1.mp4; sourceTree = "<group>"; };
-		9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip2.mp4; sourceTree = "<group>"; };
-		9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TrimmedClip3.mp4; sourceTree = "<group>"; };
 		9941DC3B2A93F6F000215948 /* NotificationTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTabView.swift; sourceTree = "<group>"; };
 		9941DC3C2A93F6F000215948 /* HomeTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBannerPostView.swift; sourceTree = "<group>"; };
@@ -191,7 +185,6 @@
 			children = (
 				99EA3DEE2AC21A950011908F /* AvatarNodes */,
 				997062D62ABB8BFE005596A3 /* CamTest6.usdc */,
-				9941DC7D2A94003400215948 /* Placeholders */,
 				9941DC1E2A93F02100215948 /* JOYSTIQ */,
 				9941DC1D2A93F02100215948 /* Products */,
 				9941DC7A2A93F80E00215948 /* Frameworks */,
@@ -316,16 +309,6 @@
 				9941DC7B2A93F80F00215948 /* SceneKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9941DC7D2A94003400215948 /* Placeholders */ = {
-			isa = PBXGroup;
-			children = (
-				9941DC2D2A93F50900215948 /* TrimmedClip1.mp4 */,
-				9941DC2E2A93F50B00215948 /* TrimmedClip2.mp4 */,
-				9941DC2F2A93F50E00215948 /* TrimmedClip3.mp4 */,
-			);
-			path = Placeholders;
 			sourceTree = "<group>";
 		};
 		995085E02A95A690003996B6 /* Services */ = {
@@ -543,11 +526,8 @@
 				99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */,
 				997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */,
 				9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */,
-				9941DC302A93F50E00215948 /* TrimmedClip1.mp4 in Resources */,
 				9941DC242A93F02300215948 /* Assets.xcassets in Resources */,
 				99F590FF2ABA82B400AD5F8C /* LaunchScreen.storyboard in Resources */,
-				9941DC312A93F50E00215948 /* TrimmedClip2.mp4 in Resources */,
-				9941DC322A93F50E00215948 /* TrimmedClip3.mp4 in Resources */,
 				C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */,
 				5BA74B352121C85BDC510698 /* amplifyconfiguration.json in Resources */,
 			);
