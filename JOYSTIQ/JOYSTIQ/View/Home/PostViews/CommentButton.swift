@@ -95,13 +95,14 @@ struct CommentsView<APIServiceType: APIServiceProtocol>: View {
     }
 
     func postComment() {
+        print("posting comment")
+        print(user.username ?? "shit")
         guard let username = user.username, !newComment.isEmpty else { return }
-
+        
         APIService.createComment(postId: postId, username: username, text: newComment) { result in
             switch result {
-            case .success:
+            case .success(let newPostedComment):
                 // Add the new comment to the local list and clear the text field
-                let newPostedComment = CommentData(post_id: postId, username: username, text: newComment)
                 self.comments.append(newPostedComment)
                 self.newComment = ""
             case .failure(let error):
@@ -109,55 +110,8 @@ struct CommentsView<APIServiceType: APIServiceProtocol>: View {
             }
         }
     }
+
 }
-
-//struct CommentsView<APIServiceType: APIServiceProtocol>: View {
-//    var APIService: APIServiceProtocol
-//    var postId: Int
-//    @State private var comments: [Comment] = []
-//    @State private var newComment: String = ""
-//
-//    var body: some View {
-//        VStack {
-//            ScrollView {
-//                ForEach(comments, id: \.id) { comment in
-//                    Text(comment.text)
-//                        .padding()
-//                        .background(Color.gray.opacity(0.1))
-//                        .cornerRadius(8)
-//                        .padding(.horizontal)
-//                }
-//            }
-//
-//            HStack {
-//                TextField("Add a comment...", text: $newComment)
-//                    .padding()
-//                    .background(Color.gray.opacity(0.1))
-//                    .cornerRadius(8)
-//
-//                Button("Post") {
-//                    // Handle posting the comment
-//                }
-//                .padding()
-//            }
-//            .padding()
-//        }
-//        .onAppear(perform: fetchComments)
-//    }
-//
-//    func fetchComments() {
-//        // Assuming you have an APIService instance or similar
-//        APIService.getPostComments(for: postId) { result in
-//            switch result {
-//            case .success(let fetchedComments):
-//                self.comments = fetchedComments
-//            case .failure(let error):
-//                print("Error fetching comments: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-//}
-
 
 
 struct CommentButton_Previews: PreviewProvider {

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol APIServiceProtocol {
-    func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Void, Error>) -> Void)
+    func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void)
     func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void)
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     
@@ -421,9 +421,16 @@ class APIService: APIServiceProtocol {
 
 
 class MockAPIService: APIServiceProtocol {
-    func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        // Mocked implementation. For example, you can immediately call the completion with a success:
-        completion(.success(()))
+    func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void) {
+            DispatchQueue.main.async {
+                let mockComment = Comment(id: 4,
+                                          post_id: postId,
+                                          user_id: 1,
+                                          text: text,
+                                          created_at: "\(Date())",
+                                          updated_at: "\(Date())")
+                completion(.success(mockComment))
+            }
     }
     
     func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void) {
