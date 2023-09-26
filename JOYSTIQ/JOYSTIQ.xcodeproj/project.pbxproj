@@ -67,6 +67,8 @@
 		99ADA60B2ABFC42000FB5524 /* ShoeSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
+		99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DEE2AC21A950011908F /* AvatarNodes */; };
+		99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EA3DF12AC223050011908F /* ComingSoonView.swift */; };
 		99F590E62AB223FE00AD5F8C /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */; };
 		99F590EB2AB230AB00AD5F8C /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */; };
 		99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B7982AB119AC00733B73 /* S3Service.swift */; };
@@ -78,8 +80,6 @@
 		99F590FF2ABA82B400AD5F8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99F590FE2ABA82B400AD5F8C /* LaunchScreen.storyboard */; };
 		99F591052ABB8E1400AD5F8C /* DiscPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4D2A93F6F000215948 /* DiscPostView.swift */; };
 		99F591082ABCAD0B00AD5F8C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F591072ABCAD0B00AD5F8C /* User.swift */; };
-		99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DEE2AC21A950011908F /* AvatarNodes */; };
-		99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EA3DF12AC223050011908F /* ComingSoonView.swift */; };
 		99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */; };
 		99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
@@ -133,7 +133,7 @@
 		997062B22ABB6036005596A3 /* SceneKitView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneKitView2.swift; path = ../../Proflile/AvatarViews/SceneKitView2.swift; sourceTree = "<group>"; };
 		997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinToneSwitcherView.swift; sourceTree = "<group>"; };
 		997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSwitcherView.swift; sourceTree = "<group>"; };
-		997062D62ABB8BFE005596A3 /* CamTest6.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = CamTest6.usdc; path = ../../CamTest6.usdc; sourceTree = "<group>"; };
+		997062D62ABB8BFE005596A3 /* CamTest6.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = CamTest6.usdc; sourceTree = "<group>"; };
 		997062D82ABBB298005596A3 /* HexColorConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorConverter.swift; sourceTree = "<group>"; };
 		9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicButtons.swift; sourceTree = "<group>"; };
 		9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
@@ -147,6 +147,8 @@
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
 		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
+		99EA3DEE2AC21A950011908F /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AvatarNodes; sourceTree = "<group>"; };
+		99EA3DF12AC223050011908F /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
 		99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
 		99F590ED2AB627F800AD5F8C /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
 		99F590F42ABA3A1500AD5F8C /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
@@ -155,8 +157,6 @@
 		99F590FC2ABA7A6F00AD5F8C /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		99F590FE2ABA82B400AD5F8C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		99F591072ABCAD0B00AD5F8C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		99EA3DEE2AC21A950011908F /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AvatarNodes; path = ../../AvatarNodes; sourceTree = "<group>"; };
-		99EA3DF12AC223050011908F /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
 		99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairSwitcherView.swift; sourceTree = "<group>"; };
 		99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShirtSwitcherView.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
@@ -306,7 +306,6 @@
 			children = (
 				9941DC592A93F6F000215948 /* ContentFilter.swift */,
 				9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */,
-				993F86292AB2966C00919BA2 /* LeaderboardBottom.swift */,
 			);
 			path = Extras;
 			sourceTree = "<group>";
@@ -430,6 +429,14 @@
 			path = NotificationPanel;
 			sourceTree = "<group>";
 		};
+		99EA3DF02AC222F30011908F /* ButtonViews */ = {
+			isa = PBXGroup;
+			children = (
+				99EA3DF12AC223050011908F /* ComingSoonView.swift */,
+			);
+			path = ButtonViews;
+			sourceTree = "<group>";
+		};
 		99F590E92AB2309000AD5F8C /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,14 +472,6 @@
 				99F591072ABCAD0B00AD5F8C /* User.swift */,
 			);
 			path = UserModels;
-			sourceTree = "<group>";
-		};
-		99EA3DF02AC222F30011908F /* ButtonViews */ = {
-			isa = PBXGroup;
-			children = (
-				99EA3DF12AC223050011908F /* ComingSoonView.swift */,
-			);
-			path = ButtonViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -618,7 +617,6 @@
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
 				997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
-				993F862A2AB2966C00919BA2 /* LeaderboardBottom.swift in Sources */,
 				997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */,
 				99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,
