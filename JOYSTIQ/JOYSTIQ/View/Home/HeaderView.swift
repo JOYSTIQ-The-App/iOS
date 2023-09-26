@@ -47,21 +47,11 @@ struct HeaderView: View {
                 showDropDown.toggle()
                 
             }) {
-                
-                //ZStack {
-                    
+            
                     Image("JS_Logo2")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30, height: 30)
-                    
-                    //Circle()
-                       //.frame(width: 56, height: 60) // Set the dimensions of the circle
-                       //.foregroundColor(.black).opacity(0.1) // Set the fill color of the circle
-                      // .offset(x:2)
-                      // .zIndex(0)
-                    
-                //}
                                    
             }
             .buttonStyle(NeumorphicButtonStyle2())

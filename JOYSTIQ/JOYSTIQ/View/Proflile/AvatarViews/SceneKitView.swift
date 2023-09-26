@@ -164,6 +164,7 @@ struct SceneKitView: UIViewRepresentable {
             
     
         }
+        
 
         //===========SWEATER TEXTURES=================
         
@@ -455,7 +456,7 @@ struct ContentView7: View {
             Button(action: {
                 
                 
-                sceneKitView.replaceNode(named: "Shirt", named: "Tanktop2")
+                sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/MDefaultShirt")
                 
             }) {
                 Text("Test sweater")

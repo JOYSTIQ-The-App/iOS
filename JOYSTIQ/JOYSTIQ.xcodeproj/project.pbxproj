@@ -71,10 +71,6 @@
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
 		99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DEE2AC21A950011908F /* AvatarNodes */; };
 		99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EA3DF12AC223050011908F /* ComingSoonView.swift */; };
-		99EA3DF62AC262CD0011908F /* CamTest7.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DF52AC262CD0011908F /* CamTest7.usdc */; };
-		99EA3DF82AC2637C0011908F /* CamTest8.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DF72AC2637C0011908F /* CamTest8.usdc */; };
-		99EA3DFA2AC264A40011908F /* CamTest9.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DF92AC264A40011908F /* CamTest9.usdc */; };
-		99EA3DFC2AC264DA0011908F /* CamTest10.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DFB2AC264DA0011908F /* CamTest10.usdc */; };
 		99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */; };
 		99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
@@ -145,10 +141,6 @@
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
 		99EA3DEE2AC21A950011908F /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AvatarNodes; path = ../../AvatarNodes; sourceTree = "<group>"; };
 		99EA3DF12AC223050011908F /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
-		99EA3DF52AC262CD0011908F /* CamTest7.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = CamTest7.usdc; path = ../../CamTest7.usdc; sourceTree = "<group>"; };
-		99EA3DF72AC2637C0011908F /* CamTest8.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = CamTest8.usdc; path = ../../CamTest8.usdc; sourceTree = "<group>"; };
-		99EA3DF92AC264A40011908F /* CamTest9.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = CamTest9.usdc; path = ../../CamTest9.usdc; sourceTree = "<group>"; };
-		99EA3DFB2AC264DA0011908F /* CamTest10.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = CamTest10.usdc; path = ../../CamTest10.usdc; sourceTree = "<group>"; };
 		99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairSwitcherView.swift; sourceTree = "<group>"; };
 		99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShirtSwitcherView.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
@@ -181,10 +173,6 @@
 		9941DC132A93F02100215948 = {
 			isa = PBXGroup;
 			children = (
-				99EA3DFB2AC264DA0011908F /* CamTest10.usdc */,
-				99EA3DF92AC264A40011908F /* CamTest9.usdc */,
-				99EA3DF72AC2637C0011908F /* CamTest8.usdc */,
-				99EA3DF52AC262CD0011908F /* CamTest7.usdc */,
 				99EA3DEE2AC21A950011908F /* AvatarNodes */,
 				997062D62ABB8BFE005596A3 /* CamTest6.usdc */,
 				9941DC7D2A94003400215948 /* Placeholders */,
@@ -497,10 +485,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99EA3DFC2AC264DA0011908F /* CamTest10.usdc in Resources */,
-				99EA3DFA2AC264A40011908F /* CamTest9.usdc in Resources */,
-				99EA3DF82AC2637C0011908F /* CamTest8.usdc in Resources */,
-				99EA3DF62AC262CD0011908F /* CamTest7.usdc in Resources */,
 				99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */,
 				997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */,
 				9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */,
