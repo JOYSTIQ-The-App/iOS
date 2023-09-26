@@ -7,11 +7,14 @@
 
 import SwiftUI
 
-struct DropDown2: View {
-    
+struct DropDown2<FeedbackServiceType: FeedbackServiceProtocol>: View {
+    var feedbackService: FeedbackServiceType
     
     @Binding var showDropDown: Bool
     @State private var feedbacktext = ""
+    @State private var username = "Anonymous"
+    
+    
     
     let buymeacoffeeLink = "https://www.buymeacoffee.com/joystiq"
     
@@ -68,12 +71,18 @@ struct DropDown2: View {
                     //Submit feedback button
                     Button(action: {
                         
-                        // Action to perform on submit...
-                        
-                        //TO DO: Dont allow submit if empty
+                        // Check if feedback text is not empty
+                        if !feedbacktext.isEmpty {
+                            // Username is currently "Anonymous"
+                            feedbackService.sendFeedback(username: username, feedbackText: feedbacktext)
+                            
+                            feedbacktext = ""
+                            showDropDown.toggle()
+                        } else {
+                            print("Feedback text cannot be empty.")
+                        }
                         
                         feedbacktext = ""
-                        showDropDown.toggle()
                         
                     }, label: {
                         Text("Submit")
@@ -219,7 +228,7 @@ struct DropDown2: View {
 
 struct DropDown2_Previews: PreviewProvider {
     static var previews: some View {
-        DropDown2(showDropDown: .constant(true))
+        DropDown2(feedbackService: MockFeedbackService(), showDropDown: .constant(true))
         //.frame(width: UIScreen.main.bounds.width).background(.black)
     }
 }

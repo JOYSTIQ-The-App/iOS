@@ -7,7 +7,10 @@
 
 import SwiftUI
 
-struct AppView: View {
+struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
+    var APIService: APIServiceType
+    @EnvironmentObject var authService: AuthServiceType
+    @EnvironmentObject var user: User
     
     //Tab state to control views based on nav bar interaction
     @State private var selectedTab = 0
@@ -28,18 +31,21 @@ struct AppView: View {
             switch selectedTab {
                 
                 case 0:
-                    HomeTabView(showCommentSection: $showCommentSection)
+                    HomeTabView(APIService: APIService, showCommentSection: $showCommentSection)
+                        .environmentObject(user)
                         .disabled(showCommentSection)
                     
                 case 1:
-                    LeaderboardTabView(showCommentSection: $showCommentSection)
+                    LeaderboardTabView(APIService: APIService, showCommentSection: $showCommentSection)
                     .disabled(showCommentSection)
                 case 3:
-                    ConnectTabView()
+                    ConnectTabView(APIService: APIService)
                 case 4:
                     ProfileTabView(hideNavBar: $hideNavBar)
                 default:
-                    HomeTabView(showCommentSection: $showCommentSection).disabled(showCommentSection)
+                    HomeTabView(APIService: APIService, showCommentSection: $showCommentSection)
+                        .environmentObject(user)
+                        .disabled(showCommentSection)
                 
             }
             
@@ -118,7 +124,8 @@ struct AppView: View {
                         
                     })
                     .sheet(isPresented: $showPostScreen) {
-                        CreatePostView(isPresented: $showPostScreen)
+                        CreatePostView<APIService, S3Service, AuthService>(APIService: APIService as! APIService, s3Service: S3Service(), isPresented: $showPostScreen)
+                        .environmentObject(authService)
                     }
                     
                     
@@ -200,6 +207,12 @@ struct AppView: View {
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
-        AppView()
+        let testUser = User()
+        testUser.email = "testEmail@example.com"
+        testUser.username = "testUsername"
+        
+        return AppView<MockAPIService, MockAuthService>(APIService: MockAPIService())
+            .environmentObject(MockAuthService())
+            .environmentObject(testUser)
     }
 }

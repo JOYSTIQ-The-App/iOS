@@ -8,10 +8,10 @@
 import SwiftUI
 import Amplify
 
-struct LoginView: View {
+struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     
     //handles logged state
-    @EnvironmentObject var authService: AuthService
+    @EnvironmentObject var authService: AuthServiceType
     
     @State private var username: String = ""
     @State private var password: String = ""
@@ -37,12 +37,9 @@ struct LoginView: View {
                 VStack(alignment: .center) { //VStack for username / pass / hstack [forgot / login]
                     
                     TextField(
-                        "",
+                        "Username",
                         text: $username
                     )
-                    .placeholder(when: username.isEmpty) {
-                        Text("Username").foregroundColor(.white).opacity(0.4)
-                    }
                     .padding(.all, 15.0)
                     .foregroundColor(.white)
                     .background(Color("LightGray").opacity(0.4))
@@ -53,12 +50,9 @@ struct LoginView: View {
                     
                     
                     SecureField(
-                        "",
+                        "Password",
                         text: $password
                     )
-                    .placeholder(when: password.isEmpty) {
-                        Text("Password").foregroundColor(.white).opacity(0.4)
-                    }
                     .padding(.all, 15.0)
                     .foregroundColor(.white)
                     .background(Color("LightGray").opacity(0.4))
@@ -107,7 +101,8 @@ struct LoginView: View {
                         })
                         .contentShape(Rectangle()) // This makes the entire frame tappable
                         
-                        NavigationLink("", destination: ConfirmSignUpView(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp).environmentObject(AuthService()), isActive: $navigateToConfirmSignUp)
+                        NavigationLink("", destination: ConfirmSignUpView<AuthService>(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp), isActive: $navigateToConfirmSignUp)
+                            .environmentObject(authService)
 
 
                         //Forgot password button
@@ -118,7 +113,8 @@ struct LoginView: View {
                         .frame(width: 160, height: 30)
                         .cornerRadius(10)
                         
-                        NavigationLink("", destination: ForgotPasswordView(navigateToForgotPassword: $navigateToForgotPassword), isActive: $navigateToForgotPassword)
+                        NavigationLink("", destination: ForgotPasswordView<AuthService>(navigateToForgotPassword: $navigateToForgotPassword), isActive: $navigateToForgotPassword)
+                            .environmentObject(authService)
                         
                         
                     } //END HStack for forgot pass and login
@@ -137,20 +133,21 @@ struct LoginView: View {
                 
                 
                 VStack(spacing: 20.0) { //VStack for new acc button and logo text
-                    
-                    NavigationLink(destination: SignUpView(), isActive: $authService.signUpRequested) {
                         
-                        Button("Create new account") {
-                            authService.signUpRequested = true
-                        }
-                        .foregroundColor(.white)
-                        .frame(width: 300.0, height: 30.0)
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.gray, lineWidth: 2)
-                        )
+                    Button("Create new account") {
+                        authService.signUpRequested = true
                     }
+                    .foregroundColor(.white)
+                    .frame(width: 300.0, height: 30.0)
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray, lineWidth: 2)
+                    )
+                    
+                    NavigationLink("", destination: SignUpView<AuthService>(), isActive: $authService.signUpRequested)
+                        .environmentObject(authService)
+                    
                     
                     Image("SmallTitle")
                         .resizable()
@@ -184,6 +181,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView().environmentObject(AuthService())
+        LoginView<MockAuthService>()
+            .environmentObject(MockAuthService())
     }
 }

@@ -6,14 +6,19 @@
 //
 import Foundation
 
+
 struct Feedback: Codable {
     let feedback: String
     let username: String
 }
 
-class FeedbackService {
+protocol FeedbackServiceProtocol {
+    func sendFeedback(username: String, feedbackText: String)
+}
+
+class FeedbackService: FeedbackServiceProtocol {
     
-    func sendFeedback(feedbackText: String, username: String) {
+    func sendFeedback(username: String, feedbackText: String) {
         // Check if feedback text or username is empty
         if feedbackText.isEmpty || username.isEmpty {
             print("Feedback text and username cannot be empty.")
@@ -57,3 +62,8 @@ class FeedbackService {
     }
 }
 
+class MockFeedbackService: FeedbackServiceProtocol {
+    func sendFeedback(username: String, feedbackText: String) {
+        print("Mock: Feedback received from \(username): \(feedbackText)")
+    }
+}

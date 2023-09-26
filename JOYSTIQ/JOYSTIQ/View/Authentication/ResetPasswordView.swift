@@ -8,10 +8,10 @@
 import SwiftUI
 import Amplify
 
-struct ResetPasswordView: View {
+struct ResetPasswordView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     
     //handles logged state
-    @EnvironmentObject var authService: AuthService
+    @EnvironmentObject var authService: AuthServiceType
     
     let username: String
     @State private var password: String = ""
@@ -175,7 +175,8 @@ struct ResetPasswordView: View {
 
 struct ResetPasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        ResetPasswordView(username: "SampleUsername", navigateToResetPassword: .constant(false), navigateToForgotPassword: .constant(false)).environmentObject(AuthService())
+        ResetPasswordView<MockAuthService>(username: "SampleUsername", navigateToResetPassword: .constant(false), navigateToForgotPassword: .constant(false))
+            .environmentObject(MockAuthService())
     }
 }
 
