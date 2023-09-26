@@ -27,7 +27,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
             .navigationBarItems(trailing: Button("Refresh") {
                 refreshPosts()
             })
-            .accentColor(Color("LightGray"))
+            .accentColor(Color.green)
         }
     }
     

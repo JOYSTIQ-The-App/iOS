@@ -19,6 +19,9 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
     //Control comment section
     @State private var showCommentSection = false
     
+    //passed to ProfileTabView so that wardrobe and settings can hide nav bar
+    @State private var hideNavBar = false
+    
     var body: some View {
             
             
@@ -38,7 +41,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 case 3:
                     ConnectTabView(APIService: APIService)
                 case 4:
-                    ProfileTabView()
+                    ProfileTabView(hideNavBar: $hideNavBar)
                 default:
                     HomeTabView(APIService: APIService, showCommentSection: $showCommentSection)
                         .environmentObject(user)
@@ -46,138 +49,142 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 
             }
             
-
-            //Nav Bar hstack
-            HStack(spacing: 0) {
+            if (!hideNavBar) {
                 
-                //Home Button
-                Button(action: {
-                    self.selectedTab = 0
-                }, label: {
+                //Nav Bar hstack
+                HStack(spacing: 0) {
                     
-                    
-                    Image(systemName: selectedTab == 0 ? "house.fill" :
-                            "house")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: UIScreen.main.bounds.width * 0.10, height: 22)
-                    .foregroundColor(Color("LightGray"))
-                    .padding()
-                    .cornerRadius(12)
-                    .shadow(color: selectedTab == 0 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
-                    
-                    
-                })
-                
-                
-                //Leaderboard Button
-                Button(action: {
-                    self.selectedTab = 1
-                }, label: {
-                    
-                    
-                    Image(systemName: selectedTab == 1 ? "medal.fill" : "medal")
+                    //Home Button
+                    Button(action: {
+                        self.selectedTab = 0
+                    }, label: {
+                        
+                        
+                        Image(systemName: selectedTab == 0 ? "house.fill" :
+                                "house")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: UIScreen.main.bounds.width * 0.12, height: 24)
+                        .frame(width: UIScreen.main.bounds.width * 0.10, height: 22)
                         .foregroundColor(Color("LightGray"))
                         .padding()
                         .cornerRadius(12)
-                        .shadow(color: selectedTab == 1 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
-                    
-                    
-                })
-                
-                //Post button
-                Button(action: {
-                    showPostScreen = true
-                    
-                }, label: {
-                    
-                    
-                    ZStack {
+                        .shadow(color: selectedTab == 0 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
                         
                         
-                        Image(systemName: "square")
+                    })
+                    
+                    
+                    //Leaderboard Button
+                    Button(action: {
+                        self.selectedTab = 1
+                    }, label: {
+                        
+                        
+                        Image(systemName: selectedTab == 1 ? "medal.fill" : "medal")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.green)
-                        
-                        
-                        Image(systemName: "plus")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(Color.green)
+                            .frame(width: UIScreen.main.bounds.width * 0.12, height: 24)
+                            .foregroundColor(Color("LightGray"))
                             .padding()
                             .cornerRadius(12)
+                            .shadow(color: selectedTab == 1 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
                         
-                    } // END Zstack with for post button
-                    .frame(width: UIScreen.main.bounds.width * 0.18, height: 25)
+                        
+                    })
                     
-                    
-                    
-                })
-                .sheet(isPresented: $showPostScreen) {
-                    CreatePostView<APIService, S3Service, AuthService>(APIService: APIService as! APIService, s3Service: S3Service(), isPresented: $showPostScreen)
+                    //Post button
+                    Button(action: {
+                        showPostScreen = true
+                        
+                    }, label: {
+                        
+                        
+                        ZStack {
+                            
+                            
+                            Image(systemName: "square")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
+                                .foregroundColor(Color.green)
+                            
+                            
+                            Image(systemName: "plus")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.green)
+                                .padding()
+                                .cornerRadius(12)
+                            
+                        } // END Zstack with for post button
+                        .frame(width: UIScreen.main.bounds.width * 0.18, height: 25)
+                        
+                        
+                        
+                    })
+                    .sheet(isPresented: $showPostScreen) {
+                        CreatePostView<APIService, S3Service, AuthService>(APIService: APIService as! APIService, s3Service: S3Service(), isPresented: $showPostScreen)
                         .environmentObject(authService)
-                }
-                
-                
-                Button(action: {
-                    self.selectedTab = 3
-                }, label: {
+                    }
                     
                     
-                    Image(systemName: selectedTab == 3 ? "point.3.filled.connected.trianglepath.dotted" : "point.3.connected.trianglepath.dotted")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: UIScreen.main.bounds.width * 0.11, height: 21)
-                        .foregroundColor(Color("LightGray"))
-                        .padding()
-                        .cornerRadius(12)
-                        .shadow(color: selectedTab == 3 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
+                    Button(action: {
+                        self.selectedTab = 3
+                    }, label: {
                         
-                    
-                })
-                
-                Button(action: {
-                    self.selectedTab = 4
-                }, label: {
-                    
-                    
-                    Image(systemName: selectedTab == 4 ? "person.crop.square.fill" : "person.crop.square")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: UIScreen.main.bounds.width * 0.11, height: 24)
-                        .padding()
-                        .foregroundColor(Color("LightGray"))
-                        .shadow(color: selectedTab == 4 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
                         
+                        Image(systemName: selectedTab == 3 ? "point.3.filled.connected.trianglepath.dotted" : "point.3.connected.trianglepath.dotted")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: UIScreen.main.bounds.width * 0.11, height: 21)
+                            .foregroundColor(Color("LightGray"))
+                            .padding()
+                            .cornerRadius(12)
+                            .shadow(color: selectedTab == 3 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
+                            
+                        
+                    })
                     
-                })
-                
-             
-                
-            } //END HStack for nav bar
-            .disabled(showCommentSection)
-            .frame(width: UIScreen.main.bounds.width, height: 55)
-            .background(
-                LinearGradient(
-                    gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
-                    startPoint: .bottom,
-                    endPoint: .top
+                    Button(action: {
+                        self.selectedTab = 4
+                    }, label: {
+                        
+                        
+                        Image(systemName: selectedTab == 4 ? "person.crop.square.fill" : "person.crop.square")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: UIScreen.main.bounds.width * 0.11, height: 24)
+                            .padding()
+                            .foregroundColor(Color("LightGray"))
+                            .shadow(color: selectedTab == 4 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
+                            
+                        
+                    })
+                    
+                 
+                    
+                } //END HStack for nav bar
+                .disabled(showCommentSection)
+                .frame(width: UIScreen.main.bounds.width, height: 55)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
                 )
-            )
-            //border above nav bar
-            .overlay(
-                Rectangle()
-                    .fill(LinearGradient(gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                    .frame(width: UIScreen.main.bounds.width, height: 1),
-                    alignment: .top
-                    
-            )
+                //border above nav bar
+                .overlay(
+                    Rectangle()
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .frame(width: UIScreen.main.bounds.width, height: 1),
+                        alignment: .top
+                        
+                )
+                
+            } //end if !hideNavBar
+            
             
             
             

@@ -47,28 +47,14 @@ struct HeaderView: View {
                 showDropDown.toggle()
                 
             }) {
-                
-                ZStack {
-                    
+            
                     Image("JS_Logo2")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 35)
-                        .padding(.leading, 5)
-                        .padding(.bottom, 10)
-                        .padding(.top, 5)
-                        .zIndex(1)
-                    
-                    Circle()
-                       .frame(width: 56, height: 60) // Set the dimensions of the circle
-                       .foregroundColor(.black).opacity(0.1) // Set the fill color of the circle
-                       .offset(x:2)
-                       .zIndex(0)
-                    
-                }
+                        .frame(width: 30, height: 30)
                                    
             }
-             
+            .buttonStyle(NeumorphicButtonStyle2())
             
             Spacer()
             
@@ -76,7 +62,7 @@ struct HeaderView: View {
             Button(action: {}) {
                 Image(systemName: "tray.full.fill")
                     .resizable()
-                    .frame(width: 31, height: 22)
+                    .frame(width: 22, height: 22)
                     .foregroundColor(Color.clear)
                     .padding(.trailing, 20)
                 
