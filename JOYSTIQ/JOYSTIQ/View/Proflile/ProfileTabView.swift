@@ -6,171 +6,349 @@
 //
 
 import SwiftUI
-import SceneKit
-
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCorner(radius: radius, corners: corners) )
-    }
-}
 
 struct ProfileTabView: View {
     
     //handles logged state
     @EnvironmentObject var authService: AuthService
     
+    @State private var showComingSoon = false
+    
+    @Binding var hideNavBar: Bool //used to hide nav bar in wardrobe and settings
+
+    @State private var avatarSnapshot: UIImage? // State to hold the avatar image
+    @State private var enviroInt: Int = 0 // State to hold the environment int - determines avatar background
+    
+    
     var body: some View {
         
-        ScrollView (.vertical, showsIndicators: true) {
+        NavigationView { //start nav view
             
-            VStack { //Main VStack
+            ZStack { //for coming soon modal
                 
                 
-                VStack(spacing: 0) { //VStack for avatar / bio / username overlay
+                
+                ScrollView (.vertical, showsIndicators: true) {
                     
-                    VStack {
+                    VStack { //Main VStack
                         
-                        SceneKitView(named: "skintone6")
-                            .frame(height: 350)
-                            //.offset(y: 20)
-                            .edgesIgnoringSafeArea(.top)
+                        
+                        VStack(spacing: 0) { //VStack for [avatar] / [bio / username overlay]
                             
-                        //Rectangle()
-                            //.frame(width: UIScreen.main.bounds.width, height: 310)
-                            //.foregroundColor(.clear)
+                            ZStack { //ZStack for Z[environment / self options] and avatar image
+                                
+                                //avatar image
+                                if let image = avatarSnapshot {
+                                    
+                                    Image(uiImage: image)
+                                        .resizable()
+                                    //.frame(width: UIScreen.main.bounds.width * 0.48, height: UIScreen.main.bounds.height * 0.3)
+                                        .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.height * 0.28)
+                                        .scaleEffect(1.5)
+                                        .padding(.top, UIScreen.main.bounds.height * 0.05)
+                                        .zIndex(1)
+                                    
+                                    
+                                }
+                                else {
+                                    Text("Create your Avatar!")
+                                        .frame(width: 200, height: 50)
+                                        .foregroundColor(.black)
+                                        .zIndex(1)
+                                }
+                                
+                                ZStack(alignment: .bottom) { //for avatar background and own profile settings
+                                    
+                                    
+                                    Image(enviroInt == 1 ? "bedroomEnv" : "defaultEnv")
+                                        .resizable()
+                                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.38)
+                                        .edgesIgnoringSafeArea(.top)
+                                        .aspectRatio(contentMode: .fill)
+                                        .shadow(color: Color.black, radius: 6, x: 0, y: 4)
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    HStack { //for own profile options
+                                        
+                                        
+                                        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt).navigationBarTitleDisplayMode(.inline)
+                                                       
+                                                       //custom nav title view with image
+                                            .toolbar {
+                                                ToolbarItem(placement: .principal) {
+                                                    
+                                                    Text("Wardrobe")
+                                                    
+                                                }
+                                            }) {
+                                                
+                                                ZStack { //for wardrobe button
+                                                    
+                                                    Image(systemName: "square")
+                                                        .resizable()
+                                                        .frame(width: 35, height: 35)
+                                                        .foregroundColor(Color("LightGray"))
+                                                    
+                                                    
+                                                    Image(systemName: "tshirt.fill")
+                                                        .resizable()
+                                                        .frame(width: 20, height: 20)
+                                                        .foregroundColor(Color("LightGray"))
+                                                    
+                                                } //end zstack for wardrobe button
+                                                
+                                            }
+                                        
+                                        
+                                        Spacer()
+                                        
+                                        
+                                        NavigationLink(destination: ProfileSettingsView(hideNavBar: $hideNavBar).navigationBarTitleDisplayMode(.inline)
+                                                       
+                                                       //custom nav title view with image
+                                            .toolbar {
+                                                ToolbarItem(placement: .principal) {
+                                                    
+                                                    Text("Settings")
+                                                        .font(.system(size: 18))
+                                                        .foregroundColor(Color(.label))
+                                                    
+                                                }
+                                            }) {
+                                                
+                                                ZStack { //for settings button
+                                                    
+                                                    Image(systemName: "square")
+                                                        .resizable()
+                                                        .frame(width: 35, height: 35)
+                                                        .foregroundColor(Color("LightGray"))
+                                                    
+                                                    
+                                                    Image(systemName: "gearshape.fill")
+                                                        .resizable()
+                                                        .frame(width: 20, height: 20)
+                                                        .foregroundColor(Color("LightGray"))
+                                                    
+                                                } //end zstack for settings button
+                                                
+                                                
+                                            }
+                                        
+                                        
+                                        
+                                    }//end hstack for own profile settings / wardrobe
+                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 50)
+                                    .padding(.bottom, 15)
+                                    
+                                    
+                                    
+                                } //end ZStack for avatar background and own profile settings
+                                .zIndex(0)
+                                
+                            } //end ZStack for [environment / self options] and avatar image
+                            
+                            
+                            
+                            
+                            
+                            VStack(alignment: .leading, spacing: 0) { //VStack for Bio and Social/resume buttons
+                                
+                                HStack(spacing: 0) { //Socials hstack
+                                    
+                                    
+                                    
+                                    ZStack { //for name plate
+                                        
+                                        Image("NamePlate5")
+                                            .resizable()
+                                            .scaledToFit()
+                                        
+                                        
+                                        //Username banner
+                                        Text("User123456789")
+                                            .font(.system(size: 18))
+                                            .foregroundColor(Color("LightGray"))
+                                            .padding(.trailing, 40)
+                                        
+                                        
+                                    }//end ZStack for name plate
+                                    .frame(height: 50)
+                                    .shadow(color: Color.black, radius: 6, x: 2, y: 4)
+                                    .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
+                                    
+                                    //Spacer()
+                                    
+                                    /*
+                                     //followers button
+                                     Button( action: {
+                                     //button action here
+                                     }, label: {
+                                     
+                                     HStack(spacing: 5) {
+                                     
+                                     Text("1200")
+                                     .font(.system(size: 14))
+                                     .bold()
+                                     
+                                     
+                                     Text("followers")
+                                     .font(.system(size: 10))
+                                     
+                                     
+                                     }
+                                     
+                                     })
+                                     .frame(height: 40)
+                                     .buttonStyle(NeumorphicRectangleButtonStyle2())
+                                     //.padding(.trailing, 10)
+                                     */
+                                    
+                                    Spacer()
+                                    
+                                    
+                                    Button( action: {
+                                        //button action here
+                                        showComingSoon.toggle()
+                                        
+                                    }, label: {
+                                        //PAGE CONTENT
+                                        
+                                        Image(systemName: "network")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(Color("LightGray"))
+                                        
+                                    })
+                                    .buttonStyle(NeumorphicButtonStyle())
+                                    .padding(.trailing, 10)
+                                    
+                                    
+                                    
+                                    // Resume button
+                                    Button( action: {
+                                        //button action here
+                                        showComingSoon.toggle()
+                                        
+                                    }, label: {
+                                        
+                                        Image(systemName: "list.bullet.clipboard.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(Color("LightGray"))
+                                        
+                                    })
+                                    .buttonStyle(NeumorphicButtonStyle())
+                                    .padding(.trailing, 10)
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                } //END Socials HStack
+                                .frame(width: UIScreen.main.bounds.width)
+                                .padding(.top, 10)
+                                
+                                
+                                Text("I am the cod goat twitch.tv/codgoat \nFollow the stream")
+                                    .padding(.all, 13)
+                                    .background(Color("Black0").opacity(0.3))
+                                    .cornerRadius(15, corners: [.topRight, .bottomRight])
+                                    .frame(
+                                        minWidth: UIScreen.main.bounds.width * 0.3,
+                                        maxWidth: UIScreen.main.bounds.width * 0.7, // Set the maximum width here
+                                        alignment: .topLeading
+                                    )
+                                    .font(.system(size: UIScreen.main.bounds.width * 0.035))
+                                    .foregroundColor(Color("LightGray"))
+                                
+                                
+                            } //END bio vstack
+                            
+                            
+                            
+                            
+                        }
                         
                         
-                    }
+                        //Accolade banner
+                        AccoladeBanner()
+                        
+                        
+                        /*
+                         //Content filter
+                         GameDropDownMenu()
+                         .padding(15)
+                         .frame(width: UIScreen.main.bounds.width)
+                         .offset(x: -120)
+                         */
+                        
+                        Spacer()
+                            .frame(height: 300)
+                        
+                        
+                        
+                        
+                    }//End Main VStack
+                    //.background(Color("Black1"))
                     .background(
-                        Image("default3")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight")]),
+                            startPoint: .bottom,
+                            endPoint: .top
+                        )
                     )
                     
                     
                     
+                } //End Scroll View
+                .edgesIgnoringSafeArea(.top)
+                .edgesIgnoringSafeArea(.bottom)
+                .onAppear{hideNavBar = false}
+                
+                
+                
+                // ------------------START MODAL---------------------
+                 
+                if showComingSoon {
+                   
+                   //create a shadow effect on the background. click backround to exit
+                    
+                   Color.black.opacity(0.6)
+                       .edgesIgnoringSafeArea(.all)
+                       .onTapGesture {
+                           showComingSoon = false
+                       }
+                   
+                    
+                   ComingSoonView(showComingSoon: $showComingSoon)
                         
-                    VStack { //VStack for Bio and Social/resume buttons
-                           
-                        HStack(spacing: 20) { //Socials hstack
-                            
-                            Button( action: {
-                                    //button action here
+                    
+                   
+                } //END If showComingSoon
+                 
+                // --------------------END MODAL-------------------
+                
+                
+            } //end ZStack for coming soon modal
+            
+        }
+        .accentColor(Color(.label))
         
-                                
-                                }, label: {
-                                    //PAGE CONTENT
-                                    
-                                    Image(systemName: "network")
-                                        .font(.system(size: 33))
-                                        .foregroundColor(.green)
-                                    
-                                })
-                            
-                            
-                            //Username banner
-                            Text("User12345")
-                                .frame(width: 200, height: 40)
-                                .font(.system(size: 22))
-                                .foregroundColor(.black)
-                                .background(Color("ColorGreen"))
-                                .cornerRadius(20)
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 10)
-                            
-                            
-                            
-                            Button( action: {
-                                    //button action here
-                                }, label: {
-                                    
-                                    Image(systemName: "list.bullet.clipboard.fill")
-                                        .font(.system(size: 30))
-                                        .foregroundColor(.green)
-                                    
-                                })
-                            
-                            
-                        } //END Socials HStack
-                        
-                        
-                        Text("I am the cod goat \nFollow me on twitch.tv/codGoat \n100T content creator")
-                            .padding()
-                            .frame(width: UIScreen.main.bounds.width - 30, height: 90, alignment: .topLeading)
-                            .font(.system(size: 16))
-                            .foregroundColor(Color("LightGray"))
-                            .background(Color("Black0"))
-                            .cornerRadius(15)
-                            
-               
-                        
-                    } //END bio vstack
-                        
        
-                    
-                    
-                }
-                
-                
-                //Accolade banner
-                AccoladeBanner()
-                
-                //Content filter
-                GameDropDownMenu()
-                    .padding(15)
-                    .frame(width: UIScreen.main.bounds.width)
-                    .offset(x: -120)
-                
-                Spacer()
-              
-           
-                
-                Text("<< CONTENT GOES HERE >>")
-                    .foregroundColor(.gray)
-                    .frame(height: 300)
-                    .font(.system(size: 25))
-                    .padding(.bottom, 50)
-                    .offset(y: -50)
-                
-                Button("Logout") {
-                    Task {
-                        await authService.signOutLocally()
-                        await authService.fetchCurrentAuthSession()
-                    }
-                }
-                .foregroundColor(.black)
-                .frame(width: 120.0, height: 50.0)
-                .background(Color("AccentColor"))
-                .cornerRadius(10)
-                
-                Spacer()
-                    .frame(height: 100.0)
-                
-            }//End Main VStack
-            .background(Color("Black1"))
-            
-            
-        } //End Scroll View
-        .edgesIgnoringSafeArea(.top)
-        .edgesIgnoringSafeArea(.bottom)
         
     } //END BODY
 }
 
 
-//For rounding specific corners
-struct RoundedCorner: Shape {
-
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
-    }
-}
-
 struct GameDropDownMenu: View {
+    
     let options = ["VALORANT", "Call of Duty", "Halo", "Apex"]
     @State private var selectedOption = "VALORANT"
     
@@ -208,213 +386,15 @@ struct GameDropDownMenu: View {
     }
 }
 
-struct SceneKitView: UIViewRepresentable {
-    
-    let scene: SCNScene
-
-    init(named name: String) {
-        
-        
-         
-        guard let loadedScene = Self.loadScene(named: name) else {
-            fatalError("Failed to load the scene: \(name)")
-        }
-        self.scene = loadedScene
-        
-        //configureCamera()
-      
-        //-----------------------START COSMETIC ADD ONS--------------------------
-
-        // Load the Hair model
-        let shortsURL = Bundle.main.url(forResource: "elenahair", withExtension: "usdc")!
-        let shortsScene = try! SCNScene(url: shortsURL, options: nil)
-        let shortsNode = shortsScene.rootNode
-        
-        var currentPosition = shortsNode.position
-        
-        // Update the y-component of the position to move it up
-        currentPosition.z += 0.27
-
-        // Assign the updated position back to the node
-        shortsNode.position = currentPosition
-        
-        //add shorts as scene node
-        scene.rootNode.addChildNode(shortsNode)
-        
-        // Load the flip flops model
-        let flopsURL = Bundle.main.url(forResource: "flops", withExtension: "usdc")!
-        let flopsScene = try! SCNScene(url: flopsURL, options: nil)
-        let flopsNode = flopsScene.rootNode
-        
-        var currPosition = flopsNode.position
-        
-        // Update the y-component of the position to move it up
-        currPosition.z += 0.27
-
-        // Assign the updated position back to the node
-        flopsNode.position = currPosition
-        
-        //add shorts as scene node
-        scene.rootNode.addChildNode(flopsNode)
-
-        
-        // Load the sword model
-        let backURL = Bundle.main.url(forResource: "sword", withExtension: "usdc")!
-        let backScene = try! SCNScene(url: backURL, options: nil)
-        let backNode = backScene.rootNode
-        
-        var curPosition = backNode.position
-        
-        // Update the y-component of the position to move it up
-        curPosition.z += 0.48
-        curPosition.y += 0.04
-        
-
-        // Assign the updated position back to the node
-        backNode.position = curPosition
-        
-        //add shorts as scene node
-        scene.rootNode.addChildNode(backNode)
-        
-   
-         
-        // Load the glasses model
-        let glassesURL = Bundle.main.url(forResource: "glasses", withExtension: "usdc")!
-        let glassesScene = try! SCNScene(url: glassesURL, options: nil)
-        let glassesNode = glassesScene.rootNode
-        
-        //rotation
-        // Rotate the glasses by 45 degrees around the y-axis
-        let rotationAngle = Float(-90.0 * Double.pi / 180.0)
-        let rotation = SCNVector4(x: 0, y: 0, z: 1, w: rotationAngle)
-        glassesNode.rotation = rotation
-        
-        //positioning
-        var curPos = glassesNode.position
-        curPos.z += 0.42
-        curPos.x -= 0.04
-        curPos.y += 0.02
-        glassesNode.position = curPos
-        
-        // Scale the node down to about 70 percent of its current size
-        let scalePercentage: Float = 0.8
-        glassesNode.scale = SCNVector3(x: scalePercentage, y: scalePercentage, z: scalePercentage)
-
-        
-        //add shorts as scene node
-        scene.rootNode.addChildNode(glassesNode)
-        
-        //-----------------------END COSMETIC ADD ONS--------------------------
-        
-
-        
-        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(-Float.pi / 2, 0, 0))
-        
-        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(Float.pi / 2, 0, 0))
-        
-        createDirectionalLight(color: UIColor.white, intensity: 200.0, position: SCNVector3(x: 0, y: 0, z: 0), direction: SCNVector3(0, 0, 0))
-        
-        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: -Float.pi / 2, z: 0), direction: SCNVector3(0, -Float.pi / 2, 0))
-        
-        createDirectionalLight(color: UIColor.white, intensity: 500.0, position: SCNVector3(x: 0, y: Float.pi / 2, z: 0), direction: SCNVector3(0, Float.pi / 2, 0))
-        
-    
-
-         
-     
-    }
-
-    func makeUIView(context: Context) -> SCNView {
-        let scnView = SCNView()
-    
-        scnView.scene = scene
-        scnView.allowsCameraControl = true
-        scnView.backgroundColor = UIColor.clear
-        
-        
-        return scnView
-    }
-    
- 
-
-    func updateUIView(_ scnView: SCNView, context: Context) {
-        // Update the SCNView if needed
-    }
-
-
-    private static func loadScene(named name: String) -> SCNScene? {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "usdc") else {
-            print("Failed to find the .dae file: \(name).usdc")
-            return nil
-        }
-        
-        guard let sceneSource = SCNSceneSource(url: url, options: nil),
-              let scene = sceneSource.scene(options: nil) else {
-            print("Failed to load the scene: \(name).usdc")
-            return nil
-        }
-        
-        
-
-        return scene
-    }
-    
-    
-    private func createSpotlight(color: UIColor, intensity: CGFloat, position: SCNVector3, direction: SCNVector3) -> SCNNode {
-        let lightNode = SCNNode()
-        lightNode.light = SCNLight()
-        lightNode.light?.type = .spot
-        lightNode.light?.color = color
-        lightNode.light?.intensity = intensity
-        lightNode.position = position
-        lightNode.eulerAngles = direction
-        
-        scene.rootNode.addChildNode(lightNode)
-        return lightNode
-    }
-
-    private func createDirectionalLight(color: UIColor, intensity: CGFloat, position: SCNVector3, direction: SCNVector3) -> SCNNode {
-        let lightNode = SCNNode()
-        lightNode.light = SCNLight()
-        lightNode.light?.type = .directional
-        lightNode.light?.color = color
-        lightNode.light?.intensity = intensity
-        lightNode.position = position
-        lightNode.eulerAngles = direction
-        
-        scene.rootNode.addChildNode(lightNode)
-        return lightNode
-    }
-   
-
-
-    /* WORKING CAMERA FUNC - FACES TOP PERSPECTIVE
-    private func configureCamera() {
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        cameraNode.camera?.fieldOfView = 13 // Adjust this value to change the zoom level (lower value means more zoomed in)
-        
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 8)
-        let target = SCNVector3(x: 0, y: 0, z: 0)
-        let cameraDirection = SCNVector3(x: 0, y: 0, z: -1)
-        cameraNode.look(at: target, up: SCNVector3(0, 1, 0), localFront: cameraDirection)
-
-        
-        scene.rootNode.addChildNode(cameraNode)
-    }
-     */
-    
-
-
-}
-
-
-
 
 
 
 struct ProfileTabView_Previews: PreviewProvider {
+    
+    let blankImage = UIImage()
+    
+    
     static var previews: some View {
-        ProfileTabView()
+        ProfileTabView(hideNavBar: .constant(false))
     }
 }

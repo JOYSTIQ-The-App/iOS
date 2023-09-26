@@ -24,7 +24,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                 mainContent
                 dropDownView
             }
-            .accentColor(Color("LightGray"))
+            .accentColor(Color.green)
         }
     }
     

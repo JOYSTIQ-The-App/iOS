@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AccoladeBanner: View {
     
-    @State private var mode = "game_and_accolade"
+    @State private var mode = "game_only" //game only as default, other options are accolade_only and game_and_accolade
     
     let icons = ["Logo1", "TrophyGold", "Logo5", "MedalGold", "Logo4", "MedalSilver", "Logo3","Logo7", "Logo6"]
     
@@ -28,9 +28,10 @@ struct AccoladeBanner: View {
                 Spacer()
                 
                 
-                Image("FIN4")
+                Image("AccBannerAtt2")
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.85, height: 100)
+                    .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.height * 0.07)
+                    .shadow(color: Color.black, radius: 3, x: 4, y: 4)
                 
             } //end Hstack for space and image
             
@@ -43,27 +44,29 @@ struct AccoladeBanner: View {
                 Button(action: {
                     
                     switch self.mode {
-                                case "game_and_accolade":
-                                    self.mode = "game_only"
                                 case "game_only":
                                     self.mode = "accolade_only"
                                 case "accolade_only":
-                                    self.mode = "game_and_accolade"
+                                    self.mode = "game_only"
+                                //case "accolade_only":
+                                    //self.mode = "game_and_accolade"
                                 default:
-                                    break
+                                    self.mode = "game_only"
                                 }
                     
                 }, label: {
                     
                     switch mode {
-                        
+                    
+                    /*
                     case "game_and_accolade":
                         
                         Image(systemName: "arrow.left.arrow.right")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 30, height: 30)
+                            .frame(width: 20, height: 20)
                             .foregroundColor(.black)
+                    */
                     
                     case "accolade_only":
                         
@@ -71,36 +74,37 @@ struct AccoladeBanner: View {
                         Image(systemName: "medal.fill")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.black)
+                            .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06)
+                            .foregroundColor(Color("LightGray"))
                         
                     case "game_only":
                         
                         Image(systemName: "gamecontroller.fill")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.black)
+                            .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06)
+                            .foregroundColor(Color("LightGray"))
     
                     
                     default:
                         
-                        Image(systemName: "arrow.left.arrow.right.circle")
+                        Image(systemName: "gamecontroller.fill")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 40, height: 40)
+                            .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06)
+                            .foregroundColor(Color("LightGray"))
                         
                     } // END Switch determining button type
                     
                 }) //END Button for accolade filter
-                .background(
-                    Circle()
-                    .fill(.green)
-                    .frame(width: 50, height: 50)
-                    
-                )
-                .padding(.leading, 20)
-                
+                //.background(
+                 //   RoundedRectangle(cornerRadius: 15)
+                 //   .fill(.gray)
+                  //  .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1)
+                 
+               // )
+                .padding(.leading, 10)
+                .buttonStyle(NeumorphicRectangleButtonStyle())
                 
                 
                 
@@ -112,26 +116,29 @@ struct AccoladeBanner: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     
-                    HStack(spacing: 5) { //Main HStack, filter + games + accolades
+                    HStack(spacing: 0) { //Main HStack, filter + games + accolades
+                        
                         
                     
                         //print each game + accolade
                         switch mode{
                           
+                        /*
                         case "game_and_accoldae":
                             
                             HStack(spacing: 20) {
+                                
                                 Image("Logo1")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 30, height: 30)
                                     .cornerRadius(15)
                                     .padding()
                                 
                                 Image("TrophyGold")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 60, height: 80)
+                                    .frame(width: 30, height: 30)
                                 
                                 Image("Logo5")
                                     .resizable()
@@ -159,154 +166,106 @@ struct AccoladeBanner: View {
                                 
                             }
                             .padding(.horizontal, 30)
-                            
+                        */
                             
                         case "game_only":
+                            
+                            //Spacer, create some leading padding without modifying scrollview width
+                            Rectangle()
+                                .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.09)
+                                .foregroundColor(Color.clear)
+                            
+                            ForEach(Array(gamesArr.enumerated()), id: \.element) { (index, icon) in
+                                Image(icon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.085, height: UIScreen.main.bounds.width * 0.085)
+                                    .cornerRadius(10)
+                                    .padding(.top, UIScreen.main.bounds.width * 0.01)
+                                    .padding(.trailing, index < gamesArr.count - 1 ? UIScreen.main.bounds.width * 0.103 : UIScreen.main.bounds.width * 0.016)
+                            }
+                            
+    
+                        
+                        case "accolade_only":
+                               
+                            HStack(spacing: UIScreen.main.bounds.width * 0.066) {
+                                
+                                Image("TrophyGold")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.13)
+                                
+                                Image("MedalGold")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.1)
+                                
+                                Image("TrophySilver")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.13)
+                                
+                                Image("MedalSilver")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.1)
+                                
+                                Image("TrophyBronze")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.13)
+                                
+                                Image("MedalBronze")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.1)
+                                
+                            }
+                            .padding(.leading, UIScreen.main.bounds.width * 0.055)
+                            
+                        
+                        default:
+                            
+                            //Spacer, create some leading padding without modifying scrollview width
+                            Rectangle()
+                                .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.09)
+                                .foregroundColor(Color.clear)
                             
                             ForEach(gamesArr, id: \.self) { icon in
                                 
                                 Image(icon)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(15)
-                                    .padding()
-                            }
-                            
-                        
-                        case "accolade_only":
-                               
-                            HStack(spacing: 26) {
-                                Image("TrophyGold")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 80)
-                                
-                                Image("MedalGold")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                
-                                Image("TrophySilver")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 80)
-                                
-                                Image("MedalSilver")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                
-                                Image("TrophyBronze")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 80)
-                                
-                                Image("MedalBronze")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
+                                    .frame(width: UIScreen.main.bounds.width * 0.085, height: UIScreen.main.bounds.width * 0.085)
+                                    .cornerRadius(10)
+                                    .padding(.top, UIScreen.main.bounds.width * 0.01)
+                                    .padding(.trailing, UIScreen.main.bounds.width * 0.103)
+                                    
                                 
                             }
-                            .padding(.horizontal, 20)
-                            
-                        
-                        default:
-                            
-                            HStack(spacing: 20) {
-                                Image("Logo1")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(15)
-                                    .padding()
-                                
-                                Image("TrophyGold")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 80)
-                                
-                                Image("Logo5")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(15)
-                                    .padding()
-                                
-                                Image("MedalBronze")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                
-                                Image("Logo4")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(15)
-                                    .padding()
-                                
-                                Image("TrophyBronze")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 80)
-                                
-                            }
-                            .padding(.horizontal, 0)
                             
                         }
                         
                        
-                        
-                        /* EXPAND BUTTON
-                         
-                         
-                        //chevron button to dropdown accolade banner
-                        Button(action: {
-                            //dropdown accolade banner
-                            
-                        }, label: {
-                            
-                            Image(systemName: "chevron.down.circle.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                
-                        })
-                        .frame(width: 45, height: 45)
-                        .foregroundColor(.blue)
-                        .padding(.leading, 10)
-                        .padding(.trailing, 20)
-                        
-                        */
-                        
-                        
-                        
+                       
                         
                     } //END HStack
-                    
-                    .padding(.top, 20)
+                    .padding(.trailing, UIScreen.main.bounds.width * 0.048)
                     
                 }//END Scroll view for accolades
-                //.padding(.leading, 50)
-                .frame(width: UIScreen.main.bounds.width * 0.76, height: 120)
-                .foregroundColor(.white)
+                //.padding(.leading, UIScreen.main.bounds.width * 0.068)
+                .frame(width: UIScreen.main.bounds.width * 0.78)
+                .padding(.top, UIScreen.main.bounds.height * 0.008)
                 
-            }
+            } //end HStack for button switcher and scrollview
+      
             
-            
-            
-           
-            
-        }
+        } //end ZStack for banner image and scroll view
         
+   
         
-        
-        
-        
-        
-        
-        
-        
-    }
+    } //end body
 }
 
 

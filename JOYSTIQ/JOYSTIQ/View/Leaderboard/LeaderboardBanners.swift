@@ -26,6 +26,8 @@ struct LeaderboardBanners: View {
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
                 .padding(.top, 5)
+                .shadow(color: Color.black, radius: 5, x: 2, y: 2)
+                .shadow(color: Color.yellow.opacity(0.5), radius: 5, x: -2, y: -2)
     
             
         case 2:
@@ -34,7 +36,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 5, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.5), radius: 5, x: -2, y: -2)
             
         case 3:
             
@@ -42,7 +45,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 5, x: 2, y: 2)
+                .shadow(color: Color.brown, radius: 5, x: -2, y: -2)
             
             
         case 4:
@@ -51,7 +55,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
             
             
         case 5:
@@ -60,7 +65,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
             
         case 6:
             
@@ -68,7 +74,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
             
         case 7:
             
@@ -76,7 +83,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
             
         case 8:
             
@@ -84,7 +92,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
             
         case 9:
             
@@ -92,7 +101,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
             
         case 10:
             
@@ -100,20 +110,18 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width)
-                //.padding(.top, 7)
+                .shadow(color: Color.black, radius: 2, x: 2, y: 2)
+                .shadow(color: Color.white.opacity(0.5), radius: 2, x: -2, y: -2)
             
         default:
             
-            ZStack {
-                
-                Image(systemName: "1.circle")
-                    .font(.system(size: 40))
-                
-                
-            }
-            .frame(width: UIScreen.main.bounds.width-80, height: 48)
-            .cornerRadius(20)
-            .background(.yellow)
+            Image("GoldBanner")
+                .resizable()
+                .scaledToFit()
+                .frame(width: UIScreen.main.bounds.width * 0.95)
+                .padding(.top, 5)
+                .shadow(color: Color.black, radius: 2, x: 2, y: 2)
+                .shadow(color: Color.yellow.opacity(0.5), radius: 2, x: -2, y: -2)
             
         } //end switch
             
@@ -122,59 +130,9 @@ struct LeaderboardBanners: View {
     
 }
 
-struct LeaderboardBottom: View {
-    
-    @State public var placeValue: Int
-    
-    init(placeValue: Int) {
-        self.placeValue = placeValue
-    }
-    
-    var body: some View {
-        
-        switch placeValue {
-            
-        case 1:
-                  
-            Image("BottomGold3")
-                .resizable()
-                .scaledToFill()
-                .frame(width: UIScreen.main.bounds.width)
-                .padding(.bottom, 5)
-                
-        case 2:
-            
-            Image("BottomSilver3")
-                .resizable()
-                .scaledToFill()
-                .frame(width: UIScreen.main.bounds.width)
-                .padding(.bottom, 5)
-            
-        case 3:
-            
-            Image("BottomBronze3")
-                .resizable()
-                .scaledToFill()
-                .frame(width: UIScreen.main.bounds.width)
-            
-        default:
-            
-            Image("Bottom4-10-3")
-                .resizable()
-                .scaledToFill()
-                .frame(width: UIScreen.main.bounds.width)
-            
-            
-            
-        } //end switch
-            
-    } //end body
-    
-    
-}
 
 struct LeaderboardBanners_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardBanners(placeValue: 1)
+        LeaderboardBanners(placeValue: 4)
     }
 }

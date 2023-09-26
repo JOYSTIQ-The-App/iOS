@@ -84,7 +84,7 @@ struct NotificationTabView: View {
         .frame(width: UIScreen.main.bounds.width)
         .background(
             LinearGradient(
-                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark3")]),
+                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
                 startPoint: .top,
                 endPoint: .bottom
             )
