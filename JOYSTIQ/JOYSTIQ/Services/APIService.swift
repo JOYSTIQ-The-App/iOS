@@ -111,6 +111,51 @@ class APIService: APIServiceProtocol {
         task.resume()
     }
     
+    func createUser(email: String, username: String, completion: @escaping (Result<Comment, Error>) -> Void) {
+        // Encode the email to ensure it's safe for URLs
+        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
+            return
+        }
+        
+        guard let commentURL = URL(string: "\(baseURL)/handlers/create_user") else {
+            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+            return
+        }
+        
+        var request = URLRequest(url: commentURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let userData = UserData(email: email, username: username)
+        
+        do {
+            let jsonData = try JSONEncoder().encode(userData)
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                    let message = "Server returned status code: \(httpResponse.statusCode)"
+                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+                    return
+                }
+                
+                completion(.success(()))
+            }
+        }
+        task.resume()
+    }
+    
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let encodedUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let likeURL = URL(string: "\(baseURL)/handlers/create_like?username=\(encodedUsername)&post_id=\(postId)") else {
