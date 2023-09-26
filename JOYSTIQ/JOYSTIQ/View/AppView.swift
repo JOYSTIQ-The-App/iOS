@@ -34,6 +34,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                     
                 case 1:
                     LeaderboardTabView(APIService: APIService, showCommentSection: $showCommentSection)
+                    .environmentObject(user)
                     .disabled(showCommentSection)
                 case 3:
                     ConnectTabView(APIService: APIService)

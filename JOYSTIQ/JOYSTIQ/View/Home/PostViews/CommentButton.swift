@@ -7,15 +7,11 @@
 
 import SwiftUI
 
-struct CommentButton: View {
-    
-    @State private var commentCount: Int
-    
-
-    
-    init(commentCount: Int) {
-            self.commentCount = commentCount
-        }
+struct CommentButton<APIServiceType: APIServiceProtocol>: View {
+    var APIService: APIServiceProtocol
+    var postId: Int
+    @State var commentCount: Int
+    @State private var isShowingComments = false
     
     var body: some View {
         
@@ -31,6 +27,12 @@ struct CommentButton: View {
                 .foregroundColor(.white).opacity(0.7)
             
         } //end Hstack for like button and like count
+        .onTapGesture {
+            isShowingComments.toggle()
+        }
+        .sheet(isPresented: $isShowingComments) {
+            CommentsView<APIService>(APIService: APIService, postId: postId)
+        }
         
 
         
@@ -46,8 +48,120 @@ struct CommentButton: View {
     
 }
 
+struct CommentsView<APIServiceType: APIServiceProtocol>: View {
+    @EnvironmentObject var user: User
+    var APIService: APIServiceProtocol
+    var postId: Int
+    @State private var comments: [Comment] = []
+    @State private var newComment: String = ""
+
+    var body: some View {
+        VStack {
+            ScrollView {
+                ForEach(comments, id: \.id) { comment in
+                    Text(comment.text)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                        .padding(.horizontal)
+                }
+            }
+
+            HStack {
+                TextField("Add a comment...", text: $newComment)
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+
+                Button("Post") {
+                    postComment()
+                }
+                .padding()
+            }
+            .padding()
+        }
+        .onAppear(perform: fetchComments)
+    }
+
+    func fetchComments() {
+        APIService.getPostComments(for: postId) { result in
+            switch result {
+            case .success(let fetchedComments):
+                self.comments = fetchedComments
+            case .failure(let error):
+                print("Error fetching comments: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func postComment() {
+        guard let username = user.username, !newComment.isEmpty else { return }
+
+        APIService.createComment(postId: postId, username: username, text: newComment) { result in
+            switch result {
+            case .success:
+                // Add the new comment to the local list and clear the text field
+                let newPostedComment = CommentData(post_id: postId, username: username, text: newComment)
+                self.comments.append(newPostedComment)
+                self.newComment = ""
+            case .failure(let error):
+                print("Error posting comment: \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
+//struct CommentsView<APIServiceType: APIServiceProtocol>: View {
+//    var APIService: APIServiceProtocol
+//    var postId: Int
+//    @State private var comments: [Comment] = []
+//    @State private var newComment: String = ""
+//
+//    var body: some View {
+//        VStack {
+//            ScrollView {
+//                ForEach(comments, id: \.id) { comment in
+//                    Text(comment.text)
+//                        .padding()
+//                        .background(Color.gray.opacity(0.1))
+//                        .cornerRadius(8)
+//                        .padding(.horizontal)
+//                }
+//            }
+//
+//            HStack {
+//                TextField("Add a comment...", text: $newComment)
+//                    .padding()
+//                    .background(Color.gray.opacity(0.1))
+//                    .cornerRadius(8)
+//
+//                Button("Post") {
+//                    // Handle posting the comment
+//                }
+//                .padding()
+//            }
+//            .padding()
+//        }
+//        .onAppear(perform: fetchComments)
+//    }
+//
+//    func fetchComments() {
+//        // Assuming you have an APIService instance or similar
+//        APIService.getPostComments(for: postId) { result in
+//            switch result {
+//            case .success(let fetchedComments):
+//                self.comments = fetchedComments
+//            case .failure(let error):
+//                print("Error fetching comments: \(error.localizedDescription)")
+//            }
+//        }
+//    }
+//}
+
+
+
 struct CommentButton_Previews: PreviewProvider {
     static var previews: some View {
-        CommentButton(commentCount: 0).frame(width: UIScreen.main.bounds.width).background(.black)
+        CommentButton<MockAPIService>(APIService: MockAPIService(), postId: 1, commentCount: 0).frame(width: UIScreen.main.bounds.width).background(.black)
     }
 }

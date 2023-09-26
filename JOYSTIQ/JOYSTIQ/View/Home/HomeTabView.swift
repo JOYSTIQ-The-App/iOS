@@ -24,9 +24,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                 mainContent
                 dropDownView
             }
-            .navigationBarItems(trailing: Button("Refresh") {
-                refreshPosts()
-            })
             .accentColor(Color("LightGray"))
         }
     }
@@ -35,6 +32,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     private var mainContent: some View {
         VStack(spacing: 0) {
             HeaderView(showDropDown: $showDropDown)
+            refreshButton
             feedView
         }
         .background(Color("GradientDark3"))
@@ -58,6 +56,21 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
 
     }
     
+    private var refreshButton: some View {
+        Button(action: {
+            refreshPosts()
+        }) {
+            Text("Refresh")
+                .foregroundColor(.white)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .background(Color.green)
+                .cornerRadius(20)
+        }
+        .padding(.top, 10)
+    }
+
+    
     private var feedView: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: 0) {
@@ -73,9 +86,17 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                         }
                     }
                     
-                    
-                    InteractionButtonMenu(showCommentSection: $showCommentSection, showingReportAlert: $showingReportAlert)
-                        .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                    InteractionButtonMenu(
+                        showCommentSection: $showCommentSection,
+                        showingReportAlert: $showingReportAlert,
+                        APIService: APIService,
+                        postId: post.id,
+                        likesCount: post.likes,
+                        commentCount: post.comments,
+                        userLiked: post.user_liked ?? false
+                    )
+                    .environmentObject(user)
+                    .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
                     
                     Spacer()
                 }
@@ -84,6 +105,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         }
         .background(Color("GradientDark3"))
     }
+
     
     private var dropDownView: some View {
         ZStack {
@@ -105,6 +127,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                     switch result {
                     case .success(let fetchedPosts):
                         posts = fetchedPosts
+                        print(posts)
                     case .failure(let error):
                         print("Error fetching user feed: \(error.localizedDescription)")
                     }
