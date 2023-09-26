@@ -191,12 +191,9 @@ struct DropDown2: View {
                         .cornerRadius(10)
                 })
                 .contentShape(Rectangle()) // This makes the entire frame tappable
-                
                 .padding(.bottom, 20)
                 
-                
-                
-                
+             
                 
             } //end VStack for [feedback], [coffee], close
             .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.height * 0.65)

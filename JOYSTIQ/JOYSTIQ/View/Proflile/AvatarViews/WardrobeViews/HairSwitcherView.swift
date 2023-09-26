@@ -27,7 +27,7 @@ struct HairSwitcherView: View {
         
         VStack {
             
-            Text("Select style")
+            Text("Select Style")
                 .font(.system(size: 18))
                 .foregroundColor(Color.white)
             
@@ -278,7 +278,7 @@ struct HairSwitcherView: View {
         
             
             
-            Text("Select color")
+            Text("Select Color")
                 .font(.system(size: 18))
                 .foregroundColor(Color.white)
                 

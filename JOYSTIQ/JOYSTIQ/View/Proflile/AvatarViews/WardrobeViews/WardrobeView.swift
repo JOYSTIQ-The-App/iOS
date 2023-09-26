@@ -24,20 +24,40 @@ struct WardrobeView: View {
         
         VStack (spacing: 0) { //Main VStack for sceneKitView and wardrobe controls
             
-            //Spacer()
+            Spacer()
+            
+            Image("createyouravatar")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: UIScreen.main.bounds.width * 0.6, height: 30)
+                .padding(.bottom, 10)
             
             Divider()
                 .frame(height: 2)
                 .background(Color.green)
                    
+            ZStack { //for scene and backround environment image
+                
+                sceneKitView
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
+                    .zIndex(1)
+                
+                Image("wardrobeTest3")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
+                    .zIndex(0)
+                    
+                
+            }//end ZStack for scene and backround environment image
             
-            sceneKitView
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
+            
+            
             
             
             Divider()
-                .frame(height: 2)
-                .background(Color.green)
+                .frame(height: 4)
+                .background(Color.black)
             
             
             NavigationView {
@@ -75,14 +95,9 @@ struct WardrobeView: View {
                                     .frame(width: 50, height: 50)
                                     .foregroundColor(Color("LightGray"))
                                 
-                                Rectangle()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(.gray)
-                                
-                                
                                 Image("hairicon")
                                     .resizable()
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 30, height: 30)
                                     .foregroundColor(Color("LightGray"))
                                 
                             }
@@ -134,9 +149,9 @@ struct WardrobeView: View {
                                     .foregroundColor(Color("LightGray"))
                                 
                                 
-                                Image(systemName: "airpodspro")
+                                Image("shorts")
                                     .resizable()
-                                    .frame(width: 25, height: 20)
+                                    .frame(width: 25, height: 30)
                                     .foregroundColor(Color("LightGray"))
                                 
                             }
@@ -254,7 +269,7 @@ struct WardrobeView: View {
         } //end Main VStack for scenekitview and wardrobe controls
         .edgesIgnoringSafeArea(.all)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .background(Color.gray)
+        .background(Color("GradientDark"))
         .onAppear {
             hideNavBar = true
         }

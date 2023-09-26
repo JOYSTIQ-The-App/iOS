@@ -25,6 +25,8 @@ struct SceneKitView: UIViewRepresentable {
         }
         
         self.scene = loadedScene
+        
+        changeEyebrow(named: "#000000")
 
         //initialize scene with selections
         //changeSkinTone(named: skinColor)
@@ -64,12 +66,19 @@ struct SceneKitView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> SCNView {
         
+        //let scnView = SCNView()
+        
+        //let size = CGSize(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.height * 0.4)
+        
+        //let scnView = SCNView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.height * 0.4)))
+        
         let scnView = SCNView()
-    
+        
         scnView.scene = scene
         scnView.allowsCameraControl = true
         scnView.backgroundColor = UIColor.clear
-        scnView.showsStatistics = true
+        //scnView.showsStatistics = true
+        
         
         return scnView
         
@@ -462,6 +471,8 @@ struct ContentView7: View {
         
         
     } //end body
+    
+    
 }
 
 struct SwiftUIView7_Previews: PreviewProvider {
