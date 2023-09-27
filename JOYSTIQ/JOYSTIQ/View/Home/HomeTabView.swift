@@ -80,11 +80,12 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                     
                     LazyVStack(alignment: .leading, spacing: 0) {
                         if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                            PostContentView(s3_key: s3Key, bodyText: post.body)
+                            PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
                         } else {
-                            PostContentView(s3_key: nil, bodyText: post.body)
+                            PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
                         }
                     }
+
                     
                     InteractionButtonMenu(
                         showCommentSection: $showCommentSection,
@@ -127,7 +128,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                     switch result {
                     case .success(let fetchedPosts):
                         posts = fetchedPosts
-                        print(posts)
                     case .failure(let error):
                         print("Error fetching user feed: \(error.localizedDescription)")
                     }

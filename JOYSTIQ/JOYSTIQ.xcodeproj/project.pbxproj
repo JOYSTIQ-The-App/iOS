@@ -12,6 +12,7 @@
 		9902A53A2AC3510D003E2A74 /* CommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9902A5392AC3510D003E2A74 /* CommentData.swift */; };
 		990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B8C042AB8E8FF00A2E794 /* SceneKitView.swift */; };
 		990D3D992AA2930800E8488E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D982AA2930800E8488E /* ForgotPasswordView.swift */; };
+		9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */; };
 		9914FCB72AC388E0006E629C /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9914FCB62AC388E0006E629C /* UserData.swift */; };
 		9923CD242ABF5E280044B02F /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */; };
 		9923CD262ABF865C0044B02F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD252ABF865C0044B02F /* APIService.swift */; };
@@ -167,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */,
 				9941DC7C2A93F80F00215948 /* SceneKit.framework in Frameworks */,
 				995085DF2A95A4DD003996B6 /* Amplify in Frameworks */,
 				995085DB2A95A4DD003996B6 /* AWSCognitoAuthPlugin in Frameworks */,
@@ -494,6 +496,7 @@
 				995085DA2A95A4DD003996B6 /* AWSCognitoAuthPlugin */,
 				995085DC2A95A4DD003996B6 /* AWSS3StoragePlugin */,
 				995085DE2A95A4DD003996B6 /* Amplify */,
+				9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */,
 			);
 			productName = JOYSTIQ;
 			productReference = 9941DC1C2A93F02100215948 /* JOYSTIQ.app */;
@@ -525,6 +528,7 @@
 			mainGroup = 9941DC132A93F02100215948;
 			packageReferences = (
 				995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */,
+				9914FCB82AC394EF006E629C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 9941DC1D2A93F02100215948 /* Products */;
 			projectDirPath = "";
@@ -834,6 +838,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9914FCB82AC394EF006E629C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aws-amplify/amplify-swift";
@@ -845,6 +857,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9914FCB82AC394EF006E629C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
 		995085DA2A95A4DD003996B6 /* AWSCognitoAuthPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */;
