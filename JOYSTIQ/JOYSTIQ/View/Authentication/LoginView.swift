@@ -64,8 +64,8 @@ struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View 
                     if let error = errorMessage {
                         Text(error)
                             .foregroundColor(.red)
-                            .padding(.top, 8)
-                            .padding(.bottom, 8)
+                            .padding(.top, 5)
+                            .padding(.bottom, 5)
                     }
                     
                     
@@ -132,7 +132,7 @@ struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View 
                 
                 
                 
-                VStack(spacing: 20.0) { //VStack for new acc button and logo text
+                VStack(spacing: 10.0) { //VStack for new acc button and logo text
                         
                     Button("Create new account") {
                         authService.signUpRequested = true

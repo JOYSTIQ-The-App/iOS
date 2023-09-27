@@ -12,8 +12,8 @@
 		9902A53A2AC3510D003E2A74 /* CommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9902A5392AC3510D003E2A74 /* CommentData.swift */; };
 		990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B8C042AB8E8FF00A2E794 /* SceneKitView.swift */; };
 		990D3D992AA2930800E8488E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D982AA2930800E8488E /* ForgotPasswordView.swift */; };
-		9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */; };
 		9914FCB72AC388E0006E629C /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9914FCB62AC388E0006E629C /* UserData.swift */; };
+		9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */; };
 		9923CD242ABF5E280044B02F /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */; };
 		9923CD262ABF865C0044B02F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD252ABF865C0044B02F /* APIService.swift */; };
 		9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */; };

@@ -27,26 +27,56 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3Servi
     @State private var uploadCompleted = false
 
     var body: some View {
-        NavigationView {
+        
+        VStack(alignment: .leading, spacing: 0) {
+            
+            HStack { //HStack for close button and title
+                
+                // cancel button
+                Button( action: {
+                    //button action here
+                    isPresented = false
+                    
+                }, label: {
+                    
+                    Image(systemName: "xmark.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(Color.gray)
+                    
+                })
+                .offset(x: 10)
+
+                Spacer()
+                
+                Image("createapost")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width * 0.55, height: 30)
+                    .background(.clear)
+                
+            } //end HStack for close button and title
+            .frame(width: UIScreen.main.bounds.width * 0.77)
+            
+    
             Form {
+                
                 TextField("Game", text: $game)
                 
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: $text)
-                        .frame(height: 100)
-                        .border(Color.gray, width: 1)
-                    if text.isEmpty {
-                        Text("Questing, grinding, or chilling? Share your journey.")
-                            .foregroundColor(.gray)
-                            .padding(.leading, 5)
-                            .padding(.top, 8)
-                    }
+                Button("Select Media") {
+                    isMediaPickerShown = true
+                }
+                .sheet(isPresented: $isMediaPickerShown) {
+                    MediaPicker(selectedImage: $selectedImage, selectedVideoURL: $selectedVideoURL, isPickerShown: $isMediaPickerShown, sourceType: .photoLibrary)
+                        .presentationDetents([.fraction(0.8)])
                 }
                 
                 if selectedImage != nil {
-                    VStack {
+                    HStack {
                         Text("Image selected")
-                        Button("Delete Image") {
+                        Spacer()
+                        Button("Remove Image") {
                             selectedImage = nil
                         }
                         .foregroundColor(.red)
@@ -54,38 +84,72 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3Servi
                 }
                 
                 if selectedVideoURL != nil {
-                    VStack {
+                    HStack {
                         Text("Video selected")
-                        Button("Delete Video") {
+                        Spacer()
+                        Button("Remove Video") {
                             selectedVideoURL = nil
                         }
                         .foregroundColor(.red)
                     }
                 }
-
-                Button("Select Media") {
-                    isMediaPickerShown = true
+                
+    
+                ZStack(alignment: .topLeading) {
+                    
+                    TextEditor(text: $text)
+                        .frame(minHeight: 60)
+                        .zIndex(1)
+                    
+                    if text.isEmpty {
+                        
+                        Text("Questing, grinding, or chilling? Share your journey.")
+                            .foregroundColor(.gray)
+                            .padding(.leading, 5)
+                            .padding(.top, 8)
+                            .zIndex(0)
+                    }
+                    
                 }
-                .sheet(isPresented: $isMediaPickerShown) {
-                    MediaPicker(selectedImage: $selectedImage, selectedVideoURL: $selectedVideoURL, isPickerShown: $isMediaPickerShown, sourceType: .photoLibrary)
-                }
+                
+                
+            } //end form
+            .frame(width: UIScreen.main.bounds.width)
 
-                Button("Submit") {
+            
+            
+            VStack(alignment: .center) {
+                
+                //Post button
+                Button(action: {
                     uploadContent()
-                }
+                    
+                }, label: {
+                    Text("Post")
+                        .foregroundColor(.white)
+                        .frame(width: UIScreen.main.bounds.width * 0.4, height: 45)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                startPoint: .topTrailing,
+                                endPoint: .bottomLeading
+                            )
+                        )
+                        .cornerRadius(30)
+                })
+                .contentShape(Rectangle())
                 .disabled(uploadInProgress)
             }
-            .navigationTitle("New Post")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        // Dismiss the sheet:
-                        isPresented = false
-                    }
-                }
-            }
-        }
-    }
+            .frame(width: UIScreen.main.bounds.width)
+            .padding(.bottom, 30)
+            
+            Spacer()
+            
+        } //end VStack
+        .background(.black)
+            
+        
+    } //end body
     
 /*
     func getSize(of image: UIImage) -> String {

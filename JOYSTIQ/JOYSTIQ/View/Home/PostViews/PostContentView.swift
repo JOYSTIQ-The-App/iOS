@@ -23,6 +23,7 @@ struct PostContentView: View {
     private let s3Service = S3Service()
     
     var body: some View {
+        
         VStack(alignment: .leading, spacing: 0) {
             
             switch mediaType {
