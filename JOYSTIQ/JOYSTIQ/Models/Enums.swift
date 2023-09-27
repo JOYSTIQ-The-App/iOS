@@ -27,3 +27,6 @@ enum MediaType {
     }
 }
 
+enum FeedType {
+    case following, global
+}
