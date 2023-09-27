@@ -70,7 +70,6 @@ class AuthService: AuthServiceProtocol {
             
             for attribute in attributes {
                 if attribute.key == .email {
-                    print("Users email:", attribute.value)
                     return attribute.value
                 }
             }
