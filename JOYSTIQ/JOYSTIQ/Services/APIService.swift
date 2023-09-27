@@ -15,6 +15,7 @@ protocol APIServiceProtocol {
     func deleteLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     
     func getLeaderboardFeed(completion: @escaping (Result<[Post], Error>) -> Void)
+    func getGlobalFeed(completion: @escaping (Result<[Post], Error>) -> Void)
     func getPostComments(for postId: Int, completion: @escaping (Result<[Comment], Error>) -> Void)
     func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void)
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void)
@@ -110,6 +111,51 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
+    
+//    func createUser(email: String, username: String, completion: @escaping (Result<Comment, Error>) -> Void) {
+//        // Encode the email to ensure it's safe for URLs
+//        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+//            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
+//            return
+//        }
+//
+//        guard let commentURL = URL(string: "\(baseURL)/handlers/create_user") else {
+//            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+//            return
+//        }
+//        
+//        var request = URLRequest(url: commentURL)
+//        request.httpMethod = "POST"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//        let userData = UserData(email: email, username: username)
+//
+//        do {
+//            let jsonData = try JSONEncoder().encode(userData)
+//            request.httpBody = jsonData
+//        } catch {
+//            completion(.failure(error))
+//            return
+//        }
+//
+//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+//            DispatchQueue.main.async {
+//                if let error = error {
+//                    completion(.failure(error))
+//                    return
+//                }
+//
+//                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+//                    let message = "Server returned status code: \(httpResponse.statusCode)"
+//                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+//                    return
+//                }
+//
+//                completion(.success(()))
+//            }
+//        }
+//        task.resume()
+//    }
     
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let encodedUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
@@ -246,9 +292,6 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
-
-
-
     
     func getLeaderboardFeed(completion: @escaping (Result<[Post], Error>) -> Void) {
         // Construct the URL with the query parameter
@@ -304,7 +347,6 @@ class APIService: APIServiceProtocol {
         task.resume()
     }
 
-    
     func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void) {
         // Encode the email to ensure it's safe for URLs
         guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
@@ -314,6 +356,33 @@ class APIService: APIServiceProtocol {
         
         // Construct the URL with the query parameter
         let feedURL = URL(string: "\(baseURL)/handlers/get_user_feed?email=\(emailEncoded)")!
+        
+        var request = URLRequest(url: feedURL)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let posts = try JSONDecoder().decode([Post].self, from: data)
+                        completion(.success(posts))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func getGlobalFeed(completion: @escaping (Result<[Post], Error>) -> Void) {
+        // Construct the URL with the query parameter
+        let feedURL = URL(string: "\(baseURL)/handlers/get_global_feed")!
         
         var request = URLRequest(url: feedURL)
         request.httpMethod = "GET"
@@ -482,6 +551,18 @@ class MockAPIService: APIServiceProtocol {
         let mockPosts: [Post] = [
             Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
             Post(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3)
+        ]
+
+        
+        // Immediately call the completion with the mock data
+        completion(.success(mockPosts))
+    }
+    
+    func getGlobalFeed(completion: @escaping (Result<[Post], Error>) -> Void) {
+        // Mocked posts data
+        let mockPosts: [Post] = [
+            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Global feed post 1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
+            Post(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "global feed post 2", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3)
         ]
 
         
