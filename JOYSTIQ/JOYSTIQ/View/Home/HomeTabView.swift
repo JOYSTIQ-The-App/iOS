@@ -14,6 +14,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     
     @State private var showDropDown = false
     @State private var showingReportAlert = false
+    @State private var selectedFeed: FeedType = .following
     @State private var posts: [Post] = []
     @Binding var showCommentSection: Bool
     
@@ -24,9 +25,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                 mainContent
                 dropDownView
             }
-            .navigationBarItems(trailing: Button("Refresh") {
-                refreshPosts()
-            })
             .accentColor(Color.green)
         }
     }
@@ -35,28 +33,49 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     private var mainContent: some View {
         VStack(spacing: 0) {
             HeaderView(showDropDown: $showDropDown)
+            refreshButton
+            feedTypePicker
             feedView
         }
         .background(Color("GradientDark3"))
         .alert(isPresented: $showingReportAlert, content: reportAlert)
         .onAppear {
-            Task {
-                if let email = user.email {
-                    APIService.getUserFeed(for: email) { result in
-                        switch result {
-                        case .success(let fetchedPosts):
-                            posts = fetchedPosts
-                        case .failure(let error):
-                            print("Error fetching user feed: \(error.localizedDescription)")
-                        }
-                    }
-                } else {
-                    print("Error retrieving user email.")
-                }
+            fetchPosts()
+        }
+
+    }
+    
+    private var feedTypePicker: some View {
+        Picker("", selection: $selectedFeed) {
+            Text("Following").tag(FeedType.following)
+            Text("Global").tag(FeedType.global)
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding()
+        .onChange(of: selectedFeed) { _ in
+            posts = [] // Clear the current posts
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
+                fetchPosts()
             }
         }
 
     }
+
+    
+    private var refreshButton: some View {
+        Button(action: {
+            refreshPosts()
+        }) {
+            Text("Refresh")
+                .foregroundColor(.white)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .background(Color.green)
+                .cornerRadius(20)
+        }
+        .padding(.top, 10)
+    }
+
     
     private var feedView: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -67,15 +86,24 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                     
                     LazyVStack(alignment: .leading, spacing: 0) {
                         if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                            PostContentView(s3_key: s3Key, bodyText: post.body)
+                            PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
                         } else {
-                            PostContentView(s3_key: nil, bodyText: post.body)
+                            PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
                         }
                     }
+
                     
-                    
-                    InteractionButtonMenu(showCommentSection: $showCommentSection, showingReportAlert: $showingReportAlert)
-                        .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                    InteractionButtonMenu(
+                        showCommentSection: $showCommentSection,
+                        showingReportAlert: $showingReportAlert,
+                        APIService: APIService,
+                        postId: post.id,
+                        likesCount: post.likes,
+                        commentCount: post.comments,
+                        userLiked: post.user_liked ?? false
+                    )
+                    .environmentObject(user)
+                    .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
                     
                     Spacer()
                 }
@@ -84,6 +112,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         }
         .background(Color("GradientDark3"))
     }
+
     
     private var dropDownView: some View {
         ZStack {
@@ -98,21 +127,34 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     }
     
     // MARK: - Funtions
-    private func refreshPosts() {
-        Task {
-            if let email = user.email {
+    private func fetchPosts() {
+        if let email = user.email {
+            switch selectedFeed {
+            case .following:
                 APIService.getUserFeed(for: email) { result in
-                    switch result {
-                    case .success(let fetchedPosts):
-                        posts = fetchedPosts
-                    case .failure(let error):
-                        print("Error fetching user feed: \(error.localizedDescription)")
-                    }
+                    handleFetchResult(result)
                 }
-            } else {
-                print("Error retrieving user email.")
+            case .global:
+                APIService.getGlobalFeed { result in
+                    handleFetchResult(result)
+                }
             }
+        } else {
+            print("Error retrieving user email.")
         }
+    }
+
+    private func handleFetchResult(_ result: Result<[Post], Error>) {
+        switch result {
+        case .success(let fetchedPosts):
+            posts = fetchedPosts
+        case .failure(let error):
+            print("Error fetching feed: \(error.localizedDescription)")
+        }
+    }
+
+    private func refreshPosts() {
+        fetchPosts()
     }
 
     

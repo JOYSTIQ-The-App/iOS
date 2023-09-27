@@ -11,3 +11,22 @@ enum UserIdentifier {
     case email(String)
     case userId(Int)
 }
+
+enum MediaType {
+    case photo, video, none
+    
+    init(from string: String?) {
+        switch string {
+        case "photo":
+            self = .photo
+        case "video":
+            self = .video
+        default:
+            self = .none
+        }
+    }
+}
+
+enum FeedType {
+    case following, global
+}

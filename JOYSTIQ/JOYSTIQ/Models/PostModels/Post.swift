@@ -16,9 +16,11 @@ struct Post: Codable, Identifiable {
     var body: String?
     var status: String
     var likes: Int
+    var comments: Int
     var created_at: String
     var updated_at: String?
     var likes_count: Int?
+    var user_liked: Bool?
 }
 
 struct S3Key: Codable {

@@ -8,8 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		5BA74B352121C85BDC510698 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */; };
+		9902A5372AC262C7003E2A74 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9902A5362AC262C7003E2A74 /* Comment.swift */; };
+		9902A53A2AC3510D003E2A74 /* CommentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9902A5392AC3510D003E2A74 /* CommentData.swift */; };
 		990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990B8C042AB8E8FF00A2E794 /* SceneKitView.swift */; };
 		990D3D992AA2930800E8488E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D982AA2930800E8488E /* ForgotPasswordView.swift */; };
+		9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */; };
+		9914FCB72AC388E0006E629C /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9914FCB62AC388E0006E629C /* UserData.swift */; };
 		9923CD242ABF5E280044B02F /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */; };
 		9923CD262ABF865C0044B02F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD252ABF865C0044B02F /* APIService.swift */; };
 		9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */; };
@@ -84,9 +88,12 @@
 
 /* Begin PBXFileReference section */
 		39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		9902A5362AC262C7003E2A74 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		9902A5392AC3510D003E2A74 /* CommentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentData.swift; sourceTree = "<group>"; };
 		990B8C042AB8E8FF00A2E794 /* SceneKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 		990D3D982AA2930800E8488E /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
+		9914FCB62AC388E0006E629C /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabViewModel.swift; sourceTree = "<group>"; };
 		9923CD252ABF865C0044B02F /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		9941DC1C2A93F02100215948 /* JOYSTIQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JOYSTIQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */,
 				9941DC7C2A93F80F00215948 /* SceneKit.framework in Frameworks */,
 				995085DF2A95A4DD003996B6 /* Amplify in Frameworks */,
 				995085DB2A95A4DD003996B6 /* AWSCognitoAuthPlugin in Frameworks */,
@@ -178,6 +186,15 @@
 				FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */,
 			);
 			name = AmplifyConfig;
+			sourceTree = "<group>";
+		};
+		9902A5382AC350FC003E2A74 /* CommentModels */ = {
+			isa = PBXGroup;
+			children = (
+				9902A5362AC262C7003E2A74 /* Comment.swift */,
+				9902A5392AC3510D003E2A74 /* CommentData.swift */,
+			);
+			path = CommentModels;
 			sourceTree = "<group>";
 		};
 		9941DC132A93F02100215948 = {
@@ -432,6 +449,7 @@
 		99F590F12ABA39ED00AD5F8C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9902A5382AC350FC003E2A74 /* CommentModels */,
 				99F591062ABCAD0100AD5F8C /* UserModels */,
 				99F590F62ABA3A2900AD5F8C /* PostModels */,
 				99F590F92ABA4AB300AD5F8C /* Enums.swift */,
@@ -453,6 +471,7 @@
 			isa = PBXGroup;
 			children = (
 				99F591072ABCAD0B00AD5F8C /* User.swift */,
+				9914FCB62AC388E0006E629C /* UserData.swift */,
 			);
 			path = UserModels;
 			sourceTree = "<group>";
@@ -477,6 +496,7 @@
 				995085DA2A95A4DD003996B6 /* AWSCognitoAuthPlugin */,
 				995085DC2A95A4DD003996B6 /* AWSS3StoragePlugin */,
 				995085DE2A95A4DD003996B6 /* Amplify */,
+				9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */,
 			);
 			productName = JOYSTIQ;
 			productReference = 9941DC1C2A93F02100215948 /* JOYSTIQ.app */;
@@ -508,6 +528,7 @@
 			mainGroup = 9941DC132A93F02100215948;
 			packageReferences = (
 				995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */,
+				9914FCB82AC394EF006E629C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 9941DC1D2A93F02100215948 /* Products */;
 			projectDirPath = "";
@@ -545,6 +566,7 @@
 				990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */,
 				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
 				99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */,
+				9902A5372AC262C7003E2A74 /* Comment.swift in Sources */,
 				995085E22A95A6AE003996B6 /* AuthService.swift in Sources */,
 				99F590E62AB223FE00AD5F8C /* FeedbackService.swift in Sources */,
 				997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */,
@@ -552,6 +574,7 @@
 				9941DC722A93F6F000215948 /* CommentButton.swift in Sources */,
 				996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */,
 				99F591052ABB8E1400AD5F8C /* DiscPostView.swift in Sources */,
+				9914FCB72AC388E0006E629C /* UserData.swift in Sources */,
 				99A5C1512AAE68BA00CDD4AD /* RoundedCorner.swift in Sources */,
 				9941DC5F2A93F6F000215948 /* NotificationTabView.swift in Sources */,
 				99F590EB2AB230AB00AD5F8C /* MediaPicker.swift in Sources */,
@@ -559,6 +582,7 @@
 				9941DC622A93F6F000215948 /* UserBannerPostView.swift in Sources */,
 				9941DC652A93F6F000215948 /* LeaderboardBanners.swift in Sources */,
 				9989F6942AB3B26500A1B6F2 /* ProfileView.swift in Sources */,
+				9902A53A2AC3510D003E2A74 /* CommentData.swift in Sources */,
 				990D3D992AA2930800E8488E /* ForgotPasswordView.swift in Sources */,
 				9941DC672A93F6F000215948 /* SceneKitExtras.swift in Sources */,
 				9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */,
@@ -814,6 +838,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9914FCB82AC394EF006E629C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aws-amplify/amplify-swift";
@@ -825,6 +857,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9914FCB82AC394EF006E629C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
 		995085DA2A95A4DD003996B6 /* AWSCognitoAuthPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */;

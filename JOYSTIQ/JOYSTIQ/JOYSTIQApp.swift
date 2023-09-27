@@ -47,7 +47,6 @@ class AppViewModel: ObservableObject {
         }
 
         DispatchQueue.main.async {
-            print("App is initialized")
             self.isAppInitialized = true
         }
     }
