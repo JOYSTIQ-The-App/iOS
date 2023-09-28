@@ -147,7 +147,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3Servi
             
         } //end VStack
         .background(.black)
-            
+        .preferredColorScheme(.dark) // Force dark mode
         
     } //end body
     
