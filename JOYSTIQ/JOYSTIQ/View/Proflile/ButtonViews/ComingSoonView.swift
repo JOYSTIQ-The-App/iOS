@@ -54,10 +54,6 @@ struct ComingSoonView: View {
             }
             
             
-            
-            
-            
-            
             Spacer()
             
             //Close button
@@ -75,8 +71,6 @@ struct ComingSoonView: View {
             })
             .contentShape(Rectangle()) // This makes the entire frame tappable
             .padding(.bottom, 20)
-            
-            
             
             
         } //END main vstack container

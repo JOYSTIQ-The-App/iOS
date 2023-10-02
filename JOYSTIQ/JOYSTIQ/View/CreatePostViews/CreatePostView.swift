@@ -28,41 +28,66 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3Servi
 
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
             
             HStack { //HStack for close button and title
                 
                 // cancel button
-                Button( action: {
-                    //button action here
+                Button("Cancel") {
+                    // Dismiss the sheet:
                     isPresented = false
-                    
-                }, label: {
-                    
-                    Image(systemName: "xmark.circle")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(Color.gray)
-                    
-                })
-                .offset(x: 10)
+                }
+                .foregroundColor(.gray)
 
                 Spacer()
-                
-                Image("createapost")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: UIScreen.main.bounds.width * 0.55, height: 30)
-                    .background(.clear)
-                
-            } //end HStack for close button and title
-            .frame(width: UIScreen.main.bounds.width * 0.77)
+
+                //Post button
+                Button(action: {
+                    uploadContent()
+                    
+                }, label: {
+                    Text("Post")
+                        .foregroundColor(.white)
+                        .frame(width: UIScreen.main.bounds.width * 0.2, height: 35)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                startPoint: .topTrailing,
+                                endPoint: .bottomLeading
+                            )
+                        )
+                        .cornerRadius(10)
+                })
+                .contentShape(Rectangle())
+                .disabled(uploadInProgress)
             
-    
-            Form {
+                
+            } //end HStack for close button and post button
+            .padding(.top, 20)
+            .padding(.horizontal, 20)
+            .frame(width: UIScreen.main.bounds.width)
+            
+            
+            Image("createapost")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: UIScreen.main.bounds.width * 0.55, height: 30)
+                .padding(.top, 30)
+            
+            
+            
+            VStack(alignment: .leading, spacing: 10) { //for post content form
+                
                 
                 TextField("Game", text: $game)
+                    .padding(.top, 15)
+                    .padding(.leading, 15)
+                    .disableAutocorrection(true)
+                
+                Divider()
+                    .frame(height: 1)
+                    .background(Color.gray.opacity(0.2))
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
                 
                 Button("Select Media") {
                     isMediaPickerShown = true
@@ -71,6 +96,14 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3Servi
                     MediaPicker(selectedImage: $selectedImage, selectedVideoURL: $selectedVideoURL, isPickerShown: $isMediaPickerShown, sourceType: .photoLibrary)
                         .presentationDetents([.fraction(0.8)])
                 }
+                .padding(.leading, 15)
+                .padding(.vertical, 5)
+                
+                
+                Divider()
+                    .frame(height: 1)
+                    .background(Color.gray.opacity(0.2))
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
                 
                 if selectedImage != nil {
                     HStack {
@@ -81,6 +114,13 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3Servi
                         }
                         .foregroundColor(.red)
                     }
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 5)
+                    
+                    Divider()
+                        .frame(height: 1)
+                        .background(Color.gray.opacity(0.2))
+                        .frame(width: UIScreen.main.bounds.width * 0.9)
                 }
                 
                 if selectedVideoURL != nil {
@@ -92,61 +132,66 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, S3ServiceType: S3Servi
                         }
                         .foregroundColor(.red)
                     }
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 5)
+                    
+                    
+                    Divider()
+                        .frame(height: 1)
+                        .background(Color.gray.opacity(0.2))
+                        .frame(width: UIScreen.main.bounds.width * 0.9)
                 }
                 
     
+                
+                
+                
+                /*
                 ZStack(alignment: .topLeading) {
                     
                     TextEditor(text: $text)
                         .frame(minHeight: 60)
+                        .background(Color.clear)
                         .zIndex(1)
                     
                     if text.isEmpty {
                         
                         Text("Questing, grinding, or chilling? Share your journey.")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.red)
                             .padding(.leading, 5)
                             .padding(.top, 8)
                             .zIndex(0)
                     }
                     
                 }
+                .background(Color("CustomGray"))
+                */
+                
+                TextField(
+                    "Enter caption",
+                    text: $text
+                )
+                .padding(.leading, 10.0)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .autocapitalization(.none)
+                
+                Spacer()
                 
                 
-            } //end form
-            .frame(width: UIScreen.main.bounds.width)
-
-            
-            
-            VStack(alignment: .center) {
                 
-                //Post button
-                Button(action: {
-                    uploadContent()
-                    
-                }, label: {
-                    Text("Post")
-                        .foregroundColor(.white)
-                        .frame(width: UIScreen.main.bounds.width * 0.4, height: 45)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
-                                startPoint: .topTrailing,
-                                endPoint: .bottomLeading
-                            )
-                        )
-                        .cornerRadius(30)
-                })
-                .contentShape(Rectangle())
-                .disabled(uploadInProgress)
-            }
-            .frame(width: UIScreen.main.bounds.width)
-            .padding(.bottom, 30)
+                
+            } //end VStack for post content form
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.25)
+            .background(Color.gray.opacity(0.2))
+            .cornerRadius(10)
+            .padding(.top, 10)
             
             Spacer()
             
         } //end VStack
-        .background(.black)
+        .background(Color("GradientDark"))
         .preferredColorScheme(.dark) // Force dark mode
         
     } //end body

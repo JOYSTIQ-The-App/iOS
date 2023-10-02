@@ -30,17 +30,26 @@ struct PostContentView: View {
             case .video:
                 if let url = videoURL {
                     let player = AVPlayer(url: url)
-                    VideoPlayer(player: player)
-                        .frame(width: UIScreen.main.bounds.width-40, height: 220)
-                        .cornerRadius(10)
+                    VStack(alignment: .center){
+                        VideoPlayer(player: player)
+                            .frame(width: UIScreen.main.bounds.width * 0.9)
+                            .cornerRadius(10)
+                    }
+                    .frame(width: UIScreen.main.bounds.width)
+                    //expand on tap gesture
                 }
             case .photo:
                 if let url = imageURL {
-                    WebImage(url: url)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: UIScreen.main.bounds.width-40, height: 220)
-                        .cornerRadius(10)
+                    VStack(alignment: .center) {
+                        WebImage(url: url)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: UIScreen.main.bounds.width * 0.9)
+                            .frame(maxHeight: UIScreen.main.bounds.height * 0.5)
+                            .cornerRadius(10)
+                    }
+                    .frame(width: UIScreen.main.bounds.width)
+                    //expand on tap gesture
                 }
             case .none:
                 EmptyView()
@@ -82,8 +91,17 @@ struct PostContentView: View {
 struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         
-        PostContentView(s3_key: nil, bodyText: "text", mediaType: .none)
-            .background(Color("GradientDark"))
+        LazyVStack(alignment: .center, spacing: 0) {
+            
+            PostContentView(s3_key: nil, bodyText: "This caption is to serve as a sample caption of more than one line!", mediaType: .photo)
+                
+            
+        }
+        .frame(width: UIScreen.main.bounds.width)
+        .background(Color("GradientDark"))
+
+        
+        
         
     }
 }

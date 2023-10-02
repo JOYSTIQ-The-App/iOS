@@ -31,8 +31,6 @@
 		9941DC692A93F6F000215948 /* AccoladeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC472A93F6F000215948 /* AccoladeBanner.swift */; };
 		9941DC6A2A93F6F000215948 /* ConnectTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC492A93F6F000215948 /* ConnectTabView.swift */; };
 		9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4B2A93F6F000215948 /* CreatePostView.swift */; };
-		9941DC6E2A93F6F000215948 /* NewClipPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4E2A93F6F000215948 /* NewClipPostView.swift */; };
-		9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */; };
 		9941DC702A93F6F000215948 /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC512A93F6F000215948 /* LikeButton.swift */; };
 		9941DC712A93F6F000215948 /* NotiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC522A93F6F000215948 /* NotiView.swift */; };
 		9941DC722A93F6F000215948 /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC532A93F6F000215948 /* CommentButton.swift */; };
@@ -66,6 +64,7 @@
 		99A9F3C72AB7E246000F27E5 /* SceneKitView6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */; };
 		99ADA6092ABFBA5900FB5524 /* PantSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ADA6082ABFBA5900FB5524 /* PantSwitcherView.swift */; };
 		99ADA60B2ABFC42000FB5524 /* ShoeSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */; };
+		99BF23492AC9F7EB00D5E667 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
 		99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DEE2AC21A950011908F /* AvatarNodes */; };
@@ -113,8 +112,6 @@
 		9941DC492A93F6F000215948 /* ConnectTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectTabView.swift; sourceTree = "<group>"; };
 		9941DC4B2A93F6F000215948 /* CreatePostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		9941DC4D2A93F6F000215948 /* DiscPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscPostView.swift; sourceTree = "<group>"; };
-		9941DC4E2A93F6F000215948 /* NewClipPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewClipPostView.swift; sourceTree = "<group>"; };
-		9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDiscPostView.swift; sourceTree = "<group>"; };
 		9941DC512A93F6F000215948 /* LikeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		9941DC522A93F6F000215948 /* NotiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotiView.swift; sourceTree = "<group>"; };
 		9941DC532A93F6F000215948 /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
@@ -145,6 +142,7 @@
 		99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView6.swift; sourceTree = "<group>"; };
 		99ADA6082ABFBA5900FB5524 /* PantSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantSwitcherView.swift; sourceTree = "<group>"; };
 		99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoeSwitcherView.swift; sourceTree = "<group>"; };
+		99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
 		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
@@ -305,8 +303,6 @@
 			children = (
 				9941DC4B2A93F6F000215948 /* CreatePostView.swift */,
 				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
-				9941DC4E2A93F6F000215948 /* NewClipPostView.swift */,
-				9941DC4F2A93F6F000215948 /* NewDiscPostView.swift */,
 			);
 			path = CreatePostViews;
 			sourceTree = "<group>";
@@ -407,6 +403,7 @@
 				9941DC532A93F6F000215948 /* CommentButton.swift */,
 				9941DC512A93F6F000215948 /* LikeButton.swift */,
 				999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */,
+				99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */,
 			);
 			path = PostViews;
 			sourceTree = "<group>";
@@ -564,6 +561,7 @@
 				99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */,
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
 				990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */,
+				99BF23492AC9F7EB00D5E667 /* ImageViewer.swift in Sources */,
 				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
 				99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */,
 				9902A5372AC262C7003E2A74 /* Comment.swift in Sources */,
@@ -614,7 +612,6 @@
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
 				99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */,
 				99F590F82ABA3A7C00AD5F8C /* Post.swift in Sources */,
-				9941DC6F2A93F6F000215948 /* NewDiscPostView.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
 				99F590FB2ABA514200AD5F8C /* LeaderboardTabView.swift in Sources */,
 				9923CD262ABF865C0044B02F /* APIService.swift in Sources */,
@@ -625,7 +622,6 @@
 				99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,
 				9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */,
-				9941DC6E2A93F6F000215948 /* NewClipPostView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
