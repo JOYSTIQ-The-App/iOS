@@ -101,8 +101,8 @@ struct ResetPasswordView<AuthServiceType: AuthServiceProtocol & ObservableObject
                 if let error = errorMessage {
                     Text(error)
                         .foregroundColor(.red)
-                        .padding(.top, 8)
-                        .padding(.bottom, 8)
+                        .padding(.top, 5)
+                        .padding(.bottom, 5)
                 }
                 
                 

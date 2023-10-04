@@ -8,23 +8,33 @@
 import SwiftUI
 
 struct LaunchScreenView: View {
+   
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Color("Black3")
-                    .edgesIgnoringSafeArea(.all)
-
-                VStack(spacing: 20) {
-                    Image("LaunchScreenLogo3")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: geometry.size.width * 0.5) // Adjusts the width to be 50% of the screen width
-
-                    Text("Loading...")
-                        .foregroundColor(.gray)
-                }
+        
+            VStack(spacing: 0) {
+                
+                Image("LaunchScreenLogoAtt4")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.width * 0.3)
+                    
+       
+                Image("loading3")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.width * 0.18)
+                    .padding(.leading, UIScreen.main.bounds.width * 0.04)
+                    .offset(y: UIScreen.main.bounds.height * 0.35)
             }
-        }
+            .edgesIgnoringSafeArea(.all)
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight")]),
+                    startPoint: .bottomLeading,
+                    endPoint: .topTrailing
+                )
+            )
     }
 }
 

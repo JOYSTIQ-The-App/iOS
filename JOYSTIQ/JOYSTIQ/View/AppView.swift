@@ -41,6 +41,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                     .disabled(showCommentSection)
                 case 3:
                     ConnectTabView(APIService: APIService)
+                    
                 case 4:
                     ProfileTabView(APIService: APIService, hideNavBar: $hideNavBar, showCommentSection: $showCommentSection)
                         .environmentObject(user)
@@ -129,6 +130,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                         CreatePostView<APIService, S3Service, AuthService>(APIService: APIService as! APIService, s3Service: S3Service(), isPresented: $showPostScreen)
                         .environmentObject(authService)
                     }
+                    
                     
                     
                     Button(action: {

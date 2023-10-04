@@ -126,6 +126,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         }
     }
     
+    
     // MARK: - Funtions
     private func fetchPosts() {
         switch selectedFeed {

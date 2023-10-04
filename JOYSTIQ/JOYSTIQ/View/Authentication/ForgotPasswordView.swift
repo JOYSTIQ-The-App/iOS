@@ -78,7 +78,7 @@ struct ForgotPasswordView<AuthServiceType: AuthServiceProtocol & ObservableObjec
                                 
                                 Text("Request Reset Password")
                                     .foregroundColor(.white)
-                                    .frame(width: UIScreen.main.bounds.width * 0.45, height: 50)
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, height: 50)
                                     .background(
                                         LinearGradient(
                                             gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
