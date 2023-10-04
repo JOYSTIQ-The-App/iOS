@@ -14,7 +14,6 @@
 		990D3D992AA2930800E8488E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D982AA2930800E8488E /* ForgotPasswordView.swift */; };
 		9914FCB72AC388E0006E629C /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9914FCB62AC388E0006E629C /* UserData.swift */; };
 		9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */; };
-		9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */; };
 		9922BE832AC4C598001F4F40 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9922BE822AC4C598001F4F40 /* Profile.swift */; };
 		9922BE852AC4CCDD001F4F40 /* ResumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9922BE842AC4CCDD001F4F40 /* ResumeView.swift */; };
 		9923CD242ABF5E280044B02F /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */; };
@@ -76,6 +75,8 @@
 		99ADA6092ABFBA5900FB5524 /* PantSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ADA6082ABFBA5900FB5524 /* PantSwitcherView.swift */; };
 		99ADA60B2ABFC42000FB5524 /* ShoeSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */; };
 		99BF23492AC9F7EB00D5E667 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */; };
+		99C416F52ACDF42D0080FC9C /* TrimmedClip3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99C416F42ACDF42D0080FC9C /* TrimmedClip3.mp4 */; };
+		99C416F72ACDF8130080FC9C /* v_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99C416F62ACDF8130080FC9C /* v_video.mp4 */; };
 		99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4B66A2AC64EDE00AE187D /* EditPostView.swift */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
@@ -165,6 +166,8 @@
 		99ADA6082ABFBA5900FB5524 /* PantSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantSwitcherView.swift; sourceTree = "<group>"; };
 		99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoeSwitcherView.swift; sourceTree = "<group>"; };
 		99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
+		99C416F42ACDF42D0080FC9C /* TrimmedClip3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = TrimmedClip3.mp4; path = ../../../Desktop/Stuff/TrimmedClip3.mp4; sourceTree = "<group>"; };
+		99C416F62ACDF8130080FC9C /* v_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = v_video.mp4; path = ../../../Desktop/v_video.mp4; sourceTree = "<group>"; };
 		99C4B66A2AC64EDE00AE187D /* EditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostView.swift; sourceTree = "<group>"; };
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
 		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
@@ -242,6 +245,8 @@
 		9941DC132A93F02100215948 = {
 			isa = PBXGroup;
 			children = (
+				99C416F62ACDF8130080FC9C /* v_video.mp4 */,
+				99C416F42ACDF42D0080FC9C /* TrimmedClip3.mp4 */,
 				99EA3DEE2AC21A950011908F /* AvatarNodes */,
 				997062D62ABB8BFE005596A3 /* CamTest6.usdc */,
 				9941DC1E2A93F02100215948 /* JOYSTIQ */,
@@ -595,6 +600,8 @@
 				997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */,
 				9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */,
 				9941DC242A93F02300215948 /* Assets.xcassets in Resources */,
+				99C416F52ACDF42D0080FC9C /* TrimmedClip3.mp4 in Resources */,
+				99C416F72ACDF8130080FC9C /* v_video.mp4 in Resources */,
 				99F590FF2ABA82B400AD5F8C /* LaunchScreen.storyboard in Resources */,
 				C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */,
 				5BA74B352121C85BDC510698 /* amplifyconfiguration.json in Resources */,

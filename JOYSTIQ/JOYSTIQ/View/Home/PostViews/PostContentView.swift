@@ -6,6 +6,7 @@
 //
 // Takes in content (image/video), caption (optional)
 //
+
 import SwiftUI
 import AVKit
 import Amplify
@@ -32,7 +33,7 @@ struct PostContentView: View {
                     let player = AVPlayer(url: url)
                     VStack(alignment: .center){
                         VideoPlayer(player: player)
-                            .frame(width: UIScreen.main.bounds.width * 0.9)
+                            .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.25)
                             .cornerRadius(10)
                     }
                     .frame(width: UIScreen.main.bounds.width)
@@ -45,7 +46,7 @@ struct PostContentView: View {
                             .resizable()
                             .scaledToFill()
                             .frame(width: UIScreen.main.bounds.width * 0.9)
-                            .frame(maxHeight: UIScreen.main.bounds.height * 0.5)
+                            .frame(maxHeight: UIScreen.main.bounds.height * 0.25)
                             .cornerRadius(10)
                     }
                     .frame(width: UIScreen.main.bounds.width)
@@ -96,16 +97,9 @@ struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         
         LazyVStack(alignment: .center, spacing: 0) {
-            
-            PostContentView(s3_key: nil, bodyText: "This caption is to serve as a sample caption of more than one line!", mediaType: .photo)
-                
-            
+            PostContentView(s3_key: nil, bodyText: "This caption is to serve as a sample caption of more than one line!", mediaType: .none)
         }
         .frame(width: UIScreen.main.bounds.width)
         .background(Color("GradientDark"))
-
-        
-        
-        
     }
 }
