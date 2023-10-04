@@ -68,6 +68,7 @@ struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
             }
         } // END MAIN VSTACK
         .background(Color("Black0"))
+        .preferredColorScheme(.dark)
     }
 
     func searchForUsernames() {

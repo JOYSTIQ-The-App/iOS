@@ -188,7 +188,7 @@ struct SceneKitView: UIViewRepresentable {
         return scnView.snapshot()
 
     }
-
+    
 
     func updateUIView(_ scnView: SCNView, context: Context) {
         // Update the SCNView if needed
@@ -413,21 +413,36 @@ struct ContentView7: View {
             
             
             //avatar image
+            /*
             if let image = avatarSnapshot {
                 
                 Image(uiImage: image)
                     .resizable()
                     .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
                     .scaleEffect(1.5)
-                    .padding(.top, UIScreen.main.bounds.height * 0.05)
-                    .zIndex(1)
                 
                 
             }
             else {
                 Text("No image selected")
-                    .frame(width: 100, height: 50)
-                    .zIndex(1)
+                    .frame(width: 150, height: 50)
+            }
+            */
+            
+            
+            //avatar image
+            if let image = avatarSnapshot {
+                
+                Image(uiImage: image)
+                    .resizable()
+                    .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.4)
+                    .scaleEffect(2)
+                    //.clipShape(Circle().offset(y: -UIScreen.main.bounds.height * 0.2))
+                
+            }
+            else {
+                Text("No image selected")
+                    .frame(width: 150, height: 50)
             }
             
             
@@ -443,7 +458,7 @@ struct ContentView7: View {
         
             
             
-            
+            /*
             Button(action: {
                 
                 //sceneKitView.addNode(named: "FrizzyTest")
@@ -461,7 +476,7 @@ struct ContentView7: View {
             }) {
                 Text("Test sweater")
             }
-            
+            */
           
                 
             

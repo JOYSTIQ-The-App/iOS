@@ -102,8 +102,8 @@ struct ProfileSettingsView: View {
         .navigationTitle("Settings")
         .onAppear{
             hideNavBar = true
-        }
-        
+        } //end list
+        .preferredColorScheme(.dark) // Force dark mode
     }
 }
 
