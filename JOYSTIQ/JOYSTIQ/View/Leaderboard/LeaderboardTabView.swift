@@ -142,6 +142,6 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
 // MARK: - Preview
 struct LeaderboardTabView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardTabView(APIService: MockAPIService(), showCommentSection: .constant(false))
+        LeaderboardTabView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
     }
 }

@@ -11,13 +11,27 @@ import SceneKit
 
 struct WardrobeView: View {
     
+    @EnvironmentObject var user: User
+    
     @Binding var hideNavBar: Bool
 
     @Binding var avatarSnapshot: UIImage?
     @Binding var enviroInt: Int
     
     @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
+    
+    private var s3Service: S3ServiceProtocol
+    private var oldS3Key: String?
+    private var apiService: APIServiceProtocol
 
+    init(hideNavBar: Binding<Bool>, avatarSnapshot: Binding<UIImage?>, enviroInt: Binding<Int>, oldS3Key: String?, apiService: APIServiceProtocol = APIService(), s3Service: S3ServiceProtocol = S3Service()) {
+        _hideNavBar = hideNavBar
+        _avatarSnapshot = avatarSnapshot
+        _enviroInt = enviroInt
+        self.oldS3Key = oldS3Key
+        self.s3Service = s3Service
+        self.apiService = apiService
+    }
 
 
     var body: some View {
@@ -230,10 +244,7 @@ struct WardrobeView: View {
                         
                         //Save button
                         Button(action: {
-                            
-                            avatarSnapshot = sceneKitView.takeTheSnapshot()
-               
-                            
+                            saveAvatar()
                         }, label: {
                             
                             Text("Save")
@@ -277,6 +288,34 @@ struct WardrobeView: View {
         
     }
     
+    func saveAvatar() {
+        avatarSnapshot = sceneKitView.takeTheSnapshot()
+        guard let data = avatarSnapshot?.pngData() else {
+            print("Error converting image to Data")
+            return
+        }
+        Task {
+            do {
+                let newKey = try await s3Service.uploadData(data)
+                print("Uploaded image with key: \(newKey)")
+
+                // Use the oldS3Key property of the WardrobeView directly
+                apiService.updateUserAvatar(username: user.username, oldS3Key: oldS3Key, newS3Key: newKey) { result in
+                    switch result {
+                    case .success:
+                        print("Successfully updated user avatar")
+                    case .failure(let error):
+                        print("Error updating user avatar: \(error.localizedDescription)")
+                    }
+                }
+            } catch {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+
+
+    
 }
 
 
@@ -286,8 +325,17 @@ struct WardrobeView: View {
 
 struct WardrobeView_Previews: PreviewProvider {
     static var previews: some View {
-        WardrobeView(hideNavBar: .constant(true), avatarSnapshot: .constant(UIImage(systemName: "person.circle")!), enviroInt: .constant(1))
-        //profileImage: .constant(UIImage(systemName: "person.circle")!)
+        let testUser = User(email: "testEmail@example.com", username: "Apical")
+        
+        return WardrobeView(
+            hideNavBar: .constant(true),
+            avatarSnapshot: .constant(UIImage(systemName: "person.circle")!),
+            enviroInt: .constant(1),
+            oldS3Key: nil,
+            apiService: MockAPIService(),
+            s3Service: MockS3Service()
+        )
+        .environmentObject(testUser)
     }
 }
 
