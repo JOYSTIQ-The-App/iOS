@@ -92,7 +92,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                         }
                     }
 
-                    
+
                     InteractionButtonMenu(
                         showCommentSection: $showCommentSection,
                         showingReportAlert: $showingReportAlert,
@@ -104,7 +104,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                     )
                     .environmentObject(user)
                     .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
-                    
+
                     Spacer()
                 }
             }
@@ -128,19 +128,15 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     
     // MARK: - Funtions
     private func fetchPosts() {
-        if let email = user.email {
-            switch selectedFeed {
-            case .following:
-                APIService.getUserFeed(for: email) { result in
-                    handleFetchResult(result)
-                }
-            case .global:
-                APIService.getGlobalFeed { result in
-                    handleFetchResult(result)
-                }
+        switch selectedFeed {
+        case .following:
+            APIService.getUserFeed(for: user.email) { result in
+                handleFetchResult(result)
             }
-        } else {
-            print("Error retrieving user email.")
+        case .global:
+            APIService.getGlobalFeed { result in
+                handleFetchResult(result)
+            }
         }
     }
 
@@ -172,9 +168,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
 // MARK: - Preview
 struct HomeTabView_Previews: PreviewProvider {
     static var previews: some View {
-        let testUser = User()
-        testUser.email = "testEmail@example.com"
-        testUser.username = "testUsername"
+        let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
         return HomeTabView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
             .environmentObject(testUser)

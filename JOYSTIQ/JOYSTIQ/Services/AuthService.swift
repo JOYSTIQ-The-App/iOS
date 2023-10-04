@@ -33,6 +33,8 @@ class AuthService: AuthServiceProtocol {
     @Published var isSignedUp: Bool = false
     @Published var isConfirmed: Bool = false
     @Published var signUpRequested: Bool = false
+    @Published var user: User?
+    @Published var isAppInitialized: Bool = false
 
     init() {
         Task {
@@ -42,6 +44,15 @@ class AuthService: AuthServiceProtocol {
                     self.isSignedIn = session.isSignedIn
                 }
                 print("Is user signed in - \(session.isSignedIn)")
+
+                if session.isSignedIn {
+                    await self.initializeUser()
+                } else {
+                    DispatchQueue.main.async {
+                        self.isAppInitialized = true
+                    }
+                }
+                
             } catch let error as AuthError {
                 print("Fetch session failed with error \(error)")
             } catch {
@@ -61,6 +72,33 @@ class AuthService: AuthServiceProtocol {
             print("Fetch session failed with error \(error)")
         } catch {
             print("Unexpected error: \(error)")
+        }
+    }
+    
+    private func initializeUser() async {
+        do {
+            print("Initializing User")
+            let email = try await fetchUserEmail()
+            guard let userEmail = email else {
+                print("User email is nil after fetching.")
+                return
+            }
+
+            // Fetch username using the retrieved email
+            let userIdentifier: UserIdentifier = .email(userEmail)
+            APIService().getUsername(for: userIdentifier) { result in
+                switch result {
+                case .success(let username):
+                    DispatchQueue.main.async {
+                        self.user = User(email: userEmail, username: username)
+                        self.isAppInitialized = true
+                    }
+                case .failure(let error):
+                    print("Error getting username: \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            print("Error initializing user: \(error.localizedDescription)")
         }
     }
     
@@ -116,7 +154,8 @@ class AuthService: AuthServiceProtocol {
                 }
 
                 if signInResult.isSignedIn {
-                    print("Sign in succeeded")
+                    print("Sign in succeeded, initializing user")
+                    await self.initializeUser()
                 }
             }
         } catch let error as AuthError {
@@ -232,11 +271,12 @@ class AuthService: AuthServiceProtocol {
 
 
         print("Local signout successful: \(signOutResult.signedOutLocally)")
-//        if signOutResult.signedOutLocally {
-//            DispatchQueue.main.async {
-//                self.isSignedIn = false
-//            }
-//        }
+        if signOutResult.signedOutLocally {
+            DispatchQueue.main.async {
+                self.isSignedIn = false
+                self.user = nil
+            }
+        }
         switch signOutResult {
         case .complete:
             // Sign Out completed fully and without errors.

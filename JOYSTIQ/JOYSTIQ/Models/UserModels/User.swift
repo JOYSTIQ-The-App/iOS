@@ -8,10 +8,10 @@
 import Foundation
 
 class User: ObservableObject {
-    @Published var email: String?
-    @Published var username: String?
+    @Published var email: String
+    @Published var username: String
     
-    init(email: String? = nil, username: String? = nil) {
+    init(email: String, username: String) {
         self.email = email
         self.username = username
     }

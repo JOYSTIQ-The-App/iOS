@@ -56,21 +56,25 @@ struct PostContentView: View {
         }
         .padding(.top, 5)
         .onAppear {
-            if let key = s3_key {
-                Task {
-                    do {
-                        let url = try await Amplify.Storage.getURL(key: key)
-                        switch mediaType {
-                        case .video:
-                            videoURL = url
-                        case .photo:
-                            imageURL = url
-                        case .none:
-                            break
+            if mediaType != .none {
+                if let key = s3_key {
+                    Task {
+                        do {
+                            let url = try await Amplify.Storage.getURL(key: key)
+                            switch mediaType {
+                            case .video:
+                                videoURL = url
+                            case .photo:
+                                imageURL = url
+                            case .none:
+                                break
+                            }
+                        } catch {
+                            print("Error fetching URL: \(error)")
                         }
-                    } catch {
-                        print("Error fetching URL: \(error)")
                     }
+                } else {
+                    print("Expected s3_key for media type \(mediaType) but none found.")
                 }
             }
         }

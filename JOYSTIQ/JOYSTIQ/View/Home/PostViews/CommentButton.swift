@@ -74,7 +74,9 @@ struct CommentsView<APIServiceType: APIServiceProtocol>: View {
                     .cornerRadius(8)
 
                 Button("Post") {
-                    postComment()
+                    if !newComment.trimmingCharacters(in: .whitespaces).isEmpty {
+                        postComment()
+                    }
                 }
                 .padding()
             }
@@ -95,11 +97,7 @@ struct CommentsView<APIServiceType: APIServiceProtocol>: View {
     }
 
     func postComment() {
-        print("posting comment")
-        print(user.username ?? "shit")
-        guard let username = user.username, !newComment.isEmpty else { return }
-        
-        APIService.createComment(postId: postId, username: username, text: newComment) { result in
+        APIService.createComment(postId: postId, username: user.username, text: newComment) { result in
             switch result {
             case .success(let newPostedComment):
                 // Add the new comment to the local list and clear the text field

@@ -34,29 +34,25 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                     isLoading = true
                     if userLiked {
                         likesCount? -= 1
-                        if let username = user.username {
-                            APIService.deleteLike(username: username, postId: postId) { result in
-                                isLoading = false
-                                switch result {
-                                case .success:
-                                    userLiked.toggle()
-                                case .failure(let error):
-                                    print("Error unliking post: \(error.localizedDescription)")
-                                }
+                        
+                        APIService.deleteLike(username: user.username, postId: postId) { result in
+                            isLoading = false
+                            switch result {
+                            case .success:
+                                userLiked.toggle()
+                            case .failure(let error):
+                                print("Error unliking post: \(error.localizedDescription)")
                             }
                         }
-                        
                     } else {
                         likesCount? += 1
-                        if let username = user.username {
-                            APIService.createLike(username: username, postId: postId) { result in
-                                isLoading = false
-                                switch result {
-                                case .success:
-                                    userLiked.toggle()
-                                case .failure(let error):
-                                    print("Error liking post: \(error.localizedDescription)")
-                                }
+                        APIService.createLike(username: user.username, postId: postId) { result in
+                            isLoading = false
+                            switch result {
+                            case .success:
+                                userLiked.toggle()
+                            case .failure(let error):
+                                print("Error liking post: \(error.localizedDescription)")
                             }
                         }
                     }
@@ -98,8 +94,10 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
 
 struct InteractionButtonMenu_Previews: PreviewProvider {
     static var previews: some View {
-        InteractionButtonMenu<MockAPIService>(showCommentSection: .constant(false), showingReportAlert: .constant(false), APIService: MockAPIService(), postId: 1, likesCount: 1234, commentCount: 8, userLiked: true)
-            .environmentObject(User(username: "testUser"))
+        let testUser = User(email: "testEmail@example.com", username: "testUsername")
+        
+        return InteractionButtonMenu<MockAPIService>(showCommentSection: .constant(false), showingReportAlert: .constant(false), APIService: MockAPIService(), postId: 1, likesCount: 1234, commentCount: 8, userLiked: true)
+            .environmentObject(testUser)
             .background(Color("GradientDark3"))
     }
 }

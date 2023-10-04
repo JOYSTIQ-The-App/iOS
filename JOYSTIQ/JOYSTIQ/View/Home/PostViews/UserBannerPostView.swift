@@ -111,7 +111,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
 
 struct UserBannerPostView_Previews: PreviewProvider {
     static var previews: some View {
-        UserBannerPostView(APIService: MockAPIService(), intVal: 1, userId: 1)
+        UserBannerPostView<MockAPIService>(APIService: MockAPIService(), intVal: 1, userId: 1)
     }
 }
 

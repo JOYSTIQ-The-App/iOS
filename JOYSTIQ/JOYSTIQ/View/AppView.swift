@@ -42,7 +42,8 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 case 3:
                     ConnectTabView(APIService: APIService)
                 case 4:
-                    ProfileTabView(hideNavBar: $hideNavBar)
+                    ProfileTabView(APIService: APIService, hideNavBar: $hideNavBar, showCommentSection: $showCommentSection)
+                        .environmentObject(user)
                 default:
                     HomeTabView(APIService: APIService, showCommentSection: $showCommentSection)
                         .environmentObject(user)
@@ -208,9 +209,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
-        let testUser = User()
-        testUser.email = "testEmail@example.com"
-        testUser.username = "testUsername"
+        let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
         return AppView<MockAPIService, MockAuthService>(APIService: MockAPIService())
             .environmentObject(MockAuthService())

@@ -10,49 +10,6 @@ import Amplify
 import AWSCognitoAuthPlugin
 import AWSS3StoragePlugin
 
-class AppViewModel: ObservableObject {
-    @Published var isAppInitialized: Bool = false
-    @Published var authService = AuthService()
-    @Published var user = User()
-    
-    init() {
-        Task {
-            await initializeApp()
-        }
-    }
-
-    func initializeApp() async {
-        print("initializing app")
-        print("fetching current auth session")
-        await authService.fetchCurrentAuthSession()
-        
-        // Fetch email
-        if let email = try? await authService.fetchUserEmail() {
-            user.email = email
-        } else {
-            print("Error retrieving user email.")
-        }
-
-        // Fetch username
-        let userIdentifier: UserIdentifier = .email("ssottosanti@joystiq.gg")
-        APIService().getUsername(for: userIdentifier) { result in
-            switch result {
-            case .success(let username):
-                DispatchQueue.main.async {
-                    self.user.username = username
-                }
-            case .failure(let error):
-                print("Error getting username: \(error.localizedDescription)")
-            }
-        }
-
-        DispatchQueue.main.async {
-            self.isAppInitialized = true
-        }
-    }
-}
-
-
 @main
 struct JOYSTIQApp: App {
     init() {
@@ -62,27 +19,26 @@ struct JOYSTIQApp: App {
             try Amplify.configure()
             print("Amplify configured with Auth and Storage plugins")
         } catch {
-            // This is a fatal error. Crash the app so it's obvious something went wrong.
-            // In production, you should display an appropriate error message to the user.
             fatalError("Failed to initialize Amplify with \(error)")
         }
     }
     
-    @StateObject var viewModel = AppViewModel()
+    @StateObject var authService = AuthService()
     
     var body: some Scene {
         WindowGroup {
-            if !viewModel.isAppInitialized {
+            if !authService.isAppInitialized {
                 LaunchScreenView()
-            } else if viewModel.authService.isSignedIn {
+            } else if authService.isSignedIn, let user = authService.user {
                 AppView<APIService, AuthService>(APIService: APIService())
-                    .environmentObject(viewModel.authService)
-                    .environmentObject(viewModel.user)
+                    .environmentObject(authService)
+                    .environmentObject(user)
             } else {
                 LoginView<AuthService>()
-                    .environmentObject(viewModel.authService)
+                    .environmentObject(authService)
             }
         }
     }
 }
+
 
