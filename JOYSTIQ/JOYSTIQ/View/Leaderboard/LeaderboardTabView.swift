@@ -15,7 +15,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     
     @State private var showDropDown = false
     @State private var showingReportAlert = false
-    @State private var posts: [Post] = []
+    @State private var posts: [FeedPost] = []
     @Binding var showCommentSection: Bool
     
     // MARK: - Body
@@ -39,7 +39,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
         .alert(isPresented: $showingReportAlert, content: reportAlert)
         .onAppear {
             Task {
-                APIService.getLeaderboardFeed(){ result in
+                APIService.getLeaderboardFeed(for: user.email){ result in
                     switch result {
                     case .success(let fetchedPosts):
                         posts = fetchedPosts
@@ -88,8 +88,9 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                         showingReportAlert: $showingReportAlert,
                         APIService: APIService,
                         postId: post.id,
+                        likesCount: post.likes,
                         commentCount: post.comments,
-                        userLiked: post.user_liked ?? false
+                        userLiked: post.user_liked
                     )
                     .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
 
@@ -117,7 +118,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Funtions
     private func refreshPosts() {
         Task {
-            APIService.getLeaderboardFeed(){ result in
+            APIService.getLeaderboardFeed(for: user.email){ result in
                 switch result {
                 case .success(let fetchedPosts):
                     posts = fetchedPosts
@@ -142,6 +143,9 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
 // MARK: - Preview
 struct LeaderboardTabView_Previews: PreviewProvider {
     static var previews: some View {
+        let testUser = User(email: "testEmail@example.com", username: "testUsername")
+        
         LeaderboardTabView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
+            .environmentObject(testUser)
     }
 }

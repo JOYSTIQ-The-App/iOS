@@ -65,6 +65,7 @@
 		9974A4662ACB715E00B3B45C /* EditBioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4652ACB715E00B3B45C /* EditBioView.swift */; };
 		9974A46A2ACB9A1C00B3B45C /* SocialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4692ACB9A1C00B3B45C /* SocialsView.swift */; };
 		9974A46B2ACBA5D600B3B45C /* EditSocialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4672ACB71A500B3B45C /* EditSocialsView.swift */; };
+		9980BB022ACDFF9100A2B089 /* PostFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9980BB012ACDFF9100A2B089 /* PostFeed.swift */; };
 		9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */; };
 		9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */; };
 		9989F6942AB3B26500A1B6F2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6932AB3B26500A1B6F2 /* ProfileView.swift */; };
@@ -154,6 +155,7 @@
 		9974A4652ACB715E00B3B45C /* EditBioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioView.swift; sourceTree = "<group>"; };
 		9974A4672ACB71A500B3B45C /* EditSocialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSocialsView.swift; sourceTree = "<group>"; };
 		9974A4692ACB9A1C00B3B45C /* SocialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialsView.swift; sourceTree = "<group>"; };
+		9980BB012ACDFF9100A2B089 /* PostFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeed.swift; sourceTree = "<group>"; };
 		9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicButtons.swift; sourceTree = "<group>"; };
 		9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
 		9989F6932AB3B26500A1B6F2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 			children = (
 				99F590F72ABA3A7C00AD5F8C /* Post.swift */,
 				99F590F42ABA3A1500AD5F8C /* PostData.swift */,
+				9980BB012ACDFF9100A2B089 /* PostFeed.swift */,
 			);
 			path = PostModels;
 			sourceTree = "<group>";
@@ -666,6 +669,7 @@
 				9941DC642A93F6F000215948 /* AppView.swift in Sources */,
 				9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */,
 				99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */,
+				9980BB022ACDFF9100A2B089 /* PostFeed.swift in Sources */,
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
 				9974A45C2ACB33A400B3B45C /* FollowersListView.swift in Sources */,
 				99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */,

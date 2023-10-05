@@ -18,11 +18,11 @@ protocol APIServiceProtocol {
     func deleteUserSocial(username: String, socialType: String, completion: @escaping (Result<Void, Error>) -> Void)
     func getFollowersList(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
     func getFollowingList(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
-    func getLeaderboardFeed(completion: @escaping (Result<[Post], Error>) -> Void)
-    func getGlobalFeed(completion: @escaping (Result<[Post], Error>) -> Void)
+    func getLeaderboardFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
+    func getGlobalFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
     func getPostComments(for postId: Int, completion: @escaping (Result<[Comment], Error>) -> Void)
     func getUserAvatar(username: String, completion: @escaping (Result<String?, Error>) -> Void)
-    func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void)
+    func getUserFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
     func getUserPosts(for username: String, completion: @escaping (Result<[Post], Error>) -> Void)
     func getUserProfile(for username: String, completion: @escaping (Result<Profile, Error>) -> Void)
     func getUserSocials(for username: String, completion: @escaping (Result<[String: String]?, Error>) -> Void)
@@ -359,11 +359,16 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
-
     
-    func getLeaderboardFeed(completion: @escaping (Result<[Post], Error>) -> Void) {
+    func getLeaderboardFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        // Encode the email to ensure it's safe for URLs
+        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
+            return
+        }
+        
         // Construct the URL with the query parameter
-        let feedURL = URL(string: "\(baseURL)/handlers/get_leaderboard_feed")!
+        let feedURL = URL(string: "\(baseURL)/handlers/get_leaderboard_feed?email=\(emailEncoded)")!
         
         var request = URLRequest(url: feedURL)
         request.httpMethod = "GET"
@@ -377,7 +382,7 @@ class APIService: APIServiceProtocol {
                 
                 if let data = data {
                     do {
-                        let posts = try JSONDecoder().decode([Post].self, from: data)
+                        let posts = try JSONDecoder().decode([FeedPost].self, from: data)
                         completion(.success(posts))
                     } catch {
                         completion(.failure(error))
@@ -457,7 +462,7 @@ class APIService: APIServiceProtocol {
     }
 
 
-    func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void) {
+    func getUserFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
         // Encode the email to ensure it's safe for URLs
         guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
@@ -479,7 +484,8 @@ class APIService: APIServiceProtocol {
                 
                 if let data = data {
                     do {
-                        let posts = try JSONDecoder().decode([Post].self, from: data)
+                        let posts = try JSONDecoder().decode([FeedPost].self, from: data)
+                        print(posts)
                         completion(.success(posts))
                     } catch {
                         completion(.failure(error))
@@ -598,9 +604,15 @@ class APIService: APIServiceProtocol {
     }
 
     
-    func getGlobalFeed(completion: @escaping (Result<[Post], Error>) -> Void) {
+    func getGlobalFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        // Encode the email to ensure it's safe for URLs
+        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
+            return
+        }
+        
         // Construct the URL with the query parameter
-        let feedURL = URL(string: "\(baseURL)/handlers/get_global_feed")!
+        let feedURL = URL(string: "\(baseURL)/handlers/get_global_feed?email=\(emailEncoded)")!
         
         var request = URLRequest(url: feedURL)
         request.httpMethod = "GET"
@@ -614,7 +626,7 @@ class APIService: APIServiceProtocol {
                 
                 if let data = data {
                     do {
-                        let posts = try JSONDecoder().decode([Post].self, from: data)
+                        let posts = try JSONDecoder().decode([FeedPost].self, from: data)
                         completion(.success(posts))
                     } catch {
                         completion(.failure(error))
@@ -933,19 +945,19 @@ class MockAPIService: APIServiceProtocol {
         completion(.success(dummyFollowing))
     }
     
-    func getLeaderboardFeed(completion: @escaping (Result<[Post], Error>) -> Void) {
+    func getLeaderboardFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
         // Mocked posts data
-        let mockPosts: [Post] = [
-            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
-            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
-            Post(id: 3, user_id: 3, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
-            Post(id: 4, user_id: 4, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
-            Post(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
-            Post(id: 6, user_id: 6, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
-            Post(id: 7, user_id: 7, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
-            Post(id: 8, user_id: 8, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
-            Post(id: 9, user_id: 9, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
-            Post(id: 10, user_id: 10, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3)
+        let mockPosts: [FeedPost] = [
+            FeedPost(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 3, user_id: 3, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 4, user_id: 4, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 6, user_id: 6, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 7, user_id: 7, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 8, user_id: 8, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 9, user_id: 9, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 10, user_id: 10, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
         ]
 
         
@@ -969,11 +981,11 @@ class MockAPIService: APIServiceProtocol {
         completion(.success(nil))
     }
     
-    func getUserFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void) {
+    func getUserFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
         // Mocked posts data
-        let mockPosts: [Post] = [
-            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
-            Post(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3)
+        let mockPosts: [FeedPost] = [
+            FeedPost(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true),
+            FeedPost(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
         ]
 
         
@@ -1010,11 +1022,11 @@ class MockAPIService: APIServiceProtocol {
         completion(.success(mockSocials))
     }
     
-    func getGlobalFeed(completion: @escaping (Result<[Post], Error>) -> Void) {
+    func getGlobalFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
         // Mocked posts data
-        let mockPosts: [Post] = [
-            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Global feed post 1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
-            Post(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "global feed post 2", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3)
+        let mockPosts: [FeedPost] = [
+            FeedPost(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Global feed post 1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true),
+            FeedPost(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "global feed post 2", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
         ]
 
         

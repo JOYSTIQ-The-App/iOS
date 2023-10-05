@@ -15,7 +15,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     @State private var showDropDown = false
     @State private var showingReportAlert = false
     @State private var selectedFeed: FeedType = .following
-    @State private var posts: [Post] = []
+    @State private var posts: [FeedPost] = []
     @Binding var showCommentSection: Bool
     
     // MARK: - Body
@@ -100,7 +100,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                         postId: post.id,
                         likesCount: post.likes,
                         commentCount: post.comments,
-                        userLiked: post.user_liked ?? false
+                        userLiked: post.user_liked
                     )
                     .environmentObject(user)
                     .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
@@ -135,16 +135,19 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                 handleFetchResult(result)
             }
         case .global:
-            APIService.getGlobalFeed { result in
+            APIService.getGlobalFeed(for: user.email) { result in
                 handleFetchResult(result)
             }
         }
     }
 
-    private func handleFetchResult(_ result: Result<[Post], Error>) {
+    private func handleFetchResult(_ result: Result<[FeedPost], Error>) {
         switch result {
         case .success(let fetchedPosts):
-            posts = fetchedPosts
+            posts = []
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
+                posts = fetchedPosts
+            }
         case .failure(let error):
             print("Error fetching feed: \(error.localizedDescription)")
         }
