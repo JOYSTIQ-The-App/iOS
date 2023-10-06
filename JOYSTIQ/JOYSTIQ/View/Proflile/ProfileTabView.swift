@@ -39,6 +39,8 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     @State private var avatarS3Key: String?
     
     @State private var userSocials: [String: String]?
+    
+    @State private var showComingSoon = false
 
     // MARK: - Body
     var body: some View {
@@ -48,7 +50,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                 if showSocials {
                     socialsModal
                 }
-                if showResume {
+                if showComingSoon {
                     resumeModal
                 }
             }
@@ -59,19 +61,32 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Subviews
     private var mainContent: some View {
         ScrollView(.vertical, showsIndicators: true) {
-            VStack {
+            VStack(spacing: 0) {
                 avatarSection
                 AccoladeBanner()
+                    .padding(.vertical, 10)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                
+                Divider()
+                    .frame(width: UIScreen.main.bounds.width, height: 1)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .padding(.top, 10)
+                
                 userPostsScrollView
-                Spacer().frame(height: 300)
             }
-            .background(
-                LinearGradient(
-                    gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight")]),
-                    startPoint: .bottom,
-                    endPoint: .top
-                )
-            )
+            .background(Color("GradientDark3"))
         }
         .edgesIgnoringSafeArea([.top, .bottom])
         .onAppear {
@@ -105,28 +120,41 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                       postToDelete = nil // Reset the postToDelete when canceled
                   }
             )
-        }
+        }//end main scrollview
+        .background(Color("GradientDark3"))
     }
 
     private var avatarSection: some View {
-        VStack(spacing: 10) {
-            ZStack {
-                avatarBackground
-                avatarImage
+        VStack(spacing: 0) {
+            
+            ZStack(alignment: .bottom) { //to push wardrobe and settings buttons to bottom of avatar frame
+                
+                ZStack(alignment: .center) {
+                    avatarBackground
+                    avatarImage
+                }
+                .shadow(color: Color.black.opacity(0.6), radius: 1, x: 1, y: 1)
+                
+                HStack {
+                    wardrobeButton
+                    Spacer()
+                    settingsButton
+                }
+                .padding(.horizontal)
+                .padding(.bottom, UIScreen.main.bounds.height * 0.03)
+                .shadow(color: Color.black.opacity(0.4), radius: 1, x: 2, y: 2)
             }
             
-            HStack {
-                wardrobeButton
-                Spacer()
-                followersButtons
-                Spacer()
-                settingsButton
-            }
-            .padding(.horizontal)
-            
+            Rectangle()
+                .fill(LinearGradient(
+                    gradient: Gradient(colors: [Color.black, Color.black.opacity(0.01)]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
+                .frame(height: 3)
             
             bioSection
-        }
+        } //end Vstack for avatar environment and bio
     }
 
 
@@ -202,14 +230,17 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     }
     
     private var followersButtons: some View {
-        HStack(spacing: 15) {
+        HStack(spacing: 5) {
             NavigationLink(destination: FollowersListView(APIService: APIService)) {
                 VStack {
                     Text("\(followers)")
                         .font(.headline)
+                        .foregroundColor(Color.white)
                     Text("Followers")
+                        .font(.system(size: 8))
+                        .foregroundColor(Color.white)
                 }
-                .padding()
+                .padding(.all, 10)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
@@ -218,14 +249,16 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                 VStack {
                     Text("\(following)")
                         .font(.headline)
+                        .foregroundColor(Color.white)
                     Text("Following")
+                        .font(.system(size: 8))
+                        .foregroundColor(Color.white)
                 }
-                .padding()
+                .padding(.all, 10)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
         }
-        .padding(.bottom, 10)
     }
     
 
@@ -240,14 +273,22 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                 .font(.system(size: UIScreen.main.bounds.width * 0.035))
                 .foregroundColor(Color("LightGray"))
         }
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
     }
 
     private var socialButtons: some View {
         HStack {
             namePlate
             Spacer()
+            followersButtons
             socialButton(imageName: "network")
-            resumeButton(imageName: "list.bullet.clipboard.fill")
+            //resumeButton(imageName: "list.bullet.clipboard.fill")
         }
         .frame(width: UIScreen.main.bounds.width)
         .padding(.top, 10)
@@ -257,13 +298,13 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
         ZStack {
             Image("NamePlate5")
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
             Text(user.username)
-                .font(.system(size: 18))
+                .font(.system(size: 16))
                 .foregroundColor(Color("LightGray"))
-                .padding(.trailing, 40)
+                .padding(.trailing, UIScreen.main.bounds.width * 0.04)
         }
-        .frame(height: 50)
+        .frame(width: UIScreen.main.bounds.width * 0.35, height: UIScreen.main.bounds.height * 0.05)
         .shadow(color: Color.black, radius: 6, x: 2, y: 4)
         .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
     }
@@ -282,9 +323,10 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
         .padding(.trailing, 10)
     }
     
+    
     private func resumeButton(imageName: String) -> some View {
         Button(action: {
-            showResume.toggle()
+            showComingSoon.toggle()
         }) {
             Image(systemName: imageName)
                 .resizable()
@@ -295,7 +337,8 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
         .buttonStyle(NeumorphicButtonStyle())
         .padding(.trailing, 10)
     }
-
+     
+    
     private var socialsModal: some View {
         ZStack {
             Color.black.opacity(0.6)
@@ -312,62 +355,34 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
             Color.black.opacity(0.6)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture {
-                    showResume = false
+                    showComingSoon = false
                 }
-            ResumeView(resume: resume, showResume: $showResume)
+            ComingSoonView(showComingSoon: $showComingSoon)
         }
     }
     
-    private var refreshButton: some View {
-        Button(action: fetchUserPosts) {
-            HStack {
-                Image(systemName: "arrow.clockwise")
-                    .font(.system(size: 16))
-                Text("Refresh")
-            }
-            
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(Color.green.opacity(0.9))
-            .cornerRadius(8)
-        }
-    }
 
     private var userPostsScrollView: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack(spacing: 16) {
-                refreshButton
-                
-                ForEach(userPosts, id: \.id) { post in
-                    UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
-                        .environmentObject(user)
-                    
-                    HStack {
-                        Button(action: {
-                            self.currentEditingPost = post
-                            self.showEditPostModal = true
-                        }) {
-                            LazyVStack(alignment: .leading, spacing: 0) {
-                                if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                                    PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
-                                } else {
-                                    PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
-                                }
-                            }
-                        }
-                        .padding([.leading, .trailing])
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            deletePostConfirmation(postId: post.id)
-                        }) {
-                            Image(systemName: "trash.fill")
-                                .foregroundColor(.red)
-                        }
-                        .padding(.trailing, 10)
-                    }
 
+        LazyVStack(spacing: 0) {
+            
+            ForEach(userPosts, id: \.id) { post in
+                
+
+                UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
+                    .environmentObject(user)
+                   
+                LazyVStack(alignment: .leading, spacing: 0) {
+                    if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
+                        PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
+                    } else {
+                        PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
+                    }
+                }
+                                  
+                
+                HStack { //for interaction buttons and delete post -- remove report for delete
+                    
                     InteractionButtonMenu(
                         showCommentSection: $showCommentSection,
                         showingReportAlert: $showingReportAlert,
@@ -378,22 +393,30 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                         userLiked: post.user_liked ?? false
                     )
                     .environmentObject(user)
-                    .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
                     
-                    Spacer()
+                    
+                    Button(action: {
+                        deletePostConfirmation(postId: post.id)
+                    }) {
+                        Image(systemName: "trash.fill")
+                            .foregroundColor(.red)
+                    }
+                    .padding(.trailing, 10)
+                    .padding(.bottom, 10)
                 }
+                .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+
+                
+                
+                Spacer()
             }
-            .background(Color("GradientDark3"))
-        }
-        .sheet(isPresented: $showEditPostModal, onDismiss: {
-            self.currentEditingPost = nil
-        }) {
-            EditPostView<APIService>(APIService: APIService, post: $currentEditingPost)
-        }
+            
+        } //end Lazy Vstack
+        .background(Color("GradientDark3"))
+        .padding(.top, 10)
+        
     }
-
-
-    
+  
     // MARK: - Functions
     func fetchAvatarImage(s3Key: String) {
         Task {
