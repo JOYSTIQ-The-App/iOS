@@ -12,34 +12,36 @@
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "us-east-1:eeea2287-0d06-48ae-b080-9508771aeb00",
+                            "PoolId": "us-east-1:6b603908-82f6-4119-9b32-52280f00faad",
                             "Region": "us-east-1"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "us-east-1_IXKWZCDZK",
-                        "AppClientId": "5gntfnldm8sp8nsrk0gi7p5dao",
+                        "PoolId": "us-east-1_h949ysooI",
+                        "AppClientId": "7t99l7vq8msm1es4h0kf41auni",
                         "Region": "us-east-1"
                     }
                 },
                 "Auth": {
                     "Default": {
                         "authenticationFlowType": "USER_SRP_AUTH",
-                        "mfaConfiguration": "OFF",
-                        "mfaTypes": [
-                            "SMS"
+                        "socialProviders": [],
+                        "usernameAttributes": [
+                            "EMAIL"
+                        ],
+                        "signupAttributes": [
+                            "EMAIL"
                         ],
                         "passwordProtectionSettings": {
                             "passwordPolicyMinLength": 8,
                             "passwordPolicyCharacters": []
                         },
-                        "signupAttributes": [
-                            "EMAIL"
+                        "mfaConfiguration": "OFF",
+                        "mfaTypes": [
+                            "SMS"
                         ],
-                        "socialProviders": [],
-                        "usernameAttributes": [],
                         "verificationMechanisms": [
                             "EMAIL"
                         ]
@@ -47,7 +49,7 @@
                 },
                 "S3TransferUtility": {
                     "Default": {
-                        "Bucket": "joystiqd839c802234a428eb45eee5d4378901e222418-dev",
+                        "Bucket": "joystiqd839c802234a428eb45eee5d4378901e144332-alpha",
                         "Region": "us-east-1"
                     }
                 }
@@ -57,7 +59,7 @@
     "storage": {
         "plugins": {
             "awsS3StoragePlugin": {
-                "bucket": "joystiqd839c802234a428eb45eee5d4378901e222418-dev",
+                "bucket": "joystiqd839c802234a428eb45eee5d4378901e144332-alpha",
                 "region": "us-east-1",
                 "defaultAccessLevel": "guest"
             }

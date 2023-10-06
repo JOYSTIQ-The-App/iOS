@@ -1,6 +1,6 @@
 {
   "auth": {
-    "joystiqfbf44177": {
+    "joystiqccd91d73": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -16,7 +16,9 @@
           "EMAIL"
         ],
         "socialProviders": [],
-        "usernameAttributes": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
         "verificationMechanisms": [
           "EMAIL"
         ]
