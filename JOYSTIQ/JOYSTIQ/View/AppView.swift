@@ -24,7 +24,6 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
     
     var body: some View {
             
-            
         VStack(spacing: 0) { //Vstack contain view and nav bar, [create post / comment sheets]
             
             //determine which screen to show

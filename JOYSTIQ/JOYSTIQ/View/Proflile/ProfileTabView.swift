@@ -39,8 +39,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     @State private var avatarS3Key: String?
     
     @State private var userSocials: [String: String]?
-    
-    @State private var showComingSoon = false
 
     // MARK: - Body
     var body: some View {
@@ -50,7 +48,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                 if showSocials {
                     socialsModal
                 }
-                if showComingSoon {
+                if showResume {
                     resumeModal
                 }
             }
@@ -62,12 +60,14 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     private var mainContent: some View {
         ScrollView(.vertical, showsIndicators: true) {
             VStack(spacing: 0) {
+                
                 avatarSection
+                
                 AccoladeBanner()
                     .padding(.vertical, 10)
                     .background(
                         LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
+                            gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
                             startPoint: .top,
                             endPoint: .bottom
                         )
@@ -82,7 +82,18 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                             endPoint: .trailing
                         )
                     )
-                    .padding(.top, 10)
+                
+                
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(height: 5)
+                  
                 
                 userPostsScrollView
             }
@@ -133,7 +144,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                     avatarBackground
                     avatarImage
                 }
-                .shadow(color: Color.black.opacity(0.6), radius: 1, x: 1, y: 1)
+                .shadow(color: Color.black.opacity(0.6), radius: 1, x: -1, y: 1)
                 
                 HStack {
                     wardrobeButton
@@ -142,21 +153,13 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, UIScreen.main.bounds.height * 0.03)
-                .shadow(color: Color.black.opacity(0.4), radius: 1, x: 2, y: 2)
+                .shadow(color: Color.black.opacity(0.4), radius: 1, x: 1, y: 1)
             }
-            
-            Rectangle()
-                .fill(LinearGradient(
-                    gradient: Gradient(colors: [Color.black, Color.black.opacity(0.01)]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                ))
-                .frame(height: 3)
-            
+            .padding(.bottom, 1)
+
             bioSection
         } //end Vstack for avatar environment and bio
     }
-
 
     private var avatarBackground: some View {
         Image(enviroInt == 1 ? "bedroomEnv" : "defaultEnv")
@@ -230,7 +233,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     }
     
     private var followersButtons: some View {
-        HStack(spacing: 5) {
+        HStack(spacing: 10) {
             NavigationLink(destination: FollowersListView(APIService: APIService)) {
                 VStack {
                     Text("\(followers)")
@@ -240,7 +243,8 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                         .font(.system(size: 8))
                         .foregroundColor(Color.white)
                 }
-                .padding(.all, 10)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 15)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
@@ -254,7 +258,8 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                         .font(.system(size: 8))
                         .foregroundColor(Color.white)
                 }
-                .padding(.all, 10)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 15)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
@@ -275,7 +280,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
         }
         .background(
             LinearGradient(
-                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight")]),
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -291,7 +296,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
             //resumeButton(imageName: "list.bullet.clipboard.fill")
         }
         .frame(width: UIScreen.main.bounds.width)
-        .padding(.top, 10)
+        .padding(.top, 8)
     }
 
     private var namePlate: some View {
@@ -320,13 +325,13 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                 .foregroundColor(Color("LightGray"))
         }
         .buttonStyle(NeumorphicButtonStyle())
-        .padding(.trailing, 10)
+        .padding(.horizontal, 5)
     }
     
     
     private func resumeButton(imageName: String) -> some View {
         Button(action: {
-            showComingSoon.toggle()
+            showResume.toggle()
         }) {
             Image(systemName: imageName)
                 .resizable()
@@ -355,9 +360,9 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
             Color.black.opacity(0.6)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture {
-                    showComingSoon = false
+                    showResume = false
                 }
-            ComingSoonView(showComingSoon: $showComingSoon)
+            //Resume View
         }
     }
     
@@ -381,11 +386,10 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                 }
                                   
                 
-                HStack { //for interaction buttons and delete post -- remove report for delete
+                HStack { //for interaction buttons and delete post
                     
-                    InteractionButtonMenu(
+                    SelfInteractionButtonMenu(
                         showCommentSection: $showCommentSection,
-                        showingReportAlert: $showingReportAlert,
                         APIService: APIService,
                         postId: post.id,
                         likesCount: post.likes,
@@ -399,14 +403,22 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                         deletePostConfirmation(postId: post.id)
                     }) {
                         Image(systemName: "trash.fill")
-                            .foregroundColor(.red)
+                            .foregroundColor(Color("LightGray"))
                     }
-                    .padding(.trailing, 10)
+                    .padding(.trailing, 25)
                     .padding(.bottom, 10)
                 }
-                .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                //.overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
 
-                
+                Divider()
+                    .frame(width: UIScreen.main.bounds.width, height: 1)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
                 
                 Spacer()
             }
@@ -444,7 +456,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
             }
         }
     }
-
 
     func fetchUserProfile() {
         APIService.getUserProfile(for: user.username) { result in
