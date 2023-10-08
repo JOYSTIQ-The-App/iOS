@@ -81,6 +81,7 @@
 		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
 		99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DEE2AC21A950011908F /* AvatarNodes */; };
 		99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EA3DF12AC223050011908F /* ComingSoonView.swift */; };
+		99F06F5D2AD33425007F9EE1 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F06F5C2AD33425007F9EE1 /* OtherProfileView.swift */; };
 		99F590E62AB223FE00AD5F8C /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */; };
 		99F590EB2AB230AB00AD5F8C /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */; };
 		99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B7982AB119AC00733B73 /* S3Service.swift */; };
@@ -172,6 +173,7 @@
 		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
 		99EA3DEE2AC21A950011908F /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AvatarNodes; sourceTree = "<group>"; };
 		99EA3DF12AC223050011908F /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
+		99F06F5C2AD33425007F9EE1 /* OtherProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
 		99F590ED2AB627F800AD5F8C /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
 		99F590F42ABA3A1500AD5F8C /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
@@ -303,8 +305,8 @@
 		9941DC382A93F6F000215948 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				9941DC5B2A93F6F000215948 /* HeaderView.swift */,
 				9941DC3C2A93F6F000215948 /* HomeTabView.swift */,
+				9941DC5B2A93F6F000215948 /* HeaderView.swift */,
 				996C9CF62AA50A9A001693BF /* DropDown2.swift */,
 				99C65B2B2AA3C79700FC2188 /* NotificationPanel */,
 				99C65B2A2AA3C75600FC2188 /* CommentSection */,
@@ -326,10 +328,10 @@
 			isa = PBXGroup;
 			children = (
 				9941DC462A93F6F000215948 /* ProfileTabView.swift */,
+				99F06F5C2AD33425007F9EE1 /* OtherProfileView.swift */,
 				99EA3DF02AC222F30011908F /* ButtonViews */,
 				99799EB22ABA7EAB00713F3A /* AvatarViews */,
 				9922BE862AC4E4FF001F4F40 /* ProfileSettings */,
-				9989F6902AB3B12E00A1B6F2 /* Testing */,
 				9941DC472A93F6F000215948 /* AccoladeBanner.swift */,
 				99C4B66A2AC64EDE00AE187D /* EditPostView.swift */,
 				9974A45B2ACB33A400B3B45C /* FollowersListView.swift */,
@@ -358,6 +360,7 @@
 		9941DC582A93F6F000215948 /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				9989F6902AB3B12E00A1B6F2 /* Testing */,
 				9941DC592A93F6F000215948 /* ContentFilter.swift */,
 				9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */,
 			);
@@ -437,8 +440,7 @@
 				997062B22ABB6036005596A3 /* SceneKitView2.swift */,
 				99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */,
 			);
-			name = Testing;
-			path = ../Extras/Testing;
+			path = Testing;
 			sourceTree = "<group>";
 		};
 		99C65B292AA3C72100FC2188 /* PostViews */ = {
@@ -669,6 +671,7 @@
 				99E235352AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift in Sources */,
 				9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */,
 				99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */,
+				99F06F5D2AD33425007F9EE1 /* OtherProfileView.swift in Sources */,
 				9980BB022ACDFF9100A2B089 /* PostFeed.swift in Sources */,
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
 				9974A45C2ACB33A400B3B45C /* FollowersListView.swift in Sources */,
