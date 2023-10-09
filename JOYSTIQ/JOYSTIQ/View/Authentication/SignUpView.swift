@@ -13,7 +13,6 @@ struct SignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View
     //handles logged state
     @EnvironmentObject var authService: AuthServiceType
     
-    @State private var username: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var confirmpassword: String = ""
@@ -38,22 +37,6 @@ struct SignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View
                     
                     
                     VStack(alignment: .center) { //VStack for entries and sign up button
-                        
-                        //USERNAME
-                        TextField(
-                            "",
-                            text: $username
-                        )
-                        .placeholder(when: username.isEmpty) {
-                            Text("Username").foregroundColor(.white).opacity(0.4)
-                        }
-                        .padding(.all, 15.0)
-                        .foregroundColor(.white)
-                        .background(Color("LightGray").opacity(0.4))
-                        .border(Color(UIColor.separator))
-                        .cornerRadius(10)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
                         
                         //EMAIL
                         TextField (
@@ -118,7 +101,7 @@ struct SignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View
                             Task {
                                 if password == confirmpassword {
                                     // Attempt to sign up
-                                    authService.isSignedUp = await authService.signUp(username: username, email: email, password: password)
+                                    authService.isSignedUp = await authService.signUp(email: email, password: password)
                                     
                                     // Check if sign-up was successful and then toggle navigation
                                     if authService.isSignedUp {
@@ -182,7 +165,7 @@ struct SignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View
             
             else { //Bool navToConfirm is true
                 
-                ConfirmSignUpView<AuthService>(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp)
+                ConfirmSignUpView<AuthService>(email: email, navigateToConfirmSignUp: $navigateToConfirmSignUp)
                     .environmentObject(authService)
                             
    

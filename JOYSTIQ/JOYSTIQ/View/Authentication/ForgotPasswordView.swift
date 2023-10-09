@@ -42,7 +42,7 @@ struct ForgotPasswordView<AuthServiceType: AuthServiceProtocol & ObservableObjec
                             text: $username
                         )
                         .placeholder(when: username.isEmpty) {
-                            Text("Username").foregroundColor(.white).opacity(0.4)
+                            Text("Email").foregroundColor(.white).opacity(0.4)
                         }
                         .padding(.all, 15.0)
                         .foregroundColor(.white)

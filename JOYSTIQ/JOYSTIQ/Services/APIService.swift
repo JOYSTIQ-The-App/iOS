@@ -10,16 +10,17 @@ import Amplify
 import AWSS3StoragePlugin
 
 protocol APIServiceProtocol {
+    func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void)
     func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void)
-    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void)
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
+    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void)
     func deleteLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     func deletePost(email: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     func deleteUserSocial(username: String, socialType: String, completion: @escaping (Result<Void, Error>) -> Void)
     func getFollowersList(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
     func getFollowingList(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
-    func getLeaderboardFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
     func getGlobalFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
+    func getLeaderboardFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
     func getPostComments(for postId: Int, completion: @escaping (Result<[Comment], Error>) -> Void)
     func getUserAvatar(username: String, completion: @escaping (Result<String?, Error>) -> Void)
     func getUserFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
@@ -37,6 +38,37 @@ protocol APIServiceProtocol {
 
 class APIService: APIServiceProtocol {
     let baseURL = "http://127.0.0.1:8080"
+    
+    func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidUsername", code: 400, userInfo: nil)))
+            return
+        }
+
+        let checkURL = URL(string: "\(baseURL)/handlers/check_username_availability?username=\(usernameEncoded)")!
+
+        var request = URLRequest(url: checkURL)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+
+                if let data = data {
+                    do {
+                        let availabilityResponse = try JSONDecoder().decode(UsernameAvailabilityResponse.self, from: data)
+                        completion(.success(availabilityResponse.availability))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
     
     func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void) {
         guard let commentURL = URL(string: "\(baseURL)/handlers/create_comment") else {
@@ -85,89 +117,6 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
-
-    
-    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let postURL = URL(string: "\(baseURL)/handlers/create_post?email=\(email)") else {
-            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
-            return
-        }
-        
-        var request = URLRequest(url: postURL)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        do {
-            let jsonData = try JSONEncoder().encode(postData)
-            request.httpBody = jsonData
-        } catch {
-            completion(.failure(error))
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-                    let message = "Server returned status code: \(httpResponse.statusCode)"
-                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
-                    return
-                }
-                
-                completion(.success(()))
-            }
-        }
-        task.resume()
-    }
-    
-//    func createUser(email: String, username: String, completion: @escaping (Result<Comment, Error>) -> Void) {
-//        // Encode the email to ensure it's safe for URLs
-//        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-//            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
-//            return
-//        }
-//
-//        guard let commentURL = URL(string: "\(baseURL)/handlers/create_user") else {
-//            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
-//            return
-//        }
-//        
-//        var request = URLRequest(url: commentURL)
-//        request.httpMethod = "POST"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let userData = UserData(email: email, username: username)
-//
-//        do {
-//            let jsonData = try JSONEncoder().encode(userData)
-//            request.httpBody = jsonData
-//        } catch {
-//            completion(.failure(error))
-//            return
-//        }
-//
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//            DispatchQueue.main.async {
-//                if let error = error {
-//                    completion(.failure(error))
-//                    return
-//                }
-//
-//                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-//                    let message = "Server returned status code: \(httpResponse.statusCode)"
-//                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
-//                    return
-//                }
-//
-//                completion(.success(()))
-//            }
-//        }
-//        task.resume()
-//    }
     
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let encodedUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
@@ -198,6 +147,123 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
+
+    
+    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let postURL = URL(string: "\(baseURL)/handlers/create_post?email=\(email)") else {
+            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+            return
+        }
+        
+        var request = URLRequest(url: postURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let jsonData = try JSONEncoder().encode(postData)
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let serverResponse = try JSONDecoder().decode(ServerResponse.self, from: data)
+                        print(serverResponse.message)  // Logging the message
+                    } catch {
+                        print("Error decoding server message: \(error)")
+                    }
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                    let message = "Server returned status code: \(httpResponse.statusCode)"
+                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+                    return
+                }
+                
+                completion(.success(()))
+            }
+        }
+        task.resume()
+    }
+
+    
+    func createUser(email: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        createUniqueUsername { result in
+            switch result {
+            case .success(let username):
+                
+                guard let commentURL = URL(string: "\(self.baseURL)/handlers/create_user") else {
+                    completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+                    return
+                }
+                
+                var request = URLRequest(url: commentURL)
+                request.httpMethod = "POST"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+                let userData = CreateUserPayload(email: email, username: username, role: "gamer", account: "public")
+
+                do {
+                    let jsonData = try JSONEncoder().encode(userData)
+                    request.httpBody = jsonData
+                } catch {
+                    completion(.failure(error))
+                    return
+                }
+
+                let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            completion(.failure(error))
+                            return
+                        }
+
+                        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                            let message = "Server returned status code: \(httpResponse.statusCode)"
+                            completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+                            return
+                        }
+
+                        completion(.success(()))
+                    }
+                }
+                task.resume()
+
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // Function to create a unique username
+    func createUniqueUsername(completion: @escaping (Result<String, Error>) -> Void) {
+        let randomSuffix = String(Int.random(in: 100000..<999999))  // Generates a random six-digit number
+        let username = "Newbie#\(randomSuffix)"
+        
+        checkUsernameAvailability(username: username) { result in
+            switch result {
+            case .success(let available):
+                if available {
+                    completion(.success(username))
+                } else {
+                    self.createUniqueUsername(completion: completion) // Recursively call the function if the username isn't unique
+                }
+            case .failure(let error):
+                print("Error checking username availability: \(error)")
+            }
+        }
+    }
+    
+    
     
     func deleteLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let encodedUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
@@ -485,7 +551,6 @@ class APIService: APIServiceProtocol {
                 if let data = data {
                     do {
                         let posts = try JSONDecoder().decode([FeedPost].self, from: data)
-                        print(posts)
                         completion(.success(posts))
                     } catch {
                         completion(.failure(error))
@@ -675,6 +740,37 @@ class APIService: APIServiceProtocol {
                     do {
                         let username = try JSONDecoder().decode(String.self, from: data)
                         completion(.success(username))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func isEmailRegistered(email: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
+            return
+        }
+
+        let checkURL = URL(string: "\(baseURL)/handlers/is_email_registered?email=\(emailEncoded)")!
+
+        var request = URLRequest(url: checkURL)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+
+                if let data = data {
+                    do {
+                        let registrationResponse = try JSONDecoder().decode(EmailRegisteredResponse.self, from: data)
+                        completion(.success(registrationResponse.isRegistered))
                     } catch {
                         completion(.failure(error))
                     }
@@ -900,6 +996,17 @@ class APIService: APIServiceProtocol {
 
 
 class MockAPIService: APIServiceProtocol {
+    func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        print(username)
+        if username == "Test" {
+            print("Equal")
+            completion(.success(false))
+            return
+        }
+        
+        completion(.success(true))
+    }
+    
     func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void) {
             DispatchQueue.main.async {
                 let mockComment = Comment(id: 4,

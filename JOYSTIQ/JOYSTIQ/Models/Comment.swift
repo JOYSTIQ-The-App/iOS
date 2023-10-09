@@ -15,3 +15,10 @@ struct Comment: Codable, Identifiable {
     var created_at: String
     var updated_at: String
 }
+
+struct CommentData: Codable {
+    let post_id: Int
+    let username: String
+    let text: String
+}
+
