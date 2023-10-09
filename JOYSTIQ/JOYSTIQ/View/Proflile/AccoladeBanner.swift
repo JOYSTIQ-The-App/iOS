@@ -10,6 +10,7 @@ import SwiftUI
 struct AccoladeBanner: View {
     
     @State private var mode = "game_only" //game only as default, other options are accolade_only and game_and_accolade
+    @State private var gameMode = true
     
     let icons = ["Logo1", "TrophyGold", "Logo5", "MedalGold", "Logo4", "MedalSilver", "Logo3","Logo7", "Logo6"]
     
@@ -17,7 +18,7 @@ struct AccoladeBanner: View {
     
     let gamesArr = ["Logo5", "Logo1", "Logo7", "Logo6", "Logo2", "Logo4", "Logo3"]
     
-    
+    /*
     var body: some View {
         
         ZStack { //start Zstack for banner image and scroll view
@@ -113,55 +114,11 @@ struct AccoladeBanner: View {
                     
                     HStack(spacing: 0) { //Main HStack, filter + games + accolades
                         
-                        
-                    
+
                         //print each game + accolade
                         switch mode{
                           
-                        /*
-                        case "game_and_accoldae":
-                            
-                            HStack(spacing: 20) {
-                                
-                                Image("Logo1")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                                    .cornerRadius(15)
-                                    .padding()
-                                
-                                Image("TrophyGold")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                                
-                                Image("Logo5")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(15)
-                                    .padding()
-                                
-                                Image("MedalBronze")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                
-                                Image("Logo4")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(15)
-                                    .padding()
-                                
-                                Image("TrophyBronze")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 80)
-                                
-                            }
-                            .padding(.horizontal, 30)
-                        */
+                  
                             
                         case "game_only":
                             
@@ -261,6 +218,45 @@ struct AccoladeBanner: View {
    
         
     } //end body
+     */
+    
+    var body: some View {
+        
+            HStack {
+                
+          
+                Image("AccBannerAtt3") // Replace "yourImageName" with the actual name of your image asset
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.height * 0.07)
+                    .shadow(color: Color.black, radius: 3, x: -4, y: 4)
+                
+                
+                
+                Spacer()
+                
+                Button(action: {
+                    
+                    gameMode.toggle()
+                    
+                }) {
+                  
+                    Image(systemName: gameMode ? "gamecontroller.fill" : "medal.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06)
+                        .foregroundColor(Color("LightGray"))
+                   
+                }
+                .padding(.trailing, 10)
+                .buttonStyle(NeumorphicRectangleButtonStyle())
+                
+                
+            
+            } //end HStack for acc banner and button
+
+    }
+
 }
 
 

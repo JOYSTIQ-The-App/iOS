@@ -269,6 +269,8 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     private var bioSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             socialButtons
+            
+            /*
             Text(bio)
                 .padding(.all, 13)
                 .background(Color("Black0").opacity(0.3))
@@ -276,7 +278,9 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
                 .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .topLeading)
                 .font(.system(size: UIScreen.main.bounds.width * 0.035))
                 .foregroundColor(Color("LightGray"))
-        }
+             */
+             
+         }
         .background(
             LinearGradient(
                 gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight"), Color("GradientLight")]),
