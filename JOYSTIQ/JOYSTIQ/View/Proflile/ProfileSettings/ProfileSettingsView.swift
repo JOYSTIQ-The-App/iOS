@@ -81,7 +81,7 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol>: View {
             
 
             Section(header: Text("Profile")) {
-                NavigationLink(destination: ChangeUsernameView()) {
+                NavigationLink(destination: EditUsernameView(APIService: APIService)) {
                     Text("Change Username")
                 }
                 
@@ -108,12 +108,6 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol>: View {
             hideNavBar = true
         } //end list
         .preferredColorScheme(.dark) // Force dark mode
-    }
-}
-
-struct ChangeUsernameView: View {
-    var body: some View {
-        Text("Change Username View")
     }
 }
 

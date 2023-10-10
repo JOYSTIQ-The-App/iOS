@@ -13,3 +13,11 @@ struct Profile: Codable {
     var followers: Int
     var following: Int
 }
+
+struct FollowersResponse: Decodable {
+    let followers: [String]
+}
+
+struct FollowingResponse: Decodable {
+    let following: [String]
+}
