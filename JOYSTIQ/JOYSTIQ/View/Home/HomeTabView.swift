@@ -18,6 +18,9 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     @State private var posts: [FeedPost] = []
     @Binding var showCommentSection: Bool
     
+    @State private var lastSeenCreatedAt: String? = nil
+    @State private var showLoadMoreButton = false
+    
     // MARK: - Body
     var body: some View {
         NavigationView {
@@ -54,6 +57,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         .padding()
         .onChange(of: selectedFeed) { _ in
             posts = [] // Clear the current posts
+            showLoadMoreButton = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
                 fetchPosts()
             }
@@ -75,7 +79,20 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         }
         .padding(.top, 10)
     }
-
+    
+    private var loadMoreButton: some View {
+        Group {
+            if showLoadMoreButton {
+                Button("Load More") {
+                    fetchMorePosts()
+                }
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+            }
+        }
+    }
     
     private var feedView: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -107,6 +124,8 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
 
                     Spacer()
                 }
+                
+                loadMoreButton
             }
             .background(Color("GradientDark3"))
         }
@@ -129,14 +148,33 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     
     // MARK: - Funtions
     private func fetchPosts() {
+        lastSeenCreatedAt = nil
+        
         switch selectedFeed {
         case .following:
-            APIService.getUserFeed(for: user.email) { result in
+            APIService.getUserFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchResult(result)
             }
         case .global:
-            APIService.getGlobalFeed(for: user.email) { result in
+            APIService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchResult(result)
+            }
+        }
+    }
+    
+    private func fetchMorePosts() {
+        if let lastPost = posts.last {
+            lastSeenCreatedAt = lastPost.created_at
+        }
+        
+        switch selectedFeed {
+        case .following:
+            APIService.getUserFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
+                handleFetchMoreResult(result)
+            }
+        case .global:
+            APIService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
+                handleFetchMoreResult(result)
             }
         }
     }
@@ -147,11 +185,38 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
             posts = []
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
                 posts = fetchedPosts
+                
+                if fetchedPosts.count < 10 {
+                    showLoadMoreButton = false
+                } else {
+                    showLoadMoreButton = true
+                }
             }
         case .failure(let error):
             print("Error fetching feed: \(error.localizedDescription)")
         }
     }
+    
+    private func handleFetchMoreResult(_ result: Result<[FeedPost], Error>) {
+        switch result {
+        case .success(let fetchedPosts):
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                posts.append(contentsOf: fetchedPosts.filter { newPost in
+                    !posts.contains(where: { existingPost in
+                        existingPost.id == newPost.id
+                    })
+                })
+                
+                if fetchedPosts.count < 10 {
+                    showLoadMoreButton = false
+                }
+                
+            }
+        case .failure(let error):
+            print("Error fetching more feed: \(error.localizedDescription)")
+        }
+    }
+
 
     private func refreshPosts() {
         fetchPosts()
