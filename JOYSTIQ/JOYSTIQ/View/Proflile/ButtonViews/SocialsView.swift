@@ -15,59 +15,88 @@ struct SocialsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            
             VStack {
-                Image(systemName: "person.3.fill")
+                
+                Image("socials")
                     .resizable()
-                    .scaledToFit()
-                    .frame(width: 25, height: 25)
-                    .foregroundColor(Color("LightGray"))
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width , height: 20)
+                    //.padding(.bottom, 20)
+                
+                Divider()
+                    .frame(width: UIScreen.main.bounds.width * 0.5, height: 1)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight"), Color("GradientDark")]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .padding(.bottom, 10)
+                
+                
                 
                 if let socials = userSocials, !socials.isEmpty {
                     ForEach(socials.keys.sorted(), id: \.self) { key in
+                        
                         HStack {
-                            Text(key.capitalized)
-                                .font(.system(size: UIScreen.main.bounds.width * 0.04))
+                            
+                            Image(key + "Logo")
+                                .resizable()
+                                .frame(width: 35, height: 35)
                                 .foregroundColor(Color("LightGray"))
-                                .padding(.trailing, 10)
+                                .cornerRadius(5)
+                            
                             
                             Text(socials[key] ?? "")
                                 .font(.system(size: UIScreen.main.bounds.width * 0.04))
                                 .foregroundColor(Color("LightGray"))
-                        }
-                    }
-                } else {
+                            
+                            Spacer()
+                            
+                        } //end Socials HStack
+                        .frame(width: UIScreen.main.bounds.width * 0.4)
+                    }//end for each
+                }
+                
+                else {
                     Text("No socials available.")
                         .foregroundColor(Color("LightGray"))
                 }
             }
-            .padding(.top, 20)
-            .padding(.bottom, 20)
-            
-            Spacer()
+            .padding(.top, 15)
             
             Button(action: {
                 showSocials.toggle()
             }, label: {
+                
                 Text("Close")
-                    .foregroundColor(.white.opacity(0.8))
-                    .frame(width: UIScreen.main.bounds.width * 0.20, height: 40)
-                    .background(.gray.opacity(0.8))
-                    .cornerRadius(10)
+                    .foregroundColor(.white)
+                    .frame(width: UIScreen.main.bounds.width * 0.2, height: 35)
+                    .background(LinearGradient(
+                        gradient: Gradient(colors: [Color.red, Color(red: 0.9, green: 0.3, blue: 0)]),
+                                    startPoint: .topTrailing,
+                                    endPoint: .bottomLeading
+                    ).opacity(0.9))
+                    .cornerRadius(30)
             })
-            .contentShape(Rectangle())
-            .padding(.bottom, 20)
+            .contentShape(Rectangle()) // This makes the entire frame tappable
+            .padding(.vertical, 20)
+
         }
-        .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.3)
-        .background(.black)
+        .frame(width: UIScreen.main.bounds.width * 0.6)
+        .frame(minHeight: UIScreen.main.bounds.height * 0.2)
+        .background(Color("GradientDark"))
         .cornerRadius(10)
-        .shadow(color: Color.green.opacity(0.5), radius: 5, x: 2, y: 2)
-        .shadow(color: Color.green.opacity(0.5), radius: 5, x: -2, y: -2)
+        .shadow(color: Color("GradientLight").opacity(0.7), radius: 4, x: 2, y: 2)
+        .shadow(color: Color("GradientLight").opacity(0.7), radius: 4, x: -2, y: -2)
         .padding(.bottom, UIScreen.main.bounds.height * 0.2)
     }
 }
 
 struct SocialsView_Previews: PreviewProvider {
-    static let mockSocials: [String: String]? = ["discord": "Joystiq_dev", "twitch": "Joystiq_live", "xbox": "Joystiq_Xbox"]
+    static let mockSocials: [String: String]? = ["discord": "Joystiq_dev", "twitch": "Joystiq_live", "xbox": "Joystiq_Xbox", "kick": "cotts", "playstation": "cotts", "youtube": "NormalName"]
     static let nilSocials: [String: String]? = nil
 
     static var previews: some View {
