@@ -10,12 +10,15 @@ import SwiftUI
 struct HeaderView: View {
     
     @Binding var showDropDown: Bool
+    var onRefreshPress: () -> Void
+
     
     var body: some View {
         
         HStack(spacing: 0) {  //HStack for Header (noti bell - Logo - Messenger)
             
 
+            /*
             NavigationLink(destination: NotificationTabView().navigationBarTitleDisplayMode(.inline)
                            
                //custom nav title view with image
@@ -36,6 +39,15 @@ struct HeaderView: View {
                     
                     
                 }
+             */
+            
+            
+            Image(systemName: "bell.fill")
+                .resizable()
+                //.frame(width: 22, height: 22)
+                .frame(width: 30, height: 30)
+                .padding(.leading, 20)
+                .foregroundColor(Color.clear)
       
             
             Spacer()
@@ -59,11 +71,23 @@ struct HeaderView: View {
             Spacer()
             
             //MESSENGER
+            /*
             Button(action: {}) {
                 Image(systemName: "tray.full.fill")
                     .resizable()
                     .frame(width: 22, height: 22)
                     .foregroundColor(Color.clear)
+                    .padding(.trailing, 20)
+                
+            }
+             */
+            
+            //Refresh
+            Button(action: {self.onRefreshPress()}) {
+                Image(systemName: "arrow.clockwise.circle")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(Color("LightGray"))
                     .padding(.trailing, 20)
                 
             }
@@ -95,6 +119,6 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(showDropDown: .constant(false))
+        HeaderView(showDropDown: .constant(false), onRefreshPress: {})
     }
 }

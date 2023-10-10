@@ -1207,7 +1207,7 @@ class MockAPIService: APIServiceProtocol {
     func getUserProfile(for username: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         print("Mock: getUserProfile()")
         // Mocked profile data
-        let mockProfile = Profile(bio: "Bio for development", resume: "Resume for develpoment", followers: 12, following: 8)
+        let mockProfile = Profile(bio: "a a a a a a a a a a", resume: "Resume for develpoment", followers: 12, following: 8)
 
         // Immediately call the completion with the mock data
         completion(.success(mockProfile))
