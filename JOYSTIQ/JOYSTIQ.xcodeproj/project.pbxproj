@@ -61,7 +61,7 @@
 		9974A4662ACB715E00B3B45C /* EditBioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4652ACB715E00B3B45C /* EditBioView.swift */; };
 		9974A46A2ACB9A1C00B3B45C /* SocialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4692ACB9A1C00B3B45C /* SocialsView.swift */; };
 		9974A46B2ACBA5D600B3B45C /* EditSocialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4672ACB71A500B3B45C /* EditSocialsView.swift */; };
-		9980BB052AD0A19C00A2B089 /* UsernameCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9980BB042AD0A19C00A2B089 /* UsernameCreationView.swift */; };
+		9980BB052AD0A19C00A2B089 /* EditUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9980BB042AD0A19C00A2B089 /* EditUsernameView.swift */; };
 		9980BB072AD479D800A2B089 /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9980BB062AD479D800A2B089 /* ServerResponse.swift */; };
 		9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */; };
 		9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */; };
@@ -147,7 +147,7 @@
 		9974A4652ACB715E00B3B45C /* EditBioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioView.swift; sourceTree = "<group>"; };
 		9974A4672ACB71A500B3B45C /* EditSocialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSocialsView.swift; sourceTree = "<group>"; };
 		9974A4692ACB9A1C00B3B45C /* SocialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialsView.swift; sourceTree = "<group>"; };
-		9980BB042AD0A19C00A2B089 /* UsernameCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameCreationView.swift; sourceTree = "<group>"; };
+		9980BB042AD0A19C00A2B089 /* EditUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameView.swift; sourceTree = "<group>"; };
 		9980BB062AD479D800A2B089 /* ServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
 		9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicButtons.swift; sourceTree = "<group>"; };
 		9989F6912AB3B1DC00A1B6F2 /* WardrobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WardrobeView.swift; sourceTree = "<group>"; };
@@ -209,6 +209,7 @@
 				9974A4632ACB70B300B3B45C /* EditResumeView.swift */,
 				9974A4652ACB715E00B3B45C /* EditBioView.swift */,
 				9974A4672ACB71A500B3B45C /* EditSocialsView.swift */,
+				9980BB042AD0A19C00A2B089 /* EditUsernameView.swift */,
 			);
 			path = ProfileSettings;
 			sourceTree = "<group>";
@@ -263,7 +264,6 @@
 			children = (
 				9941DC402A93F6F000215948 /* AppView.swift */,
 				995085E62A95A7F4003996B6 /* Authentication */,
-				9980BB032AD09AFF00A2B089 /* Onboarding */,
 				9941DC382A93F6F000215948 /* Home */,
 				9941DC412A93F6F000215948 /* Leaderboard */,
 				9941DC442A93F6F000215948 /* Proflile */,
@@ -403,14 +403,6 @@
 				997062D02ABB827F005596A3 /* WardrobeViews */,
 			);
 			path = AvatarViews;
-			sourceTree = "<group>";
-		};
-		9980BB032AD09AFF00A2B089 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				9980BB042AD0A19C00A2B089 /* UsernameCreationView.swift */,
-			);
-			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		9989F6902AB3B12E00A1B6F2 /* Testing */ = {
@@ -633,7 +625,7 @@
 				9974A45C2ACB33A400B3B45C /* FollowersListView.swift in Sources */,
 				99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */,
 				99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */,
-				9980BB052AD0A19C00A2B089 /* UsernameCreationView.swift in Sources */,
+				9980BB052AD0A19C00A2B089 /* EditUsernameView.swift in Sources */,
 				9922BE852AC4CCDD001F4F40 /* ResumeView.swift in Sources */,
 				99F590F82ABA3A7C00AD5F8C /* Post.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,

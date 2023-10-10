@@ -29,6 +29,7 @@ protocol APIServiceProtocol {
     func getUserSocials(for username: String, completion: @escaping (Result<[String: String]?, Error>) -> Void)
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void)
     func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
+    func updateUsername(email: String, newUsername: String, completion: @escaping (Result<Void, Error>) -> Void)
     func updateUserAvatar(username: String, oldS3Key: String?, newS3Key: String, completion: @escaping (Result<Void, Error>) -> Void)
     func updateUserPost(email: String, postId: Int, bodyText: String, completion: @escaping (Result<Void, Error>) -> Void)
     func updateUserProfile(username: String, bio: String?, resume: String?, completion: @escaping (Result<Void, Error>) -> Void)
@@ -813,6 +814,45 @@ class APIService: APIServiceProtocol {
         task.resume()
     }
     
+    func updateUsername(email: String, newUsername: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        // Construct the URL for updating the username
+        let updateURL = URL(string: "\(baseURL)/handlers/update_username")!
+        
+        var request = URLRequest(url: updateURL)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Create the request body
+        let requestBody: [String: Any] = [
+            "email": email,
+            "new_username": newUsername
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    completion(.success(()))
+                } else {
+                    let error = NSError(domain: "NetworkError", code: (response as? HTTPURLResponse)?.statusCode ?? 500, userInfo: [NSLocalizedDescriptionKey: "Failed to update username"])
+                    completion(.failure(error))
+                }
+            }
+        }
+        task.resume()
+    }
+    
     func updateUserAvatar(username: String, oldS3Key: String?, newS3Key: String, completion: @escaping (Result<Void, Error>) -> Void) {
         // Construct the URL for updating the user avatar
         let updateURL = URL(string: "\(baseURL)/handlers/update_user_avatar")!
@@ -997,9 +1037,7 @@ class APIService: APIServiceProtocol {
 
 class MockAPIService: APIServiceProtocol {
     func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
-        print(username)
         if username == "Test" {
-            print("Equal")
             completion(.success(false))
             return
         }
@@ -1156,6 +1194,10 @@ class MockAPIService: APIServiceProtocol {
             
             completion(.success(filteredUsernames))
         }
+    }
+    
+    func updateUsername(email: String, newUsername: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        completion(.success(()))
     }
     
     func updateUserAvatar(username: String, oldS3Key: String?, newS3Key: String, completion: @escaping (Result<Void, Error>) -> Void) {
