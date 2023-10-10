@@ -25,6 +25,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     //@State private var resume: String = ""
     @State private var followers: Int = 0
     @State private var following: Int = 0
+    @State private var isFollowingUser = false //might have to change to binding bool?
     
     @State private var userPosts: [Post] = []
     
@@ -61,7 +62,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 avatarSection
                 
                 AccoladeBanner()
-                    .padding(.vertical, 10)
+                    .padding(.bottom, 10)
                     .background(
                         LinearGradient(
                             gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
@@ -214,33 +215,35 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                     .padding(.all, 13)
                     .background(Color("Black0").opacity(0.3))
                     .cornerRadius(15, corners: [.topRight, .bottomRight])
-                    .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .topLeading)
+                    .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.4, alignment: .topLeading)
                     .font(.system(size: UIScreen.main.bounds.width * 0.035))
                     .foregroundColor(Color("LightGray"))
                 
                 Spacer()
                 
+                
                 //Login button
                 Button(action: {
-                    //follow user
+                    //follow or unfollow user, increment/decrement users follow count
+                    isFollowingUser.toggle()
+                    
                 }, label: {
-                    Text("Follow")
+                    
+                    Text(isFollowingUser ? "Unfollow" : "Follow")
                         .foregroundColor(.white)
-                        .frame(width: UIScreen.main.bounds.width * 0.2, height: 35)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
-                                startPoint: .topTrailing,
-                                endPoint: .bottomLeading
-                            )
-                        )
-                        .cornerRadius(30)
+                        .font(.system(size: UIScreen.main.bounds.width * 0.035))
+                        .frame(width: UIScreen.main.bounds.width * 0.15, height: 20)
+                        
                 })
-                .contentShape(Rectangle()) // This makes the entire frame tappable
-                //.padding()
+                .buttonStyle(NeumorphicRectangleButtonStyle())
+                .padding(.trailing, 10)
+                .offset(y: UIScreen.main.bounds.height * 0.013)
+
+                 
+                
                 
             } //end Htack for bio and follow button
-            
+            .padding(.bottom, UIScreen.main.bounds.height * 0.022)
             
         }
         .background(

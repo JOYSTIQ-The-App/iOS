@@ -270,15 +270,15 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
         VStack(alignment: .leading, spacing: 0) {
             socialButtons
             
-            /*
+            
             Text(bio)
                 .padding(.all, 13)
                 .background(Color("Black0").opacity(0.3))
                 .cornerRadius(15, corners: [.topRight, .bottomRight])
-                .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .topLeading)
-                .font(.system(size: UIScreen.main.bounds.width * 0.035))
+                .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.4, alignment: .topLeading)
+                .font(.system(size: UIScreen.main.bounds.width * 0.03))
                 .foregroundColor(Color("LightGray"))
-             */
+             
              
          }
         .background(
