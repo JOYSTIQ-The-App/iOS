@@ -32,8 +32,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Subviews
     private var mainContent: some View {
         VStack(spacing: 0) {
-            HeaderView(showDropDown: $showDropDown)
-            refreshButton
+            HeaderView(showDropDown: $showDropDown, onRefreshPress: {refreshPosts()})
             feedTypePicker
             feedView
         }
@@ -61,20 +60,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
 
     }
 
-    
-    private var refreshButton: some View {
-        Button(action: {
-            refreshPosts()
-        }) {
-            Text("Refresh")
-                .foregroundColor(.white)
-                .padding(.horizontal, 20)
-                .padding(.vertical, 10)
-                .background(Color.green)
-                .cornerRadius(20)
-        }
-        .padding(.top, 10)
-    }
+
 
     
     private var feedView: some View {
@@ -103,8 +89,18 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                         userLiked: post.user_liked
                     )
                     .environmentObject(user)
-                    .overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                    //.overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
 
+                    Divider()
+                        .frame(width: UIScreen.main.bounds.width, height: 1)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                    
                     Spacer()
                 }
             }

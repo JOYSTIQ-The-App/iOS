@@ -98,8 +98,8 @@ struct NeumorphicRectangleButtonStyle: ButtonStyle {
                             )
                     } else {
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color("GradientLight"))
-                            .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
+                            .fill(Color("GradientLight").opacity(0.8))
+                            .shadow(color: Color.black, radius: 2, x: 2, y: 2)
                             .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
                     }
                 }

@@ -22,23 +22,7 @@ struct ComingSoonView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 20)
             
-            
-            HStack {
-                
-                Image(systemName: "network")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 25, height: 25)
-                    .foregroundColor(Color("LightGray"))
-                
-                Text("Share your other socials!")
-                    .font(.system(size: UIScreen.main.bounds.width * 0.045))
-                    .foregroundColor(Color("LightGray"))
-                
-            }
-            .padding(.top, UIScreen.main.bounds.height * 0.01)
-            .padding(.bottom, 20)
-            
+
             HStack {
                 
                 Image(systemName: "list.bullet.clipboard.fill")
@@ -74,7 +58,7 @@ struct ComingSoonView: View {
             
             
         } //END main vstack container
-        .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.3)
+        .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.25)
         .background(.black)
         .cornerRadius(10)
         .shadow(color: Color.green.opacity(0.5), radius: 5, x: 2, y: 2)

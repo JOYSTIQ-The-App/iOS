@@ -41,6 +41,7 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol>: View {
                     
                 }
                 
+                /*
                 NavigationLink(destination: EditResumeView(APIService: APIService)) {
                     
                     HStack { //hstack for resume setting
@@ -57,6 +58,7 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol>: View {
                     } //end hstack for resume setting
                     
                 }
+                */
                 
                 NavigationLink(destination: EditSocialsView(APIService: APIService)) {
                     

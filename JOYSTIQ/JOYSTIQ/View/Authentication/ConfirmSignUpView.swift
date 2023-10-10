@@ -52,7 +52,7 @@ struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject
                    
                     HStack(spacing: 20) { //for cancel and confirm buttons
                         
-                        //Cancel button
+                        //Resend button
                         Button(action: {
                             
                             Task {
@@ -73,7 +73,7 @@ struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject
                         })
                         .contentShape(Rectangle()) // This makes the entire frame tappable
                         .padding(.vertical, 20)
-                        //END cancel code button
+                        //END resend code button
                         
 
                         
