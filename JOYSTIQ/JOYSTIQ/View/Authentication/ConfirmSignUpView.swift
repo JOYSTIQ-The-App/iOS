@@ -13,7 +13,7 @@ struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject
     //handles logged state
     @EnvironmentObject var authService: AuthServiceType
     
-    let username: String
+    let email: String
     @State private var confirmationCode: String = ""
     @State private var navigateToNextView = false
     
@@ -56,7 +56,7 @@ struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject
                         Button(action: {
                             
                             Task {
-                                await authService.resendConfirmationCode(for: username)
+                                await authService.resendConfirmationCode(for: email)
                             }
                             
                         }, label: {
@@ -81,7 +81,7 @@ struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject
                         Button(action: {
                             
                             Task {
-                                authService.isConfirmed = await authService.confirmSignUp(for: username, with: confirmationCode)
+                                authService.isConfirmed = await authService.confirmSignUp(for: email, with: confirmationCode)
                                 
                                 // Check if code confirmation was successful and then toggle navigation
                                 if authService.isConfirmed {
@@ -146,7 +146,7 @@ struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject
 
 struct ConfirmSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfirmSignUpView<MockAuthService>(username: "SampleUsername", navigateToConfirmSignUp: .constant(false))
+        ConfirmSignUpView<MockAuthService>(email: "dev@joystiq.gg", navigateToConfirmSignUp: .constant(false))
             .environmentObject(MockAuthService())
     }
 }

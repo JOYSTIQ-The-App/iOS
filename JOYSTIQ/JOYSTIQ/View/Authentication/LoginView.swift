@@ -13,7 +13,7 @@ struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View 
     //handles logged state
     @EnvironmentObject var authService: AuthServiceType
     
-    @State private var username: String = ""
+    @State private var email: String = ""
     @State private var password: String = ""
     @State private var isSignUpButtonTapped: Bool = false
     @State private var navigateToConfirmSignUp = false
@@ -37,8 +37,8 @@ struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View 
                 VStack(alignment: .center) { //VStack for username / pass / hstack [forgot / login]
                     
                     TextField(
-                        "Username",
-                        text: $username
+                        "Email",
+                        text: $email
                     )
                     .padding(.all, 15.0)
                     .foregroundColor(.white)
@@ -74,13 +74,13 @@ struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View 
                         //Login button
                         Button(action: {
                             Task {
-                                await authService.signIn(username: username, password: password) { isSuccess, shouldNavigate in
+                                await authService.signIn(email: email, password: password) { isSuccess, shouldNavigate in
                                     if isSuccess {
                                         navigateToConfirmSignUp = shouldNavigate
                                         errorMessage = nil
                                     } else {
                                         // Resetting the values if the login failed
-                                        username = ""
+                                        email = ""
                                         password = ""
                                         errorMessage = "Username or password does not exist."
                                     }
@@ -101,7 +101,7 @@ struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View 
                         })
                         .contentShape(Rectangle()) // This makes the entire frame tappable
                         
-                        NavigationLink("", destination: ConfirmSignUpView<AuthService>(username: username, navigateToConfirmSignUp: $navigateToConfirmSignUp), isActive: $navigateToConfirmSignUp)
+                        NavigationLink("", destination: ConfirmSignUpView<AuthService>(email: email, navigateToConfirmSignUp: $navigateToConfirmSignUp), isActive: $navigateToConfirmSignUp)
                             .environmentObject(authService)
 
 

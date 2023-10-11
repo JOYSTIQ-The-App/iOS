@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     @State public var intVal: Int
     @State private var username: String = "Loading..."
@@ -111,7 +111,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     
     func getUsername() {
         let userIdentifier: UserIdentifier = .userId(userId)
-        APIService.getUsername(for: userIdentifier) { result in
+        apiService.getUsername(for: userIdentifier) { result in
             switch result {
             case .success(let fetchedUsername):
                 username = fetchedUsername
@@ -127,7 +127,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
 
 struct UserBannerPostView_Previews: PreviewProvider {
     static var previews: some View {
-        UserBannerPostView<MockAPIService>(APIService: MockAPIService(), intVal: 1, userId: 1)
+        UserBannerPostView<MockAPIService>(apiService: MockAPIService(), intVal: 1, userId: 1)
     }
 }
 

@@ -30,7 +30,7 @@ struct JOYSTIQApp: App {
             if !authService.isAppInitialized {
                 LaunchScreenView()
             } else if authService.isSignedIn, let user = authService.user {
-                AppView<APIService, AuthService>(APIService: APIService())
+                AppView<APIService, AuthService>(apiService: APIService())
                     .environmentObject(authService)
                     .environmentObject(user)
             } else {

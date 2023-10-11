@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     @State private var searchText: String = "search"
     @State private var foundUsernames: [String] = []
@@ -105,7 +105,7 @@ struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
     func searchForUsernames() {
         isLoading = true
         let lowercaseSearchText = searchText.lowercased()  // Convert to lowercase
-        APIService.searchUsernames(for: lowercaseSearchText) { result in
+        apiService.searchUsernames(for: lowercaseSearchText) { result in
             isLoading = false
             switch result {
             case .success(let usernames):
@@ -120,6 +120,6 @@ struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
 
 struct ConnectTabView_Previews: PreviewProvider {
     static var previews: some View {
-        ConnectTabView<MockAPIService>(APIService: MockAPIService())
+        ConnectTabView<MockAPIService>(apiService: MockAPIService())
     }
 }

@@ -13,7 +13,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var authService: AuthService
     @EnvironmentObject var user: User
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     @State private var showSocials = false
     //@State private var showResume = false
@@ -103,7 +103,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             fetchUserSocials()
             
             // Fetch the avatar using the assured username
-            APIService.getUserAvatar(username: user.username) { result in
+            apiService.getUserAvatar(username: user.username) { result in
                 switch result {
                 case .success(let s3Key):
                     if let key = s3Key {
@@ -170,7 +170,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
    
     private var followersButtons: some View {
         HStack(spacing: 10) {
-            NavigationLink(destination: FollowersListView(APIService: APIService)) {
+            NavigationLink(destination: FollowersListView(apiService: apiService)) {
                 VStack {
                     Text("\(followers)")
                         .font(.headline)
@@ -185,7 +185,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 .cornerRadius(8)
             }
             
-            NavigationLink(destination: FollowingListView(APIService: APIService)) {
+            NavigationLink(destination: FollowingListView(apiService: apiService)) {
                 VStack {
                     Text("\(following)")
                         .font(.headline)
@@ -314,7 +314,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             ForEach(userPosts, id: \.id) { post in
                 
 
-                UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
+                UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
                     .environmentObject(user)
                    
                 LazyVStack(alignment: .leading, spacing: 0) {
@@ -329,7 +329,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 InteractionButtonMenu(
                     showCommentSection: $showCommentSection,
                     showingReportAlert: $showingReportAlert,
-                    APIService: APIService,
+                    apiService: apiService,
                     postId: post.id,
                     likesCount: post.likes,
                     commentCount: post.comments,
@@ -384,7 +384,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
 
     func fetchUserProfile() {
-        APIService.getUserProfile(for: user.username) { result in
+        apiService.getUserProfile(for: user.username) { result in
             switch result {
             case .success(let profile):
                 self.bio = profile.bio
@@ -398,7 +398,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
     
     func fetchUserSocials() {
-        APIService.getUserSocials(for: user.username) { result in
+        apiService.getUserSocials(for: user.username) { result in
             switch result {
             case .success(let socials):
                 self.userSocials = socials
@@ -409,7 +409,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
     
     func fetchUserPosts() {
-        APIService.getUserPosts(for: user.username) { result in
+        apiService.getUserPosts(for: user.username) { result in
             switch result {
             case .success(let posts):
                 self.userPosts = posts
@@ -429,7 +429,7 @@ struct OtherProfileView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "Apical")
         
-        return OtherProfileView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
+        return OtherProfileView<MockAPIService>(apiService: MockAPIService(), showCommentSection: .constant(false))
             .environmentObject(testUser)
     }
 }

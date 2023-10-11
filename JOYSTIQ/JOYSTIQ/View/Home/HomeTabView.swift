@@ -2,7 +2,7 @@
 //  HomeTabView.swift
 //  JOYSTIQ
 //
-//  Created by cs dev on 4/10/23.
+//  Created by Connor Sottosanti on 4/10/23.
 //
 
 import SwiftUI
@@ -10,13 +10,15 @@ import SwiftUI
 struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     @State private var showDropDown = false
-    @State private var showingReportAlert = false
     @State private var selectedFeed: FeedType = .following
     @State private var posts: [FeedPost] = []
-    @Binding var showCommentSection: Bool
+    @State var showCommentSection: Bool = false
+    
+    @State private var lastSeenCreatedAt: String? = nil
+    @State private var showLoadMoreButton = false
     
     // MARK: - Body
     var body: some View {
@@ -32,16 +34,20 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Subviews
     private var mainContent: some View {
         VStack(spacing: 0) {
-            HeaderView(showDropDown: $showDropDown, onRefreshPress: {refreshPosts()})
+            header
             feedTypePicker
             feedView
         }
         .background(Color("GradientDark3"))
-        .alert(isPresented: $showingReportAlert, content: reportAlert)
         .onAppear {
             fetchPosts()
         }
-
+    }
+    
+    private var header: some View {
+        HeaderView(showDropDown: .constant(false), onRefreshPress: {
+            refreshPosts()
+        })
     }
     
     private var feedTypePicker: some View {
@@ -52,63 +58,47 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         .pickerStyle(SegmentedPickerStyle())
         .padding()
         .onChange(of: selectedFeed) { _ in
-            posts = [] // Clear the current posts
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
+            posts = []
+            showLoadMoreButton = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 fetchPosts()
             }
         }
 
     }
-
-
-
+    
+    private var loadMoreButton: some View {
+        Group {
+            if showLoadMoreButton {
+                Button("Load More") {
+                    fetchMorePosts()
+                }
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+            }
+        }
+    }
     
     private var feedView: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: 0) {
                 ForEach(posts) { post in
-                    UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
-                        .environmentObject(user)
-                    
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                            PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
-                        } else {
-                            PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
-                        }
-                    }
-
-
-                    InteractionButtonMenu(
-                        showCommentSection: $showCommentSection,
-                        showingReportAlert: $showingReportAlert,
-                        APIService: APIService,
-                        postId: post.id,
-                        likesCount: post.likes,
-                        commentCount: post.comments,
-                        userLiked: post.user_liked
+                    PostView(
+                        apiService: apiService,
+                        post: post,
+                        showCommentSection: $showCommentSection
                     )
                     .environmentObject(user)
-                    //.overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
-
-                    Divider()
-                        .frame(width: UIScreen.main.bounds.width, height: 1)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                    
-                    Spacer()
                 }
+                
+                loadMoreButton
             }
             .background(Color("GradientDark3"))
         }
         .background(Color("GradientDark3"))
     }
-
     
     private var dropDownView: some View {
         ZStack {
@@ -125,14 +115,34 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     
     // MARK: - Funtions
     private func fetchPosts() {
+        lastSeenCreatedAt = nil
+        showLoadMoreButton = false
+        
         switch selectedFeed {
         case .following:
-            APIService.getUserFeed(for: user.email) { result in
+            apiService.getUserFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchResult(result)
             }
         case .global:
-            APIService.getGlobalFeed(for: user.email) { result in
+            apiService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchResult(result)
+            }
+        }
+    }
+    
+    private func fetchMorePosts() {
+        if let lastPost = posts.last {
+            lastSeenCreatedAt = lastPost.created_at
+        }
+        
+        switch selectedFeed {
+        case .following:
+            apiService.getUserFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
+                handleFetchMoreResult(result)
+            }
+        case .global:
+            apiService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
+                handleFetchMoreResult(result)
             }
         }
     }
@@ -143,26 +153,43 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
             posts = []
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
                 posts = fetchedPosts
+                
+                if fetchedPosts.count < 10 {
+                    showLoadMoreButton = false
+                } else {
+                    showLoadMoreButton = true
+                }
             }
         case .failure(let error):
             print("Error fetching feed: \(error.localizedDescription)")
         }
     }
+    
+    private func handleFetchMoreResult(_ result: Result<[FeedPost], Error>) {
+        switch result {
+        case .success(let fetchedPosts):
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                posts.append(contentsOf: fetchedPosts.filter { newPost in
+                    !posts.contains(where: { existingPost in
+                        existingPost.id == newPost.id
+                    })
+                })
+                
+                if fetchedPosts.count < 10 {
+                    showLoadMoreButton = false
+                }
+                
+            }
+        case .failure(let error):
+            print("Error fetching more feed: \(error.localizedDescription)")
+        }
+    }
+
 
     private func refreshPosts() {
         fetchPosts()
     }
-
     
-    // MARK: - Alert
-    private func reportAlert() -> Alert {
-        Alert(
-            title: Text("Report Post"),
-            message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
-            primaryButton: .default(Text("Report")),
-            secondaryButton: .cancel(Text("Cancel"))
-        )
-    }
 }
 
 // MARK: - Preview
@@ -170,7 +197,7 @@ struct HomeTabView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        return HomeTabView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
+        return HomeTabView<MockAPIService>(apiService: MockAPIService())
             .environmentObject(testUser)
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EditResumeView<APIServiceType: APIServiceProtocol>: View {
     @EnvironmentObject var user: User
-    var APIService: APIServiceType
+    var apiService: APIServiceType
 
     @State private var resumeText: String = ""
     @State private var isSaving: Bool = false
@@ -39,7 +39,7 @@ struct EditResumeView<APIServiceType: APIServiceProtocol>: View {
 
     func saveBio() {
         isSaving = true
-        APIService.updateUserProfile(username: user.username, bio: nil, resume: resumeText) { result in
+        apiService.updateUserProfile(username: user.username, bio: nil, resume: resumeText) { result in
             switch result {
             case .success:
                 // Handle success, perhaps show a confirmation message or navigate back
@@ -58,7 +58,7 @@ struct EditResumeView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "test@test.com", username: "TestUser")
         
-        return EditResumeView(APIService: MockAPIService())
+        return EditResumeView(apiService: MockAPIService())
             .environmentObject(testUser)
     }
 }

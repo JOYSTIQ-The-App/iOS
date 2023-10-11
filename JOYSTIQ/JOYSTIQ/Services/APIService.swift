@@ -10,24 +10,27 @@ import Amplify
 import AWSS3StoragePlugin
 
 protocol APIServiceProtocol {
+    func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void)
     func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void)
-    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void)
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
+    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void)
     func deleteLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     func deletePost(email: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     func deleteUserSocial(username: String, socialType: String, completion: @escaping (Result<Void, Error>) -> Void)
     func getFollowersList(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
     func getFollowingList(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
+    func getGlobalFeed(for email: String, lastSeenCreatedAt: String?, completion: @escaping (Result<[FeedPost], Error>) -> Void)
     func getLeaderboardFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
-    func getGlobalFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
     func getPostComments(for postId: Int, completion: @escaping (Result<[Comment], Error>) -> Void)
     func getUserAvatar(username: String, completion: @escaping (Result<String?, Error>) -> Void)
-    func getUserFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void)
+    func getUserFeed(for email: String, lastSeenCreatedAt: String?, completion: @escaping (Result<[FeedPost], Error>) -> Void)
     func getUserPosts(for username: String, completion: @escaping (Result<[Post], Error>) -> Void)
     func getUserProfile(for username: String, completion: @escaping (Result<Profile, Error>) -> Void)
     func getUserSocials(for username: String, completion: @escaping (Result<[String: String]?, Error>) -> Void)
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void)
+    func reportPost(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
+    func updateUsername(email: String, newUsername: String, completion: @escaping (Result<Void, Error>) -> Void)
     func updateUserAvatar(username: String, oldS3Key: String?, newS3Key: String, completion: @escaping (Result<Void, Error>) -> Void)
     func updateUserPost(email: String, postId: Int, bodyText: String, completion: @escaping (Result<Void, Error>) -> Void)
     func updateUserProfile(username: String, bio: String?, resume: String?, completion: @escaping (Result<Void, Error>) -> Void)
@@ -37,6 +40,37 @@ protocol APIServiceProtocol {
 
 class APIService: APIServiceProtocol {
     let baseURL = "http://127.0.0.1:8080"
+    
+    func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidUsername", code: 400, userInfo: nil)))
+            return
+        }
+
+        let checkURL = URL(string: "\(baseURL)/handlers/check_username_availability?username=\(usernameEncoded)")!
+
+        var request = URLRequest(url: checkURL)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+
+                if let data = data {
+                    do {
+                        let availabilityResponse = try JSONDecoder().decode(UsernameAvailabilityResponse.self, from: data)
+                        completion(.success(availabilityResponse.availability))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
     
     func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void) {
         guard let commentURL = URL(string: "\(baseURL)/handlers/create_comment") else {
@@ -85,89 +119,6 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
-
-    
-    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let postURL = URL(string: "\(baseURL)/handlers/create_post?email=\(email)") else {
-            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
-            return
-        }
-        
-        var request = URLRequest(url: postURL)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        do {
-            let jsonData = try JSONEncoder().encode(postData)
-            request.httpBody = jsonData
-        } catch {
-            completion(.failure(error))
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-                    let message = "Server returned status code: \(httpResponse.statusCode)"
-                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
-                    return
-                }
-                
-                completion(.success(()))
-            }
-        }
-        task.resume()
-    }
-    
-//    func createUser(email: String, username: String, completion: @escaping (Result<Comment, Error>) -> Void) {
-//        // Encode the email to ensure it's safe for URLs
-//        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-//            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
-//            return
-//        }
-//
-//        guard let commentURL = URL(string: "\(baseURL)/handlers/create_user") else {
-//            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
-//            return
-//        }
-//        
-//        var request = URLRequest(url: commentURL)
-//        request.httpMethod = "POST"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let userData = UserData(email: email, username: username)
-//
-//        do {
-//            let jsonData = try JSONEncoder().encode(userData)
-//            request.httpBody = jsonData
-//        } catch {
-//            completion(.failure(error))
-//            return
-//        }
-//
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//            DispatchQueue.main.async {
-//                if let error = error {
-//                    completion(.failure(error))
-//                    return
-//                }
-//
-//                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-//                    let message = "Server returned status code: \(httpResponse.statusCode)"
-//                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
-//                    return
-//                }
-//
-//                completion(.success(()))
-//            }
-//        }
-//        task.resume()
-//    }
     
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let encodedUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
@@ -198,6 +149,123 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
+
+    
+    func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let postURL = URL(string: "\(baseURL)/handlers/create_post?email=\(email)") else {
+            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+            return
+        }
+        
+        var request = URLRequest(url: postURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let jsonData = try JSONEncoder().encode(postData)
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let serverResponse = try JSONDecoder().decode(ServerResponse.self, from: data)
+                        print(serverResponse.message)  // Logging the message
+                    } catch {
+                        print("Error decoding server message: \(error)")
+                    }
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                    let message = "Server returned status code: \(httpResponse.statusCode)"
+                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+                    return
+                }
+                
+                completion(.success(()))
+            }
+        }
+        task.resume()
+    }
+
+    
+    func createUser(email: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        createUniqueUsername { result in
+            switch result {
+            case .success(let username):
+                
+                guard let commentURL = URL(string: "\(self.baseURL)/handlers/create_user") else {
+                    completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+                    return
+                }
+                
+                var request = URLRequest(url: commentURL)
+                request.httpMethod = "POST"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+                let userData = CreateUserPayload(email: email, username: username, role: "gamer", account: "public")
+
+                do {
+                    let jsonData = try JSONEncoder().encode(userData)
+                    request.httpBody = jsonData
+                } catch {
+                    completion(.failure(error))
+                    return
+                }
+
+                let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            completion(.failure(error))
+                            return
+                        }
+
+                        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                            let message = "Server returned status code: \(httpResponse.statusCode)"
+                            completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+                            return
+                        }
+
+                        completion(.success(()))
+                    }
+                }
+                task.resume()
+
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // Function to create a unique username
+    func createUniqueUsername(completion: @escaping (Result<String, Error>) -> Void) {
+        let randomSuffix = String(Int.random(in: 100000..<999999))  // Generates a random six-digit number
+        let username = "Newbie#\(randomSuffix)"
+        
+        checkUsernameAvailability(username: username) { result in
+            switch result {
+            case .success(let available):
+                if available {
+                    completion(.success(username))
+                } else {
+                    self.createUniqueUsername(completion: completion) // Recursively call the function if the username isn't unique
+                }
+            case .failure(let error):
+                print("Error checking username availability: \(error)")
+            }
+        }
+    }
+    
+    
     
     func deleteLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let encodedUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
@@ -318,8 +386,8 @@ class APIService: APIServiceProtocol {
 
                 if let data = data {
                     do {
-                        let followersResponse = try JSONDecoder().decode(FollowersResponse.self, from: data)
-                        completion(.success(followersResponse.followers))
+                        let followerList = try JSONDecoder().decode([String].self, from: data)
+                        completion(.success(followerList))
                     } catch {
                         completion(.failure(error))
                     }
@@ -349,8 +417,8 @@ class APIService: APIServiceProtocol {
 
                 if let data = data {
                     do {
-                        let followingResponse = try JSONDecoder().decode(FollowingResponse.self, from: data)
-                        completion(.success(followingResponse.following))
+                        let followingList = try JSONDecoder().decode([String].self, from: data)
+                        completion(.success(followingList))
                     } catch {
                         completion(.failure(error))
                     }
@@ -462,16 +530,32 @@ class APIService: APIServiceProtocol {
     }
 
 
-    func getUserFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
-        // Encode the email to ensure it's safe for URLs
+    func getUserFeed(for email: String, lastSeenCreatedAt: String? = nil, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        // Encode the username to ensure it's safe for URLs
         guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
             return
         }
         
-        // Construct the URL with the query parameter
-        let feedURL = URL(string: "\(baseURL)/handlers/get_user_feed?email=\(emailEncoded)")!
+        // Start by constructing the base URL
+        var feedURLComponents = URLComponents(string: "\(baseURL)/handlers/get_user_feed")
         
+        // Create query items for the encoded email, limit, and (if present) the lastSeenCreatedAt
+        var queryItems: [URLQueryItem] = [
+            URLQueryItem(name: "email", value: emailEncoded)
+        ]
+        
+        if let lastSeenTimestamp = lastSeenCreatedAt {
+            queryItems.append(URLQueryItem(name: "last_seen_created_at", value: lastSeenTimestamp))
+        }
+        feedURLComponents?.queryItems = queryItems
+        
+        // Ensure the URL is valid
+        guard let feedURL = feedURLComponents?.url else {
+            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+            return
+        }
+
         var request = URLRequest(url: feedURL)
         request.httpMethod = "GET"
         
@@ -485,7 +569,6 @@ class APIService: APIServiceProtocol {
                 if let data = data {
                     do {
                         let posts = try JSONDecoder().decode([FeedPost].self, from: data)
-                        print(posts)
                         completion(.success(posts))
                     } catch {
                         completion(.failure(error))
@@ -495,6 +578,8 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
+
+
     
     func getUserPosts(for username: String, completion: @escaping (Result<[Post], Error>) -> Void) {
         // Encode the username to ensure it's safe for URLs
@@ -604,16 +689,30 @@ class APIService: APIServiceProtocol {
     }
 
     
-    func getGlobalFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
-        // Encode the email to ensure it's safe for URLs
+    func getGlobalFeed(for email: String, lastSeenCreatedAt: String? = nil, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        
         guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
             return
         }
         
-        // Construct the URL with the query parameter
-        let feedURL = URL(string: "\(baseURL)/handlers/get_global_feed?email=\(emailEncoded)")!
+        // Start by constructing the base URL
+        var feedURLComponents = URLComponents(string: "\(baseURL)/handlers/get_global_feed")
         
+        // Create query items for the encoded email and (if present) the lastSeenCreatedAt
+        var queryItems: [URLQueryItem] = [URLQueryItem(name: "email", value: emailEncoded)]
+        
+        if let lastSeenTimestamp = lastSeenCreatedAt {
+            queryItems.append(URLQueryItem(name: "last_seen_created_at", value: lastSeenTimestamp))
+        }
+        feedURLComponents?.queryItems = queryItems
+        
+        // Ensure the URL is valid
+        guard let feedURL = feedURLComponents?.url else {
+            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+            return
+        }
+
         var request = URLRequest(url: feedURL)
         request.httpMethod = "GET"
         
@@ -636,6 +735,7 @@ class APIService: APIServiceProtocol {
         }
         task.resume()
     }
+
     
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void) {
 
@@ -684,6 +784,78 @@ class APIService: APIServiceProtocol {
         task.resume()
     }
     
+    func isEmailRegistered(email: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
+            return
+        }
+
+        let checkURL = URL(string: "\(baseURL)/handlers/is_email_registered?email=\(emailEncoded)")!
+
+        var request = URLRequest(url: checkURL)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+
+                if let data = data {
+                    do {
+                        let registrationResponse = try JSONDecoder().decode(EmailRegisteredResponse.self, from: data)
+                        completion(.success(registrationResponse.isRegistered))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    
+    func reportPost(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let reportPostURL = URL(string: "\(baseURL)/handlers/report_post") else {
+            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+            return
+        }
+        
+        var request = URLRequest(url: reportPostURL)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let reportData = ReportData(username: username, post_id: postId)
+        
+        do {
+            let jsonData = try JSONEncoder().encode(reportData)
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (_, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                    let message = "Server returned status code: \(httpResponse.statusCode)"
+                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+                    return
+                }
+                
+                completion(.success(()))
+            }
+        }
+        task.resume()
+    }
+
+    
     func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
         // Encode the username to ensure it's safe for URLs
         guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
@@ -711,6 +883,45 @@ class APIService: APIServiceProtocol {
                     } catch {
                         completion(.failure(error))
                     }
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func updateUsername(email: String, newUsername: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        // Construct the URL for updating the username
+        let updateURL = URL(string: "\(baseURL)/handlers/update_username")!
+        
+        var request = URLRequest(url: updateURL)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Create the request body
+        let requestBody: [String: Any] = [
+            "email": email,
+            "new_username": newUsername
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    completion(.success(()))
+                } else {
+                    let error = NSError(domain: "NetworkError", code: (response as? HTTPURLResponse)?.statusCode ?? 500, userInfo: [NSLocalizedDescriptionKey: "Failed to update username"])
+                    completion(.failure(error))
                 }
             }
         }
@@ -900,52 +1111,72 @@ class APIService: APIServiceProtocol {
 
 
 class MockAPIService: APIServiceProtocol {
+    func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        print("MockAPIService: checkUsernameAvailability() with username:", username)
+        if username == "Test" {
+            completion(.success(false))
+            return
+        }
+        
+        completion(.success(true))
+    }
+    
     func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void) {
-            DispatchQueue.main.async {
-                let mockComment = Comment(id: 4,
-                                          post_id: postId,
-                                          user_id: 1,
-                                          text: text,
-                                          created_at: "\(Date())",
-                                          updated_at: "\(Date())")
-                completion(.success(mockComment))
-            }
+        print("MockAPIService: createComment() with username:", username, " and comment:", text)
+        DispatchQueue.main.async {
+            let mockComment = Comment(id: 4,
+                                      post_id: postId,
+                                      user_id: 1,
+                                      text: text,
+                                      created_at: "\(Date())",
+                                      username: username)
+            completion(.success(mockComment))
+        }
     }
     
     func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void) {
-        // Mocked implementation. For example, you can immediately call the completion with a success:
+        print("MockAPIService: createPost() with email:", email, " and postData as:", postData)
         completion(.success(()))
     }
     
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-        completion(.success(()))
+        print("MockAPIService: createLike() with uesrname:", username, " and postId as:", postId)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
+            completion(.success(()))
+        }
     }
     
     func deleteLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-        completion(.success(()))
+        print("MockAPIService: deleteLike() with uesrname:", username, " and postId as:", postId)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
+            completion(.success(()))
+        }
     }
     
     func deletePost(email: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        print("MockAPIService: deleteLike() with email:", email, " and postId as:", postId)
         completion(.success(()))
     }
     
     func deleteUserSocial(username: String, socialType: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: deleteUserSocial()")
+        print("MockAPIService: deleteUserSocial() with username:", username, " and socialType:", socialType)
         completion(.success(()))
     }
 
-
     func getFollowersList(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
+        print("MockAPIService: getFollowersList() with username:", username)
         let dummyFollowers = ["john_doe", "alice_smith", "charlie_brown", "david_jones", "elaine_white"]
         completion(.success(dummyFollowers))
     }
     
     func getFollowingList(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
+        print("MockAPIService: getFollowingList() with username:", username)
         let dummyFollowing = ["michael_scott", "dwight_schrute", "pam_beesly", "jim_halpert", "angela_martin"]
         completion(.success(dummyFollowing))
     }
     
     func getLeaderboardFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        print("MockAPIService: getLeaderboardFeed() with email:", email)
         // Mocked posts data
         let mockPosts: [FeedPost] = [
             FeedPost(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
@@ -960,45 +1191,65 @@ class MockAPIService: APIServiceProtocol {
             FeedPost(id: 10, user_id: 10, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
         ]
 
-        
         // Immediately call the completion with the mock data
         completion(.success(mockPosts))
     }
     
     func getPostComments(for postId: Int, completion: @escaping (Result<[Comment], Error>) -> Void) {
+        print("MockAPIService: getPostComments() with postId:", postId)
         // Mock comments data
         let mockComments = [
-            Comment(id: 1, post_id: postId, user_id: 1, text: "Great post!", created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z"),
-            Comment(id: 2, post_id: postId, user_id: 2, text: "I agree with this.", created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z"),
-            Comment(id: 3, post_id: postId, user_id: 3, text: "Interesting perspective.", created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z")
+            Comment(id: 1, post_id: postId, user_id: 1, text: "Great post!", created_at: "2023-09-19T19:58:06.499746Z", username: "Apical"),
+            Comment(id: 2, post_id: postId, user_id: 2, text: "I agree with this.", created_at: "2023-09-19T19:58:06.499746Z", username: "Nooch"),
+            Comment(id: 3, post_id: postId, user_id: 3, text: "Interesting perspective.", created_at: "2023-09-19T19:58:06.499746Z", username: "NarattoCotto")
         ]
         
         completion(.success(mockComments))
     }
     
     func getUserAvatar(username: String, completion: @escaping (Result<String?, Error>) -> Void) {
-        print("Mock: getUserAvatar()")
+        print("MockAPIService: getUserAvatar() with username:", username)
         completion(.success(nil))
     }
     
-    func getUserFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+    func getUserFeed(for email: String, lastSeenCreatedAt: String? = nil, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        print("MockAPIService: getUserFeed() with email:", email, " and lastSeenCreatedAt:", lastSeenCreatedAt ?? "")
+        if lastSeenCreatedAt != nil {
+            // Mocked posts data for load more
+            let mockPosts: [FeedPost] = [
+                FeedPost(id: 6, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true),
+                FeedPost(id: 7, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+                FeedPost(id: 8, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+                FeedPost(id: 9, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+                FeedPost(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
+            ]
+            
+            completion(.success(mockPosts))
+            return
+        }
+        
         // Mocked posts data
         let mockPosts: [FeedPost] = [
             FeedPost(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true),
-            FeedPost(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
+            FeedPost(id: 2, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 3, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 4, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
         ]
 
-        
         // Immediately call the completion with the mock data
         completion(.success(mockPosts))
     }
     
     func getUserPosts(for username: String, completion: @escaping (Result<[Post], Error>) -> Void) {
-        print("Mock: getUserPosts()")
+        print("MockAPIService: getUserPosts() with username:", username)
         // Mocked posts data
         let mockPosts: [Post] = [
-            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "Valorant", body: "Content for first post by Joystiq_dev", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
-            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3)
+            Post(id: 1, user_id: 2, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "Valorant", body: "Content for first post by Joystiq_dev", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
+            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
+            Post(id: 3, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
+            Post(id: 4, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
+            Post(id: 5, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3)
         ]
 
         
@@ -1007,7 +1258,7 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func getUserProfile(for username: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        print("Mock: getUserProfile()")
+        print("MockAPIService: getUserProfile() with username:", username)
         // Mocked profile data
         let mockProfile = Profile(bio: "a a a a a a a a a a", resume: "Resume for develpoment", followers: 12, following: 8)
 
@@ -1016,17 +1267,35 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func getUserSocials(for username: String, completion: @escaping (Result<[String: String]?, Error>) -> Void) {
-        print("Mock: getUserSocials()")
+        print("MockAPIService: getUserSocials() with username:", username)
         let mockSocials: [String: String]? = ["discord": "Joystiq_dev", "twitch": "Joystiq_live", "xbox": "Joystiq_Xbox"]
         
         completion(.success(mockSocials))
     }
     
-    func getGlobalFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+    func getGlobalFeed(for email: String, lastSeenCreatedAt: String? = nil, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        print("MockAPIService: getGlobalFeed() with email:", email, " and lastSeenCreatedAt:", lastSeenCreatedAt ?? "")
+        if lastSeenCreatedAt != nil {
+            // Mocked posts data for load more
+            let mockPosts: [FeedPost] = [
+                FeedPost(id: 6, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true),
+                FeedPost(id: 7, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+                FeedPost(id: 8, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+                FeedPost(id: 9, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+                FeedPost(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
+            ]
+            
+            completion(.success(mockPosts))
+            return
+        }
+        
         // Mocked posts data
         let mockPosts: [FeedPost] = [
-            FeedPost(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Global feed post 1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true),
-            FeedPost(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "global feed post 2", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
+            FeedPost(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true),
+            FeedPost(id: 2, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 3, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 4, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
+            FeedPost(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
         ]
 
         
@@ -1035,7 +1304,13 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void) {
+        print("MockAPIService: getUsername() with:", query.self)
         completion(.success("Dev"))
+    }
+    
+    func reportPost(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        print("MockAPIService: reportPost() user:", username, ", post id:", postId)
+        completion(.success(()))
     }
     
     func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
@@ -1051,23 +1326,28 @@ class MockAPIService: APIServiceProtocol {
         }
     }
     
+    func updateUsername(email: String, newUsername: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        print("MockAPIService: updateUsername() with email:", email, " and newUsername:", newUsername)
+        completion(.success(()))
+    }
+    
     func updateUserAvatar(username: String, oldS3Key: String?, newS3Key: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: updateUserAvatar()")
+        print("MockAPIService: updateUserAvatar()")
         completion(.success(()))
     }
     
     func updateUserPost(email: String, postId: Int, bodyText: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: updateUserPost()")
+        print("MockAPIService: updateUserPost()")
         completion(.success(()))
     }
     
     func updateUserProfile(username: String, bio: String?, resume: String?, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: updateUserProfile()")
+        print("MockAPIService: updateUserProfile()")
         completion(.success(()))
     }
     
     func updateUserSocials(username: String, socialType: String, socialUsername: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: updateUserSocials()")
+        print("MockAPIService: updateUserSocials()")
         completion(.success(()))
     }
 

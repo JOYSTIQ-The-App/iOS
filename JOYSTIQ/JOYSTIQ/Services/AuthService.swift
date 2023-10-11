@@ -18,9 +18,9 @@ protocol AuthServiceProtocol: ObservableObject {
     
     func fetchCurrentAuthSession() async
     func fetchUserEmail() async throws -> String?
-    func signIn(username: String, password: String, completion: @escaping (Bool, Bool) -> Void) async
-    func signUp(username: String, email: String, password: String) async -> Bool
-    func confirmSignUp(for username: String, with confirmationCode: String) async -> Bool
+    func signIn(email: String, password: String, completion: @escaping (Bool, Bool) -> Void) async
+    func signUp(email: String, password: String) async -> Bool
+    func confirmSignUp(for email: String, with confirmationCode: String) async -> Bool
     func resendConfirmationCode(for username: String) async -> Bool
     func resetPassword(username: String, completion: @escaping (Bool) -> Void) async
     func confirmResetPassword(username: String, newPassword: String, confirmationCode: String, completion: @escaping (Bool) -> Void) async
@@ -121,31 +121,45 @@ class AuthService: AuthServiceProtocol {
             throw error
         }
     }
+    
+    func signIn(email: String, password: String, completion: @escaping (Bool, Bool) -> Void) async {
+        APIService().isEmailRegistered(email: email) { result in
+            switch result {
+            case .success(let isRegistered):
+                if !isRegistered {
+                    APIService().createUser(email: email) { createUserResult in
+                        switch createUserResult {
+                        case .success:
+                            Task {
+                                await self.signInAndInitialize(email: email, password: password, completion: completion)
+                            }
+                        case .failure(let error):
+                            print("Error creating user: \(error)")
+                            completion(false, false)
+                        }
+                    }
+                } else {
+                    Task {
+                        await self.signInAndInitialize(email: email, password: password, completion: completion)
+                    }
+                }
+            case .failure(let error):
+                print("Error checking email registration status: \(error)")
+                completion(false, false)
+            }
+        }
+    }
 
-
-
-    func signIn(username: String, password: String, completion: @escaping (Bool, Bool) -> Void) async {
+    // Separate function to handle the signIn and initialize the user, to avoid repeating code.
+    func signInAndInitialize(email: String, password: String, completion: @escaping (Bool, Bool) -> Void) async {
         do {
-            let signInResult = try await Amplify.Auth.signIn(username: username, password: password)
+            let signInResult = try await Amplify.Auth.signIn(username: email, password: password)
             let nextStep = signInResult.nextStep
 
             if case .confirmSignUp(let info) = nextStep {
                 print("Confirm signup additional info \(String(describing: info))")
-                if signInResult.isSignedIn {
-                    print("Sign in succeeded")
-                } else {
-                    print("Nah need to confirm that email dawg.")
-                }
                 completion(true, true)
-
-                // User was not confirmed during the signup process.
-                // Invoke `confirmSignUp` api to confirm the user if
-                // they have the confirmation code. If they do not have the
-                // confirmation code, invoke `resendSignUpCode` to send the
-                // code again.
-                // After the user is confirmed, invoke the `signIn` api again.
             } else if case .done = nextStep {
-                // Use has successfully signed in to the app
                 print("Signin complete")
                 completion(true, false)
                 
@@ -166,13 +180,14 @@ class AuthService: AuthServiceProtocol {
             completion(false, false)
         }
     }
+
     
-    func signUp(username: String, email: String, password: String) async -> Bool {
+    func signUp(email: String, password: String) async -> Bool {
         let userAttributes = [AuthUserAttribute(.email, value: email)]
         let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
         do {
             let signUpResult = try await Amplify.Auth.signUp(
-                username: username,
+                username: email,
                 password: password,
                 options: options
             )
@@ -193,10 +208,10 @@ class AuthService: AuthServiceProtocol {
         }
     }
     
-    func confirmSignUp(for username: String, with confirmationCode: String) async -> Bool {
+    func confirmSignUp(for email: String, with confirmationCode: String) async -> Bool {
         do {
             let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
-                for: username,
+                for: email,
                 confirmationCode: confirmationCode
             )
             print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
@@ -329,17 +344,17 @@ class MockAuthService: AuthServiceProtocol {
         return "mockuser@example.com"
     }
 
-    func signIn(username: String, password: String, completion: @escaping (Bool, Bool) -> Void) async {
+    func signIn(email: String, password: String, completion: @escaping (Bool, Bool) -> Void) async {
         // Mock sign in
         completion(true, false)
     }
     
-    func signUp(username: String, email: String, password: String) async -> Bool {
+    func signUp(email: String, password: String) async -> Bool {
         // Mock sign up
         return true
     }
     
-    func confirmSignUp(for username: String, with confirmationCode: String) async -> Bool {
+    func confirmSignUp(for email: String, with confirmationCode: String) async -> Bool {
         // Mock confirm sign up
         return true
     }
@@ -361,6 +376,7 @@ class MockAuthService: AuthServiceProtocol {
 
     func signOutLocally() async {
         // Mock sign out locally
+        print("MockAuthService: signOutLocally()")
     }
 }
 
