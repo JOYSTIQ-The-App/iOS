@@ -194,11 +194,11 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
             
              
         } //END MAIN VStack
-        .sheet(isPresented: $showCommentSection) {
-            CommentSectionView()
-                .presentationDetents([.fraction(0.7)])
-                .presentationDragIndicator(.visible)
-        }
+//        .sheet(isPresented: $showCommentSection) {
+//            CommentSectionView()
+//                .presentationDetents([.fraction(0.7)])
+//                .presentationDragIndicator(.visible)
+//        }
         
             
        

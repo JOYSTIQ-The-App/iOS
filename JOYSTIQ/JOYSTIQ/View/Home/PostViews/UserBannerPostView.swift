@@ -23,28 +23,40 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
             
             ZStack(alignment: .leading) { //ZStack for user picture and username banner
                 
-                /*
-                 DEFAULT Image
-                 
-                Image(systemName: "person") // Replace "profile_picture" with user avatar snapshot
-                    .frame(width: 55, height: 55)
-                    .font(.system(size: 40))
-                    .foregroundColor(.black)
+                //pass users avatar image here
+                Image("photo")
+                    .resizable()
+                    .frame(width: 45, height: 60)
+                    .scaleEffect(2.8)
+                    .offset(y: 46) // Adjust this value to position the image higher up
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.white, Color.gray]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.black, lineWidth: 3))
-                    .background(Circle().foregroundColor(.green))
+                    .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
                     .zIndex(1)
-                */
-                
-                Image("TestAvatar4")
+
+                /*
+                //default image if user does not have avatar
+                Image(systemName: "person.fill")
                     .frame(width: 45, height: 45)
-                    .scaleEffect(0.25)
-                    .foregroundColor(.black)
+                    .scaleEffect(1.5)
+                    .foregroundColor(.gray)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.white, Color.gray]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     .zIndex(1)
-                
-                    
+                    */
                 
                 Text(username)
                     .font(.system(size: 15))
@@ -91,6 +103,8 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
         }
         
     } //END Body
+    
+    
     
     
     func getUsername() {

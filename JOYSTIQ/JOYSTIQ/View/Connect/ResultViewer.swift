@@ -29,14 +29,10 @@ struct ResultViewer: View {
                 
                     ForEach(usernames, id: \.self) { username in
                         
-                        /*
-                         NavigationLink(destination: OtherProfileView(APIService: APIService, showCommentSection: .constant(false)).navigationBarTitleDisplayMode(.inline)
-                         .toolbar {
-                            ToolbarItem(placement: .principal) {
-                            Text(username)
-                         }
-                         }) {
-                         */
+                        
+                        NavigationLink(destination: OtherProfileView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false)).navigationBarTitleDisplayMode(.automatic)
+                         ) {
+                         
                         
                         HStack {
                             
@@ -58,22 +54,18 @@ struct ResultViewer: View {
                         .cornerRadius(10)
                         
                         
-                        //}
-                        
-                        
-                        
-                    }
+                        } //end nav link
+  
+                    } //end for each
                     
                 } //end else
                 
-                
-            }
-            
+            } //end scrollview
             
             
             Spacer()
-        }
-    }
+        } //end main vstack
+    } //end body
 }
 
 
@@ -82,6 +74,6 @@ struct ResultViewer: View {
 
 struct ResultViewer_Previews: PreviewProvider {
     static var previews: some View {
-        ResultViewer(usernames: [])
+        ResultViewer(usernames: ["jane"])
     }
 }
