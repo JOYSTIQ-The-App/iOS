@@ -13,7 +13,7 @@ struct Comment: Codable, Identifiable {
     var user_id: Int
     var text: String
     var created_at: String
-    var updated_at: String
+    var username: String
 }
 
 struct CommentData: Codable {

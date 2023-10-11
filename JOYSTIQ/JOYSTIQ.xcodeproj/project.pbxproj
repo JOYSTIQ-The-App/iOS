@@ -61,6 +61,8 @@
 		9974A4662ACB715E00B3B45C /* EditBioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4652ACB715E00B3B45C /* EditBioView.swift */; };
 		9974A46A2ACB9A1C00B3B45C /* SocialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4692ACB9A1C00B3B45C /* SocialsView.swift */; };
 		9974A46B2ACBA5D600B3B45C /* EditSocialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9974A4672ACB71A500B3B45C /* EditSocialsView.swift */; };
+		99755A082AD636CA0021DAD3 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99755A072AD636CA0021DAD3 /* Report.swift */; };
+		99755A0A2AD639880021DAD3 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99755A092AD639880021DAD3 /* PostView.swift */; };
 		9980BB052AD0A19C00A2B089 /* EditUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9980BB042AD0A19C00A2B089 /* EditUsernameView.swift */; };
 		9980BB072AD479D800A2B089 /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9980BB062AD479D800A2B089 /* ServerResponse.swift */; };
 		9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */; };
@@ -75,7 +77,7 @@
 		99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4B66A2AC64EDE00AE187D /* EditPostView.swift */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E235352AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E235342AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift */; };
-		99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection2.swift */; };
+		99E2F67A2AA7B5D1000117FA /* CommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection.swift */; };
 		99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */ = {isa = PBXBuildFile; fileRef = 99EA3DEE2AC21A950011908F /* AvatarNodes */; };
 		99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EA3DF12AC223050011908F /* ComingSoonView.swift */; };
 		99F06F5D2AD33425007F9EE1 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F06F5C2AD33425007F9EE1 /* OtherProfileView.swift */; };
@@ -148,6 +150,8 @@
 		9974A4652ACB715E00B3B45C /* EditBioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBioView.swift; sourceTree = "<group>"; };
 		9974A4672ACB71A500B3B45C /* EditSocialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSocialsView.swift; sourceTree = "<group>"; };
 		9974A4692ACB9A1C00B3B45C /* SocialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialsView.swift; sourceTree = "<group>"; };
+		99755A072AD636CA0021DAD3 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
+		99755A092AD639880021DAD3 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		9980BB042AD0A19C00A2B089 /* EditUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUsernameView.swift; sourceTree = "<group>"; };
 		9980BB062AD479D800A2B089 /* ServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
 		9989F6892AB39E4000A1B6F2 /* NeumorphicButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphicButtons.swift; sourceTree = "<group>"; };
@@ -163,7 +167,7 @@
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
 		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		99E235342AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelfInteractionButtonMenu.swift; sourceTree = "<group>"; };
-		99E2F6792AA7B5D1000117FA /* CommentSection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection2.swift; sourceTree = "<group>"; };
+		99E2F6792AA7B5D1000117FA /* CommentSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSection.swift; sourceTree = "<group>"; };
 		99EA3DEE2AC21A950011908F /* AvatarNodes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AvatarNodes; sourceTree = "<group>"; };
 		99EA3DF12AC223050011908F /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
 		99F06F5C2AD33425007F9EE1 /* OtherProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
@@ -420,6 +424,7 @@
 		99C65B292AA3C72100FC2188 /* PostViews */ = {
 			isa = PBXGroup;
 			children = (
+				99755A092AD639880021DAD3 /* PostView.swift */,
 				9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */,
 				9941DC542A93F6F000215948 /* PostContentView.swift */,
 				9941DC3F2A93F6F000215948 /* InteractionButtonMenu.swift */,
@@ -436,7 +441,7 @@
 			isa = PBXGroup;
 			children = (
 				9941DC552A93F6F000215948 /* CommentView.swift */,
-				99E2F6792AA7B5D1000117FA /* CommentSection2.swift */,
+				99E2F6792AA7B5D1000117FA /* CommentSection.swift */,
 			);
 			path = CommentSection;
 			sourceTree = "<group>";
@@ -479,6 +484,7 @@
 				99F590F92ABA4AB300AD5F8C /* Enums.swift */,
 				9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */,
 				9980BB062AD479D800A2B089 /* ServerResponse.swift */,
+				99755A072AD636CA0021DAD3 /* Report.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -626,8 +632,10 @@
 				99F06F5D2AD33425007F9EE1 /* OtherProfileView.swift in Sources */,
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
 				9974A45C2ACB33A400B3B45C /* FollowersListView.swift in Sources */,
+				99755A0A2AD639880021DAD3 /* PostView.swift in Sources */,
 				99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */,
-				99E2F67A2AA7B5D1000117FA /* CommentSection2.swift in Sources */,
+				99755A082AD636CA0021DAD3 /* Report.swift in Sources */,
+				99E2F67A2AA7B5D1000117FA /* CommentSection.swift in Sources */,
 				9980BB052AD0A19C00A2B089 /* EditUsernameView.swift in Sources */,
 				9922BE852AC4CCDD001F4F40 /* ResumeView.swift in Sources */,
 				99F590F82ABA3A7C00AD5F8C /* Post.swift in Sources */,

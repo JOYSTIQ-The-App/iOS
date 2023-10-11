@@ -376,6 +376,7 @@ class MockAuthService: AuthServiceProtocol {
 
     func signOutLocally() async {
         // Mock sign out locally
+        print("MockAuthService: signOutLocally()")
     }
 }
 
