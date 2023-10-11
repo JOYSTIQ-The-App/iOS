@@ -17,7 +17,6 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     
     @State private var showSocials = false
     //@State private var showResume = false
-    @Binding var hideNavBar: Bool
     @State private var avatarSnapshot: UIImage?
     @State private var enviroInt: Int = 0
     
@@ -102,7 +101,6 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             fetchUserProfile()
             fetchUserPosts()
             fetchUserSocials()
-            hideNavBar = false
             
             // Fetch the avatar using the assured username
             APIService.getUserAvatar(username: user.username) { result in
@@ -431,7 +429,7 @@ struct OtherProfileView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "Apical")
         
-        return OtherProfileView<MockAPIService>(APIService: MockAPIService(), hideNavBar: .constant(false), showCommentSection: .constant(false))
+        return OtherProfileView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
             .environmentObject(testUser)
     }
 }

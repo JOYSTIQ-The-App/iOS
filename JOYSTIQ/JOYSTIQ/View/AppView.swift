@@ -44,6 +44,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 case 4:
                     ProfileTabView(APIService: APIService, hideNavBar: $hideNavBar, showCommentSection: $showCommentSection)
                         .environmentObject(user)
+               
                 default:
                     HomeTabView(APIService: APIService, showCommentSection: $showCommentSection)
                         .environmentObject(user)
