@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommentButton<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
-    var APIService: APIServiceProtocol
+    var apiService: APIServiceProtocol
     var postId: Int
     @State var commentCount: Int
     @State private var isShowingComments = false
@@ -21,7 +21,7 @@ struct CommentButton<APIServiceType: APIServiceProtocol>: View {
                 isShowingComments.toggle()
             }
             .sheet(isPresented: $isShowingComments) {
-                CommentSectionView<APIService>(APIService: APIService, postId: postId)
+                CommentSectionView<APIService>(apiService: apiService, postId: postId)
             }
     }
 
@@ -50,7 +50,7 @@ struct CommentButton<APIServiceType: APIServiceProtocol>: View {
 // MARK: - Preview
 struct CommentButton_Previews: PreviewProvider {
     static var previews: some View {
-        CommentButton<MockAPIService>(APIService: MockAPIService(), postId: 1, commentCount: 0)
+        CommentButton<MockAPIService>(apiService: MockAPIService(), postId: 1, commentCount: 0)
             .frame(width: UIScreen.main.bounds.width)
             .background(.black)
     }

@@ -10,7 +10,7 @@ import SwiftUI
 struct PostView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     var post: FeedPost
     @Binding var showCommentSection: Bool
     
@@ -19,7 +19,7 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Body
     var body: some View {
         VStack {
-            UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
+            UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
                 .environmentObject(user)
             
             LazyVStack(alignment: .leading, spacing: 0) {
@@ -33,7 +33,7 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
             InteractionButtonMenu(
                 showCommentSection: $showCommentSection,
                 showingReportAlert: $showingReportAlert,
-                APIService: APIService,
+                apiService: apiService,
                 postId: post.id,
                 likesCount: post.likes,
                 commentCount: post.comments,
@@ -59,7 +59,7 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
             title: Text("Report Post"),
             message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
             primaryButton: .default(Text("Report")) {
-                APIService.reportPost(username: user.username, postId: post.id) { result in
+                apiService.reportPost(username: user.username, postId: post.id) { result in
                     switch result {
                     case .success():
                         print(post.id)
@@ -93,7 +93,7 @@ struct PostView_Previews: PreviewProvider {
         )
         
         return PostView<MockAPIService>(
-            APIService: MockAPIService(),
+            apiService: MockAPIService(),
             post: testPost,
             showCommentSection: .constant(false)
         )

@@ -11,7 +11,7 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     
     @EnvironmentObject var user: User
     @Binding var showCommentSection: Bool
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     var postId: Int
     @State var likesCount: Int? = nil
     @State var commentCount: Int
@@ -34,7 +34,7 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                     if userLiked {
                         likesCount? -= 1
                         
-                        APIService.deleteLike(username: user.username, postId: postId) { result in
+                        apiService.deleteLike(username: user.username, postId: postId) { result in
                             isLoading = false
                             switch result {
                             case .success:
@@ -45,7 +45,7 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                         }
                     } else {
                         likesCount? += 1
-                        APIService.createLike(username: user.username, postId: postId) { result in
+                        apiService.createLike(username: user.username, postId: postId) { result in
                             isLoading = false
                             switch result {
                             case .success:
@@ -62,7 +62,7 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                 .padding(.trailing, 5)
             }
             
-            CommentButton<APIService>(APIService: APIService, postId: postId, commentCount: commentCount)
+            CommentButton<APIService>(apiService: apiService, postId: postId, commentCount: commentCount)
                 .onTapGesture {
                     showCommentSection.toggle()
                 }
@@ -82,7 +82,7 @@ struct SelfInteractionButtonMenu_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        return SelfInteractionButtonMenu<MockAPIService>(showCommentSection: .constant(false), APIService: MockAPIService(), postId: 1, likesCount: 1234, commentCount: 8, userLiked: true)
+        return SelfInteractionButtonMenu<MockAPIService>(showCommentSection: .constant(false), apiService: MockAPIService(), postId: 1, likesCount: 1234, commentCount: 8, userLiked: true)
             .environmentObject(testUser)
             .background(Color("GradientDark3"))
     }

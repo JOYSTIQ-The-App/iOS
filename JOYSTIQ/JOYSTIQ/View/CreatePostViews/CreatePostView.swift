@@ -12,7 +12,7 @@ import AVFoundation
 
 struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     // MARK: - Properties
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     @EnvironmentObject var authService: AuthServiceType
 
     var s3Service: S3ServiceProtocol = S3Service()
@@ -220,7 +220,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         
         Task {
             if let email = try? await authService.fetchUserEmail() {
-                APIService.createPost(email: email, postData: postData) { result in
+                apiService.createPost(email: email, postData: postData) { result in
                     switch result {
                     case .success():
                         print("Post created successfully!")
@@ -259,7 +259,7 @@ struct CreateView_Previews: PreviewProvider {
     @State static private var isPresented = true
 
     static var previews: some View {
-        CreatePostView<MockAPIService, MockAuthService>(APIService: MockAPIService(), s3Service: MockS3Service(), isPresented: $isPresented)
+        CreatePostView<MockAPIService, MockAuthService>(apiService: MockAPIService(), s3Service: MockS3Service(), isPresented: $isPresented)
             .environmentObject(MockAuthService())
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct EditPostView<APIServiceType: APIServiceProtocol>: View {
-    var APIService: APIServiceProtocol
+    var apiService: APIServiceProtocol
     @Binding var post: Post?
     @EnvironmentObject var user: User
     
@@ -36,7 +36,7 @@ struct EditPostView<APIServiceType: APIServiceProtocol>: View {
             if hasChanged {
                 Button("Save Changes") {
                     if let postID = post?.id {
-                        APIService.updateUserPost(email: user.email, postId: postID, bodyText: editedBody) { result in
+                        apiService.updateUserPost(email: user.email, postId: postID, bodyText: editedBody) { result in
                             switch result {
                             case .success():
                                 post?.body = editedBody
@@ -72,6 +72,6 @@ struct PreviewWrapper: View {
     @State var post: Post?
     
     var body: some View {
-        EditPostView<MockAPIService>(APIService: MockAPIService(), post: $post)
+        EditPostView<MockAPIService>(apiService: MockAPIService(), post: $post)
     }
 }

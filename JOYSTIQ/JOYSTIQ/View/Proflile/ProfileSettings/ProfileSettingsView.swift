@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     @EnvironmentObject var authService: AuthServiceType
     @EnvironmentObject var user: User
     
@@ -22,7 +22,7 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
             
             Section(header: Text("Profile")) {
                 
-                NavigationLink(destination: EditBioView(APIService: APIService)) {
+                NavigationLink(destination: EditBioView(apiService: apiService)) {
                     
                     HStack { //hstack for bio setting
                         
@@ -42,7 +42,7 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
                 }
                 
                 /*
-                NavigationLink(destination: EditResumeView(APIService: APIService)) {
+                NavigationLink(destination: EditResumeView(apiService: apiService)) {
                     
                     HStack { //hstack for resume setting
                         
@@ -60,7 +60,7 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
                 }
                 */
                 
-                NavigationLink(destination: EditSocialsView(APIService: APIService)) {
+                NavigationLink(destination: EditSocialsView(apiService: apiService)) {
                     
                     HStack { //hstack for resume setting
                         
@@ -81,7 +81,7 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
             
 
             Section(header: Text("Profile")) {
-                NavigationLink(destination: EditUsernameView(APIService: APIService)) {
+                NavigationLink(destination: EditUsernameView(apiService: apiService)) {
                     Text("Change Username")
                 }
                 
@@ -121,7 +121,7 @@ struct ProfileSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "Apical")
         
-        return ProfileSettingsView<MockAPIService, MockAuthService>(APIService: MockAPIService(), hideNavBar: .constant(true))
+        return ProfileSettingsView<MockAPIService, MockAuthService>(apiService: MockAPIService(), hideNavBar: .constant(true))
             .environmentObject(testUser)
             .environmentObject(MockAuthService())
     }

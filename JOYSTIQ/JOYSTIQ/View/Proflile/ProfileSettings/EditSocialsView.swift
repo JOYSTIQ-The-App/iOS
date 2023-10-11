@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
     @EnvironmentObject var user: User
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     let allSocials = ["discord", "kick", "twitch", "youtube", "xbox", "playstation"]
 
@@ -88,7 +88,7 @@ struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
     }
 
     func fetchUserSocials() {
-        APIService.getUserSocials(for: user.username) { result in
+        apiService.getUserSocials(for: user.username) { result in
             switch result {
             case .success(let socials):
                 self.currentSocials = socials ?? [:]
@@ -101,7 +101,7 @@ struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
     func saveSocial() {
         isSaving = true
         
-        APIService.updateUserSocials(username: user.username, socialType: selectedSocial, socialUsername: username) { result in
+        apiService.updateUserSocials(username: user.username, socialType: selectedSocial, socialUsername: username) { result in
             DispatchQueue.main.async {
                 isSaving = false
                 switch result {
@@ -117,7 +117,7 @@ struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
     func deleteUserSocial(socialType: String) {
         isSaving = true
         
-        APIService.deleteUserSocial(username: user.username, socialType: socialType) { result in
+        apiService.deleteUserSocial(username: user.username, socialType: socialType) { result in
             DispatchQueue.main.async {
                 isSaving = false
                 switch result {
@@ -134,7 +134,7 @@ struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
 struct EditSocialsView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "test@test.com", username: "TestUser")
-        return EditSocialsView(APIService: MockAPIService())
+        return EditSocialsView(apiService: MockAPIService())
             .environmentObject(testUser)
     }
 }

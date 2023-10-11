@@ -10,7 +10,7 @@ import SwiftUI
 struct CommentSectionView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
-    var APIService: APIServiceProtocol
+    var apiService: APIServiceProtocol
     var postId: Int
     @State private var comments: [Comment] = []
     @State private var userComment: String = ""
@@ -98,7 +98,7 @@ struct CommentSectionView<APIServiceType: APIServiceProtocol>: View {
 
     // MARK: - Functions
     func fetchComments() {
-        APIService.getPostComments(for: postId) { result in
+        apiService.getPostComments(for: postId) { result in
             switch result {
             case .success(let fetchedComments):
                 self.comments = fetchedComments
@@ -110,7 +110,7 @@ struct CommentSectionView<APIServiceType: APIServiceProtocol>: View {
 
     func postComment() {
         if !userComment.trimmingCharacters(in: .whitespaces).isEmpty {
-            APIService.createComment(postId: postId, username: user.username, text: userComment) { result in
+            apiService.createComment(postId: postId, username: user.username, text: userComment) { result in
                 switch result {
                 case .success(let newPostedComment):
                     comments.append(newPostedComment)
@@ -128,7 +128,7 @@ struct CommentSection_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        return CommentSectionView<MockAPIService>(APIService: MockAPIService(), postId: 1)
+        return CommentSectionView<MockAPIService>(apiService: MockAPIService(), postId: 1)
             .environmentObject(testUser)
     }
 }

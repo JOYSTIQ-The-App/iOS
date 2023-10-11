@@ -32,27 +32,27 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
         switch selectedTab {
         case 0:
             return AnyView(
-                HomeTabView(APIService: apiService)
+                HomeTabView(apiService: apiService)
                     .environmentObject(user)
             )
         case 1:
             return AnyView(
-                LeaderboardTabView(APIService: apiService)
+                LeaderboardTabView(apiService: apiService)
                     .environmentObject(user)
             )
         case 3:
             return AnyView(
-                ConnectTabView(APIService: apiService)
+                ConnectTabView(apiService: apiService)
             )
         case 4:
             return AnyView(
-                ProfileTabView<APIServiceType, AuthServiceType>(APIService: apiService, hideNavBar: $hideNavBar)
+                ProfileTabView<APIServiceType, AuthServiceType>(apiService: apiService, hideNavBar: $hideNavBar)
                     .environmentObject(user)
                     .environmentObject(authService)
             )
         default:
             return AnyView(
-                HomeTabView(APIService: apiService)
+                HomeTabView(apiService: apiService)
                     .environmentObject(user)
             )
         }
@@ -133,7 +133,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
             .frame(width: UIScreen.main.bounds.width * 0.18, height: 25)
         })
         .sheet(isPresented: $showPostScreen) {
-            CreatePostView<APIService, AuthService>(APIService: apiService as! APIService, isPresented: $showPostScreen)
+            CreatePostView<APIService, AuthService>(apiService: apiService as! APIService, isPresented: $showPostScreen)
                 .environmentObject(authService)
         }
     }

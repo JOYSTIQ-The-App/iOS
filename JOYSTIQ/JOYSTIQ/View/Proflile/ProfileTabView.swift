@@ -14,7 +14,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @EnvironmentObject var authService: AuthServiceType
     @EnvironmentObject var user: User
     
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     @State private var showSocials = false
     @State private var showResume = false
@@ -107,7 +107,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             hideNavBar = false
             
             // Fetch the avatar using the assured username
-            APIService.getUserAvatar(username: user.username) { result in
+            apiService.getUserAvatar(username: user.username) { result in
                 switch result {
                 case .success(let s3Key):
                     if let key = s3Key {
@@ -189,7 +189,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
     
     private var wardrobeButton: some View {
-        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, oldS3Key: avatarS3Key, apiService: APIService).navigationBarTitleDisplayMode(.inline)
+        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, oldS3Key: avatarS3Key, apiService: apiService).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Wardrobe")
@@ -210,7 +210,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
 
     private var settingsButton: some View {
-        NavigationLink(destination: ProfileSettingsView<APIServiceType, AuthServiceType>(APIService: APIService, hideNavBar: $hideNavBar).navigationBarTitleDisplayMode(.inline)
+        NavigationLink(destination: ProfileSettingsView<APIServiceType, AuthServiceType>(apiService: apiService, hideNavBar: $hideNavBar).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Settings")
@@ -234,7 +234,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     
     private var followersButtons: some View {
         HStack(spacing: 10) {
-            NavigationLink(destination: FollowersListView(APIService: APIService)) {
+            NavigationLink(destination: FollowersListView(apiService: apiService)) {
                 VStack {
                     Text("\(followers)")
                         .font(.headline)
@@ -249,7 +249,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 .cornerRadius(8)
             }
             
-            NavigationLink(destination: FollowingListView(APIService: APIService)) {
+            NavigationLink(destination: FollowingListView(apiService: apiService)) {
                 VStack {
                     Text("\(following)")
                         .font(.headline)
@@ -378,7 +378,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             ForEach(userPosts, id: \.id) { post in
                 
 
-                UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
+                UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
                     .environmentObject(user)
                    
                 LazyVStack(alignment: .leading, spacing: 0) {
@@ -394,7 +394,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     
                     SelfInteractionButtonMenu(
                         showCommentSection: $showCommentSection,
-                        APIService: APIService,
+                        apiService: apiService,
                         postId: post.id,
                         likesCount: post.likes,
                         commentCount: post.comments,
@@ -462,7 +462,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
 
     func fetchUserProfile() {
-        APIService.getUserProfile(for: user.username) { result in
+        apiService.getUserProfile(for: user.username) { result in
             switch result {
             case .success(let profile):
                 self.bio = profile.bio
@@ -476,7 +476,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
     
     func fetchUserSocials() {
-        APIService.getUserSocials(for: user.username) { result in
+        apiService.getUserSocials(for: user.username) { result in
             switch result {
             case .success(let socials):
                 self.userSocials = socials
@@ -487,7 +487,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
     
     func fetchUserPosts() {
-        APIService.getUserPosts(for: user.username) { result in
+        apiService.getUserPosts(for: user.username) { result in
             switch result {
             case .success(let posts):
                 self.userPosts = posts
@@ -506,7 +506,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
 
     // This function calls the API to delete the post and updates the local userPosts list on success.
     func deletePost(postId: Int) {
-        APIService.deletePost(email: user.email, postId: postId) { result in
+        apiService.deletePost(email: user.email, postId: postId) { result in
             switch result {
             case .success():
                 userPosts.removeAll { $0.id == postId }
@@ -526,7 +526,7 @@ struct ProfileTabView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "Apical")
         
-        return ProfileTabView<MockAPIService, MockAuthService>(APIService: MockAPIService(), hideNavBar: .constant(false))
+        return ProfileTabView<MockAPIService, MockAuthService>(apiService: MockAPIService(), hideNavBar: .constant(false))
             .environmentObject(testUser)
             .environmentObject(MockAuthService())
     }

@@ -11,7 +11,7 @@ import AVKit
 struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     @State private var showDropDown = false
     @State private var showingReportAlert = false
@@ -38,7 +38,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
         .alert(isPresented: $showingReportAlert, content: reportAlert)
         .onAppear {
             Task {
-                APIService.getLeaderboardFeed(for: user.email){ result in
+                apiService.getLeaderboardFeed(for: user.email){ result in
                     switch result {
                     case .success(let fetchedPosts):
                         posts = fetchedPosts
@@ -57,7 +57,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                     LeaderboardBanners(placeValue: index + 1)
                         .padding(.bottom, 5)
                     
-                    UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
+                    UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
                     
                     LazyVStack(alignment: .leading, spacing: 0) {
                         if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
@@ -71,7 +71,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                     InteractionButtonMenu(
                         showCommentSection: $showCommentSection,
                         showingReportAlert: $showingReportAlert,
-                        APIService: APIService,
+                        apiService: apiService,
                         postId: post.id,
                         likesCount: post.likes,
                         commentCount: post.comments,
@@ -103,7 +103,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Funtions
     private func refreshPosts() {
         Task {
-            APIService.getLeaderboardFeed(for: user.email){ result in
+            apiService.getLeaderboardFeed(for: user.email){ result in
                 switch result {
                 case .success(let fetchedPosts):
                     posts = fetchedPosts
@@ -130,7 +130,7 @@ struct LeaderboardTabView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        LeaderboardTabView<MockAPIService>(APIService: MockAPIService())
+        LeaderboardTabView<MockAPIService>(apiService: MockAPIService())
             .environmentObject(testUser)
     }
 }

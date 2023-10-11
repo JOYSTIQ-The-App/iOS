@@ -12,7 +12,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     @EnvironmentObject var user: User
     @Binding var showCommentSection: Bool
     @Binding var showingReportAlert: Bool
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     var postId: Int
     @State var likesCount: Int? = nil
     @State var commentCount: Int
@@ -23,7 +23,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     var body: some View {
         HStack {
             loadingOrButtonContent
-            CommentButton<APIService>(APIService: APIService, postId: postId, commentCount: commentCount)
+            CommentButton<APIService>(apiService: apiService, postId: postId, commentCount: commentCount)
                 .onTapGesture {
                     showCommentSection.toggle()
                 }
@@ -75,7 +75,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
 
     private func likePost() {
         likesCount? += 1
-        APIService.createLike(username: user.username, postId: postId) { result in
+        apiService.createLike(username: user.username, postId: postId) { result in
             isLoading = false
             switch result {
             case .success:
@@ -88,7 +88,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
 
     private func unlikePost() {
         likesCount? -= 1
-        APIService.deleteLike(username: user.username, postId: postId) { result in
+        apiService.deleteLike(username: user.username, postId: postId) { result in
             isLoading = false
             switch result {
             case .success:
@@ -108,7 +108,7 @@ struct InteractionButtonMenu_Previews: PreviewProvider {
         return InteractionButtonMenu<MockAPIService>(
             showCommentSection: .constant(false),
             showingReportAlert: .constant(false),
-            APIService: MockAPIService(),
+            apiService: MockAPIService(),
             postId: 1,
             likesCount: 1234,
             commentCount: 8,

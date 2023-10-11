@@ -1245,7 +1245,7 @@ class MockAPIService: APIServiceProtocol {
         print("MockAPIService: getUserPosts() with username:", username)
         // Mocked posts data
         let mockPosts: [Post] = [
-            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "Valorant", body: "Content for first post by Joystiq_dev", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
+            Post(id: 1, user_id: 2, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "Valorant", body: "Content for first post by Joystiq_dev", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
             Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
             Post(id: 3, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),
             Post(id: 4, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 3),

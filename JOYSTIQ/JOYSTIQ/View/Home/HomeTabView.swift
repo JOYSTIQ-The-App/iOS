@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     @State private var showDropDown = false
     @State private var selectedFeed: FeedType = .following
@@ -86,7 +86,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
             LazyVStack(spacing: 0) {
                 ForEach(posts) { post in
                     PostView(
-                        APIService: APIService,
+                        apiService: apiService,
                         post: post,
                         showCommentSection: $showCommentSection
                     )
@@ -120,11 +120,11 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         
         switch selectedFeed {
         case .following:
-            APIService.getUserFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
+            apiService.getUserFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchResult(result)
             }
         case .global:
-            APIService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
+            apiService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchResult(result)
             }
         }
@@ -137,11 +137,11 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         
         switch selectedFeed {
         case .following:
-            APIService.getUserFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
+            apiService.getUserFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchMoreResult(result)
             }
         case .global:
-            APIService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
+            apiService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchMoreResult(result)
             }
         }
@@ -197,7 +197,7 @@ struct HomeTabView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        return HomeTabView<MockAPIService>(APIService: MockAPIService())
+        return HomeTabView<MockAPIService>(apiService: MockAPIService())
             .environmentObject(testUser)
     }
 }

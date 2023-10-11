@@ -11,7 +11,7 @@ import SwiftUI
 struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
-    var APIService: APIServiceType
+    var apiService: APIServiceType
     
     @State private var username: String = ""
     @State private var isAvailable: Bool? = nil
@@ -103,7 +103,7 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
         isLoading = true
         let safeUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         
-        APIService.checkUsernameAvailability(username: safeUsername) { result in
+        apiService.checkUsernameAvailability(username: safeUsername) { result in
             DispatchQueue.main.async {
                 isLoading = false
                 switch result {
@@ -124,12 +124,12 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
     
     private func updateUsername() {
         isLoading = true
-        APIService.updateUsername(email: user.email, newUsername: username) { result in
+        apiService.updateUsername(email: user.email, newUsername: username) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
                     let userIdentifier: UserIdentifier = .email(user.email)
-                    APIService.getUsername(for: userIdentifier) { result in
+                    apiService.getUsername(for: userIdentifier) { result in
                         switch result {
                         case .success(let username):
                             DispatchQueue.main.async {
@@ -154,7 +154,7 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
 struct EditUsernameView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "test@test.com", username: "TestUser")
-        EditUsernameView<MockAPIService>(APIService: MockAPIService())
+        EditUsernameView<MockAPIService>(apiService: MockAPIService())
             .environmentObject(testUser)
     }
 }
