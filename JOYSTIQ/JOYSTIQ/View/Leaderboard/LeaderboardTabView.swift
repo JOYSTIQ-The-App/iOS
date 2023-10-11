@@ -16,7 +16,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     @State private var showDropDown = false
     @State private var showingReportAlert = false
     @State private var posts: [FeedPost] = []
-    @Binding var showCommentSection: Bool
+    @State var showCommentSection: Bool = false
     
     // MARK: - Body
     var body: some View {
@@ -130,7 +130,7 @@ struct LeaderboardTabView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        LeaderboardTabView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
+        LeaderboardTabView<MockAPIService>(APIService: MockAPIService())
             .environmentObject(testUser)
     }
 }

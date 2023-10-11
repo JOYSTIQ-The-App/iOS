@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
-    
+    // MARK: - Properties
     @EnvironmentObject var user: User
     @Binding var showCommentSection: Bool
     @Binding var showingReportAlert: Bool
@@ -17,87 +17,104 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     @State var likesCount: Int? = nil
     @State var commentCount: Int
     @State var userLiked: Bool
-    
-    
     @State private var isLoading: Bool = false
-    
+
+    // MARK: - Body
     var body: some View {
-        
-        // Hstack for interaction buttons
         HStack {
-            
-            if isLoading {
-                ProgressView()
-                    .scaleEffect(1.5)
-            } else {
-                Button(action: {
-                    isLoading = true
-                    if userLiked {
-                        likesCount? -= 1
-                        
-                        APIService.deleteLike(username: user.username, postId: postId) { result in
-                            isLoading = false
-                            switch result {
-                            case .success:
-                                userLiked.toggle()
-                            case .failure(let error):
-                                print("Error unliking post: \(error.localizedDescription)")
-                            }
-                        }
-                    } else {
-                        likesCount? += 1
-                        APIService.createLike(username: user.username, postId: postId) { result in
-                            isLoading = false
-                            switch result {
-                            case .success:
-                                userLiked.toggle()
-                            case .failure(let error):
-                                print("Error liking post: \(error.localizedDescription)")
-                            }
-                        }
-                    }
-                }) {
-                    LikeButton(isLiked: $userLiked, likesCount: $likesCount)
-                }
-                .disabled(isLoading)
-                .padding(.trailing, 5)
-            }
-            
+            loadingOrButtonContent
             CommentButton<APIService>(APIService: APIService, postId: postId, commentCount: commentCount)
                 .onTapGesture {
                     showCommentSection.toggle()
                 }
-            
             Spacer()
-            
-            Menu {
-                Button(action: {
-                    //report dialogue
-                    showingReportAlert = true
-                }) {
-                    Text("Report Post")
-                }
-            } label: {
-                Image(systemName: "flag")
-                    .imageScale(.small)
-                    .padding(.trailing, 10)
-                    .foregroundColor(.white).opacity(0.7)
-            }
-            
-        } //END Hstack for interaction buttons
+            reportButton
+        }
         .padding(.horizontal, 25)
         .padding(.bottom, 8)
-        
-    } //end body
-    
+    }
+
+    // MARK: - Subviews
+    private var loadingOrButtonContent: some View {
+        if isLoading {
+            return AnyView(
+                ProgressView()
+                    .scaleEffect(1.5)
+            )
+        } else {
+            return AnyView(
+                Button(action: likeButtonAction) {
+                    LikeButton(isLiked: $userLiked, likesCount: $likesCount)
+                }
+                .disabled(isLoading)
+                .padding(.trailing, 5)
+            )
+        }
+    }
+
+    private var reportButton: some View {
+        Button(action: {
+            showingReportAlert = true
+        }) {
+            Image(systemName: "flag")
+                .imageScale(.small)
+                .padding(.trailing, 10)
+                .foregroundColor(.white).opacity(0.7)
+        }
+    }
+
+    // MARK: - Functions
+    private func likeButtonAction() {
+        isLoading = true
+        if userLiked {
+            unlikePost()
+        } else {
+            likePost()
+        }
+    }
+
+    private func likePost() {
+        likesCount? += 1
+        APIService.createLike(username: user.username, postId: postId) { result in
+            isLoading = false
+            switch result {
+            case .success:
+                userLiked.toggle()
+            case .failure(let error):
+                print("Error liking post: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func unlikePost() {
+        likesCount? -= 1
+        APIService.deleteLike(username: user.username, postId: postId) { result in
+            isLoading = false
+            switch result {
+            case .success:
+                userLiked.toggle()
+            case .failure(let error):
+                print("Error unliking post: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
+// MARK: - Preview
 struct InteractionButtonMenu_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        return InteractionButtonMenu<MockAPIService>(showCommentSection: .constant(false), showingReportAlert: .constant(false), APIService: MockAPIService(), postId: 1, likesCount: 1234, commentCount: 8, userLiked: true)
-            .environmentObject(testUser)
-            .background(Color("GradientDark3"))
+        return InteractionButtonMenu<MockAPIService>(
+            showCommentSection: .constant(false),
+            showingReportAlert: .constant(false),
+            APIService: MockAPIService(),
+            postId: 1,
+            likesCount: 1234,
+            commentCount: 8,
+            userLiked: true
+        )
+        .environmentObject(testUser)
+        .background(Color("GradientDark3"))
     }
 }

@@ -2,7 +2,7 @@
 //  HomeTabView.swift
 //  JOYSTIQ
 //
-//  Created by cs dev on 4/10/23.
+//  Created by Connor Sottosanti on 4/10/23.
 //
 
 import SwiftUI
@@ -13,10 +13,9 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     var APIService: APIServiceType
     
     @State private var showDropDown = false
-    @State private var showingReportAlert = false
     @State private var selectedFeed: FeedType = .following
     @State private var posts: [FeedPost] = []
-    @Binding var showCommentSection: Bool
+    @State var showCommentSection: Bool = false
     
     @State private var lastSeenCreatedAt: String? = nil
     @State private var showLoadMoreButton = false
@@ -35,16 +34,20 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Subviews
     private var mainContent: some View {
         VStack(spacing: 0) {
-            HeaderView(showDropDown: $showDropDown, onRefreshPress: {refreshPosts()})
+            header
             feedTypePicker
             feedView
         }
         .background(Color("GradientDark3"))
-        .alert(isPresented: $showingReportAlert, content: reportAlert)
         .onAppear {
             fetchPosts()
         }
-
+    }
+    
+    private var header: some View {
+        HeaderView(showDropDown: .constant(false), onRefreshPress: {
+            refreshPosts()
+        })
     }
     
     private var feedTypePicker: some View {
@@ -55,28 +58,13 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         .pickerStyle(SegmentedPickerStyle())
         .padding()
         .onChange(of: selectedFeed) { _ in
-            posts = [] // Clear the current posts
+            posts = []
             showLoadMoreButton = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 fetchPosts()
             }
         }
 
-    }
-
-    
-    private var refreshButton: some View {
-        Button(action: {
-            refreshPosts()
-        }) {
-            Text("Refresh")
-                .foregroundColor(.white)
-                .padding(.horizontal, 20)
-                .padding(.vertical, 10)
-                .background(Color.green)
-                .cornerRadius(20)
-        }
-        .padding(.top, 10)
     }
     
     private var loadMoreButton: some View {
@@ -97,41 +85,12 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: 0) {
                 ForEach(posts) { post in
-                    UserBannerPostView(APIService: APIService, intVal: 1, userId: post.user_id)
-                        .environmentObject(user)
-                    
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                            PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
-                        } else {
-                            PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
-                        }
-                    }
-
-
-                    InteractionButtonMenu(
-                        showCommentSection: $showCommentSection,
-                        showingReportAlert: $showingReportAlert,
+                    PostView(
                         APIService: APIService,
-                        postId: post.id,
-                        likesCount: post.likes,
-                        commentCount: post.comments,
-                        userLiked: post.user_liked
+                        post: post,
+                        showCommentSection: $showCommentSection
                     )
                     .environmentObject(user)
-                    //.overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
-
-                    Divider()
-                        .frame(width: UIScreen.main.bounds.width, height: 1)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                    
-                    Spacer()
                 }
                 
                 loadMoreButton
@@ -140,7 +99,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         }
         .background(Color("GradientDark3"))
     }
-
     
     private var dropDownView: some View {
         ZStack {
@@ -158,6 +116,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Funtions
     private func fetchPosts() {
         lastSeenCreatedAt = nil
+        showLoadMoreButton = false
         
         switch selectedFeed {
         case .following:
@@ -230,17 +189,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     private func refreshPosts() {
         fetchPosts()
     }
-
     
-    // MARK: - Alert
-    private func reportAlert() -> Alert {
-        Alert(
-            title: Text("Report Post"),
-            message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
-            primaryButton: .default(Text("Report")),
-            secondaryButton: .cancel(Text("Cancel"))
-        )
-    }
 }
 
 // MARK: - Preview
@@ -248,7 +197,7 @@ struct HomeTabView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        return HomeTabView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false))
+        return HomeTabView<MockAPIService>(APIService: MockAPIService())
             .environmentObject(testUser)
     }
 }

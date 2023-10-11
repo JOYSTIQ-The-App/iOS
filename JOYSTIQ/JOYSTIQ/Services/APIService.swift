@@ -28,6 +28,7 @@ protocol APIServiceProtocol {
     func getUserProfile(for username: String, completion: @escaping (Result<Profile, Error>) -> Void)
     func getUserSocials(for username: String, completion: @escaping (Result<[String: String]?, Error>) -> Void)
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void)
+    func reportPost(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void)
     func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
     func updateUsername(email: String, newUsername: String, completion: @escaping (Result<Void, Error>) -> Void)
     func updateUserAvatar(username: String, oldS3Key: String?, newS3Key: String, completion: @escaping (Result<Void, Error>) -> Void)
@@ -385,8 +386,8 @@ class APIService: APIServiceProtocol {
 
                 if let data = data {
                     do {
-                        let followersResponse = try JSONDecoder().decode(FollowersResponse.self, from: data)
-                        completion(.success(followersResponse.followers))
+                        let followerList = try JSONDecoder().decode([String].self, from: data)
+                        completion(.success(followerList))
                     } catch {
                         completion(.failure(error))
                     }
@@ -416,8 +417,8 @@ class APIService: APIServiceProtocol {
 
                 if let data = data {
                     do {
-                        let followingResponse = try JSONDecoder().decode(FollowingResponse.self, from: data)
-                        completion(.success(followingResponse.following))
+                        let followingList = try JSONDecoder().decode([String].self, from: data)
+                        completion(.success(followingList))
                     } catch {
                         completion(.failure(error))
                     }
@@ -814,6 +815,47 @@ class APIService: APIServiceProtocol {
         task.resume()
     }
     
+    
+    func reportPost(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let reportPostURL = URL(string: "\(baseURL)/handlers/report_post") else {
+            completion(.failure(NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "URL Creation Failed"])))
+            return
+        }
+        
+        var request = URLRequest(url: reportPostURL)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let reportData = ReportData(username: username, post_id: postId)
+        
+        do {
+            let jsonData = try JSONEncoder().encode(reportData)
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (_, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                    let message = "Server returned status code: \(httpResponse.statusCode)"
+                    completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])))
+                    return
+                }
+                
+                completion(.success(()))
+            }
+        }
+        task.resume()
+    }
+
+    
     func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
         // Encode the username to ensure it's safe for URLs
         guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
@@ -1070,6 +1112,7 @@ class APIService: APIServiceProtocol {
 
 class MockAPIService: APIServiceProtocol {
     func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        print("MockAPIService: checkUsernameAvailability() with username:", username)
         if username == "Test" {
             completion(.success(false))
             return
@@ -1079,51 +1122,61 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func createComment(postId: Int, username: String, text: String, completion: @escaping (Result<Comment, Error>) -> Void) {
-            DispatchQueue.main.async {
-                let mockComment = Comment(id: 4,
-                                          post_id: postId,
-                                          user_id: 1,
-                                          text: text,
-                                          created_at: "\(Date())",
-                                          username: username)
-                completion(.success(mockComment))
-            }
+        print("MockAPIService: createComment() with username:", username, " and comment:", text)
+        DispatchQueue.main.async {
+            let mockComment = Comment(id: 4,
+                                      post_id: postId,
+                                      user_id: 1,
+                                      text: text,
+                                      created_at: "\(Date())",
+                                      username: username)
+            completion(.success(mockComment))
+        }
     }
     
     func createPost(email: String, postData: PostData, completion: @escaping (Result<Void, Error>) -> Void) {
-        // Mocked implementation. For example, you can immediately call the completion with a success:
+        print("MockAPIService: createPost() with email:", email, " and postData as:", postData)
         completion(.success(()))
     }
     
     func createLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-        completion(.success(()))
+        print("MockAPIService: createLike() with uesrname:", username, " and postId as:", postId)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
+            completion(.success(()))
+        }
     }
     
     func deleteLike(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-        completion(.success(()))
+        print("MockAPIService: deleteLike() with uesrname:", username, " and postId as:", postId)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
+            completion(.success(()))
+        }
     }
     
     func deletePost(email: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        print("MockAPIService: deleteLike() with email:", email, " and postId as:", postId)
         completion(.success(()))
     }
     
     func deleteUserSocial(username: String, socialType: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: deleteUserSocial()")
+        print("MockAPIService: deleteUserSocial() with username:", username, " and socialType:", socialType)
         completion(.success(()))
     }
 
-
     func getFollowersList(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
+        print("MockAPIService: getFollowersList() with username:", username)
         let dummyFollowers = ["john_doe", "alice_smith", "charlie_brown", "david_jones", "elaine_white"]
         completion(.success(dummyFollowers))
     }
     
     func getFollowingList(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
+        print("MockAPIService: getFollowingList() with username:", username)
         let dummyFollowing = ["michael_scott", "dwight_schrute", "pam_beesly", "jim_halpert", "angela_martin"]
         completion(.success(dummyFollowing))
     }
     
     func getLeaderboardFeed(for email: String, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        print("MockAPIService: getLeaderboardFeed() with email:", email)
         // Mocked posts data
         let mockPosts: [FeedPost] = [
             FeedPost(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false),
@@ -1138,12 +1191,12 @@ class MockAPIService: APIServiceProtocol {
             FeedPost(id: 10, user_id: 10, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
         ]
 
-        
         // Immediately call the completion with the mock data
         completion(.success(mockPosts))
     }
     
     func getPostComments(for postId: Int, completion: @escaping (Result<[Comment], Error>) -> Void) {
+        print("MockAPIService: getPostComments() with postId:", postId)
         // Mock comments data
         let mockComments = [
             Comment(id: 1, post_id: postId, user_id: 1, text: "Great post!", created_at: "2023-09-19T19:58:06.499746Z", username: "Apical"),
@@ -1155,11 +1208,12 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func getUserAvatar(username: String, completion: @escaping (Result<String?, Error>) -> Void) {
-        print("Mock: getUserAvatar()")
+        print("MockAPIService: getUserAvatar() with username:", username)
         completion(.success(nil))
     }
     
     func getUserFeed(for email: String, lastSeenCreatedAt: String? = nil, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        print("MockAPIService: getUserFeed() with email:", email, " and lastSeenCreatedAt:", lastSeenCreatedAt ?? "")
         if lastSeenCreatedAt != nil {
             // Mocked posts data for load more
             let mockPosts: [FeedPost] = [
@@ -1183,13 +1237,12 @@ class MockAPIService: APIServiceProtocol {
             FeedPost(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false)
         ]
 
-        
         // Immediately call the completion with the mock data
         completion(.success(mockPosts))
     }
     
     func getUserPosts(for username: String, completion: @escaping (Result<[Post], Error>) -> Void) {
-        print("Mock: getUserPosts()")
+        print("MockAPIService: getUserPosts() with username:", username)
         // Mocked posts data
         let mockPosts: [Post] = [
             Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "Valorant", body: "Content for first post by Joystiq_dev", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", updated_at: "2023-09-19T19:58:06.499746Z", likes_count: 7),
@@ -1205,7 +1258,7 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func getUserProfile(for username: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        print("Mock: getUserProfile()")
+        print("MockAPIService: getUserProfile() with username:", username)
         // Mocked profile data
         let mockProfile = Profile(bio: "a a a a a a a a a a", resume: "Resume for develpoment", followers: 12, following: 8)
 
@@ -1214,13 +1267,14 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func getUserSocials(for username: String, completion: @escaping (Result<[String: String]?, Error>) -> Void) {
-        print("Mock: getUserSocials()")
+        print("MockAPIService: getUserSocials() with username:", username)
         let mockSocials: [String: String]? = ["discord": "Joystiq_dev", "twitch": "Joystiq_live", "xbox": "Joystiq_Xbox"]
         
         completion(.success(mockSocials))
     }
     
     func getGlobalFeed(for email: String, lastSeenCreatedAt: String? = nil, completion: @escaping (Result<[FeedPost], Error>) -> Void) {
+        print("MockAPIService: getGlobalFeed() with email:", email, " and lastSeenCreatedAt:", lastSeenCreatedAt ?? "")
         if lastSeenCreatedAt != nil {
             // Mocked posts data for load more
             let mockPosts: [FeedPost] = [
@@ -1250,7 +1304,13 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func getUsername(for query: UserIdentifier, completion: @escaping (Result<String, Error>) -> Void) {
+        print("MockAPIService: getUsername() with:", query.self)
         completion(.success("Dev"))
+    }
+    
+    func reportPost(username: String, postId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        print("MockAPIService: reportPost() user:", username, ", post id:", postId)
+        completion(.success(()))
     }
     
     func searchUsernames(for username: String, completion: @escaping (Result<[String], Error>) -> Void) {
@@ -1267,26 +1327,27 @@ class MockAPIService: APIServiceProtocol {
     }
     
     func updateUsername(email: String, newUsername: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        print("MockAPIService: updateUsername() with email:", email, " and newUsername:", newUsername)
         completion(.success(()))
     }
     
     func updateUserAvatar(username: String, oldS3Key: String?, newS3Key: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: updateUserAvatar()")
+        print("MockAPIService: updateUserAvatar()")
         completion(.success(()))
     }
     
     func updateUserPost(email: String, postId: Int, bodyText: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: updateUserPost()")
+        print("MockAPIService: updateUserPost()")
         completion(.success(()))
     }
     
     func updateUserProfile(username: String, bio: String?, resume: String?, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: updateUserProfile()")
+        print("MockAPIService: updateUserProfile()")
         completion(.success(()))
     }
     
     func updateUserSocials(username: String, socialType: String, socialUsername: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        print("Mock: updateUserSocials()")
+        print("MockAPIService: updateUserSocials()")
         completion(.success(()))
     }
 

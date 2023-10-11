@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct ProfileSettingsView<APIServiceType: APIServiceProtocol>: View {
+struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     
-    @EnvironmentObject var authService: AuthService
-    @EnvironmentObject var user: User
     var APIService: APIServiceType
+    @EnvironmentObject var authService: AuthServiceType
+    @EnvironmentObject var user: User
     
     @Binding var hideNavBar: Bool
     
@@ -121,7 +121,8 @@ struct ProfileSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "Apical")
         
-        return ProfileSettingsView<MockAPIService>(APIService: MockAPIService(), hideNavBar: .constant(true))
+        return ProfileSettingsView<MockAPIService, MockAuthService>(APIService: MockAPIService(), hideNavBar: .constant(true))
             .environmentObject(testUser)
+            .environmentObject(MockAuthService())
     }
 }

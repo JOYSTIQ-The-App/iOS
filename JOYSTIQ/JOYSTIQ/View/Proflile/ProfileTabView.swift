@@ -9,10 +9,11 @@
 import SwiftUI
 import Amplify
 
-struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
+struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     // MARK: - Properties
-    @EnvironmentObject var authService: AuthService
+    @EnvironmentObject var authService: AuthServiceType
     @EnvironmentObject var user: User
+    
     var APIService: APIServiceType
     
     @State private var showSocials = false
@@ -30,7 +31,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     //@State private var showEditPostModal = false
     //@State private var currentEditingPost: Post? = nil
     
-    @Binding var showCommentSection: Bool
+    @State var showCommentSection: Bool = false
     
     @State private var showDeleteConfirmation = false
     @State private var postToDelete: Int? // Store the post ID to delete if confirmed
@@ -209,7 +210,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol>: View {
     }
 
     private var settingsButton: some View {
-        NavigationLink(destination: ProfileSettingsView(APIService: APIService, hideNavBar: $hideNavBar).navigationBarTitleDisplayMode(.inline)
+        NavigationLink(destination: ProfileSettingsView<APIServiceType, AuthServiceType>(APIService: APIService, hideNavBar: $hideNavBar).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Settings")
@@ -525,7 +526,8 @@ struct ProfileTabView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "Apical")
         
-        return ProfileTabView<MockAPIService>(APIService: MockAPIService(), hideNavBar: .constant(false), showCommentSection: .constant(false))
+        return ProfileTabView<MockAPIService, MockAuthService>(APIService: MockAPIService(), hideNavBar: .constant(false))
             .environmentObject(testUser)
+            .environmentObject(MockAuthService())
     }
 }
