@@ -49,6 +49,7 @@
 		995085E82A95A805003996B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E72A95A805003996B6 /* LoginView.swift */; };
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
+		9959589F2AD5E4A800D6FCD7 /* ResultViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9959589E2AD5E4A800D6FCD7 /* ResultViewer.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
 		997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062B22ABB6036005596A3 /* SceneKitView2.swift */; };
 		997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */; };
@@ -138,6 +139,7 @@
 		995085E72A95A805003996B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
+		9959589E2AD5E4A800D6FCD7 /* ResultViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewer.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
 		997062B22ABB6036005596A3 /* SceneKitView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneKitView2.swift; path = ../../Proflile/AvatarViews/SceneKitView2.swift; sourceTree = "<group>"; };
 		997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinToneSwitcherView.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				9941DC492A93F6F000215948 /* ConnectTabView.swift */,
+				9959589E2AD5E4A800D6FCD7 /* ResultViewer.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 				99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */,
 				99F06F5D2AD33425007F9EE1 /* OtherProfileView.swift in Sources */,
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
+				9959589F2AD5E4A800D6FCD7 /* ResultViewer.swift in Sources */,
 				9974A45C2ACB33A400B3B45C /* FollowersListView.swift in Sources */,
 				99755A0A2AD639880021DAD3 /* PostView.swift in Sources */,
 				99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */,

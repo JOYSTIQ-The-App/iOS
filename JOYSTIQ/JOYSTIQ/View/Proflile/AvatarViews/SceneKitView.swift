@@ -411,23 +411,7 @@ struct ContentView7: View {
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
                 .border(Color.blue, width: 2)
             
-            
-            //avatar image
-            /*
-            if let image = avatarSnapshot {
-                
-                Image(uiImage: image)
-                    .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
-                    .scaleEffect(1.5)
-                
-                
-            }
-            else {
-                Text("No image selected")
-                    .frame(width: 150, height: 50)
-            }
-            */
+
             
             
             //avatar image
@@ -452,40 +436,18 @@ struct ContentView7: View {
                 // Remove the previously added node from the scene
                 avatarSnapshot = sceneKitView.takeTheSnapshot()
                 
+                
             }) {
                 Text("Capture Screenshot")
             }
         
-            
-            
-            /*
-            Button(action: {
-                
-                //sceneKitView.addNode(named: "FrizzyTest")
-                
-            }) {
-                Text("Test buzz")
-            }
-            
-            
-            Button(action: {
-                
-                
-                sceneKitView.replaceNode(named: "Shirt", named: "AvatarNodes/Male/Torso/MDefaultShirt")
-                
-            }) {
-                Text("Test sweater")
-            }
-            */
-          
+
                 
             
         }
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background(.blue)
-        
-        
-        
+
     } //end body
     
     
