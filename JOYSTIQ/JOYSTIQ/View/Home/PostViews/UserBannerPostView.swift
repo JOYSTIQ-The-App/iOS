@@ -24,6 +24,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
             ZStack(alignment: .leading) { //ZStack for user picture and username banner
                 
                 //pass users avatar image here
+                /*
                 Image("photo")
                     .resizable()
                     .frame(width: 45, height: 60)
@@ -40,8 +41,9 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                     .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
                     .zIndex(1)
 
-                /*
-                //default image if user does not have avatar
+               */
+                
+                //default picture if user does not have avatar
                 Image(systemName: "person.fill")
                     .frame(width: 45, height: 45)
                     .scaleEffect(1.5)
@@ -56,7 +58,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     .zIndex(1)
-                    */
+                    
                 
                 Text(username)
                     .font(.system(size: 15))
