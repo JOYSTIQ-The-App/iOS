@@ -298,9 +298,14 @@ struct WardrobeView: View {
             do {
                 let newKey = try await s3Service.uploadData(data)
                 print("Uploaded image with key: \(newKey)")
+                
+                var environment = "classic"
+                if enviroInt == 1 {
+                    environment = "gameroom"
+                }
 
                 // Use the oldS3Key property of the WardrobeView directly
-                apiService.updateUserAvatar(username: user.username, oldS3Key: oldS3Key, newS3Key: newKey) { result in
+                apiService.updateUserAvatar(username: user.username, oldS3Key: oldS3Key, newS3Key: newKey, enviro: environment) { result in
                     switch result {
                     case .success:
                         print("Successfully updated user avatar")

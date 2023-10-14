@@ -27,7 +27,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @State private var followers: Int = 0
     @State private var following: Int = 0
     
-    @State private var userPosts: [Post] = []
+    @State private var userPosts: [FeedPost] = []
     //@State private var showEditPostModal = false
     //@State private var currentEditingPost: Post? = nil
     
@@ -104,20 +104,8 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             fetchUserProfile()
             fetchUserPosts()
             fetchUserSocials()
+            fetchUserAvatar()
             hideNavBar = false
-            
-            // Fetch the avatar using the assured username
-            apiService.getUserAvatar(username: user.username) { result in
-                switch result {
-                case .success(let s3Key):
-                    if let key = s3Key {
-                        fetchAvatarImage(s3Key: key)
-                        avatarS3Key = key
-                    }
-                case .failure(let error):
-                    print("Error fetching avatar s3Key: \(error.localizedDescription)")
-                }
-            }
         }
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(title: Text("Delete Post"),
@@ -234,7 +222,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     
     private var followersButtons: some View {
         HStack(spacing: 10) {
-            NavigationLink(destination: FollowersListView(apiService: apiService)) {
+            NavigationLink(destination: FollowersListView(apiService: apiService, username: user.username)) {
                 VStack {
                     Text("\(followers)")
                         .font(.headline)
@@ -249,7 +237,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 .cornerRadius(8)
             }
             
-            NavigationLink(destination: FollowingListView(apiService: apiService)) {
+            NavigationLink(destination: FollowingListView(apiService: apiService, username: user.username)) {
                 VStack {
                     Text("\(following)")
                         .font(.headline)
@@ -372,13 +360,9 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     
 
     private var userPostsScrollView: some View {
-
         LazyVStack(spacing: 0) {
-            
             ForEach(userPosts, id: \.id) { post in
-                
-
-                UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
+                UserBannerPostView(apiService: apiService, userId: post.user_id, game: post.game)
                     .environmentObject(user)
                    
                 LazyVStack(alignment: .leading, spacing: 0) {
@@ -391,14 +375,13 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                                   
                 
                 HStack { //for interaction buttons and delete post
-                    
                     SelfInteractionButtonMenu(
                         showCommentSection: $showCommentSection,
                         apiService: apiService,
                         postId: post.id,
                         likesCount: post.likes,
                         commentCount: post.comments,
-                        userLiked: post.user_liked ?? false
+                        userLiked: post.user_liked
                     )
                     .environmentObject(user)
                     
@@ -412,7 +395,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     .padding(.trailing, 25)
                     .padding(.bottom, 10)
                 }
-                //.overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
 
                 Divider()
                     .frame(width: UIScreen.main.bounds.width, height: 1)
@@ -426,14 +408,31 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 
                 Spacer()
             }
-            
-        } //end Lazy Vstack
+        }
         .background(Color("GradientDark3"))
         .padding(.top, 10)
-        
     }
   
     // MARK: - Functions
+    func fetchUserAvatar() {
+        apiService.getUserAvatar(username: user.username) { result in
+            switch result {
+            case .success(let avatar):
+                if let key = avatar.s3_key {
+                    fetchAvatarImage(s3Key: key)
+                    avatarS3Key = key
+                }
+                
+                if avatar.environment == "gameroom" {
+                    enviroInt = 1
+                }
+                
+            case .failure(let error):
+                print("Error fetching avatar s3Key: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     func fetchAvatarImage(s3Key: String) {
         Task {
             do {

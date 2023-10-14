@@ -27,7 +27,9 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
             
             if isLoading {
                 ProgressView()
-                    .scaleEffect(1.5)
+                    .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                    .scaleEffect(0.8)
+                    .padding(.trailing, 5)
             } else {
                 Button(action: {
                     isLoading = true

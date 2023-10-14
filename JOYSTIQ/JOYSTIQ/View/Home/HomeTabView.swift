@@ -25,7 +25,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         NavigationView {
             ZStack {
                 mainContent
-                dropDownView
             }
             .accentColor(Color.green)
         }
@@ -34,7 +33,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Subviews
     private var mainContent: some View {
         VStack(spacing: 0) {
-            header
             feedTypePicker
             feedView
         }
@@ -42,12 +40,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         .onAppear {
             fetchPosts()
         }
-    }
-    
-    private var header: some View {
-        HeaderView(showDropDown: .constant(false), onRefreshPress: {
-            refreshPosts()
-        })
     }
     
     private var feedTypePicker: some View {
@@ -100,19 +92,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         .background(Color("GradientDark3"))
     }
     
-    private var dropDownView: some View {
-        ZStack {
-            if showDropDown {
-                Color.black.opacity(0.6)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture { showDropDown = false }
-                
-                DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
-            }
-        }
-    }
-    
-    
     // MARK: - Funtions
     private func fetchPosts() {
         lastSeenCreatedAt = nil
@@ -151,14 +130,12 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         switch result {
         case .success(let fetchedPosts):
             posts = []
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Introduce a 1-second delay
-                posts = fetchedPosts
-                
-                if fetchedPosts.count < 10 {
-                    showLoadMoreButton = false
-                } else {
-                    showLoadMoreButton = true
-                }
+            posts = fetchedPosts
+            
+            if fetchedPosts.count < 10 {
+                showLoadMoreButton = false
+            } else {
+                showLoadMoreButton = true
             }
         case .failure(let error):
             print("Error fetching feed: \(error.localizedDescription)")
@@ -168,26 +145,18 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     private func handleFetchMoreResult(_ result: Result<[FeedPost], Error>) {
         switch result {
         case .success(let fetchedPosts):
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                posts.append(contentsOf: fetchedPosts.filter { newPost in
-                    !posts.contains(where: { existingPost in
-                        existingPost.id == newPost.id
-                    })
+            posts.append(contentsOf: fetchedPosts.filter { newPost in
+                !posts.contains(where: { existingPost in
+                    existingPost.id == newPost.id
                 })
-                
-                if fetchedPosts.count < 10 {
-                    showLoadMoreButton = false
-                }
-                
+            })
+            
+            if fetchedPosts.count < 10 {
+                showLoadMoreButton = false
             }
         case .failure(let error):
             print("Error fetching more feed: \(error.localizedDescription)")
         }
-    }
-
-
-    private func refreshPosts() {
-        fetchPosts()
     }
     
 }

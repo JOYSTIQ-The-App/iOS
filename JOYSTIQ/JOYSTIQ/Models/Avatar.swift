@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct Avatar: Codable {
+    var s3_key: String?
+    var environment: String
+}

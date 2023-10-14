@@ -10,6 +10,7 @@ import SwiftUI
 struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     var apiService: APIServiceType
+    @EnvironmentObject var user: User
     
     @State private var searchText: String = "search"
     @State private var foundUsernames: [String] = []
@@ -28,9 +29,10 @@ struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
                 //result viewer
                 if isLoading {
                     ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .green))
                 }
                 else if searched {
-                    ResultViewer(usernames: foundUsernames)
+                    ResultViewer(apiService: apiService, usernames: foundUsernames)
                 }
                 
                 Spacer()
@@ -120,6 +122,9 @@ struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
 
 struct ConnectTabView_Previews: PreviewProvider {
     static var previews: some View {
-        ConnectTabView<MockAPIService>(apiService: MockAPIService())
+        let testUser = User(email: "testEmail@example.com", username: "Apical")
+        
+        return ConnectTabView<MockAPIService>(apiService: MockAPIService())
+            .environmentObject(testUser)
     }
 }

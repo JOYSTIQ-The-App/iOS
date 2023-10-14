@@ -13,7 +13,6 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     @EnvironmentObject var user: User
     var apiService: APIServiceType
     
-    @State private var showDropDown = false
     @State private var showingReportAlert = false
     @State private var posts: [FeedPost] = []
     @State var showCommentSection: Bool = false
@@ -23,7 +22,6 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
         NavigationView {
             ZStack {
                 mainContent
-                dropDownView
             }
         }
     }
@@ -31,22 +29,12 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Subviews
     private var mainContent: some View {
         VStack(spacing: 0) {
-            HeaderView(showDropDown: $showDropDown, onRefreshPress: {refreshPosts()})
             feedView
         }
         .background(Color("GradientDark3"))
         .alert(isPresented: $showingReportAlert, content: reportAlert)
         .onAppear {
-            Task {
-                apiService.getLeaderboardFeed(for: user.email){ result in
-                    switch result {
-                    case .success(let fetchedPosts):
-                        posts = fetchedPosts
-                    case .failure(let error):
-                        print("Error fetching user feed: \(error.localizedDescription)")
-                    }
-                }
-            }
+            fetchPosts()
         }
     }
     
@@ -57,27 +45,12 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                     LeaderboardBanners(placeValue: index + 1)
                         .padding(.bottom, 5)
                     
-                    UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
-                    
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                            PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
-                        } else {
-                            PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
-                        }
-                    }
-
-                    
-                    InteractionButtonMenu(
-                        showCommentSection: $showCommentSection,
-                        showingReportAlert: $showingReportAlert,
+                    PostView(
                         apiService: apiService,
-                        postId: post.id,
-                        likesCount: post.likes,
-                        commentCount: post.comments,
-                        userLiked: post.user_liked
+                        post: post,
+                        showCommentSection: $showCommentSection
                     )
-                    //.overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                    .environmentObject(user)
 
                     Spacer()
                 }
@@ -86,22 +59,9 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
         }
         .background(Color("GradientDark3"))
     }
-
-    
-    private var dropDownView: some View {
-        ZStack {
-            if showDropDown {
-                Color.black.opacity(0.6)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture { showDropDown = false }
-                
-                DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
-            }
-        }
-    }
     
     // MARK: - Funtions
-    private func refreshPosts() {
+    private func fetchPosts() {
         Task {
             apiService.getLeaderboardFeed(for: user.email){ result in
                 switch result {

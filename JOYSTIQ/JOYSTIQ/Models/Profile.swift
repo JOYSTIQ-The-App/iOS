@@ -13,3 +13,7 @@ struct Profile: Codable {
     var followers: Int
     var following: Int
 }
+
+struct Bio: Codable {
+    var bio: String
+}

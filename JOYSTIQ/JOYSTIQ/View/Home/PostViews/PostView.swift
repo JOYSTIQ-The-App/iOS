@@ -19,7 +19,7 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Body
     var body: some View {
         VStack {
-            UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
+            UserBannerPostView(apiService: apiService, userId: post.user_id, game: post.game)
                 .environmentObject(user)
             
             LazyVStack(alignment: .leading, spacing: 0) {

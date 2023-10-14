@@ -9,32 +9,66 @@ import Foundation
 import SwiftUI
 
 struct EditBioView<APIServiceType: APIServiceProtocol>: View {
+    // MARK: - Properties
     @EnvironmentObject var user: User
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var apiService: APIServiceType
 
     @State private var bioText: String = ""
     @State private var isSaving: Bool = false
+    @State private var hasEditedBio: Bool = false
 
+    // MARK: - Body
     var body: some View {
         VStack(spacing: 20) {
-            TextField("Enter your bio...", text: $bioText)
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-
-            Button(action: saveBio) {
-                if isSaving {
-                    ProgressView()
-                } else {
-                    Text("Save")
-                }
+            Text("Tell us a little about yourself!")
+                .font(.headline)
+            
+            bioTextField
+            
+            if hasEditedBio {
+                saveButton
             }
-            .disabled(isSaving)
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
         }
         .padding()
+        .onAppear(perform: fetchUserBio)
+        .preferredColorScheme(.dark)
+    }
+
+    // MARK: - Subviews
+    private var bioTextField: some View {
+        TextField("Enter your bio...", text: $bioText, onEditingChanged: { _ in
+            hasEditedBio = true
+        })
+        .padding()
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+    }
+
+    private var saveButton: some View {
+        Button(action: saveBio) {
+            if isSaving {
+                ProgressView()
+            } else {
+                Text("Save")
+            }
+        }
+        .disabled(isSaving)
+        .padding()
+        .background(Color.blue)
+        .foregroundColor(.white)
+        .cornerRadius(8)
+    }
+
+    // MARK: - Functions
+    func fetchUserBio() {
+        apiService.getUserBio(for: user.username) { result in
+            switch result {
+            case .success(let bio):
+                self.bioText = bio.bio
+            case .failure(let error):
+                print("Error fetching user bio: \(error.localizedDescription)")
+            }
+        }
     }
 
     func saveBio() {
@@ -42,10 +76,9 @@ struct EditBioView<APIServiceType: APIServiceProtocol>: View {
         apiService.updateUserProfile(username: user.username, bio: bioText, resume: nil) { result in
             switch result {
             case .success:
-                // Handle success, perhaps show a confirmation message or navigate back
                 print("Bio updated successfully!")
+                presentationMode.wrappedValue.dismiss() // <-- Dismiss the view here
             case .failure(let error):
-                // Handle the error, perhaps show an error message to the user
                 print("Error updating bio: \(error.localizedDescription)")
             }
             isSaving = false
@@ -53,7 +86,7 @@ struct EditBioView<APIServiceType: APIServiceProtocol>: View {
     }
 }
 
-
+// MARK: - Preview
 struct EditBioView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "test@test.com", username: "TestUser")

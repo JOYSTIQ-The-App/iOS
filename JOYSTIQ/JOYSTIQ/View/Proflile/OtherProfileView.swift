@@ -14,6 +14,8 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     @EnvironmentObject var authService: AuthService
     @EnvironmentObject var user: User
     var apiService: APIServiceType
+    var profileUsername: String
+    @Binding var showCommentSection: Bool
     
     @State private var showSocials = false
     //@State private var showResume = false
@@ -24,11 +26,12 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     //@State private var resume: String = ""
     @State private var followers: Int = 0
     @State private var following: Int = 0
-    @State private var isFollowingUser = false //might have to change to binding bool?
+    @State private var isFollowingUser = false
+    @State private var showFollowButton = true
+    @State private var isLoading: Bool = false
     
-    @State private var userPosts: [Post] = []
+    @State private var userPosts: [FeedPost] = []
     
-    @Binding var showCommentSection: Bool
     @State private var showingReportAlert = false
     
     @State private var avatarS3Key: String?
@@ -57,7 +60,6 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
         ScrollView(.vertical, showsIndicators: true) {
             
             VStack(spacing: 0) {
-                
                 avatarSection
                 
                 AccoladeBanner()
@@ -91,25 +93,35 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                     )
                     .frame(height: 5)
                 
-                
                 userPostsScrollView
             } //end VSTack for avatar, accolade, posts
             .background(Color("GradientDark3"))
         } //end main scrollview
         .edgesIgnoringSafeArea([.top, .bottom])
         .onAppear {
+            if user.username == profileUsername {
+                showFollowButton = false
+            } else {
+                fetchIsFollowing()
+            }
+            
             fetchUserProfile()
             fetchUserPosts()
             fetchUserSocials()
             
             // Fetch the avatar using the assured username
-            apiService.getUserAvatar(username: user.username) { result in
+            apiService.getUserAvatar(username: profileUsername) { result in
                 switch result {
-                case .success(let s3Key):
-                    if let key = s3Key {
+                case .success(let avatar):
+                    if let key = avatar.s3_key {
                         fetchAvatarImage(s3Key: key)
                         avatarS3Key = key
                     }
+                    
+                    if avatar.environment == "gameroom" {
+                        enviroInt = 1
+                    }
+                    
                 case .failure(let error):
                     print("Error fetching avatar s3Key: \(error.localizedDescription)")
                 }
@@ -138,7 +150,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 
 
             bioSection
-        } //end Vstack for avatar environment and bio
+        }
     }
 
     private var avatarBackground: some View {
@@ -170,7 +182,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
    
     private var followersButtons: some View {
         HStack(spacing: 10) {
-            NavigationLink(destination: FollowersListView(apiService: apiService)) {
+            NavigationLink(destination: FollowersListView(apiService: apiService, username: profileUsername)) {
                 VStack {
                     Text("\(followers)")
                         .font(.headline)
@@ -185,7 +197,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 .cornerRadius(8)
             }
             
-            NavigationLink(destination: FollowingListView(apiService: apiService)) {
+            NavigationLink(destination: FollowingListView(apiService: apiService, username: profileUsername)) {
                 VStack {
                     Text("\(following)")
                         .font(.headline)
@@ -206,9 +218,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     private var bioSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             socialButtons
-            
             HStack {
-                
                 Text(bio)
                     .padding(.all, 13)
                     .background(Color("Black0").opacity(0.3))
@@ -218,13 +228,34 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                     .foregroundColor(Color("LightGray"))
                 
                 Spacer()
-                
-                
-                //Login button
+                if showFollowButton {
+                    loadingOrFollowButton
+                }
+            }
+            .padding(.bottom, UIScreen.main.bounds.height * 0.022)
+        }
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight"), Color("GradientLight")]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
+    }
+    
+    private var loadingOrFollowButton: some View {
+        if isLoading {
+            return AnyView(
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .green))
+                    .scaleEffect(1.5)
+                    .padding(.trailing, 10)
+                    .offset(y: UIScreen.main.bounds.height * 0.013)
+            )
+        } else {
+            return AnyView(
                 Button(action: {
-                    //follow or unfollow user, increment/decrement users follow count
-                    isFollowingUser.toggle()
-                    
+                    followButtonAction()
                 }, label: {
                     
                     Text(isFollowingUser ? "Unfollow" : "Follow")
@@ -236,21 +267,8 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 .buttonStyle(NeumorphicRectangleButtonStyle())
                 .padding(.trailing, 10)
                 .offset(y: UIScreen.main.bounds.height * 0.013)
-
-                 
-                
-                
-            } //end Htack for bio and follow button
-            .padding(.bottom, UIScreen.main.bounds.height * 0.022)
-            
-        }
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight"), Color("GradientLight")]),
-                startPoint: .top,
-                endPoint: .bottom
             )
-        )
+        }
     }
 
     private var socialButtons: some View {
@@ -270,7 +288,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             Image("NamePlate5")
                 .resizable()
                 .scaledToFill()
-            Text(user.username)
+            Text(profileUsername)
                 .font(.system(size: 16))
                 .foregroundColor(Color("LightGray"))
                 .padding(.trailing, UIScreen.main.bounds.width * 0.04)
@@ -308,33 +326,14 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     
 
     private var userPostsScrollView: some View {
-
         LazyVStack(spacing: 0) {
-            
             ForEach(userPosts, id: \.id) { post in
-                
-
-                UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
-                    .environmentObject(user)
-                   
-                LazyVStack(alignment: .leading, spacing: 0) {
-                    if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                        PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
-                    } else {
-                        PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
-                    }
-                }
-                                  
-                
-                InteractionButtonMenu(
-                    showCommentSection: $showCommentSection,
-                    showingReportAlert: $showingReportAlert,
+                PostView(
                     apiService: apiService,
-                    postId: post.id,
-                    likesCount: post.likes,
-                    commentCount: post.comments,
-                    userLiked: post.user_liked ?? false
+                    post: post,
+                    showCommentSection: $showCommentSection
                 )
+                .environmentObject(user)
 
                 Divider()
                     .frame(width: UIScreen.main.bounds.width, height: 1)
@@ -348,11 +347,9 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 
                 Spacer()
             }
-            
-        } //end Lazy Vstack
+        }
         .background(Color("GradientDark3"))
         .padding(.top, 10)
-        
     }
   
     // MARK: - Functions
@@ -384,7 +381,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
 
     func fetchUserProfile() {
-        apiService.getUserProfile(for: user.username) { result in
+        apiService.getUserProfile(for: profileUsername) { result in
             switch result {
             case .success(let profile):
                 self.bio = profile.bio
@@ -398,7 +395,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
     
     func fetchUserSocials() {
-        apiService.getUserSocials(for: user.username) { result in
+        apiService.getUserSocials(for: profileUsername) { result in
             switch result {
             case .success(let socials):
                 self.userSocials = socials
@@ -409,12 +406,58 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
     
     func fetchUserPosts() {
-        apiService.getUserPosts(for: user.username) { result in
+        apiService.getUserPosts(for: profileUsername) { result in
             switch result {
             case .success(let posts):
                 self.userPosts = posts
             case .failure(let error):
                 print("Error fetching user's posts: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func fetchIsFollowing() {
+        apiService.isFollowing(username: user.username, followingUsername: profileUsername) { result in
+            switch result {
+            case .success(let isFollowing):
+                self.isFollowingUser = isFollowing
+            case .failure(let error):
+                print("Error fetching isFollowing: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func followButtonAction() {
+        isLoading = true
+        if isFollowingUser {
+            unfollowUser()
+        } else {
+            followUser()
+        }
+    }
+    
+    private func followUser() {
+        followers += 1
+        apiService.createFollow(username: user.username, followingUsername: profileUsername) { result in
+            isLoading = false
+            switch result {
+            case .success:
+                isFollowingUser.toggle()
+            case .failure(let error):
+                print("Error liking post: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func unfollowUser() {
+        followers -= 1
+        apiService.deleteFollow(username: user.username, followingUsername: profileUsername) { result in
+            isLoading = false
+            switch result {
+            case .success:
+                isFollowingUser.toggle()
+            case .failure(let error):
+                print("Error unliking post: \(error.localizedDescription)")
             }
         }
     }
@@ -429,7 +472,7 @@ struct OtherProfileView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "Apical")
         
-        return OtherProfileView<MockAPIService>(apiService: MockAPIService(), showCommentSection: .constant(false))
+        return OtherProfileView<MockAPIService>(apiService: MockAPIService(), profileUsername: "Apical", showCommentSection: .constant(false))
             .environmentObject(testUser)
     }
 }

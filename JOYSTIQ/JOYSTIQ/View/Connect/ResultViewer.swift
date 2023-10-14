@@ -7,10 +7,13 @@
 
 import SwiftUI
 
-struct ResultViewer: View {
-
+struct ResultViewer<APIServiceType: APIServiceProtocol>: View {
+    // MARK: - Properties
+    var apiService: APIServiceType
     let usernames: [String]
-
+    @EnvironmentObject var user: User
+    
+    // MARK: - Body
     var body: some View {
         
         VStack {
@@ -30,7 +33,7 @@ struct ResultViewer: View {
                     ForEach(usernames, id: \.self) { username in
                         
                         
-                        NavigationLink(destination: OtherProfileView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false)).navigationBarTitleDisplayMode(.automatic)
+                        NavigationLink(destination: OtherProfileView(apiService: apiService, profileUsername: username, showCommentSection: .constant(false)).navigationBarTitleDisplayMode(.automatic)
                          ) {
                          
                         
@@ -71,9 +74,12 @@ struct ResultViewer: View {
 
 
 
-
+// MARK: - Preview
 struct ResultViewer_Previews: PreviewProvider {
     static var previews: some View {
-        ResultViewer(usernames: ["jane"])
+        let testUser = User(email: "testEmail@example.com", username: "Apical")
+        
+        return ResultViewer<MockAPIService>(apiService: MockAPIService(), usernames: ["jane"])
+            .environmentObject(testUser)
     }
 }
