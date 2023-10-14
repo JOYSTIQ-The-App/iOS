@@ -12,6 +12,8 @@ import SceneKit
 struct WardrobeView: View {
     
     @EnvironmentObject var user: User
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     
     @Binding var hideNavBar: Bool
 
@@ -245,6 +247,7 @@ struct WardrobeView: View {
                         //Save button
                         Button(action: {
                             saveAvatar()
+                            presentationMode.wrappedValue.dismiss()
                         }, label: {
                             
                             Text("Save")
