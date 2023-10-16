@@ -21,10 +21,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenLogoAtt4" translatesAutoresizingMaskIntoConstraints="NO" id="6rL-0X-qh7">
-                                <rect key="frame" x="76.666666666666686" y="362" width="239.99999999999994" height="128"/>
+                                <rect key="frame" x="76.666666666666686" y="362" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="HHo-kH-j7O"/>
                                     <constraint firstAttribute="height" constant="128" id="SZC-Qu-liD"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="alphaversion" translatesAutoresizingMaskIntoConstraints="NO" id="acr-60-ghe">
+                                <rect key="frame" x="153" y="796" width="86" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="4Oi-dQ-tHl"/>
+                                    <constraint firstAttribute="width" constant="86" id="66s-uH-HQn"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -32,7 +39,10 @@
                         <color key="backgroundColor" name="Black0"/>
                         <color key="tintColor" name="Black0"/>
                         <constraints>
+                            <constraint firstItem="acr-60-ghe" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="0OZ-4B-n9D"/>
                             <constraint firstAttribute="bottom" secondItem="sRf-OT-DdG" secondAttribute="bottom" id="3d1-Q4-nU1"/>
+                            <constraint firstItem="acr-60-ghe" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="3qm-Ve-S3b"/>
+                            <constraint firstItem="acr-60-ghe" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="RCC-Uq-O6j"/>
                             <constraint firstItem="sRf-OT-DdG" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Zew-VZ-eRJ"/>
                             <constraint firstAttribute="trailing" secondItem="sRf-OT-DdG" secondAttribute="trailing" id="k6j-S2-zoK"/>
                             <constraint firstItem="6rL-0X-qh7" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="sAw-DR-EP8"/>
@@ -49,6 +59,7 @@
     <resources>
         <image name="LaunchScreenBackground" width="2048" height="2048"/>
         <image name="LaunchScreenLogoAtt4" width="378" height="354"/>
+        <image name="alphaversion" width="481" height="70"/>
         <namedColor name="Black0">
             <color red="0.070588235294117646" green="0.070588235294117646" blue="0.070588235294117646" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
