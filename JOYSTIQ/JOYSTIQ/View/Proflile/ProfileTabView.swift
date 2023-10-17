@@ -169,9 +169,13 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             )
         } else {
             return AnyView(
-                Text("Create your Avatar!")
-                    .frame(width: 200, height: 50)
-                    .foregroundColor(.black)
+                VStack {
+                    Text("Create your Avatar!")
+                        .frame(width: 200, height: 50)
+                        .foregroundColor(.black)
+                    Image(systemName: "arrow.down.left")
+                        .frame(width: 10, height: 10)
+                }
             )
         }
     }

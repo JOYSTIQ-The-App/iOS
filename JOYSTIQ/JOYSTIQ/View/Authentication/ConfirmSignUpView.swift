@@ -30,9 +30,15 @@ struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 100, height: 100, alignment: .center)
+                
+                
             
                 
                 VStack(alignment: .center) {
+                    
+                    Text("Check your email inbox for the confirmation code")
+                        .font(.system(size: 14))
+                        .foregroundColor(Color.gray)
                     
                     TextField(
                         "",

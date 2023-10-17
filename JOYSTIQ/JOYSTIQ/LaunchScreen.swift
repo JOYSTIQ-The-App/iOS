@@ -17,14 +17,17 @@ struct LaunchScreenView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: UIScreen.main.bounds.width * 0.3)
-                    
-       
-                Image("loading3")
+
+                
+                Image("alphaversion")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: UIScreen.main.bounds.width * 0.18)
+                    .frame(width: UIScreen.main.bounds.width * 0.2)
                     .padding(.leading, UIScreen.main.bounds.width * 0.04)
                     .offset(y: UIScreen.main.bounds.height * 0.35)
+                
+                
+                
             }
             .edgesIgnoringSafeArea(.all)
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
