@@ -108,6 +108,7 @@
 		9922BE842AC4CCDD001F4F40 /* ResumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeView.swift; sourceTree = "<group>"; };
 		9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabViewModel.swift; sourceTree = "<group>"; };
 		9923CD252ABF865C0044B02F /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		9931AA882ADDE23B0054C933 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9941DC1C2A93F02100215948 /* JOYSTIQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JOYSTIQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JOYSTIQApp.swift; sourceTree = "<group>"; };
 		9941DC232A93F02300215948 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -247,6 +248,7 @@
 		9941DC1E2A93F02100215948 /* JOYSTIQ */ = {
 			isa = PBXGroup;
 			children = (
+				9931AA882ADDE23B0054C933 /* Info.plist */,
 				9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */,
 				995085E02A95A690003996B6 /* Services */,
 				99F590F12ABA39ED00AD5F8C /* Models */,
@@ -790,6 +792,8 @@
 				DEVELOPMENT_TEAM = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JOYSTIQ/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -824,6 +828,8 @@
 				DEVELOPMENT_TEAM = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JOYSTIQ/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

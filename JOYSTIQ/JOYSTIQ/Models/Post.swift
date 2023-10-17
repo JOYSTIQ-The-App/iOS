@@ -24,7 +24,7 @@ struct Post: Codable, Identifiable {
 }
 
 struct PostData: Codable {
-    var s3_key: String?
+    var s3_key: S3Key?
     var media: String
     var game: String
     var body: String
@@ -46,6 +46,6 @@ struct FeedPost: Codable, Identifiable {
 }
 
 struct S3Key: Codable {
-    let String: String
+    let String: String?
     let Valid: Bool
 }

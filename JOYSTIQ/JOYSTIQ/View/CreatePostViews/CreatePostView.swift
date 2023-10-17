@@ -166,16 +166,20 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
 
     // MARK: - Functions
     func uploadContent() {
+        let uniqueKey: String
+
         if let image = selectedImage {
-            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            uniqueKey = "\(UUID().uuidString).png"
+            guard let imageData = image.pngData() else {
                 print("Failed to convert UIImage to Data")
                 return
             }
-            uploadData(imageData)
+            uploadData(imageData, withKey: uniqueKey)
         } else if let videoURL = selectedVideoURL {
+            uniqueKey = "\(UUID().uuidString).mov"
             do {
                 let videoData = try Data(contentsOf: videoURL)
-                uploadData(videoData)
+                uploadData(videoData, withKey: uniqueKey)
             } catch {
                 print("Error reading video data: \(error)")
             }
@@ -187,11 +191,11 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
     }
 
-    func uploadData(_ data: Data) {
+    func uploadData(_ data: Data, withKey key: String) {
         uploadInProgress = true
         Task {
             do {
-                let s3Key = try await s3Service.uploadData(data)
+                let s3Key = try await s3Service.uploadData(data, withKey: key)
                 print("Uploaded successfully with key: \(s3Key)")
                 createPost(with: s3Key)
             } catch {
@@ -200,6 +204,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             }
         }
     }
+
 
     func createPost(with s3Key: String?) {
         let mediaType: String
@@ -211,8 +216,12 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             mediaType = "none"
         }
 
-        let postData = PostData(s3_key: s3Key, media: mediaType, game: game, body: text, status: "live")
-
+        var postData = PostData(media: mediaType, game: game, body: text, status: "live")
+        
+        if mediaType != "none" {
+            postData.s3_key = S3Key(String: s3Key, Valid: true)
+        }
+        
         if s3Key == nil && text.isEmpty {
             print("Failed to create post: Both media and text body are empty.")
             return

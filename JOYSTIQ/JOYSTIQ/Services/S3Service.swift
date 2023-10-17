@@ -10,15 +10,13 @@ import Amplify
 import AWSS3StoragePlugin
 
 protocol S3ServiceProtocol {
-    func uploadData(_ data: Data) async throws -> String
+    func uploadData(_ data: Data, withKey key: String) async throws -> String
 }
 
 class S3Service: S3ServiceProtocol {
     
-    // Uploads the provided data to S3 and returns the key
-    func uploadData(_ data: Data) async throws -> String {
-        let key = UUID().uuidString // Generate a unique key for each upload
-        
+    // Uploads the provided data to S3 using the specified key and returns the key
+    func uploadData(_ data: Data, withKey key: String) async throws -> String {
         let uploadTask = Amplify.Storage.uploadData(key: key, data: data)
         
         Task {
@@ -34,8 +32,9 @@ class S3Service: S3ServiceProtocol {
     }
 }
 
+
 class MockS3Service: S3ServiceProtocol {
-    func uploadData(_ data: Data) async throws -> String {
+    func uploadData(_ data: Data, withKey key: String) async throws -> String {
         print("Mock: Simulating data upload...")
         return "mock_key_\(UUID().uuidString)"
     }
