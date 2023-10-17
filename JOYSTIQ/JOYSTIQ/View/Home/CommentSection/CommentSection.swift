@@ -72,7 +72,9 @@ struct CommentSectionView<APIServiceType: APIServiceProtocol>: View {
                 .placeholder(when: userComment.isEmpty) {
                     Text("comment").foregroundColor(.white).opacity(0.4)
                 }
-                .padding()
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .padding(.all, 10)
                 .foregroundColor(.white)
                 .background(Color("LightGray").opacity(0.4))
                 .border(Color(UIColor.separator))

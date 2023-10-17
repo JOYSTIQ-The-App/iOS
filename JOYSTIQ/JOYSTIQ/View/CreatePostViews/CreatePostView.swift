@@ -60,7 +60,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
 
     private var contentForm: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 0) {
             selectMediaButton
             divider
             if selectedImage != nil {
@@ -77,10 +77,10 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             
             captionTextField
         }
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.25)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(Color.gray.opacity(0.2))
         .cornerRadius(10)
-        .padding(.top, 10)
+        .padding(.top, 15)
     }
 
     private var cancelButton: some View {
@@ -105,7 +105,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
 
     private var gameTextField: some View {
         TextField("Game", text: $game)
-            .padding(.top, 15)
+            .padding(.vertical, 15)
             .padding(.leading, 15)
             .disableAutocorrection(true)
     }
@@ -119,7 +119,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 .presentationDetents([.fraction(0.8)])
         }
         .padding(.leading, 15)
-        .padding(.vertical, 5)
+        .padding(.vertical, 15)
     }
 
     private var imageSelectedInfo: some View {
@@ -132,7 +132,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             .foregroundColor(.red)
         }
         .padding(.horizontal, 15)
-        .padding(.vertical, 5)
+        .padding(.vertical, 15)
     }
 
     private var videoSelectedInfo: some View {
@@ -145,12 +145,13 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             .foregroundColor(.red)
         }
         .padding(.horizontal, 15)
-        .padding(.vertical, 5)
+        .padding(.vertical, 15)
     }
 
     private var captionTextField: some View {
         TextField("Enter caption", text: $text)
-            .padding(.leading, 10.0)
+            .padding(.horizontal, 15)
+            .padding(.vertical, 15)
             .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
             .foregroundColor(.white)
             .cornerRadius(10)

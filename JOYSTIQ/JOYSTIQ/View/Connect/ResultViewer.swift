@@ -30,7 +30,7 @@ struct ResultViewer: View {
                     ForEach(usernames, id: \.self) { username in
                         
                         
-                        NavigationLink(destination: OtherProfileView<MockAPIService>(APIService: MockAPIService(), showCommentSection: .constant(false)).navigationBarTitleDisplayMode(.automatic)
+                        NavigationLink(destination: OtherProfileView<MockAPIService>(apiService: MockAPIService(), showCommentSection: .constant(false)).navigationBarTitleDisplayMode(.automatic)
                          ) {
                          
                         
