@@ -186,7 +186,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             }
         } else if !text.isEmpty {
             print("No media selected for upload. Proceeding with text.")
-            createPost(with: nil)
+            createDiscussionPost()
         } else {
             print("Failed to create post: Both media and text body are empty.")
         }
@@ -198,7 +198,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             do {
                 let s3Key = try await s3Service.uploadData(data, withKey: key)
                 print("Uploaded successfully with key: \(s3Key)")
-                createPost(with: s3Key)
+                createMediaPost(with: s3Key)
             } catch {
                 print("Error uploading: \(error)")
                 uploadInProgress = false
@@ -207,7 +207,29 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
 
 
-    func createPost(with s3Key: String?) {
+    func createDiscussionPost() {
+        var postData = PostData(media: "none", game: game, body: text, status: "live")
+        
+        Task {
+            if let email = try? await authService.fetchUserEmail() {
+                apiService.createPost(email: email, postData: postData) { result in
+                    switch result {
+                    case .success():
+                        print("Post created successfully!")
+                    case .failure(let error):
+                        print("Error creating post: \(error.localizedDescription)")
+                    }
+                }
+            } else {
+                print("Error retrieving user email.")
+            }
+
+            uploadInProgress = false
+            isPresented = false
+        }
+    }
+    
+    func createMediaPost(with s3Key: String) {
         let mediaType: String
         if selectedImage != nil {
             mediaType = "photo"
@@ -221,11 +243,6 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         
         if mediaType != "none" {
             postData.s3_key = S3Key(String: s3Key, Valid: true)
-        }
-        
-        if s3Key == nil && text.isEmpty {
-            print("Failed to create post: Both media and text body are empty.")
-            return
         }
         
         Task {

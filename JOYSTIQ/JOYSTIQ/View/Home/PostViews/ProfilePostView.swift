@@ -1,28 +1,27 @@
 //
-//  PostView.swift
+//  ProfilePostView.swift
 //  JOYSTIQ
 //
-//  Created by Stephen Sottosanti on 10/10/23.
+//  Created by Stephen Sottosanti on 10/17/23.
 //
 
 import SwiftUI
 import AVKit
 
-struct PostView<APIServiceType: APIServiceProtocol>: View {
+struct ProfilePostView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
     @EnvironmentObject var playerManager: PlayerManager
     var apiService: APIServiceType
     var post: Post
-    @Binding var showCommentSection: Bool
+    var avatarS3Key: S3Key
     
-    @State private var showingReportAlert: Bool = false
     @State private var player: AVPlayer? = nil
     
     // MARK: - Body
     var body: some View {
         VStack {
-            UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key)
+            UserBannerPostView(apiService: apiService, game: post.game, username: user.username, avatarS3Key: avatarS3Key)
                 .environmentObject(user)
             
             if let mediaURL = post.mediaURL {
@@ -37,28 +36,6 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
                 PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
             }
             
-                
-            
-            InteractionButtonMenu(
-                showCommentSection: $showCommentSection,
-                showingReportAlert: $showingReportAlert,
-                apiService: apiService,
-                postId: post.id,
-                likesCount: post.likes,
-                commentCount: post.comments,
-                userLiked: post.user_liked
-            )
-            .environmentObject(user)
-            .alert(isPresented: $showingReportAlert, content: reportAlert)
-            
-            Divider()
-                .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
         }
         .onAppear(perform: initializePlayer)
         .onDisappear(perform: handleOnDisappear)
@@ -76,36 +53,16 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
             playerManager.returnPlayer(player)
         }
     }
-    
-    // MARK: - Alert
-    private func reportAlert() -> Alert {
-        Alert(
-            title: Text("Report Post"),
-            message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
-            primaryButton: .default(Text("Report")) {
-                apiService.reportPost(username: user.username, postId: post.id) { result in
-                    switch result {
-                    case .success():
-                        print(post.id)
-                        print("Post reported successfully.")
-                    case .failure(let error):
-                        print("Error reporting post: \(error.localizedDescription)")
-                    }
-                }
-            },
-            secondaryButton: .cancel(Text("Cancel"))
-        )
-    }
 }
 
 // MARK: - Preview
-struct PostView_Previews: PreviewProvider {
+struct ProfilePostView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         let testPost = Post(
             id: 1,
             user_id: 2,
-            s3_key: S3Key(String: "sampleImageKey", Valid: false),
+            s3_key: S3Key(String: "", Valid: false),
             media: "none",
             game: "Valorant",
             body: "This is a sample post content",
@@ -115,15 +72,16 @@ struct PostView_Previews: PreviewProvider {
             created_at: "2023-10-10T14:48:00.000Z",
             user_liked: true,
             username: "SampleUser",
-            avatar_s3_key: S3Key(String: "sampleImageKey", Valid: false)
+            avatar_s3_key: S3Key(String: "", Valid: false)
         )
         
-        return PostView<MockAPIService>(
+        return ProfilePostView<MockAPIService>(
             apiService: MockAPIService(),
             post: testPost,
-            showCommentSection: .constant(false)
+            avatarS3Key: S3Key(String: "", Valid: false)
         )
         .environmentObject(testUser)
         .background(Color.black) // just to make it more visually clear in the preview
     }
 }
+

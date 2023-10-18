@@ -13,6 +13,8 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var authService: AuthService
     @EnvironmentObject var user: User
+    @EnvironmentObject var playerManager: PlayerManager
+    
     var apiService: APIServiceType
     var profileUsername: String
     @Binding var showCommentSection: Bool
@@ -28,15 +30,16 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     @State private var following: Int = 0
     @State private var isFollowingUser = false
     @State private var showFollowButton = true
-    @State private var isLoading: Bool = false
     
-    @State private var userPosts: [FeedPost] = []
+    @State private var userPosts: [Post] = []
     
     @State private var showingReportAlert = false
     
-    @State private var avatarS3Key: String?
+//    @State private var avatarS3Key: String?
     
     @State private var userSocials: [String: String]?
+    @State private var isLoading: Bool = false
+    @State private var isLoadingAvatar: Bool = false
     
     // MARK: - Body
     var body: some View {
@@ -46,15 +49,27 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 if showSocials {
                     socialsModal
                 }
-                //if showResume {
-                //  resumeModal
-                //}
+                
+                if isLoading {
+                    loadingOverlay
+                }
             }
             .accentColor(Color(.label))
         }
     }
     
     // MARK: - Subviews
+    private var loadingOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+                .edgesIgnoringSafeArea(.all)
+            
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
+    }
+    
     private var mainContent: some View {
         
         ScrollView(.vertical, showsIndicators: true) {
@@ -106,26 +121,6 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             }
             
             fetchUserProfile()
-            fetchUserPosts()
-            fetchUserSocials()
-            
-            // Fetch the avatar using the assured username
-            apiService.getUserAvatar(username: profileUsername) { result in
-                switch result {
-                case .success(let avatar):
-                    if let key = avatar.s3_key {
-                        fetchAvatarImage(s3Key: key)
-                        avatarS3Key = key
-                    }
-                    
-                    if avatar.environment == "gameroom" {
-                        enviroInt = 1
-                    }
-                    
-                case .failure(let error):
-                    print("Error fetching avatar s3Key: \(error.localizedDescription)")
-                }
-            }
         }
         .alert(isPresented: $showingReportAlert) {
             Alert(
@@ -170,6 +165,11 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                     .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.height * 0.28)
                     .scaleEffect(1.5)
                     .padding(.top, UIScreen.main.bounds.height * 0.05)
+            )
+        } else if isLoadingAvatar {
+            return AnyView(
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
             )
         } else {
             return AnyView(
@@ -353,6 +353,76 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
   
     // MARK: - Functions
+    func fetchUserProfile() {
+        isLoading = true
+        apiService.getUserProfile(for: user.username) { result in
+            handleFetchResult(result)
+        }
+    }
+    
+    private func handleFetchResult(_ result: Result<UserProfile, Error>) {
+        switch result {
+        case .success(let Profile):
+            if Profile.avatar_s3_key.Valid {
+                isLoadingAvatar = true
+//                avatarS3Key = Profile.avatar_s3_key
+                fetchAvatarImage(s3Key: Profile.avatar_s3_key.String)
+            }
+            bio = Profile.bio
+            
+            if Profile.environment == "gameroom" {
+                enviroInt = 1
+            }
+            
+            followers = Profile.followers
+            following = Profile.following
+            fetchURLsForPosts(Profile.posts) { updatedPosts in
+                userPosts = updatedPosts
+            }
+            
+            userSocials = Profile.socials
+            
+        case .failure(let error):
+            print("Error fetching feed: \(error.localizedDescription)")
+        }
+        
+        isLoading = false
+    }
+    
+    private func fetchURLsForPosts(_ inputPosts: [Post], completion: @escaping ([Post]) -> Void) {
+        var updatedPosts: [Post] = []
+
+        Task {
+            await withTaskGroup(of: (original: Post, url: URL?).self) { group in
+                for post in inputPosts {
+                    if post.s3_key.Valid {
+                        group.addTask {
+                            do {
+                                let url = try await Amplify.Storage.getURL(key: post.s3_key.String)
+                                return (original: post, url: url)
+                            } catch {
+                                print("Error fetching URL: \(error)")
+                                return (original: post, url: nil)
+                            }
+                        }
+                    } else {
+                        updatedPosts.append(post)
+                    }
+                }
+
+                for await result in group {
+                    var post = result.original
+                    post.mediaURL = result.url
+                    updatedPosts.append(post)
+                }
+            }
+
+            DispatchQueue.main.async {
+                completion(updatedPosts)
+            }
+        }
+    }
+    
     func fetchAvatarImage(s3Key: String) {
         Task {
             do {
@@ -370,48 +440,11 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                     }.resume()
                 }
                 if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        avatarSnapshot = image
-                    }
+                    avatarSnapshot = image
+                    isLoadingAvatar = false
                 }
             } catch {
                 print("Error fetching avatar image: \(error)")
-            }
-        }
-    }
-
-    func fetchUserProfile() {
-        apiService.getUserProfile(for: profileUsername) { result in
-            switch result {
-            case .success(let profile):
-                self.bio = profile.bio
-                //self.resume = profile.resume
-                self.followers = profile.followers
-                self.following = profile.following
-            case .failure(let error):
-                print("Error fetching user profile: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func fetchUserSocials() {
-        apiService.getUserSocials(for: profileUsername) { result in
-            switch result {
-            case .success(let socials):
-                self.userSocials = socials
-            case .failure(let error):
-                print("Error fetching user's socials: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func fetchUserPosts() {
-        apiService.getUserPosts(for: profileUsername) { result in
-            switch result {
-            case .success(let posts):
-                self.userPosts = posts
-            case .failure(let error):
-                print("Error fetching user's posts: \(error.localizedDescription)")
             }
         }
     }
@@ -474,5 +507,6 @@ struct OtherProfileView_Previews: PreviewProvider {
         
         return OtherProfileView<MockAPIService>(apiService: MockAPIService(), profileUsername: "Apical", showCommentSection: .constant(false))
             .environmentObject(testUser)
+            .environmentObject(PlayerManager())
     }
 }

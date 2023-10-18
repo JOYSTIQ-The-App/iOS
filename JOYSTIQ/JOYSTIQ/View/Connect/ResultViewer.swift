@@ -33,7 +33,7 @@ struct ResultViewer<APIServiceType: APIServiceProtocol>: View {
                     ForEach(usernames, id: \.self) { username in
                         
                         
-                        NavigationLink(destination: OtherProfileView(apiService: apiService, profileUsername: username, showCommentSection: .constant(false)).navigationBarTitleDisplayMode(.automatic)
+                        NavigationLink(destination: OtherProfileView(apiService: apiService, profileUsername: username, showCommentSection: .constant(false)).navigationBarTitleDisplayMode(.automatic).environmentObject(PlayerManager())
                          ) {
                          
                         

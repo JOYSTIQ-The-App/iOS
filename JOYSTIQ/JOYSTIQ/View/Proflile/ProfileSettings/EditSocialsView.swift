@@ -102,14 +102,12 @@ struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
         isSaving = true
         
         apiService.updateUserSocials(username: user.username, socialType: selectedSocial, socialUsername: username) { result in
-            DispatchQueue.main.async {
-                isSaving = false
-                switch result {
-                case .success():
-                    currentSocials[selectedSocial] = username
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
+            isSaving = false
+            switch result {
+            case .success():
+                currentSocials[selectedSocial] = username
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
             }
         }
     }
@@ -118,14 +116,12 @@ struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
         isSaving = true
         
         apiService.deleteUserSocial(username: user.username, socialType: socialType) { result in
-            DispatchQueue.main.async {
-                isSaving = false
-                switch result {
-                case .success():
-                    currentSocials[socialType] = nil
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
+            isSaving = false
+            switch result {
+            case .success():
+                currentSocials[socialType] = nil
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
             }
         }
     }

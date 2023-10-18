@@ -6,31 +6,51 @@
 //
 
 import SwiftUI
+import Amplify
 
 struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
+    @EnvironmentObject var playerManager: PlayerManager
     var apiService: APIServiceType
     
     @State private var showDropDown = false
     @State private var selectedFeed: FeedType = .following
-    @State private var posts: [FeedPost] = []
+    @State private var posts: [Post] = []
     @State var showCommentSection: Bool = false
     
     @State private var lastSeenCreatedAt: String? = nil
     @State private var showLoadMoreButton = false
+    @State private var isLoading: Bool = false
     
     // MARK: - Body
     var body: some View {
         NavigationView {
             ZStack {
                 mainContent
+                
+                if isLoading {
+                    loadingOverlay
+                }
             }
             .accentColor(Color.green)
         }
     }
     
     // MARK: - Subviews
+    private var loadingOverlay: some View {
+        ZStack {
+            // This semi-transparent view will cover the entire content
+            Color.black.opacity(0.7)
+                .edgesIgnoringSafeArea(.all)
+            
+            // Your loading circle
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
+    }
+    
     private var mainContent: some View {
         VStack(spacing: 0) {
             feedTypePicker
@@ -51,6 +71,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         .padding()
         .onChange(of: selectedFeed) { _ in
             posts = []
+            isLoading = true
             showLoadMoreButton = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 fetchPosts()
@@ -83,6 +104,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                         showCommentSection: $showCommentSection
                     )
                     .environmentObject(user)
+                    .environmentObject(playerManager)
                 }
                 
                 loadMoreButton
@@ -96,6 +118,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     private func fetchPosts() {
         lastSeenCreatedAt = nil
         showLoadMoreButton = false
+        isLoading = true
         
         switch selectedFeed {
         case .following:
@@ -110,6 +133,9 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     }
     
     private func fetchMorePosts() {
+        showLoadMoreButton = false
+        isLoading = true
+        
         if let lastPost = posts.last {
             lastSeenCreatedAt = lastPost.created_at
         }
@@ -126,36 +152,79 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         }
     }
 
-    private func handleFetchResult(_ result: Result<[FeedPost], Error>) {
+    private func handleFetchResult(_ result: Result<[Post], Error>) {
         switch result {
         case .success(let fetchedPosts):
-            posts = []
-            posts = fetchedPosts
-            
-            if fetchedPosts.count < 10 {
-                showLoadMoreButton = false
-            } else {
-                showLoadMoreButton = true
+            fetchURLsForPosts(fetchedPosts) { updatedPosts in
+                var sortedPosts = updatedPosts
+                sortedPosts.sort { $0.created_at > $1.created_at }
+                posts = []
+                posts = sortedPosts
+                
+                if sortedPosts.count < 10 {
+                    showLoadMoreButton = false
+                } else {
+                    showLoadMoreButton = true
+                }
+                
+                isLoading = false
             }
         case .failure(let error):
             print("Error fetching feed: \(error.localizedDescription)")
+            isLoading = false
         }
     }
-    
-    private func handleFetchMoreResult(_ result: Result<[FeedPost], Error>) {
+
+    private func handleFetchMoreResult(_ result: Result<[Post], Error>) {
         switch result {
         case .success(let fetchedPosts):
-            posts.append(contentsOf: fetchedPosts.filter { newPost in
-                !posts.contains(where: { existingPost in
-                    existingPost.id == newPost.id
+            fetchURLsForPosts(fetchedPosts) { updatedPosts in
+                var sortedPosts = updatedPosts
+                sortedPosts.sort { $0.created_at > $1.created_at }
+                posts.append(contentsOf: sortedPosts.filter { newPost in
+                    !posts.contains(where: { existingPost in
+                        existingPost.id == newPost.id
+                    })
                 })
-            })
-            
-            if fetchedPosts.count < 10 {
-                showLoadMoreButton = false
+                
+                if sortedPosts.count < 10 {
+                    showLoadMoreButton = false
+                } else {
+                    showLoadMoreButton = true
+                }
+                
+                isLoading = false
             }
         case .failure(let error):
             print("Error fetching more feed: \(error.localizedDescription)")
+            isLoading = false
+        }
+    }
+    
+    private func fetchURLsForPosts(_ inputPosts: [Post], completion: @escaping ([Post]) -> Void) {
+        let group = DispatchGroup()
+        var updatedPosts: [Post] = []
+
+        for var post in inputPosts {
+            if post.s3_key.Valid {
+                group.enter()
+                Task {
+                    do {
+                        let url = try await Amplify.Storage.getURL(key: post.s3_key.String)
+                        post.mediaURL = url
+                        updatedPosts.append(post)
+                    } catch {
+                        print("Error fetching URL: \(error)")
+                    }
+                    group.leave()
+                }
+            } else {
+                updatedPosts.append(post)
+            }
+        }
+
+        group.notify(queue: .main) {
+            completion(updatedPosts)
         }
     }
     
@@ -168,5 +237,6 @@ struct HomeTabView_Previews: PreviewProvider {
         
         return HomeTabView<MockAPIService>(apiService: MockAPIService())
             .environmentObject(testUser)
+            .environmentObject(PlayerManager())
     }
 }

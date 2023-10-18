@@ -104,14 +104,12 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
         let safeUsername = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         
         apiService.checkUsernameAvailability(username: safeUsername) { result in
-            DispatchQueue.main.async {
-                isLoading = false
-                switch result {
-                case .success(let available):
-                    isAvailable = available
-                case .failure(let error):
-                    print("Error checking username availability: \(error)")
-                }
+            isLoading = false
+            switch result {
+            case .success(let available):
+                isAvailable = available
+            case .failure(let error):
+                print("Error checking username availability: \(error)")
             }
         }
     }
@@ -125,26 +123,22 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
     private func updateUsername() {
         isLoading = true
         apiService.updateUsername(email: user.email, newUsername: username) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success:
-                    let userIdentifier: UserIdentifier = .email(user.email)
-                    apiService.getUsername(for: userIdentifier) { result in
-                        switch result {
-                        case .success(let username):
-                            DispatchQueue.main.async {
-                                user.username = username
-                            }
-                        case .failure(let error):
-                            print("Error getting username: \(error.localizedDescription)")
-                        }
+            switch result {
+            case .success:
+                let userIdentifier: UserIdentifier = .email(user.email)
+                apiService.getUsername(for: userIdentifier) { result in
+                    switch result {
+                    case .success(let username):
+                        user.username = username
+                    case .failure(let error):
+                        print("Error getting username: \(error.localizedDescription)")
                     }
-                case .failure(let error):
-                    print("Error updating username: \(error)")
-                    errorMessage = "Failed to update username. Please try again."
                 }
-                isLoading = false
+            case .failure(let error):
+                print("Error updating username: \(error)")
+                errorMessage = "Failed to update username. Please try again."
             }
+            isLoading = false
         }
     }
 

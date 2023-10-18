@@ -16,6 +16,8 @@
 		9922BE852AC4CCDD001F4F40 /* ResumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9922BE842AC4CCDD001F4F40 /* ResumeView.swift */; };
 		9923CD242ABF5E280044B02F /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */; };
 		9923CD262ABF865C0044B02F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD252ABF865C0044B02F /* APIService.swift */; };
+		9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931AA892ADF25F50054C933 /* PlayerManager.swift */; };
+		9931AA8C2ADF4B090054C933 /* ProfilePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */; };
 		9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */; };
 		9941DC242A93F02300215948 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC232A93F02300215948 /* Assets.xcassets */; };
 		9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC262A93F02300215948 /* Preview Assets.xcassets */; };
@@ -109,6 +111,8 @@
 		9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabViewModel.swift; sourceTree = "<group>"; };
 		9923CD252ABF865C0044B02F /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		9931AA882ADDE23B0054C933 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9931AA892ADF25F50054C933 /* PlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
+		9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostView.swift; sourceTree = "<group>"; };
 		9941DC1C2A93F02100215948 /* JOYSTIQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JOYSTIQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JOYSTIQApp.swift; sourceTree = "<group>"; };
 		9941DC232A93F02300215948 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -440,6 +444,8 @@
 				9941DC512A93F6F000215948 /* LikeButton.swift */,
 				999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */,
 				99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */,
+				9931AA892ADF25F50054C933 /* PlayerManager.swift */,
+				9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */,
 			);
 			path = PostViews;
 			sourceTree = "<group>";
@@ -584,6 +590,7 @@
 			files = (
 				99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */,
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
+				9931AA8C2ADF4B090054C933 /* ProfilePostView.swift in Sources */,
 				990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */,
 				99BF23492AC9F7EB00D5E667 /* ImageViewer.swift in Sources */,
 				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
@@ -651,6 +658,7 @@
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
 				99F590FB2ABA514200AD5F8C /* LeaderboardTabView.swift in Sources */,
 				9923CD262ABF865C0044B02F /* APIService.swift in Sources */,
+				9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
 				997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,

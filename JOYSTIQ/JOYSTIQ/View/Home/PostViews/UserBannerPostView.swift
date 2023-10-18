@@ -13,16 +13,15 @@ import Amplify
 struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     var apiService: APIServiceType
-    var userId: Int
+    var game: String
+    var username: String
+    var avatarS3Key: S3Key
     
-    @State public var game: String
-    @State private var username: String?
     @State private var avatarSnapshot: UIImage?
     
     // MARK: - Body
     var body: some View {
-        HStack { // HStack for username + banner and game title button
-            // User Info
+        HStack {
             ZStack(alignment: .leading) {
                 userAvatar
                 usernameBanner
@@ -30,7 +29,6 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
             .frame(width: UIScreen.main.bounds.width * 0.4, height: 50)
             .padding(.leading, 10)
             
-            // Game title button
             gameLogoButton
             
             Spacer()
@@ -84,7 +82,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     }
     
     private var usernameBanner: some View {
-        Text(username ?? "Loading...")
+        Text(username)
             .font(.system(size: 15))
             .foregroundColor(.black)
             .frame(width: UIScreen.main.bounds.width * 0.30, height: 30)
@@ -98,33 +96,13 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
         Button(action: {}) {
             Text(game)
                 .foregroundColor(.green)
-//            Image("Logo" + String(intVal))
-//                .resizable()
-//                .scaledToFit()
-//                .frame(width: 35, height: 35)
-//                .cornerRadius(10)
         }
     }
     
     // MARK: - Functions
     private func loadData() {
-        getUsername {
-            if let uname = username {
-                fetchUserAvatar(for: uname)
-            }
-        }
-    }
-    
-    private func fetchUserAvatar(for username: String) {
-        apiService.getUserAvatar(username: username) { result in
-            switch result {
-            case .success(let avatar):
-                if let key = avatar.s3_key {
-                    fetchAvatarImage(s3Key: key)
-                }
-            case .failure(let error):
-                print("Error fetching avatar s3Key: \(error.localizedDescription)")
-            }
+        if avatarS3Key.Valid {
+            fetchAvatarImage(s3Key: avatarS3Key.String)
         }
     }
     
@@ -145,36 +123,19 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                     }.resume()
                 }
                 if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        avatarSnapshot = image
-                    }
+                    avatarSnapshot = image
                 }
             } catch {
                 print("Error fetching avatar image: \(error)")
             }
         }
     }
-    
-    private func getUsername(completion: @escaping () -> Void) {
-        let userIdentifier: UserIdentifier = .userId(userId)
-        apiService.getUsername(for: userIdentifier) { result in
-            switch result {
-            case .success(let fetchedUsername):
-                username = fetchedUsername
-                completion()
-                return
-            case .failure(let error):
-                print("Error getting username: \(error.localizedDescription)")
-            }
-        }
-        completion()
-    }
 }
 
 // MARK: - Preview
 struct UserBannerPostView_Previews: PreviewProvider {
     static var previews: some View {
-        UserBannerPostView<MockAPIService>(apiService: MockAPIService(), userId: 1, game: "Valorant")
+        UserBannerPostView<MockAPIService>(apiService: MockAPIService(), game: "Valorant", username: "SampleUsername", avatarS3Key: S3Key(String: "someKey1", Valid: false))
     }
 }
 

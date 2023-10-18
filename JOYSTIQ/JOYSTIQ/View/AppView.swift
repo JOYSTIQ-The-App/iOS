@@ -40,6 +40,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                         header
                         HomeTabView(apiService: apiService)
                             .environmentObject(user)
+                            .environmentObject(PlayerManager())
                             .id(token)
                     }
                     dropDownView
@@ -52,6 +53,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                         header
                         LeaderboardTabView(apiService: apiService)
                             .environmentObject(user)
+                            .environmentObject(PlayerManager())
                             .id(token)
                     }
                     dropDownView
@@ -66,6 +68,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 ProfileTabView<APIServiceType, AuthServiceType>(apiService: apiService, hideNavBar: $hideNavBar)
                     .environmentObject(user)
                     .environmentObject(authService)
+                    .environmentObject(PlayerManager())
             )
         default:
             return AnyView(
@@ -74,6 +77,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                         header
                         HomeTabView(apiService: apiService)
                             .environmentObject(user)
+                            .environmentObject(PlayerManager())
                             .id(token)
                     }
                     dropDownView
