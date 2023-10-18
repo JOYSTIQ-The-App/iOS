@@ -20,7 +20,7 @@ struct ProfilePostView<APIServiceType: APIServiceProtocol>: View {
     
     // MARK: - Body
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             UserBannerPostView(apiService: apiService, game: post.game, username: user.username, avatarS3Key: avatarS3Key)
                 .environmentObject(user)
             
