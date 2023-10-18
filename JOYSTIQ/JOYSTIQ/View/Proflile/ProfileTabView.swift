@@ -195,6 +195,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                         .foregroundColor(.black)
                     Image(systemName: "arrow.down.left")
                         .frame(width: 10, height: 10)
+                        .foregroundColor(.black)
                 }
             )
         }

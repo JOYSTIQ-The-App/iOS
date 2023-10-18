@@ -27,11 +27,11 @@
                                     <constraint firstAttribute="height" constant="128" id="SZC-Qu-liD"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="alphaversion" translatesAutoresizingMaskIntoConstraints="NO" id="acr-60-ghe">
-                                <rect key="frame" x="153" y="796" width="86" height="22"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alphaversion" translatesAutoresizingMaskIntoConstraints="NO" id="pak-Wr-pcI">
+                                <rect key="frame" x="144.66666666666666" y="786" width="104" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="4Oi-dQ-tHl"/>
-                                    <constraint firstAttribute="width" constant="86" id="66s-uH-HQn"/>
+                                    <constraint firstAttribute="height" constant="32" id="BEy-BO-RHr"/>
+                                    <constraint firstAttribute="width" constant="104" id="khl-wV-JfA"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -39,11 +39,10 @@
                         <color key="backgroundColor" name="Black0"/>
                         <color key="tintColor" name="Black0"/>
                         <constraints>
-                            <constraint firstItem="acr-60-ghe" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="0OZ-4B-n9D"/>
                             <constraint firstAttribute="bottom" secondItem="sRf-OT-DdG" secondAttribute="bottom" id="3d1-Q4-nU1"/>
-                            <constraint firstItem="acr-60-ghe" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="3qm-Ve-S3b"/>
-                            <constraint firstItem="acr-60-ghe" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="RCC-Uq-O6j"/>
                             <constraint firstItem="sRf-OT-DdG" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Zew-VZ-eRJ"/>
+                            <constraint firstItem="pak-Wr-pcI" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="a0Y-Be-Ikb"/>
+                            <constraint firstItem="pak-Wr-pcI" firstAttribute="bottom" secondItem="VIh-m7-Ugz" secondAttribute="bottom" id="bFF-l7-dM4"/>
                             <constraint firstAttribute="trailing" secondItem="sRf-OT-DdG" secondAttribute="trailing" id="k6j-S2-zoK"/>
                             <constraint firstItem="6rL-0X-qh7" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="sAw-DR-EP8"/>
                             <constraint firstItem="6rL-0X-qh7" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="v2H-gX-BuD"/>

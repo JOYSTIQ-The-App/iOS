@@ -21,9 +21,10 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
     
     // MARK: - Body
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key)
                 .environmentObject(user)
+                .padding(.top, 5)
             
             if let mediaURL = post.mediaURL {
                 if post.media == "video" {
@@ -124,6 +125,6 @@ struct PostView_Previews: PreviewProvider {
             showCommentSection: .constant(false)
         )
         .environmentObject(testUser)
-        .background(Color.black) // just to make it more visually clear in the preview
+        .background(Color("GradientDark3")) // just to make it more visually clear in the preview
     }
 }

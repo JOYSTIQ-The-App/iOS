@@ -31,10 +31,14 @@ struct PostContentView: View {
 
     // MARK: - SubViews
     private var content: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
             mediaContent
-            textContent
-            Spacer()
+            
+            HStack {
+                textContent
+                Spacer()
+            }
+            
         }
     }
     
@@ -53,7 +57,7 @@ struct PostContentView: View {
         Group {
             if let player = player {
                 VideoPlayer(player: player)
-                    .frame(width: UIScreen.main.bounds.width * 0.9, height: UIScreen.main.bounds.height * 0.25)
+                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
                     .cornerRadius(10)
             } else {
                 EmptyView()
@@ -114,7 +118,7 @@ extension View {
 struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         LazyVStack(alignment: .center, spacing: 0) {
-            PostContentView(s3_key: S3Key(String: "someKey1", Valid: false), bodyText: "This caption is to serve as a sample caption of more than one line!", mediaType: .none)
+            PostContentView(s3_key: S3Key(String: "someKey1", Valid: false), bodyText: "This caption is to serve=]", mediaType: .video)
         }
         .frame(width: UIScreen.main.bounds.width)
         .background(Color("GradientDark"))
