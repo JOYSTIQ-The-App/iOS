@@ -355,7 +355,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Functions
     func fetchUserProfile() {
         isLoading = true
-        apiService.getUserProfile(for: user.username) { result in
+        apiService.getUserProfile(for: profileUsername) { result in
             handleFetchResult(result)
         }
     }

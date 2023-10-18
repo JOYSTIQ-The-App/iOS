@@ -43,7 +43,7 @@ protocol APIServiceProtocol {
 
 
 class APIService: APIServiceProtocol {
-    let baseURL = "http://20.115.47.199:8080"
+    let baseURL = "https://api.joystiq.gg"
     
     func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
