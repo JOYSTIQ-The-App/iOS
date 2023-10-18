@@ -41,7 +41,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     private var loadingOverlay: some View {
         ZStack {
             // This semi-transparent view will cover the entire content
-            Color.black.opacity(0.7)
+            Color.black.opacity(0.4)
                 .edgesIgnoringSafeArea(.all)
             
             // Your loading circle
