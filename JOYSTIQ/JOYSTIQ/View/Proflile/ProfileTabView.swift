@@ -13,6 +13,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     // MARK: - Properties
     @EnvironmentObject var authService: AuthServiceType
     @EnvironmentObject var user: User
+    @EnvironmentObject var playerManager: PlayerManager
     
     var apiService: APIServiceType
     
@@ -36,9 +37,11 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @State private var showDeleteConfirmation = false
     @State private var postToDelete: Int? // Store the post ID to delete if confirmed
     
-    @State private var avatarS3Key: String?
+    @State private var avatarS3Key: S3Key = S3Key(String: "", Valid: false)
     
     @State private var userSocials: [String: String]?
+    @State private var isLoading: Bool = false
+    @State private var isLoadingAvatar: Bool = false
 
     // MARK: - Body
     var body: some View {
@@ -51,12 +54,27 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 if showResume {
                     resumeModal
                 }
+                
+                if isLoading {
+                    loadingOverlay
+                }
             }
             .accentColor(Color(.label))
         }
     }
 
     // MARK: - Subviews
+    private var loadingOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+                .edgesIgnoringSafeArea(.all)
+            
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
+    }
+    
     private var mainContent: some View {
         ScrollView(.vertical, showsIndicators: true) {
             VStack(spacing: 0) {
@@ -102,22 +120,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         .edgesIgnoringSafeArea([.top, .bottom])
         .onAppear {
             fetchUserProfile()
-            fetchUserPosts()
-            fetchUserSocials()
             hideNavBar = false
-            
-            // Fetch the avatar using the assured username
-            apiService.getUserAvatar(username: user.username) { result in
-                switch result {
-                case .success(let s3Key):
-                    if let key = s3Key {
-                        fetchAvatarImage(s3Key: key)
-                        avatarS3Key = key
-                    }
-                case .failure(let error):
-                    print("Error fetching avatar s3Key: \(error.localizedDescription)")
-                }
-            }
         }
         .alert(isPresented: $showDeleteConfirmation) {
             Alert(title: Text("Delete Post"),
@@ -179,6 +182,11 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     .scaleEffect(1.5)
                     .padding(.top, UIScreen.main.bounds.height * 0.05)
             )
+        } else if isLoadingAvatar {
+            return AnyView(
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+            )
         } else {
             return AnyView(
                 VStack {
@@ -193,7 +201,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
     
     private var wardrobeButton: some View {
-        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, oldS3Key: avatarS3Key, apiService: apiService).navigationBarTitleDisplayMode(.inline)
+        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, oldS3Key: avatarS3Key.String, apiService: apiService).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Wardrobe")
@@ -238,7 +246,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     
     private var followersButtons: some View {
         HStack(spacing: 10) {
-            NavigationLink(destination: FollowersListView(apiService: apiService)) {
+            NavigationLink(destination: FollowersListView(apiService: apiService, username: user.username)) {
                 VStack {
                     Text("\(followers)")
                         .font(.headline)
@@ -253,7 +261,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 .cornerRadius(8)
             }
             
-            NavigationLink(destination: FollowingListView(apiService: apiService)) {
+            NavigationLink(destination: FollowingListView(apiService: apiService, username: user.username)) {
                 VStack {
                     Text("\(following)")
                         .font(.headline)
@@ -376,33 +384,25 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     
 
     private var userPostsScrollView: some View {
-
         LazyVStack(spacing: 0) {
-            
             ForEach(userPosts, id: \.id) { post in
-                
-
-                UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
-                    .environmentObject(user)
-                   
-                LazyVStack(alignment: .leading, spacing: 0) {
-                    if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                        PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
-                    } else {
-                        PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
-                    }
-                }
+                ProfilePostView(
+                    apiService: apiService,
+                    post: post,
+                    avatarS3Key: avatarS3Key
+                )
+                .environmentObject(user)
+                .environmentObject(playerManager)
                                   
                 
                 HStack { //for interaction buttons and delete post
-                    
                     SelfInteractionButtonMenu(
                         showCommentSection: $showCommentSection,
                         apiService: apiService,
                         postId: post.id,
                         likesCount: post.likes,
                         commentCount: post.comments,
-                        userLiked: post.user_liked ?? false
+                        userLiked: post.user_liked
                     )
                     .environmentObject(user)
                     
@@ -416,7 +416,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     .padding(.trailing, 25)
                     .padding(.bottom, 10)
                 }
-                //.overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
 
                 Divider()
                     .frame(width: UIScreen.main.bounds.width, height: 1)
@@ -430,14 +429,82 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 
                 Spacer()
             }
-            
-        } //end Lazy Vstack
+        }
         .background(Color("GradientDark3"))
         .padding(.top, 10)
-        
     }
   
     // MARK: - Functions
+    func fetchUserProfile() {
+        isLoading = true
+        apiService.getUserProfile(for: user.username) { result in
+            handleFetchResult(result)
+        }
+    }
+    
+    private func handleFetchResult(_ result: Result<UserProfile, Error>) {
+        switch result {
+        case .success(let Profile):
+            if Profile.avatar_s3_key.Valid {
+                isLoadingAvatar = true
+                avatarS3Key = Profile.avatar_s3_key
+                fetchAvatarImage(s3Key: Profile.avatar_s3_key.String)
+            }
+            bio = Profile.bio
+            
+            if Profile.environment == "gameroom" {
+                enviroInt = 1
+            }
+            
+            followers = Profile.followers
+            following = Profile.following
+            fetchURLsForPosts(Profile.posts) { updatedPosts in
+                userPosts = updatedPosts
+            }
+            
+            userSocials = Profile.socials
+            
+        case .failure(let error):
+            print("Error fetching feed: \(error.localizedDescription)")
+        }
+        
+        isLoading = false
+    }
+    
+    private func fetchURLsForPosts(_ inputPosts: [Post], completion: @escaping ([Post]) -> Void) {
+        var updatedPosts: [Post] = []
+
+        Task {
+            await withTaskGroup(of: (original: Post, url: URL?).self) { group in
+                for post in inputPosts {
+                    if post.s3_key.Valid {
+                        group.addTask {
+                            do {
+                                let url = try await Amplify.Storage.getURL(key: post.s3_key.String)
+                                return (original: post, url: url)
+                            } catch {
+                                print("Error fetching URL: \(error)")
+                                return (original: post, url: nil)
+                            }
+                        }
+                    } else {
+                        updatedPosts.append(post)
+                    }
+                }
+
+                for await result in group {
+                    var post = result.original
+                    post.mediaURL = result.url
+                    updatedPosts.append(post)
+                }
+            }
+
+            DispatchQueue.main.async {
+                completion(updatedPosts)
+            }
+        }
+    }
+    
     func fetchAvatarImage(s3Key: String) {
         Task {
             do {
@@ -455,48 +522,11 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     }.resume()
                 }
                 if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        avatarSnapshot = image
-                    }
+                    avatarSnapshot = image
+                    isLoadingAvatar = false
                 }
             } catch {
                 print("Error fetching avatar image: \(error)")
-            }
-        }
-    }
-
-    func fetchUserProfile() {
-        apiService.getUserProfile(for: user.username) { result in
-            switch result {
-            case .success(let profile):
-                self.bio = profile.bio
-                self.resume = profile.resume
-                self.followers = profile.followers
-                self.following = profile.following
-            case .failure(let error):
-                print("Error fetching user profile: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func fetchUserSocials() {
-        apiService.getUserSocials(for: user.username) { result in
-            switch result {
-            case .success(let socials):
-                self.userSocials = socials
-            case .failure(let error):
-                print("Error fetching user's socials: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func fetchUserPosts() {
-        apiService.getUserPosts(for: user.username) { result in
-            switch result {
-            case .success(let posts):
-                self.userPosts = posts
-            case .failure(let error):
-                print("Error fetching user's posts: \(error.localizedDescription)")
             }
         }
     }
@@ -519,7 +549,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             }
         }
     }
-
 }
 
 // MARK: - Preview
@@ -533,5 +562,6 @@ struct ProfileTabView_Previews: PreviewProvider {
         return ProfileTabView<MockAPIService, MockAuthService>(apiService: MockAPIService(), hideNavBar: .constant(false))
             .environmentObject(testUser)
             .environmentObject(MockAuthService())
+            .environmentObject(PlayerManager())
     }
 }

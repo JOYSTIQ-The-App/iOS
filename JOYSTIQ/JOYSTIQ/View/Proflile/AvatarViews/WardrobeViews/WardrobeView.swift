@@ -297,13 +297,22 @@ struct WardrobeView: View {
             print("Error converting image to Data")
             return
         }
+        
+        // Generate a unique key with the .png extension for the avatar image
+        let newKey = "\(UUID().uuidString).png"
+        
         Task {
             do {
-                let newKey = try await s3Service.uploadData(data)
-                print("Uploaded image with key: \(newKey)")
+                let uploadedKey = try await s3Service.uploadData(data, withKey: newKey)
+                print("Uploaded image with key: \(uploadedKey)")
+                
+                var environment = "classic"
+                if enviroInt == 1 {
+                    environment = "gameroom"
+                }
 
                 // Use the oldS3Key property of the WardrobeView directly
-                apiService.updateUserAvatar(username: user.username, oldS3Key: oldS3Key, newS3Key: newKey) { result in
+                apiService.updateUserAvatar(username: user.username, oldS3Key: oldS3Key, newS3Key: uploadedKey, enviro: environment) { result in
                     switch result {
                     case .success:
                         print("Successfully updated user avatar")
@@ -316,6 +325,7 @@ struct WardrobeView: View {
             }
         }
     }
+
 
 
     

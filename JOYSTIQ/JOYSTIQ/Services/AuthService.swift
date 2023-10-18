@@ -127,9 +127,20 @@ class AuthService: AuthServiceProtocol {
             switch result {
             case .success(let isRegistered):
                 if !isRegistered {
+                    print("Email is not registered")
                     APIService().createUser(email: email) { createUserResult in
                         switch createUserResult {
-                        case .success:
+                        case .success(let username):
+                            print("Created a new user with username:", username)
+                            APIService().createFollow(username: username, followingUsername: "JOYSTIQ") { followResult in
+                                switch followResult {
+                                case .success:
+                                    print("Success following JOYSTIQ")
+                                case .failure(let error):
+                                    print("Error liking post: \(error.localizedDescription)")
+                                }
+                            }
+                                
                             Task {
                                 await self.signInAndInitialize(email: email, password: password, completion: completion)
                             }

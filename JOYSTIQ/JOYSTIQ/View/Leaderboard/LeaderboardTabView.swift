@@ -7,46 +7,55 @@
 
 import SwiftUI
 import AVKit
+import Amplify
 
 struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
+    @EnvironmentObject var playerManager: PlayerManager
     var apiService: APIServiceType
     
-    @State private var showDropDown = false
     @State private var showingReportAlert = false
-    @State private var posts: [FeedPost] = []
+    @State private var posts: [Post] = []
     @State var showCommentSection: Bool = false
+    @State private var isLoading: Bool = false
     
     // MARK: - Body
     var body: some View {
         NavigationView {
             ZStack {
                 mainContent
-                dropDownView
+                
+                if isLoading {
+                    loadingOverlay
+                }
             }
+            .accentColor(Color.green)
         }
     }
     
     // MARK: - Subviews
+    private var loadingOverlay: some View {
+        ZStack {
+            // This semi-transparent view will cover the entire content
+            Color.black.opacity(0.7)
+                .edgesIgnoringSafeArea(.all)
+            
+            // Your loading circle
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
+    }
+    
     private var mainContent: some View {
         VStack(spacing: 0) {
-            HeaderView(showDropDown: $showDropDown, onRefreshPress: {refreshPosts()})
             feedView
         }
         .background(Color("GradientDark3"))
         .alert(isPresented: $showingReportAlert, content: reportAlert)
         .onAppear {
-            Task {
-                apiService.getLeaderboardFeed(for: user.email){ result in
-                    switch result {
-                    case .success(let fetchedPosts):
-                        posts = fetchedPosts
-                    case .failure(let error):
-                        print("Error fetching user feed: \(error.localizedDescription)")
-                    }
-                }
-            }
+            fetchPosts()
         }
     }
     
@@ -57,27 +66,12 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                     LeaderboardBanners(placeValue: index + 1)
                         .padding(.bottom, 5)
                     
-                    UserBannerPostView(apiService: apiService, intVal: 1, userId: post.user_id)
-                    
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        if let s3Key = post.s3_key?.String, post.s3_key?.Valid == true {
-                            PostContentView(s3_key: s3Key, bodyText: post.body, mediaType: MediaType(from: post.media))
-                        } else {
-                            PostContentView(s3_key: nil, bodyText: post.body, mediaType: .none)
-                        }
-                    }
-
-                    
-                    InteractionButtonMenu(
-                        showCommentSection: $showCommentSection,
-                        showingReportAlert: $showingReportAlert,
+                    PostView(
                         apiService: apiService,
-                        postId: post.id,
-                        likesCount: post.likes,
-                        commentCount: post.comments,
-                        userLiked: post.user_liked
+                        post: post,
+                        showCommentSection: $showCommentSection
                     )
-                    //.overlay(Rectangle().frame(height: 1, alignment: .bottom).foregroundColor(Color("LightGray").opacity(0.4)), alignment: .bottom)
+                    .environmentObject(user)
 
                     Spacer()
                 }
@@ -86,31 +80,56 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
         }
         .background(Color("GradientDark3"))
     }
-
     
-    private var dropDownView: some View {
-        ZStack {
-            if showDropDown {
-                Color.black.opacity(0.6)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture { showDropDown = false }
-                
-                DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
-            }
+    // MARK: - Funtions
+    private func fetchPosts() {
+        isLoading = true
+        apiService.getLeaderboardFeed(for: user.email){ result in
+            handleFetchResult(result)
         }
     }
     
-    // MARK: - Funtions
-    private func refreshPosts() {
-        Task {
-            apiService.getLeaderboardFeed(for: user.email){ result in
-                switch result {
-                case .success(let fetchedPosts):
-                    posts = fetchedPosts
-                case .failure(let error):
-                    print("Error fetching user feed: \(error.localizedDescription)")
-                }
+    private func handleFetchResult(_ result: Result<[Post], Error>) {
+        switch result {
+        case .success(let fetchedPosts):
+            fetchURLsForPosts(fetchedPosts) { updatedPosts in
+                var sortedPosts = updatedPosts
+                sortedPosts.sort { $0.created_at > $1.created_at }
+                posts = []
+                posts = sortedPosts
+                
+                isLoading = false
             }
+        case .failure(let error):
+            print("Error fetching feed: \(error.localizedDescription)")
+            isLoading = false
+        }
+    }
+    
+    private func fetchURLsForPosts(_ inputPosts: [Post], completion: @escaping ([Post]) -> Void) {
+        let group = DispatchGroup()
+        var updatedPosts: [Post] = []
+
+        for var post in inputPosts {
+            if post.s3_key.Valid {
+                group.enter()
+                Task {
+                    do {
+                        let url = try await Amplify.Storage.getURL(key: post.s3_key.String)
+                        post.mediaURL = url
+                        updatedPosts.append(post)
+                    } catch {
+                        print("Error fetching URL: \(error)")
+                    }
+                    group.leave()
+                }
+            } else {
+                updatedPosts.append(post)
+            }
+        }
+
+        group.notify(queue: .main) {
+            completion(updatedPosts)
         }
     }
     
@@ -132,5 +151,6 @@ struct LeaderboardTabView_Previews: PreviewProvider {
         
         LeaderboardTabView<MockAPIService>(apiService: MockAPIService())
             .environmentObject(testUser)
+            .environmentObject(PlayerManager())
     }
 }

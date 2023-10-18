@@ -13,9 +13,12 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
     @EnvironmentObject var authService: AuthServiceType
     @EnvironmentObject var user: User
     
+    @State private var showDropDown = false
     @State private var selectedTab = 0
     @State private var showPostScreen = false
     @State private var hideNavBar = false
+    
+    @State var token: UUID = UUID()
 
     // MARK: - Body
     var body: some View {
@@ -32,13 +35,29 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
         switch selectedTab {
         case 0:
             return AnyView(
-                HomeTabView(apiService: apiService)
-                    .environmentObject(user)
+                ZStack {
+                    VStack(spacing: 0) {
+                        header
+                        HomeTabView(apiService: apiService)
+                            .environmentObject(user)
+                            .environmentObject(PlayerManager())
+                            .id(token)
+                    }
+                    dropDownView
+                }
             )
         case 1:
             return AnyView(
-                LeaderboardTabView(apiService: apiService)
-                    .environmentObject(user)
+                ZStack {
+                    VStack(spacing: 0) {
+                        header
+                        LeaderboardTabView(apiService: apiService)
+                            .environmentObject(user)
+                            .environmentObject(PlayerManager())
+                            .id(token)
+                    }
+                    dropDownView
+                }
             )
         case 3:
             return AnyView(
@@ -49,12 +68,39 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 ProfileTabView<APIServiceType, AuthServiceType>(apiService: apiService, hideNavBar: $hideNavBar)
                     .environmentObject(user)
                     .environmentObject(authService)
+                    .environmentObject(PlayerManager())
             )
         default:
             return AnyView(
-                HomeTabView(apiService: apiService)
-                    .environmentObject(user)
+                ZStack {
+                    VStack(spacing: 0) {
+                        header
+                        HomeTabView(apiService: apiService)
+                            .environmentObject(user)
+                            .environmentObject(PlayerManager())
+                            .id(token)
+                    }
+                    dropDownView
+                }
             )
+        }
+    }
+    
+    private var header: some View {
+        HeaderView(showDropDown: $showDropDown, onRefreshPress: {
+            refreshPosts()
+        })
+    }
+    
+    private var dropDownView: some View {
+        ZStack {
+            if showDropDown {
+                Color.black.opacity(0.6)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture { showDropDown = false }
+                
+                DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
+            }
         }
     }
     
@@ -166,6 +212,11 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 .foregroundColor(Color("LightGray"))
                 .shadow(color: selectedTab == 4 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
         })
+    }
+    
+    //MARK: - Functions
+    private func refreshPosts() {
+        token = UUID()
     }
 }
 

@@ -10,7 +10,7 @@ import SwiftUI
 struct FollowersListView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     var apiService: APIServiceType
-    @EnvironmentObject var user: User
+    var username: String
     
     @State private var followers: [String] = []
     
@@ -25,7 +25,7 @@ struct FollowersListView<APIServiceType: APIServiceProtocol>: View {
     
     // MARK: - Functions
     func fetchFollowers() {
-        apiService.getFollowersList(for: user.username) { result in
+        apiService.getFollowersList(for: username) { result in
             switch result {
             case .success(let followersList):
                 self.followers = followersList
@@ -40,10 +40,7 @@ struct FollowersListView<APIServiceType: APIServiceProtocol>: View {
 // MARK: - Preview
 struct FollowersListView_Previews: PreviewProvider {
     static var previews: some View {
-        let testUser = User(email: "testEmail@example.com", username: "TestUser")
-        
-        return FollowersListView<MockAPIService>(apiService: MockAPIService())
-            .environmentObject(testUser)
+        return FollowersListView<MockAPIService>(apiService: MockAPIService(), username: "Apical")
     }
 }
 

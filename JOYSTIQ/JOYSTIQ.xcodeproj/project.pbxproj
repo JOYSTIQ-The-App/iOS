@@ -16,6 +16,8 @@
 		9922BE852AC4CCDD001F4F40 /* ResumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9922BE842AC4CCDD001F4F40 /* ResumeView.swift */; };
 		9923CD242ABF5E280044B02F /* HomeTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */; };
 		9923CD262ABF865C0044B02F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD252ABF865C0044B02F /* APIService.swift */; };
+		9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931AA892ADF25F50054C933 /* PlayerManager.swift */; };
+		9931AA8C2ADF4B090054C933 /* ProfilePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */; };
 		9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */; };
 		9941DC242A93F02300215948 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC232A93F02300215948 /* Assets.xcassets */; };
 		9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC262A93F02300215948 /* Preview Assets.xcassets */; };
@@ -76,6 +78,7 @@
 		99ADA60B2ABFC42000FB5524 /* ShoeSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */; };
 		99BF23492AC9F7EB00D5E667 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */; };
 		99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4B66A2AC64EDE00AE187D /* EditPostView.swift */; };
+		99C99C852ADB0E410094D2A5 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C99C842ADB0E410094D2A5 /* Avatar.swift */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
 		99E235352AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E235342AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift */; };
 		99E2F67A2AA7B5D1000117FA /* CommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E2F6792AA7B5D1000117FA /* CommentSection.swift */; };
@@ -107,6 +110,9 @@
 		9922BE842AC4CCDD001F4F40 /* ResumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeView.swift; sourceTree = "<group>"; };
 		9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabViewModel.swift; sourceTree = "<group>"; };
 		9923CD252ABF865C0044B02F /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		9931AA882ADDE23B0054C933 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9931AA892ADF25F50054C933 /* PlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
+		9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostView.swift; sourceTree = "<group>"; };
 		9941DC1C2A93F02100215948 /* JOYSTIQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JOYSTIQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JOYSTIQApp.swift; sourceTree = "<group>"; };
 		9941DC232A93F02300215948 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -166,6 +172,7 @@
 		99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoeSwitcherView.swift; sourceTree = "<group>"; };
 		99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		99C4B66A2AC64EDE00AE187D /* EditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostView.swift; sourceTree = "<group>"; };
+		99C99C842ADB0E410094D2A5 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
 		99D8B79A2AB11ECE00733B73 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		99E235342AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelfInteractionButtonMenu.swift; sourceTree = "<group>"; };
@@ -245,6 +252,7 @@
 		9941DC1E2A93F02100215948 /* JOYSTIQ */ = {
 			isa = PBXGroup;
 			children = (
+				9931AA882ADDE23B0054C933 /* Info.plist */,
 				9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */,
 				995085E02A95A690003996B6 /* Services */,
 				99F590F12ABA39ED00AD5F8C /* Models */,
@@ -436,6 +444,8 @@
 				9941DC512A93F6F000215948 /* LikeButton.swift */,
 				999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */,
 				99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */,
+				9931AA892ADF25F50054C933 /* PlayerManager.swift */,
+				9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */,
 			);
 			path = PostViews;
 			sourceTree = "<group>";
@@ -488,6 +498,7 @@
 				9923CD232ABF5E280044B02F /* HomeTabViewModel.swift */,
 				9980BB062AD479D800A2B089 /* ServerResponse.swift */,
 				99755A072AD636CA0021DAD3 /* Report.swift */,
+				99C99C842ADB0E410094D2A5 /* Avatar.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -579,6 +590,7 @@
 			files = (
 				99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */,
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
+				9931AA8C2ADF4B090054C933 /* ProfilePostView.swift in Sources */,
 				990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */,
 				99BF23492AC9F7EB00D5E667 /* ImageViewer.swift in Sources */,
 				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
@@ -646,11 +658,13 @@
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
 				99F590FB2ABA514200AD5F8C /* LeaderboardTabView.swift in Sources */,
 				9923CD262ABF865C0044B02F /* APIService.swift in Sources */,
+				9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
 				997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */,
 				99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */,
+				99C99C852ADB0E410094D2A5 /* Avatar.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,
 				9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */,
 			);
@@ -786,6 +800,8 @@
 				DEVELOPMENT_TEAM = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JOYSTIQ/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -820,6 +836,8 @@
 				DEVELOPMENT_TEAM = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JOYSTIQ/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
