@@ -43,7 +43,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     
     // MARK: - Body
     var body: some View {
-        NavigationView {
+        //NavigationView {
             ZStack {
                 mainContent
                 if showSocials {
@@ -55,7 +55,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                 }
             }
             .accentColor(Color(.label))
-        }
+        //}
     }
     
     // MARK: - Subviews
