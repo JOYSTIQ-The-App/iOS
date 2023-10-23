@@ -90,48 +90,11 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     private func handleFetchResult(_ result: Result<[Post], Error>) {
         switch result {
         case .success(let fetchedPosts):
-            fetchURLsForPosts(fetchedPosts) { updatedPosts in
-                var sortedPosts = updatedPosts
-                sortedPosts.sort { $0.created_at > $1.created_at }
-                posts = []
-                posts = sortedPosts
-                
-                isLoading = false
-            }
+            posts = fetchedPosts
+            isLoading = false
         case .failure(let error):
             print("Error fetching feed: \(error.localizedDescription)")
             isLoading = false
-        }
-    }
-    
-    private func fetchURLsForPosts(_ inputPosts: [Post], completion: @escaping ([Post]) -> Void) {
-        let group = DispatchGroup()
-        var updatedPosts: [Post] = []
-
-        for var post in inputPosts {
-            if post.s3_key.Valid {
-                group.enter()
-                Task {
-                    do {
-                        let url = try await Amplify.Storage.getURL(key: post.s3_key.String)
-                        post.mediaURL = url
-                        if post.thumbnail_s3_key.Valid {
-                            let thumbnail = try await Amplify.Storage.getURL(key: post.thumbnail_s3_key.String)
-                            post.thumbnailURL = thumbnail
-                        }
-                        updatedPosts.append(post)
-                    } catch {
-                        print("Error fetching URL: \(error)")
-                    }
-                    group.leave()
-                }
-            } else {
-                updatedPosts.append(post)
-            }
-        }
-
-        group.notify(queue: .main) {
-            completion(updatedPosts)
         }
     }
     
