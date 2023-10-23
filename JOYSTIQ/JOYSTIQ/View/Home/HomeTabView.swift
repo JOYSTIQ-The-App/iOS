@@ -40,15 +40,13 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Subviews
     private var loadingOverlay: some View {
         ZStack {
-            // This semi-transparent view will cover the entire content
             Color.black.opacity(0.4)
                 .edgesIgnoringSafeArea(.all)
             
-            // Your loading circle
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var mainContent: some View {

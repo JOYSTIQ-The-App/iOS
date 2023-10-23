@@ -37,15 +37,13 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Subviews
     private var loadingOverlay: some View {
         ZStack {
-            // This semi-transparent view will cover the entire content
             Color.black.opacity(0.7)
                 .edgesIgnoringSafeArea(.all)
             
-            // Your loading circle
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var mainContent: some View {
@@ -53,7 +51,6 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
             feedView
         }
         .background(Color("GradientDark3"))
-        .alert(isPresented: $showingReportAlert, content: reportAlert)
         .onAppear {
             fetchPosts()
         }
@@ -139,14 +136,14 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     }
     
     // MARK: - Alert
-    private func reportAlert() -> Alert {
-        Alert(
-            title: Text("Report Post"),
-            message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
-            primaryButton: .default(Text("Report")),
-            secondaryButton: .cancel(Text("Cancel"))
-        )
-    }
+//    private func reportAlert() -> Alert {
+//        Alert(
+//            title: Text("Report Post"),
+//            message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
+//            primaryButton: .default(Text("Report")),
+//            secondaryButton: .cancel(Text("Cancel"))
+//        )
+//    }
 }
 
 // MARK: - Preview

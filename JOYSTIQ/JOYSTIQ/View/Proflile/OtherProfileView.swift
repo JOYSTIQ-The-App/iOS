@@ -17,7 +17,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     
     var apiService: APIServiceType
     var profileUsername: String
-    @Binding var showCommentSection: Bool
+    @State var showCommentSection: Bool = false
     
     @State private var showSocials = false
     //@State private var showResume = false
@@ -122,15 +122,8 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             
             fetchUserProfile()
         }
-        .alert(isPresented: $showingReportAlert) {
-            Alert(
-                title: Text("Report Post"),
-                message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
-                primaryButton: .default(Text("Report")),
-                secondaryButton: .cancel(Text("Cancel"))
-            )
-        }
         .background(Color("GradientDark3"))
+        
         
     }
 
@@ -327,25 +320,15 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
 
     private var userPostsScrollView: some View {
         LazyVStack(spacing: 0) {
-            ForEach(userPosts, id: \.id) { post in
+            ForEach(userPosts) { post in
                 PostView(
                     apiService: apiService,
                     post: post,
                     showCommentSection: $showCommentSection
                 )
                 .environmentObject(user)
-
-                Divider()
-                    .frame(width: UIScreen.main.bounds.width, height: 1)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+                .environmentObject(playerManager)
                 
-                Spacer()
             }
         }
         .background(Color("GradientDark3"))
@@ -472,7 +455,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
     
     private func followUser() {
-        followers += 1
+//        followers += 1
         apiService.createFollow(username: user.username, followingUsername: profileUsername) { result in
             isLoading = false
             switch result {
@@ -485,7 +468,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     }
 
     private func unfollowUser() {
-        followers -= 1
+//        followers -= 1
         apiService.deleteFollow(username: user.username, followingUsername: profileUsername) { result in
             isLoading = false
             switch result {
@@ -507,7 +490,7 @@ struct OtherProfileView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "Apical")
         
-        return OtherProfileView<MockAPIService>(apiService: MockAPIService(), profileUsername: "Apical", showCommentSection: .constant(false))
+        return OtherProfileView<MockAPIService>(apiService: MockAPIService(), profileUsername: "Apical")
             .environmentObject(testUser)
             .environmentObject(PlayerManager())
     }

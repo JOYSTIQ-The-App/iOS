@@ -76,27 +76,29 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     }
 
     private func likePost() {
-        likesCount? += 1
+//        likesCount? += 1
         apiService.createLike(username: user.username, postId: postId) { result in
-            isLoading = false
             switch result {
             case .success:
                 userLiked.toggle()
+                isLoading = false
             case .failure(let error):
                 print("Error liking post: \(error.localizedDescription)")
+                isLoading = false
             }
         }
     }
 
     private func unlikePost() {
-        likesCount? -= 1
+//        likesCount? -= 1
         apiService.deleteLike(username: user.username, postId: postId) { result in
-            isLoading = false
             switch result {
             case .success:
                 userLiked.toggle()
+                isLoading = false
             case .failure(let error):
                 print("Error unliking post: \(error.localizedDescription)")
+                isLoading = false
             }
         }
     }

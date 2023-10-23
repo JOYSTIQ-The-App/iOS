@@ -36,9 +36,7 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
                 }
             } else {
                 PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
-            }
-            
-                
+            }   
             
             InteractionButtonMenu(
                 showCommentSection: $showCommentSection,

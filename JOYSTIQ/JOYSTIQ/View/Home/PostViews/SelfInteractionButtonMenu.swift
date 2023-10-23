@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
-    
+    // MARK: - Properties
     @EnvironmentObject var user: User
     @Binding var showCommentSection: Bool
     var apiService: APIServiceType
@@ -16,67 +16,80 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     @State var likesCount: Int? = nil
     @State var commentCount: Int
     @State var userLiked: Bool
-    
-    
     @State private var isLoading: Bool = false
-    
+
+    // MARK: - Body
     var body: some View {
-        
-        // Hstack for interaction buttons
         HStack {
-            
-            if isLoading {
+            loadingOrButtonContent
+            CommentButton<APIService>(apiService: apiService, postId: postId, commentCount: commentCount)
+                .onTapGesture {
+                    print("Comment Section")
+                    showCommentSection.toggle()
+                }
+            Spacer()
+        }
+        .padding(.horizontal, 25)
+        .padding(.bottom, 8)
+    }
+
+    // MARK: - Subviews
+    private var loadingOrButtonContent: some View {
+        if isLoading {
+            return AnyView(
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .green))
                     .scaleEffect(0.8)
                     .padding(.trailing, 5)
-            } else {
-                Button(action: {
-                    isLoading = true
-                    if userLiked {
-                        likesCount? -= 1
-                        
-                        apiService.deleteLike(username: user.username, postId: postId) { result in
-                            isLoading = false
-                            switch result {
-                            case .success:
-                                userLiked.toggle()
-                            case .failure(let error):
-                                print("Error unliking post: \(error.localizedDescription)")
-                            }
-                        }
-                    } else {
-                        likesCount? += 1
-                        apiService.createLike(username: user.username, postId: postId) { result in
-                            isLoading = false
-                            switch result {
-                            case .success:
-                                userLiked.toggle()
-                            case .failure(let error):
-                                print("Error liking post: \(error.localizedDescription)")
-                            }
-                        }
-                    }
-                }) {
+            )
+        } else {
+            return AnyView(
+                Button(action: likeButtonAction) {
                     LikeButton(isLiked: $userLiked, likesCount: $likesCount)
                 }
                 .disabled(isLoading)
                 .padding(.trailing, 5)
+            )
+        }
+    }
+
+    // MARK: - Functions
+    private func likeButtonAction() {
+        isLoading = true
+        if userLiked {
+            unlikePost()
+        } else {
+            likePost()
+        }
+    }
+
+    private func likePost() {
+//        likesCount? += 1
+        apiService.createLike(username: user.username, postId: postId) { result in
+            switch result {
+            case .success:
+                userLiked.toggle()
+                isLoading = false
+            case .failure(let error):
+                print("Error liking post: \(error.localizedDescription)")
+                isLoading = false
             }
-            
-            CommentButton<APIService>(apiService: apiService, postId: postId, commentCount: commentCount)
-                .onTapGesture {
-                    showCommentSection.toggle()
-                }
-            
-            Spacer()
-            
-            
-        } //END Hstack for interaction buttons
-        .padding(.horizontal, 25)
-        .padding(.bottom, 8)
-        
-    } //end body
+        }
+    }
+
+    private func unlikePost() {
+//        likesCount? -= 1
+        apiService.deleteLike(username: user.username, postId: postId) { result in
+            switch result {
+            case .success:
+                userLiked.toggle()
+                isLoading = false
+            case .failure(let error):
+                print("Error unliking post: \(error.localizedDescription)")
+                isLoading = false
+            }
+        }
+    }
     
 }
 

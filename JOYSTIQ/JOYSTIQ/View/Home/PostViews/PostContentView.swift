@@ -180,14 +180,12 @@ struct PostContentView: View {
     private func loadImageIfNecessary() {
         if let thumbnail = tURL {
             thumbnailURL = thumbnail
-            print("Not fetching")
             return
         }
         
         if mediaType == .video, let validKey = thumbnail?.String, thumbnail?.Valid == true {
             Task {
                 do {
-                    print("fetching thumbnail")
                     thumbnailURL = try await Amplify.Storage.getURL(key: validKey)
                 } catch {
                     print("Failed to load image URL: \(error)")
