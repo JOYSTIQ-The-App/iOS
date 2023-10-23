@@ -202,7 +202,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
     
     private var wardrobeButton: some View {
-        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, oldS3Key: avatarS3Key.String, apiService: apiService).navigationBarTitleDisplayMode(.inline)
+        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, avatarS3Key: $avatarS3Key, apiService: apiService).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Wardrobe")
@@ -460,7 +460,9 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             followers = Profile.followers
             following = Profile.following
             fetchURLsForPosts(Profile.posts) { updatedPosts in
-                userPosts = updatedPosts
+                var sortedPosts = updatedPosts
+                sortedPosts.sort { $0.created_at > $1.created_at }
+                userPosts = sortedPosts
             }
             
             userSocials = Profile.socials

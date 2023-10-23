@@ -21,6 +21,7 @@ protocol APIServiceProtocol {
     func deleteUserSocial(username: String, socialType: String, completion: @escaping (Result<Void, Error>) -> Void)
     func getFollowersList(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
     func getFollowingList(for username: String, completion: @escaping (Result<[String], Error>) -> Void)
+    func getGamerProfile(for email: String, username: String, completion: @escaping (Result<UserProfile, Error>) -> Void)
     func getGlobalFeed(for email: String, lastSeenCreatedAt: String?, completion: @escaping (Result<[Post], Error>) -> Void)
     func getLeaderboardFeed(for email: String, completion: @escaping (Result<[Post], Error>) -> Void)
     func getPostComments(for postId: Int, completion: @escaping (Result<[Comment], Error>) -> Void)
@@ -44,6 +45,7 @@ protocol APIServiceProtocol {
 
 class APIService: APIServiceProtocol {
     let baseURL = "https://api.joystiq.gg"
+//    let baseURL = "http://127.0.0.1:8080"
     
     func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
@@ -750,6 +752,44 @@ class APIService: APIServiceProtocol {
         task.resume()
     }
     
+    func getGamerProfile(for email: String, username: String, completion: @escaping (Result<UserProfile, Error>) -> Void) {
+        // Encode the email and username to ensure it's safe for URLs
+        guard let emailEncoded = email.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidEmail", code: 400, userInfo: nil)))
+            return
+        }
+        
+        guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            completion(.failure(NSError(domain: "InvalidUsername", code: 400, userInfo: nil)))
+            return
+        }
+        
+        // Construct the URL with the query parameter
+        let profileURL = URL(string: "\(baseURL)/handlers/get_gamer_profile?email=\(emailEncoded)&username=\(usernameEncoded)")!
+        
+        var request = URLRequest(url: profileURL)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let profile = try JSONDecoder().decode(UserProfile.self, from: data)
+                        completion(.success(profile))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+    
     func getUserSocials(for username: String, completion: @escaping (Result<[String: String]?, Error>) -> Void) {
         // Encode the username to ensure it's safe for URLs
         guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
@@ -1333,16 +1373,69 @@ class MockAPIService: APIServiceProtocol {
         completion(.success(dummyFollowing))
     }
     
+    func getGamerProfile(for email: String, username: String, completion: @escaping (Result<UserProfile, Error>) -> Void) {
+        print("MockAPIService: getGamerProfile() with email:", email, " and username:", username)
+        // Mocked profile data
+        let mockProfile = UserProfile(
+            avatar_s3_key: S3Key(String: "", Valid: false),
+            bio: "This is a sample bio for development",
+            environment: "",
+            followers: 12,
+            following: 8,
+            posts: [
+                Post(
+                    id: 1,
+                    user_id: 10,
+                    s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
+                    media: "none",
+                    game: "MockGameA",
+                    body: "Check out this cool mock video!",
+                    status: "live",
+                    likes: 5,
+                    comments: 2,
+                    created_at: "2023-09-25T16:56:31.187556Z",
+                    user_liked: true,
+                    username: "mockUsernameA",
+                    avatar_s3_key: S3Key(String: "", Valid: false)
+                ),
+                Post(
+                    id: 2,
+                    user_id: 11,
+                    s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
+                    media: "none",
+                    game: "MockGameB",
+                    body: "Another mock video!",
+                    status: "live",
+                    likes: 3,
+                    comments: 1,
+                    created_at: "2023-09-24T16:56:31.187556Z",
+                    user_liked: false,
+                    username: "mockUsernameB",
+                    avatar_s3_key: S3Key(String: "", Valid: false)
+                )
+            ],
+            resume: "Resume for development",
+            socials: ["twitch": "mockTwitchHandle", "xbox": "mockXboxHandle"]
+        )
+
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            completion(.success(mockProfile))
+        }
+    }
+    
     func getGlobalFeed(for email: String, lastSeenCreatedAt: String? = nil, completion: @escaping (Result<[Post], Error>) -> Void) {
         print("MockAPIService: getGlobalFeed() with email:", email, " and lastSeenCreatedAt:", lastSeenCreatedAt ?? "")
         if lastSeenCreatedAt != nil {
             // Mocked posts data for load more
             let mockPosts: [Post] = [
-                Post(id: 6, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User1", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-                Post(id: 7, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-                Post(id: 8, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-                Post(id: 9, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-                Post(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
+                Post(id: 6, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User1", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+                Post(id: 7, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+                Post(id: 8, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+                Post(id: 9, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+                Post(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
             ]
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -1353,11 +1446,11 @@ class MockAPIService: APIServiceProtocol {
         
         // Mocked posts data
         let mockPosts: [Post] = [
-            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User1", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User2", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 3, user_id: 3, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User3", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 4, user_id: 4, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User4", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
+            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User1", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User2", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 3, user_id: 3, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User3", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 4, user_id: 4, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User4", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
         ]
 
         
@@ -1371,16 +1464,16 @@ class MockAPIService: APIServiceProtocol {
         print("MockAPIService: getLeaderboardFeed() with email:", email)
         // Mocked posts data
         let mockPosts: [Post] = [
-            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User1", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User2", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 3, user_id: 3, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User3", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 4, user_id: 4, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User4", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 6, user_id: 6, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User6", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 7, user_id: 7, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User7", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 8, user_id: 8, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User8", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 9, user_id: 9, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User9", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 10, user_id: 10, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User10", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
+            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User1", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User2", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 3, user_id: 3, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User3", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 4, user_id: 4, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User4", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 6, user_id: 6, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User6", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 7, user_id: 7, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User7", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 8, user_id: 8, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User8", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 9, user_id: 9, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User9", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 10, user_id: 10, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User10", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
         ]
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -1418,11 +1511,11 @@ class MockAPIService: APIServiceProtocol {
         if lastSeenCreatedAt != nil {
             // Mocked posts data for load more
             let mockPosts: [Post] = [
-                Post(id: 6, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-                Post(id: 7, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-                Post(id: 8, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-                Post(id: 9, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-                Post(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
+                Post(id: 6, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+                Post(id: 7, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+                Post(id: 8, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+                Post(id: 9, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+                Post(id: 10, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
             ]
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 completion(.success(mockPosts))
@@ -1432,11 +1525,11 @@ class MockAPIService: APIServiceProtocol {
         
         // Mocked posts data
         let mockPosts: [Post] = [
-            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 2, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 3, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 4, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
+            Post(id: 1, user_id: 1, s3_key: S3Key(String: "someKey1", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "GameA", body: "Content for first post by User1", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 2, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 3, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 4, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 5, user_id: 5, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for post by User", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
         ]
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -1448,11 +1541,11 @@ class MockAPIService: APIServiceProtocol {
         print("MockAPIService: getUserPosts() with username:", username)
         // Mocked posts data
         let mockPosts: [Post] = [
-            Post(id: 1, user_id: 2, s3_key: S3Key(String: "someKey1", Valid: false), media: "none", game: "Valorant", body: "Content for first post by Joystiq_dev", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 3, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 4, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
-            Post(id: 5, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
+            Post(id: 1, user_id: 2, s3_key: S3Key(String: "someKey1", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for first post by Joystiq_dev", status: "live", likes: 7, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 2, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 3, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: true, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 4, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false)),
+            Post(id: 5, user_id: 2, s3_key: S3Key(String: "someKey2", Valid: false), thumbnail_s3_key: S3Key(String: "", Valid: false), media: "none", game: "Valorant", body: "Content for second post by Joystiq_dev", status: "live", likes: 3, comments: 1, created_at: "2023-09-19T19:58:06.499746Z", user_liked: false, username: "User5", avatar_s3_key: S3Key(String: "someKey1", Valid: false))
         ]
 
         
@@ -1474,6 +1567,7 @@ class MockAPIService: APIServiceProtocol {
                     id: 1,
                     user_id: 10,
                     s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
                     media: "none",
                     game: "MockGameA",
                     body: "Check out this cool mock video!",
@@ -1489,6 +1583,7 @@ class MockAPIService: APIServiceProtocol {
                     id: 2,
                     user_id: 11,
                     s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
                     media: "none",
                     game: "MockGameB",
                     body: "Another mock video!",

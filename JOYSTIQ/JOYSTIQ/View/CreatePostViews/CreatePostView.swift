@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import AVKit
 import AVFoundation
+import UIKit
 
 struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     // MARK: - Properties
@@ -26,6 +27,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @State private var isMediaPickerShown = false
     @State private var uploadInProgress = false
     @State private var uploadCompleted = false
+    @State private var isLoading: Bool = false
 
     // MARK: - Body
     var body: some View {
@@ -34,12 +36,27 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             imageTitleView
             contentForm
             Spacer()
+            
+            if uploadInProgress {
+                loadingOverlay
+            }
         }
         .background(Color("GradientDark"))
         .preferredColorScheme(.dark) // Force dark mode
     }
 
     // MARK: - Subviews
+    private var loadingOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+                .edgesIgnoringSafeArea(.all)
+            
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
+    }
+    
     private var headerView: some View {
         HStack { // HStack for close button and title
             cancelButton
@@ -180,7 +197,21 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             uniqueKey = "\(UUID().uuidString).mov"
             do {
                 let videoData = try Data(contentsOf: videoURL)
-                uploadData(videoData, withKey: uniqueKey)
+                uploadData(videoData, withKey: uniqueKey) { success in
+                    if success {
+                        // Once video is uploaded successfully, generate and upload the thumbnail
+                        if let thumbnailImage = thumbnail(from: videoURL), let thumbnailData = thumbnailImage.pngData() {
+                            let thumbnailKey = "\(UUID().uuidString).png"
+                            uploadData(thumbnailData, withKey: thumbnailKey) { success in
+                                if success {
+                                    // Now both video and thumbnail are uploaded, create the post
+                                    print("CALLING CREATE MEDIA POST WITH THUMBNAIL")
+                                    createMediaPost(with: uniqueKey, thumbnailS3Key: thumbnailKey)
+                                }
+                            }
+                        }
+                    }
+                }
             } catch {
                 print("Error reading video data: \(error)")
             }
@@ -191,6 +222,41 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             print("Failed to create post: Both media and text body are empty.")
         }
     }
+    
+    func thumbnail(from url: URL, at time: TimeInterval = 1.0) -> UIImage? {
+        let asset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        let time = CMTime(seconds: time, preferredTimescale: 600)
+        var actualTime = CMTimeMake(value: 0, timescale: 0)
+        let cgImage: CGImage
+        do {
+            cgImage = try imageGenerator.copyCGImage(at: time, actualTime: &actualTime)
+            let thumbnail = UIImage(cgImage: cgImage)
+            return thumbnail
+        } catch {
+            print("Error generating thumbnail: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    // Modified the uploadData function to include a completion callback
+    func uploadData(_ data: Data, withKey key: String, completion: @escaping (Bool) -> Void) {
+        uploadInProgress = true
+        Task {
+            do {
+                let s3Key = try await s3Service.uploadData(data, withKey: key)
+                print("Uploaded successfully with key: \(s3Key)")
+                completion(true)
+            } catch {
+                print("Error uploading: \(error)")
+                uploadInProgress = false
+                completion(false)
+            }
+        }
+    }
+
 
     func uploadData(_ data: Data, withKey key: String) {
         uploadInProgress = true
@@ -198,6 +264,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             do {
                 let s3Key = try await s3Service.uploadData(data, withKey: key)
                 print("Uploaded successfully with key: \(s3Key)")
+                print("CALLING CREATE MEDIA POST WITH THUMBNAIL")
                 createMediaPost(with: s3Key)
             } catch {
                 print("Error uploading: \(error)")
@@ -208,7 +275,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
 
 
     func createDiscussionPost() {
-        var postData = PostData(media: "none", game: game, body: text, status: "live")
+        let postData = PostData(media: "none", game: game, body: text, status: "live")
         
         Task {
             if let email = try? await authService.fetchUserEmail() {
@@ -229,7 +296,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
     }
     
-    func createMediaPost(with s3Key: String) {
+    func createMediaPost(with s3Key: String, thumbnailS3Key: String? = nil) {
         let mediaType: String
         if selectedImage != nil {
             mediaType = "photo"
@@ -238,10 +305,23 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         } else {
             mediaType = "none"
         }
+        
+        if mediaType == "none" {
+            print("Error when setting media")
+            uploadInProgress = false
+            isPresented = false
+            return
+        }
 
         var postData = PostData(media: mediaType, game: game, body: text, status: "live")
         
-        if mediaType != "none" {
+        if mediaType == "video" {
+            postData.s3_key = S3Key(String: s3Key, Valid: true)
+            if let thumbnail = thumbnailS3Key {
+                print("SETTING THUMBNAIL")
+                postData.thumbnail_s3_key = S3Key(String: thumbnail, Valid: true)
+            }
+        } else { // photo
             postData.s3_key = S3Key(String: s3Key, Valid: true)
         }
         

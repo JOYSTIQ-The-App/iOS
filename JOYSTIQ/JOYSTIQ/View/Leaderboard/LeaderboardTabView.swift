@@ -72,6 +72,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                         showCommentSection: $showCommentSection
                     )
                     .environmentObject(user)
+                    .environmentObject(playerManager)
 
                     Spacer()
                 }
@@ -117,6 +118,10 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                     do {
                         let url = try await Amplify.Storage.getURL(key: post.s3_key.String)
                         post.mediaURL = url
+                        if post.thumbnail_s3_key.Valid {
+                            let thumbnail = try await Amplify.Storage.getURL(key: post.thumbnail_s3_key.String)
+                            post.thumbnailURL = thumbnail
+                        }
                         updatedPosts.append(post)
                     } catch {
                         print("Error fetching URL: \(error)")

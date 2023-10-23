@@ -355,7 +355,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Functions
     func fetchUserProfile() {
         isLoading = true
-        apiService.getUserProfile(for: profileUsername) { result in
+        apiService.getGamerProfile(for: user.email, username: profileUsername) { result in
             handleFetchResult(result)
         }
     }
@@ -377,7 +377,9 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             followers = Profile.followers
             following = Profile.following
             fetchURLsForPosts(Profile.posts) { updatedPosts in
-                userPosts = updatedPosts
+                var sortedPosts = updatedPosts
+                sortedPosts.sort { $0.created_at > $1.created_at }
+                userPosts = sortedPosts
             }
             
             userSocials = Profile.socials

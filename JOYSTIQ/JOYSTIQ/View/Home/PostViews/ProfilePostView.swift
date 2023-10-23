@@ -24,11 +24,11 @@ struct ProfilePostView<APIServiceType: APIServiceProtocol>: View {
             UserBannerPostView(apiService: apiService, game: post.game, username: user.username, avatarS3Key: avatarS3Key)
                 .environmentObject(user)
             
-            if let mediaURL = post.mediaURL {
+            if post.s3_key.Valid {
                 if post.media == "video" {
-                    PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), player: player)
+                    PostContentView(s3_key: post.s3_key, thumbnail: post.thumbnail_s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), videoURL: post.mediaURL, tURL: post.thumbnailURL)
                 } else if post.media == "photo" {
-                    PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), imageURL: mediaURL)
+                    PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), imageURL: post.mediaURL)
                 } else {
                     PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
                 }
@@ -37,22 +37,20 @@ struct ProfilePostView<APIServiceType: APIServiceProtocol>: View {
             }
             
         }
-        .onAppear(perform: initializePlayer)
-        .onDisappear(perform: handleOnDisappear)
     }
     
     // MARK: - Subviews
-    private func initializePlayer() {
-        if post.media == "video", let mediaURL = post.mediaURL {
-            player = playerManager.getPlayer(url: mediaURL)
-        }
-    }
-
-    private func handleOnDisappear() {
-        if let player = player {
-            playerManager.returnPlayer(player)
-        }
-    }
+//    private func initializePlayer() {
+//        if post.media == "video", let mediaURL = post.mediaURL {
+//            player = playerManager.getPlayer(url: mediaURL)
+//        }
+//    }
+//
+//    private func handleOnDisappear() {
+//        if let player = player {
+//            playerManager.returnPlayer(player)
+//        }
+//    }
 }
 
 // MARK: - Preview
@@ -63,6 +61,7 @@ struct ProfilePostView_Previews: PreviewProvider {
             id: 1,
             user_id: 2,
             s3_key: S3Key(String: "", Valid: false),
+            thumbnail_s3_key: S3Key(String: "", Valid: false),
             media: "none",
             game: "Valorant",
             body: "This is a sample post content",
