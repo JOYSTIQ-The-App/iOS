@@ -19,6 +19,8 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
     @State private var hideNavBar = false
     
     @State var token: UUID = UUID()
+    
+    private let playerManager = PlayerManager()
 
     // MARK: - Body
     var body: some View {
@@ -28,6 +30,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 navBar
             }
         }
+        .environmentObject(playerManager)
     }
     
     // MARK: - Subviews

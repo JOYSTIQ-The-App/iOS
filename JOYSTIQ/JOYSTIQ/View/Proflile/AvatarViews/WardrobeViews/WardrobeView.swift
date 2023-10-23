@@ -23,14 +23,15 @@ struct WardrobeView: View {
     @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
     
     private var s3Service: S3ServiceProtocol
-    private var oldS3Key: String?
+    @Binding var avatarS3Key: S3Key
     private var apiService: APIServiceProtocol
+    @State private var isLoading: Bool = false
 
-    init(hideNavBar: Binding<Bool>, avatarSnapshot: Binding<UIImage?>, enviroInt: Binding<Int>, oldS3Key: String?, apiService: APIServiceProtocol = APIService(), s3Service: S3ServiceProtocol = S3Service()) {
+    init(hideNavBar: Binding<Bool>, avatarSnapshot: Binding<UIImage?>, enviroInt: Binding<Int>, avatarS3Key: Binding<S3Key>, apiService: APIServiceProtocol = APIService(), s3Service: S3ServiceProtocol = S3Service()) {
         _hideNavBar = hideNavBar
         _avatarSnapshot = avatarSnapshot
         _enviroInt = enviroInt
-        self.oldS3Key = oldS3Key
+        _avatarS3Key = avatarS3Key
         self.s3Service = s3Service
         self.apiService = apiService
     }
@@ -119,10 +120,6 @@ struct WardrobeView: View {
                             }
                         }
                         
-                        
-                                            
-
-                        
                         NavigationLink(destination: ShirtSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
                             
                             ZStack { //for torso button
@@ -143,14 +140,7 @@ struct WardrobeView: View {
                             
                                                     
                        } //end navLink
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+
                     } //end gridrow1
                     
                     GridRow { //start gridrow2
@@ -246,23 +236,38 @@ struct WardrobeView: View {
                         
                         //Save button
                         Button(action: {
+                            isLoading = true
                             saveAvatar()
-                            presentationMode.wrappedValue.dismiss()
                         }, label: {
-                            
-                            Text("Save")
-                                .foregroundColor(.white)
-                                .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
-                                .background(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
-                                        startPoint: .topTrailing,
-                                        endPoint: .bottomLeading
+                            if isLoading {
+                                ProgressView() // Spinning loader
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
+                                    .background(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                            startPoint: .topTrailing,
+                                            endPoint: .bottomLeading
+                                        )
                                     )
-                                )
-                                .cornerRadius(30)
+                                    .cornerRadius(30)
+                            } else {
+                                Text("Save")
+                                    .foregroundColor(.white)
+                                    .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
+                                    .background(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                            startPoint: .topTrailing,
+                                            endPoint: .bottomLeading
+                                        )
+                                    )
+                                    .cornerRadius(30)
+                            }
                         })
                         .contentShape(Rectangle())
+                        .disabled(isLoading)
+
                         
           
                         
@@ -310,18 +315,37 @@ struct WardrobeView: View {
                 if enviroInt == 1 {
                     environment = "gameroom"
                 }
-
-                // Use the oldS3Key property of the WardrobeView directly
-                apiService.updateUserAvatar(username: user.username, oldS3Key: oldS3Key, newS3Key: uploadedKey, enviro: environment) { result in
-                    switch result {
-                    case .success:
-                        print("Successfully updated user avatar")
-                    case .failure(let error):
-                        print("Error updating user avatar: \(error.localizedDescription)")
+                
+                if avatarS3Key.Valid {
+                    // Use the oldS3Key property of the WardrobeView directly
+                    apiService.updateUserAvatar(username: user.username, oldS3Key: avatarS3Key.String, newS3Key: uploadedKey, enviro: environment) { result in
+                        switch result {
+                        case .success:
+                            avatarS3Key.String = uploadedKey
+                            print("Successfully updated user avatar")
+                        case .failure(let error):
+                            print("Error updating user avatar: \(error.localizedDescription)")
+                        }
+                    }
+                } else {
+                    apiService.updateUserAvatar(username: user.username, oldS3Key: nil, newS3Key: uploadedKey, enviro: environment) { result in
+                        switch result {
+                        case .success:
+                            avatarS3Key.String = uploadedKey
+                            print("Successfully updated user avatar")
+                        case .failure(let error):
+                            print("Error updating user avatar: \(error.localizedDescription)")
+                        }
                     }
                 }
+
+                
             } catch {
                 print("Error: \(error.localizedDescription)")
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                presentationMode.wrappedValue.dismiss()
             }
         }
     }
@@ -344,7 +368,7 @@ struct WardrobeView_Previews: PreviewProvider {
             hideNavBar: .constant(true),
             avatarSnapshot: .constant(UIImage(systemName: "person.circle")!),
             enviroInt: .constant(1),
-            oldS3Key: nil,
+            avatarS3Key: .constant(S3Key(String: "", Valid: false)),
             apiService: MockAPIService(),
             s3Service: MockS3Service()
         )

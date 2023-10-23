@@ -11,6 +11,7 @@ struct Post: Codable, Identifiable {
     var id: Int
     var user_id: Int
     var s3_key: S3Key
+    var thumbnail_s3_key: S3Key
     var media: String
     var game: String
     var body: String
@@ -22,10 +23,12 @@ struct Post: Codable, Identifiable {
     var username: String
     var avatar_s3_key: S3Key
     var mediaURL: URL?
+    var thumbnailURL: URL?
 }
 
 struct PostData: Codable {
     var s3_key: S3Key?
+    var thumbnail_s3_key: S3Key?
     var media: String
     var game: String
     var body: String
@@ -49,6 +52,6 @@ struct FeedPost: Codable, Identifiable {
 }
 
 struct S3Key: Codable {
-    let String: String
-    let Valid: Bool
+    var String: String
+    var Valid: Bool
 }
