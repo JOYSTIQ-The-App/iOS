@@ -22,7 +22,9 @@ struct CommentButton<APIServiceType: APIServiceProtocol>: View {
             }
             .sheet(isPresented: $isShowingComments) {
                 CommentSectionView<APIService>(apiService: apiService, postId: postId)
+                    .presentationDetents([.fraction(0.9)])
             }
+            
     }
 
     // MARK: - Subviews

@@ -76,7 +76,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
     
     private var mainContent: some View {
-        ScrollView(.vertical, showsIndicators: true) {
+        ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
                 
                 avatarSection
@@ -432,7 +432,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             }
         }
         .background(Color("GradientDark3"))
-        .padding(.top, 10)
+        //.padding(.top, 10)
     }
   
     // MARK: - Functions
