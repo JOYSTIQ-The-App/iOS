@@ -66,7 +66,8 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
             Text("Global").tag(FeedType.global)
         }
         .pickerStyle(SegmentedPickerStyle())
-        .padding()
+        .padding([.vertical, .horizontal], 10)
+        
         .onChange(of: selectedFeed) { _ in
             posts = []
             isLoading = true

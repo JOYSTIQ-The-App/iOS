@@ -73,6 +73,11 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
         } else {
             likePost()
         }
+        
+        // Add haptic feedback
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+        
     }
 
     private func likePost() {

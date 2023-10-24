@@ -332,7 +332,6 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             }
         }
         .background(Color("GradientDark3"))
-        .padding(.top, 10)
     }
   
     // MARK: - Functions
