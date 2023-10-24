@@ -291,7 +291,8 @@ class APIService: APIServiceProtocol {
     // Function to create a unique username
     func createUniqueUsername(completion: @escaping (Result<String, Error>) -> Void) {
         let randomSuffix = String(Int.random(in: 100000..<999999))  // Generates a random six-digit number
-        let username = "Newbie#\(randomSuffix)"
+        let username = "Newbie\(randomSuffix)"
+        print("Creating new username:", username)
         
         checkUsernameAvailability(username: username) { result in
             switch result {

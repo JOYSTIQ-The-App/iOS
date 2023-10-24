@@ -21,10 +21,11 @@ struct PostContentView: View {
     var thumbnail: S3Key?
     var bodyText: String
     var mediaType: MediaType
-    var videoURL: URL? = nil
+    var vURL: URL? = nil
     var tURL: URL? = nil
     var imageURL: URL? = nil
     @State private var thumbnailURL: URL? = nil
+    @State private var videoURL: URL? = nil
     @State private var player: AVPlayer? = nil
     @State private var isPlaying: Bool = false
     @State private var isLoading: Bool = false
@@ -40,7 +41,7 @@ struct PostContentView: View {
             .padding(.top, 5)
             .onAppear {
                 Task {
-                    loadImageIfNecessary()
+                    loadContentIfNecessary()
                 }
             }
             .onDisappear(perform: handleOnDisappear)
@@ -177,19 +178,34 @@ struct PostContentView: View {
     }
 
     // MARK: - Functions
-    private func loadImageIfNecessary() {
-        if let thumbnail = tURL {
-            thumbnailURL = thumbnail
-            return
-        }
-        
-        if mediaType == .video, let validKey = thumbnail?.String, thumbnail?.Valid == true {
-            Task {
-                do {
-                    thumbnailURL = try await Amplify.Storage.getURL(key: validKey)
-                } catch {
-                    print("Failed to load image URL: \(error)")
+    private func loadContentIfNecessary() {
+        if mediaType == .video {
+            if let thumbnail = tURL {
+                thumbnailURL = thumbnail
+            } else if let validKey = thumbnail?.String, thumbnail?.Valid == true {
+                Task {
+                    do {
+                        thumbnailURL = try await Amplify.Storage.getURL(key: validKey)
+                    } catch {
+                        print("Failed to load thumbnail URL: \(error)")
+                    }
                 }
+            } else {
+                print("Failed to set thumbnail URL!")
+            }
+            
+            if let video = vURL {
+                videoURL = video
+            } else if s3_key.Valid {
+                Task {
+                    do {
+                        videoURL = try await Amplify.Storage.getURL(key: s3_key.String)
+                    } catch {
+                        print("Failed to load video URL: \(error)")
+                    }
+                }
+            } else {
+                print("Failed to set video URL!")
             }
         }
     }
@@ -199,38 +215,6 @@ struct PostContentView: View {
             playerManager.pause()
         }
     }
-    
-//    func playMedia(at url: URL) {
-//        let asset = AVAsset(url: url)
-//        let playerItem = AVPlayerItem(
-//            asset: asset,
-//            automaticallyLoadedAssetKeys: [.tracks, .duration, .commonMetadata]
-//        )
-//        
-//        // Register to observe the status property before associating with player.
-//        playerItem.publisher(for: \.status)
-//            .removeDuplicates()
-//            .receive(on: DispatchQueue.main)
-//            .sink { status in
-//                self.playerItemStatus = status
-//                
-//                switch status {
-//                case .readyToPlay:
-//                    // Ready to play. Here, you might start playing the video or update some UI elements.
-//                    self.player?.play()
-//                    self.isPlaying = true
-//                case .failed:
-//                    // A failure while loading media occurred. Handle the error appropriately.
-//                    print("Failed to load media")
-//                default:
-//                    break
-//                }
-//            }
-//            .store(in: &subscriptions)
-//        
-//        // Set the item as the player's current item.
-//        player?.replaceCurrentItem(with: playerItem)
-//    }
 }
 
 extension View {

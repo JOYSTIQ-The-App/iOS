@@ -26,7 +26,7 @@ struct ProfilePostView<APIServiceType: APIServiceProtocol>: View {
             
             if post.s3_key.Valid {
                 if post.media == "video" {
-                    PostContentView(s3_key: post.s3_key, thumbnail: post.thumbnail_s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), videoURL: post.mediaURL, tURL: post.thumbnailURL)
+                    PostContentView(s3_key: post.s3_key, thumbnail: post.thumbnail_s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), vURL: post.mediaURL, tURL: post.thumbnailURL)
                 } else if post.media == "photo" {
                     PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), imageURL: post.mediaURL)
                 } else {
@@ -38,19 +38,6 @@ struct ProfilePostView<APIServiceType: APIServiceProtocol>: View {
             
         }
     }
-    
-    // MARK: - Subviews
-//    private func initializePlayer() {
-//        if post.media == "video", let mediaURL = post.mediaURL {
-//            player = playerManager.getPlayer(url: mediaURL)
-//        }
-//    }
-//
-//    private func handleOnDisappear() {
-//        if let player = player {
-//            playerManager.returnPlayer(player)
-//        }
-//    }
 }
 
 // MARK: - Preview
