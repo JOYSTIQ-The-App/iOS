@@ -143,7 +143,8 @@ struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View 
         .background(
             NavigationLink(
                 "",
-                destination: ForgotPasswordView<AuthService>(navigateToForgotPassword: $navigateToForgotPassword)
+                destination: ForgotPasswordView<AuthService>(navigateToForgotPassword: $navigateToForgotPassword),
+                isActive: $navigateToForgotPassword
             )
             .environmentObject(authService)
         )
@@ -163,7 +164,16 @@ struct LoginView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View 
             authService.signUpRequested = true
         }
         .buttonStyle()
+        .background(
+            NavigationLink(
+                "",
+                destination: SignUpView<AuthService>()
+                    .environmentObject(authService),
+                isActive: $authService.signUpRequested
+            )
+        )
     }
+
     
     private var smallTitleImage: some View {
         Image("SmallTitle")
