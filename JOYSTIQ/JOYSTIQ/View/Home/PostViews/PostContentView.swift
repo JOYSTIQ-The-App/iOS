@@ -227,9 +227,10 @@ extension View {
 struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         LazyVStack(alignment: .center, spacing: 0) {
-            PostContentView(s3_key: S3Key(String: "someKey1", Valid: false), bodyText: "This caption is to serve=]", mediaType: .video)
+            PostContentView(s3_key: S3Key(String: "someKey1", Valid: false), bodyText: "This caption is to serve=]", mediaType: .none)
         }
         .frame(width: UIScreen.main.bounds.width)
         .background(Color("GradientDark"))
+        .environmentObject(PlayerManager())
     }
 }

@@ -97,16 +97,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
             isLoading = false
         }
     }
-    
-    // MARK: - Alert
-//    private func reportAlert() -> Alert {
-//        Alert(
-//            title: Text("Report Post"),
-//            message: Text("Are you sure you would like to report this post for violating JOYSTIQ terms and conditions?"),
-//            primaryButton: .default(Text("Report")),
-//            secondaryButton: .cancel(Text("Cancel"))
-//        )
-//    }
+
 }
 
 // MARK: - Preview

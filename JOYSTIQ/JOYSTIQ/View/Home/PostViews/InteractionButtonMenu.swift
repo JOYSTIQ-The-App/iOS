@@ -3,7 +3,6 @@
 //  JOYSTIQ
 //
 //  Created by Connor Sottosanti on 7/26/23.
-//
 
 import SwiftUI
 
@@ -17,16 +16,14 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     @State var likesCount: Int? = nil
     @State var commentCount: Int
     @State var userLiked: Bool
-    @State private var isLoading: Bool = false
+    @State private var showComment: Bool = false
 
     // MARK: - Body
     var body: some View {
         HStack {
-            loadingOrButtonContent
-            CommentButton<APIService>(apiService: apiService, postId: postId, commentCount: commentCount)
-                .onTapGesture {
-                    showCommentSection.toggle()
-                }
+            likeButton
+            commentButton
+            
             Spacer()
             reportButton
         }
@@ -35,23 +32,31 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     }
 
     // MARK: - Subviews
-    private var loadingOrButtonContent: some View {
-        if isLoading {
-            return AnyView(
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .green))
-                    .scaleEffect(0.8)
-                    .padding(.trailing, 5)
-            )
-        } else {
-            return AnyView(
-                Button(action: likeButtonAction) {
-                    LikeButton(isLiked: $userLiked, likesCount: $likesCount)
-                }
-                .disabled(isLoading)
-                .padding(.trailing, 5)
-            )
-        }
+    private var likeButton: some View {
+        return AnyView(
+            Button(action: {
+                print("Like button pressed on post id", postId)
+                likeButtonAction()
+            }) {
+                LikeButton(isLiked: $userLiked, likesCount: $likesCount)
+            }
+            .padding(.trailing, 5)
+        )
+    }
+    
+    private var commentButton: some View {
+        return AnyView(
+            Button(action: {
+                print("Comment button pressed on post id", postId)
+                showComment = true
+            }) {
+                CommentButton(commentCount: commentCount)
+            }
+            .sheet(isPresented: $showComment) {
+                CommentSectionView<APIService>(apiService: apiService, postId: postId)
+                    .presentationDetents([.fraction(0.9)])
+            }
+        )
     }
 
     private var reportButton: some View {
@@ -67,43 +72,39 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
 
     // MARK: - Functions
     private func likeButtonAction() {
-        isLoading = true
         if userLiked {
             unlikePost()
+            userLiked = false
         } else {
             likePost()
+            userLiked = true
         }
         
-        // Add haptic feedback
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
         
     }
 
     private func likePost() {
-//        likesCount? += 1
         apiService.createLike(username: user.username, postId: postId) { result in
             switch result {
             case .success:
-                userLiked.toggle()
-                isLoading = false
+//                userLiked = true
+                print("success")
             case .failure(let error):
                 print("Error liking post: \(error.localizedDescription)")
-                isLoading = false
             }
         }
     }
 
     private func unlikePost() {
-//        likesCount? -= 1
         apiService.deleteLike(username: user.username, postId: postId) { result in
             switch result {
             case .success:
-                userLiked.toggle()
-                isLoading = false
+//                userLiked = false
+                print("success")
             case .failure(let error):
                 print("Error unliking post: \(error.localizedDescription)")
-                isLoading = false
             }
         }
     }

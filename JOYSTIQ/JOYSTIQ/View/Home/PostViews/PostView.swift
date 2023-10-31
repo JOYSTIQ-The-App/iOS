@@ -17,47 +17,63 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
     @Binding var showCommentSection: Bool
     
     @State private var showingReportAlert: Bool = false
-//    @State private var player: AVPlayer? = nil
+    
+    @State private var isAvatarFullScreen = false
+    @State private var avatarScale: CGFloat = 1.0
     
     // MARK: - Body
     var body: some View {
-        VStack(spacing: 0) {
-            UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key)
-                .environmentObject(user)
-                .padding(.top, 5)
+        ZStack {
+            if isAvatarFullScreen {
+                Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        withAnimation {
+                            self.isAvatarFullScreen = false
+                            self.avatarScale = 1.0
+                        }
+                    }
+            }
             
-            if post.s3_key.Valid {
-                if post.media == "video" {
-                    PostContentView(s3_key: post.s3_key, thumbnail: post.thumbnail_s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), vURL: post.mediaURL, tURL: post.thumbnailURL)
-                } else if post.media == "photo" {
-                    PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), imageURL: post.mediaURL)
+            VStack(spacing: 0) {
+                UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key, createdAt: post.created_at)
+                    .environmentObject(user)
+                    .padding(.top, 5)
+                    .zIndex(4)
+                
+                if post.s3_key.Valid {
+                    if post.media == "video" {
+                        PostContentView(s3_key: post.s3_key, thumbnail: post.thumbnail_s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), vURL: post.mediaURL, tURL: post.thumbnailURL)
+                    } else if post.media == "photo" {
+                        PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), imageURL: post.mediaURL)
+                    } else {
+                        PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
+                    }
                 } else {
                     PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
                 }
-            } else {
-                PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
-            }   
-            
-            InteractionButtonMenu(
-                showCommentSection: $showCommentSection,
-                showingReportAlert: $showingReportAlert,
-                apiService: apiService,
-                postId: post.id,
-                likesCount: post.likes,
-                commentCount: post.comments,
-                userLiked: post.user_liked
-            )
-            .environmentObject(user)
-            .alert(isPresented: $showingReportAlert, content: reportAlert)
-            
-            Divider()
-                .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
+                
+                InteractionButtonMenu(
+                    showCommentSection: $showCommentSection,
+                    showingReportAlert: $showingReportAlert,
+                    apiService: apiService,
+                    postId: post.id,
+                    likesCount: post.likes,
+                    commentCount: post.comments,
+                    userLiked: post.user_liked
                 )
+                .environmentObject(user)
+                .alert(isPresented: $showingReportAlert, content: reportAlert)
+                
+                Divider()
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+            }
         }
     }
     
@@ -110,5 +126,6 @@ struct PostView_Previews: PreviewProvider {
         )
         .environmentObject(testUser)
         .background(Color("GradientDark3")) // just to make it more visually clear in the preview
+        .environmentObject(PlayerManager())
     }
 }

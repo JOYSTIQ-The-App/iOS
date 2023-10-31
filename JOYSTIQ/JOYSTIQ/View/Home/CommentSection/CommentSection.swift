@@ -24,6 +24,9 @@ struct CommentSectionView<APIServiceType: APIServiceProtocol>: View {
         }
         .background(Color("GradientDark3"))
         .onAppear(perform: fetchComments)
+        .onDisappear(perform: {
+            comments = []
+        })
     }
 
     // MARK: - Subviews

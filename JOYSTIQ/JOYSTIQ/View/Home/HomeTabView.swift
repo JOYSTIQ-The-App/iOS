@@ -6,13 +6,24 @@
 //
 
 import SwiftUI
+import SwiftUIX
 import Amplify
+
+struct ScrollOffsetKey: PreferenceKey {
+    typealias Value = CGFloat
+    static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value += nextValue()
+    }
+}
 
 struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
     @EnvironmentObject var playerManager: PlayerManager
     var apiService: APIServiceType
+    @Binding var opacity: Double
     
     @State private var showDropDown = false
     @State private var selectedFeed: FeedType = .following
@@ -23,6 +34,14 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     @State private var showLoadMoreButton = false
     @State private var isLoading: Bool = false
     
+    @State private var isRefreshing = false
+    
+    @State private var previousOffset: CGFloat = 0.0
+    @State private var pullOffset: CGFloat = 0.0
+    @State private var hasStartedScrolling: Bool = false
+    @State private var firstScrollEvent: Bool = true
+    @State private var showHeader: Bool = true
+    
     // MARK: - Body
     var body: some View {
         NavigationView {
@@ -32,12 +51,15 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                 if isLoading {
                     loadingOverlay
                 }
+                
+                dropDownView
             }
             .accentColor(Color.green)
         }
     }
     
     // MARK: - Subviews
+    
     private var loadingOverlay: some View {
         ZStack {
             Color.black.opacity(0.4)
@@ -50,13 +72,46 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     }
     
     private var mainContent: some View {
-        VStack(spacing: 0) {
-            feedTypePicker
+        ZStack(alignment: .top) {
             feedView
+                .padding(.top, showHeader ? 100 : 0)
+            
+            if showHeader {
+                header
+            }
         }
         .background(Color("GradientDark3"))
         .onAppear {
             fetchPosts()
+        }
+        .accentColor(Color.green)
+    }
+    
+    private var header: some View {
+        HomeHeaderView(
+            apiService: apiService,
+            showDropDown: $showDropDown,
+            selectedFeed: $selectedFeed
+        )
+        .onChange(of: selectedFeed) { _ in
+            posts = []
+            isLoading = true
+            showLoadMoreButton = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.fetchPosts()
+            }
+        }
+    }
+    
+    private var dropDownView: some View {
+        ZStack {
+            if showDropDown {
+                Color.black.opacity(0.6)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture { showDropDown = false }
+                
+                DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
+            }
         }
     }
     
@@ -94,23 +149,68 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     }
     
     private var feedView: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack(spacing: 0) {
-                ForEach(posts) { post in
-                    PostView(
-                        apiService: apiService,
-                        post: post,
-                        showCommentSection: $showCommentSection
-                    )
-                    .environmentObject(user)
-                    .environmentObject(playerManager)
+        ScrollViewReader { scrollView in
+            ScrollView(.vertical, showsIndicators: false) {
+                LazyVStack(spacing: 0) {
+                    ForEach(posts) { post in
+                        PostView(
+                            apiService: apiService,
+                            post: post,
+                            showCommentSection: $showCommentSection
+                        )
+                        .environmentObject(user)
+                        .environmentObject(playerManager)
+                    }
+
+                    loadMoreButton
+                }
+                .background(
+                    GeometryReader { geometry in
+                        Color.clear.preference(key: ScrollOffsetKey.self, value: geometry.frame(in: .global).minY)
+                    }
+                )
+                .background(Color("GradientDark3"))
+            }
+            .onPreferenceChange(ScrollOffsetKey.self) { offsetY in
+                            
+                let difference = previousOffset - offsetY
+                previousOffset = offsetY
+
+                // Check if user is near the top of the scroll view
+                if offsetY > -200.0 {
+                    withAnimation {
+                        showHeader = true
+                    }
+                } else {
+                    withAnimation {
+                        if difference > 10 {
+                            showHeader = false
+                        } else if difference < -15 {
+                            showHeader = true
+                        }
+                    }
                 }
                 
-                loadMoreButton
+                if offsetY > -200.0 {
+                    opacity = 1.0
+                } else {
+                    if difference > 10 {
+                        opacity = 0.5
+                    } else if difference < -15 {
+                        opacity = 1.0
+                    }
+                }
+                
+                
             }
             .background(Color("GradientDark3"))
+            .refreshable {
+                self.refreshAction()
+            }
+            .onAppear {
+                UIRefreshControl.appearance().tintColor = .white
+            }
         }
-        .background(Color("GradientDark3"))
     }
     
     // MARK: - Funtions
@@ -148,6 +248,16 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
             apiService.getGlobalFeed(for: user.email, lastSeenCreatedAt: lastSeenCreatedAt) { result in
                 handleFetchMoreResult(result)
             }
+        }
+    }
+    
+    private func refreshAction() {
+        // Handle your refresh logic here...
+        fetchPosts()
+
+        // After data is fetched, stop refreshing
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            isRefreshing = false
         }
     }
 
@@ -238,7 +348,7 @@ struct HomeTabView_Previews: PreviewProvider {
     static var previews: some View {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
-        return HomeTabView<MockAPIService>(apiService: MockAPIService())
+        return HomeTabView<MockAPIService>(apiService: MockAPIService(), opacity: .constant(1.0))
             .environmentObject(testUser)
             .environmentObject(PlayerManager())
     }
