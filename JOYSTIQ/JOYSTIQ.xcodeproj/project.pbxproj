@@ -52,6 +52,10 @@
 		995085EA2A95A817003996B6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085E92A95A817003996B6 /* SignUpView.swift */; };
 		995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */; };
 		9959589F2AD5E4A800D6FCD7 /* ResultViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9959589E2AD5E4A800D6FCD7 /* ResultViewer.swift */; };
+		99627A3A2AEB1FF8002AF1A5 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 99627A392AEB1FF8002AF1A5 /* SwiftUIX */; };
+		99627A3C2AF0480A002AF1A5 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3B2AF0480A002AF1A5 /* HomeHeaderView.swift */; };
+		99627A3E2AF08B9E002AF1A5 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3D2AF08B9E002AF1A5 /* GameData.swift */; };
+		99627A402AF08C8C002AF1A5 /* GamePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
 		997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062B22ABB6036005596A3 /* SceneKitView2.swift */; };
 		997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */; };
@@ -146,6 +150,9 @@
 		995085E92A95A817003996B6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		995085EB2A95A82D003996B6 /* ConfirmSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSignUpView.swift; sourceTree = "<group>"; };
 		9959589E2AD5E4A800D6FCD7 /* ResultViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewer.swift; sourceTree = "<group>"; };
+		99627A3B2AF0480A002AF1A5 /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
+		99627A3D2AF08B9E002AF1A5 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePickerView.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
 		997062B22ABB6036005596A3 /* SceneKitView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneKitView2.swift; path = ../../Proflile/AvatarViews/SceneKitView2.swift; sourceTree = "<group>"; };
 		997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinToneSwitcherView.swift; sourceTree = "<group>"; };
@@ -200,6 +207,7 @@
 				9914FCBA2AC394EF006E629C /* SDWebImageSwiftUI in Frameworks */,
 				9941DC7C2A93F80F00215948 /* SceneKit.framework in Frameworks */,
 				995085DF2A95A4DD003996B6 /* Amplify in Frameworks */,
+				99627A3A2AEB1FF8002AF1A5 /* SwiftUIX in Frameworks */,
 				995085DB2A95A4DD003996B6 /* AWSCognitoAuthPlugin in Frameworks */,
 				995085DD2A95A4DD003996B6 /* AWSS3StoragePlugin in Frameworks */,
 			);
@@ -295,6 +303,7 @@
 			children = (
 				9941DC3C2A93F6F000215948 /* HomeTabView.swift */,
 				9941DC5B2A93F6F000215948 /* HeaderView.swift */,
+				99627A3B2AF0480A002AF1A5 /* HomeHeaderView.swift */,
 				996C9CF62AA50A9A001693BF /* DropDown2.swift */,
 				99C65B2B2AA3C79700FC2188 /* NotificationPanel */,
 				99C65B2A2AA3C75600FC2188 /* CommentSection */,
@@ -342,6 +351,7 @@
 			children = (
 				9941DC4B2A93F6F000215948 /* CreatePostView.swift */,
 				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
+				99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */,
 			);
 			path = CreatePostViews;
 			sourceTree = "<group>";
@@ -499,6 +509,7 @@
 				9980BB062AD479D800A2B089 /* ServerResponse.swift */,
 				99755A072AD636CA0021DAD3 /* Report.swift */,
 				99C99C842ADB0E410094D2A5 /* Avatar.swift */,
+				99627A3D2AF08B9E002AF1A5 /* GameData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -524,6 +535,7 @@
 				995085DC2A95A4DD003996B6 /* AWSS3StoragePlugin */,
 				995085DE2A95A4DD003996B6 /* Amplify */,
 				9914FCB92AC394EF006E629C /* SDWebImageSwiftUI */,
+				99627A392AEB1FF8002AF1A5 /* SwiftUIX */,
 			);
 			productName = JOYSTIQ;
 			productReference = 9941DC1C2A93F02100215948 /* JOYSTIQ.app */;
@@ -556,6 +568,7 @@
 			packageReferences = (
 				995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */,
 				9914FCB82AC394EF006E629C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				99627A382AEB1FF8002AF1A5 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 			);
 			productRefGroup = 9941DC1D2A93F02100215948 /* Products */;
 			projectDirPath = "";
@@ -635,6 +648,7 @@
 				9941DC732A93F6F000215948 /* PostContentView.swift in Sources */,
 				99A5C1532AAE6DD300CDD4AD /* ProfileSettingsView.swift in Sources */,
 				9941DC742A93F6F000215948 /* CommentView.swift in Sources */,
+				99627A402AF08C8C002AF1A5 /* GamePickerView.swift in Sources */,
 				99A9F3C72AB7E246000F27E5 /* SceneKitView6.swift in Sources */,
 				9974A4642ACB70B300B3B45C /* EditResumeView.swift in Sources */,
 				9941DC6A2A93F6F000215948 /* ConnectTabView.swift in Sources */,
@@ -649,6 +663,7 @@
 				9959589F2AD5E4A800D6FCD7 /* ResultViewer.swift in Sources */,
 				9974A45C2ACB33A400B3B45C /* FollowersListView.swift in Sources */,
 				99755A0A2AD639880021DAD3 /* PostView.swift in Sources */,
+				99627A3E2AF08B9E002AF1A5 /* GameData.swift in Sources */,
 				99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */,
 				99755A082AD636CA0021DAD3 /* Report.swift in Sources */,
 				99E2F67A2AA7B5D1000117FA /* CommentSection.swift in Sources */,
@@ -664,6 +679,7 @@
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */,
 				99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */,
+				99627A3C2AF0480A002AF1A5 /* HomeHeaderView.swift in Sources */,
 				99C99C852ADB0E410094D2A5 /* Avatar.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,
 				9989F6922AB3B1DC00A1B6F2 /* WardrobeView.swift in Sources */,
@@ -796,7 +812,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"JOYSTIQ/Preview Content\"";
 				DEVELOPMENT_TEAM = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
@@ -814,7 +830,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = gg.joystiq.JOYSTIQ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -836,7 +852,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"JOYSTIQ/Preview Content\"";
 				DEVELOPMENT_TEAM = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
@@ -854,7 +870,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = gg.joystiq.JOYSTIQ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -907,6 +923,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		99627A382AEB1FF8002AF1A5 /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.7;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -929,6 +953,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 995085D92A95A4DD003996B6 /* XCRemoteSwiftPackageReference "amplify-swift" */;
 			productName = Amplify;
+		};
+		99627A392AEB1FF8002AF1A5 /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99627A382AEB1FF8002AF1A5 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

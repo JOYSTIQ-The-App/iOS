@@ -11,10 +11,10 @@ import AVKit
 import AVFoundation
 import UIKit
 
-struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
+struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
+    @EnvironmentObject var user: User
     var apiService: APIServiceType
-    @EnvironmentObject var authService: AuthServiceType
 
     var s3Service: S3ServiceProtocol = S3Service()
     
@@ -28,6 +28,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @State private var uploadInProgress = false
     @State private var uploadCompleted = false
     @State private var isLoading: Bool = false
+    @State private var isGamePickerShown = false
 
     // MARK: - Body
     var body: some View {
@@ -89,7 +90,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 divider
             }
             
-            gameTextField
+            gameSelectionButton
             divider
             
             captionTextField
@@ -119,12 +120,27 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         .contentShape(Rectangle())
         .disabled(uploadInProgress)
     }
-
-    private var gameTextField: some View {
-        TextField("Game", text: $game)
-            .padding(.vertical, 15)
-            .padding(.leading, 15)
-            .disableAutocorrection(true)
+    
+    private var gameSelectionButton: some View {
+        Button(action: {
+            isGamePickerShown = true
+        }) {
+            HStack {
+                Text(game.isEmpty ? "Select Game" : game)
+                    .foregroundColor(game.isEmpty ? .gray : .white)
+                Spacer()
+                Image(systemName: "chevron.down")
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 15)
+        .padding(.leading, 15)
+        .background(Rectangle().fill(Color.gray.opacity(0.2)).cornerRadius(10))
+        .sheet(isPresented: $isGamePickerShown) {
+            GamePickerView(selectedGame: $game) {
+                isGamePickerShown = false
+            }
+        }
     }
 
     private var selectMediaButton: some View {
@@ -278,8 +294,8 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         let postData = PostData(media: "none", game: game, body: text, status: "live")
         
         Task {
-            if let email = try? await authService.fetchUserEmail() {
-                apiService.createPost(email: email, postData: postData) { result in
+            
+            apiService.createPost(email: user.email, postData: postData) { result in
                     switch result {
                     case .success():
                         print("Post created successfully!")
@@ -287,9 +303,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                         print("Error creating post: \(error.localizedDescription)")
                     }
                 }
-            } else {
-                print("Error retrieving user email.")
-            }
+
 
             uploadInProgress = false
             isPresented = false
@@ -326,19 +340,15 @@ struct CreatePostView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
         
         Task {
-            if let email = try? await authService.fetchUserEmail() {
-                apiService.createPost(email: email, postData: postData) { result in
-                    switch result {
-                    case .success():
-                        print("Post created successfully!")
-                    case .failure(let error):
-                        print("Error creating post: \(error.localizedDescription)")
-                    }
+            apiService.createPost(email: user.email, postData: postData) { result in
+                switch result {
+                case .success():
+                    print("Post created successfully!")
+                case .failure(let error):
+                    print("Error creating post: \(error.localizedDescription)")
                 }
-            } else {
-                print("Error retrieving user email.")
             }
-
+            
             uploadInProgress = false
             isPresented = false
         }
@@ -366,8 +376,10 @@ struct CreateView_Previews: PreviewProvider {
     @State static private var isPresented = true
 
     static var previews: some View {
-        CreatePostView<MockAPIService, MockAuthService>(apiService: MockAPIService(), s3Service: MockS3Service(), isPresented: $isPresented)
-            .environmentObject(MockAuthService())
+        let testUser = User(email: "testEmail@example.com", username: "testUsername")
+        
+        return CreatePostView<MockAPIService>(apiService: MockAPIService(), s3Service: MockS3Service(), isPresented: $isPresented)
+            .environmentObject(testUser)
     }
 }
 

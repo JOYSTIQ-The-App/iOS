@@ -27,6 +27,6 @@ enum MediaType {
     }
 }
 
-enum FeedType {
+enum FeedType: String, CaseIterable {
     case following, global
 }

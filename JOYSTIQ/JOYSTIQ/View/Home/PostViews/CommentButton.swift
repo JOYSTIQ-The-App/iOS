@@ -7,28 +7,12 @@
 
 import SwiftUI
 
-struct CommentButton<APIServiceType: APIServiceProtocol>: View {
+struct CommentButton: View {
     // MARK: - Properties
-    var apiService: APIServiceProtocol
-    var postId: Int
     @State var commentCount: Int
-    @State private var isShowingComments = false
 
     // MARK: - Body
     var body: some View {
-        commentButtonContent
-            .onTapGesture {
-                isShowingComments.toggle()
-            }
-            .sheet(isPresented: $isShowingComments) {
-                CommentSectionView<APIService>(apiService: apiService, postId: postId)
-                    .presentationDetents([.fraction(0.9)])
-            }
-            
-    }
-
-    // MARK: - Subviews
-    private var commentButtonContent: some View {
         HStack(spacing: 0) {
             Image(systemName: "message")
                 .foregroundColor(Color.white.opacity(0.7))
@@ -52,7 +36,7 @@ struct CommentButton<APIServiceType: APIServiceProtocol>: View {
 // MARK: - Preview
 struct CommentButton_Previews: PreviewProvider {
     static var previews: some View {
-        CommentButton<MockAPIService>(apiService: MockAPIService(), postId: 1, commentCount: 0)
+        CommentButton(commentCount: 1000)
             .frame(width: UIScreen.main.bounds.width)
             .background(.black)
     }

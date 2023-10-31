@@ -18,7 +18,10 @@ struct FollowingListView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Body
     var body: some View {
         List(following, id: \.self) { user in
-            Text(user)
+            NavigationLink(destination: OtherProfileView(apiService: apiService, profileUsername: user)) {
+                Text(user)
+                    .font(.system(size: 15))
+            }
         }
         .navigationBarTitle("Following", displayMode: .inline)
         .onAppear(perform: fetchFollowing)

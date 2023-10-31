@@ -17,21 +17,34 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
     @State private var selectedTab = 0
     @State private var showPostScreen = false
     @State private var hideNavBar = false
+    @State private var contentOpacity: Double = 1.0
     
-    @State var token: UUID = UUID()
+    @State var homeTabToken: UUID = UUID()
+    @State var leaderboardTabToken: UUID = UUID()
     
     private let playerManager = PlayerManager()
 
     // MARK: - Body
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
             mainContent
+                .onChange(of: selectedTab) { _ in
+                    contentOpacity = 1.0
+                }
+
             if !hideNavBar {
-                navBar
+                VStack {
+                    Spacer()
+                    navBar
+                        .frame(height: UIScreen.main.bounds.height * 0.1)
+                }
+                .edgesIgnoringSafeArea(.bottom)
             }
+
         }
         .environmentObject(playerManager)
     }
+
     
     // MARK: - Subviews
     private var mainContent: some View {
@@ -40,26 +53,20 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
             return AnyView(
                 ZStack {
                     VStack(spacing: 0) {
-                        header
-                        HomeTabView(apiService: apiService)
+                        HomeTabView(apiService: apiService, opacity: $contentOpacity)
                             .environmentObject(user)
-//                            .environmentObject(PlayerManager())
-                            .id(token)
+                            .id(homeTabToken)
                     }
-                    dropDownView
                 }
             )
         case 1:
             return AnyView(
                 ZStack {
                     VStack(spacing: 0) {
-                        header
                         LeaderboardTabView(apiService: apiService)
                             .environmentObject(user)
-//                            .environmentObject(PlayerManager())
-                            .id(token)
+                            .id(leaderboardTabToken)
                     }
-                    dropDownView
                 }
             )
         case 3:
@@ -71,19 +78,15 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 ProfileTabView<APIServiceType, AuthServiceType>(apiService: apiService, hideNavBar: $hideNavBar)
                     .environmentObject(user)
                     .environmentObject(authService)
-//                    .environmentObject(PlayerManager())
             )
         default:
             return AnyView(
                 ZStack {
                     VStack(spacing: 0) {
-                        header
-                        HomeTabView(apiService: apiService)
+                        HomeTabView(apiService: apiService, opacity: $contentOpacity)
                             .environmentObject(user)
-//                            .environmentObject(PlayerManager())
-                            .id(token)
+                            .id(homeTabToken)
                     }
-                    dropDownView
                 }
             )
         }
@@ -108,28 +111,37 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
     }
     
     private var navBar: some View {
-        HStack(spacing: 0) {
-            homeButton
-            leaderboardButton
-            postButton
-            connectButton
-            profileButton
-        }
-        .frame(width: UIScreen.main.bounds.width, height: 55)
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
-                startPoint: .bottom,
-                endPoint: .top
-            )
-        )
-        .overlay(
+        VStack(spacing: 0) {  // ensure no spacing between the VStack's contents
             Rectangle()
                 .fill(LinearGradient(gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                .frame(width: UIScreen.main.bounds.width, height: 1),
-                alignment: .top
-        )
+                .frame(width: UIScreen.main.bounds.width, height: 1)
+                .opacity(contentOpacity)
+
+            HStack(spacing: 0) {
+                Spacer()
+                homeButton
+                Spacer()
+                leaderboardButton
+                Spacer()
+                connectButton
+                Spacer()
+                profileButton
+                Spacer()
+            }
+            .opacity(contentOpacity)
+            .frame(width: UIScreen.main.bounds.width, height: 45)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+                .opacity(contentOpacity)
+            )
+        }
     }
+
+
     
     private var homeButton: some View {
         Button(action: {
@@ -139,7 +151,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.10, height: 22)
-                .foregroundColor(Color("LightGray"))
+                .foregroundColor(Color.white)
                 .padding()
                 .cornerRadius(12)
                 .shadow(color: selectedTab == 0 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
@@ -150,53 +162,26 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
         Button(action: {
             self.selectedTab = 1
         }, label: {
-            Image(systemName: selectedTab == 1 ? "medal.fill" : "medal")
+            Image(systemName: selectedTab == 1 ? "trophy.fill" : "trophy")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.12, height: 24)
-                .foregroundColor(Color("LightGray"))
+                .foregroundColor(Color.white)
                 .padding()
                 .cornerRadius(12)
                 .shadow(color: selectedTab == 1 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
         })
     }
     
-    private var postButton: some View {
-        Button(action: {
-            showPostScreen = true
-        }, label: {
-            ZStack {
-                Image(systemName: "square")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 32, height: 32)
-                    .foregroundColor(Color.green)
-                Image(systemName: "plus")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color.green)
-                    .padding()
-                    .cornerRadius(12)
-            }
-            .frame(width: UIScreen.main.bounds.width * 0.18, height: 25)
-        })
-        .sheet(isPresented: $showPostScreen) {
-            CreatePostView<APIService, AuthService>(apiService: apiService as! APIService, isPresented: $showPostScreen)
-                .environmentObject(authService)
-        }
-    }
-
-    
     private var connectButton: some View {
         Button(action: {
             self.selectedTab = 3
         }, label: {
-            Image(systemName: selectedTab == 3 ? "point.3.filled.connected.trianglepath.dotted" : "point.3.connected.trianglepath.dotted")
+            Image(systemName: selectedTab == 3 ? "magnifyingglass" : "magnifyingglass")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.11, height: 21)
-                .foregroundColor(Color("LightGray"))
+                .foregroundColor(Color.white)
                 .padding()
                 .cornerRadius(12)
                 .shadow(color: selectedTab == 3 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
@@ -207,19 +192,27 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
         Button(action: {
             self.selectedTab = 4
         }, label: {
-            Image(systemName: selectedTab == 4 ? "person.crop.square.fill" : "person.crop.square")
+            Image(systemName: selectedTab == 4 ? "person.fill" : "person")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.11, height: 24)
                 .padding()
-                .foregroundColor(Color("LightGray"))
+                .foregroundColor(Color.white)
                 .shadow(color: selectedTab == 4 ? Color.white.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 0)
         })
     }
     
     //MARK: - Functions
     private func refreshPosts() {
-        token = UUID()
+        if selectedTab == 0 {
+            homeTabToken = UUID()
+            return
+        }
+        
+        if selectedTab == 1 {
+            leaderboardTabToken = UUID()
+            return
+        }
     }
 }
 

@@ -22,11 +22,11 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     var body: some View {
         HStack {
             loadingOrButtonContent
-            CommentButton<APIService>(apiService: apiService, postId: postId, commentCount: commentCount)
-                .onTapGesture {
-                    print("Comment Section")
-                    showCommentSection.toggle()
-                }
+//            CommentButton<APIService>(apiService: apiService, postId: postId, commentCount: commentCount)
+//                .onTapGesture {
+//                    print("Comment Section")
+//                    showCommentSection.toggle()
+//                }
             Spacer()
         }
         .padding(.horizontal, 25)
