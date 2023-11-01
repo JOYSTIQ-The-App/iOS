@@ -40,7 +40,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 }
                 .edgesIgnoringSafeArea(.bottom)
             }
-
+  
         }
         .environmentObject(playerManager)
     }
