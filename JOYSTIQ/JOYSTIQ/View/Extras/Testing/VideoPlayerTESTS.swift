@@ -23,14 +23,16 @@ struct VideoPlayerTESTS: View {
            
                 
             VideoPlayer(player: player).onAppear{player.play()}
-                .frame(width: UIScreen.main.bounds.width * 0.95, height: 210)
+                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .cornerRadius(10)
                 
                     
             } else {
                
                 Rectangle()
                     .fill(Color.gray)
-                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 250)
+                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .cornerRadius(10)
             }
           
           

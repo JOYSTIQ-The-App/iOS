@@ -57,7 +57,6 @@
 		99627A3E2AF08B9E002AF1A5 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3D2AF08B9E002AF1A5 /* GameData.swift */; };
 		99627A402AF08C8C002AF1A5 /* GamePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
-		997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062B22ABB6036005596A3 /* SceneKitView2.swift */; };
 		997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */; };
 		997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */; };
 		997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 997062D62ABB8BFE005596A3 /* CamTest6.usdc */; };
@@ -154,7 +153,6 @@
 		99627A3D2AF08B9E002AF1A5 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePickerView.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
-		997062B22ABB6036005596A3 /* SceneKitView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneKitView2.swift; path = ../../Proflile/AvatarViews/SceneKitView2.swift; sourceTree = "<group>"; };
 		997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinToneSwitcherView.swift; sourceTree = "<group>"; };
 		997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSwitcherView.swift; sourceTree = "<group>"; };
 		997062D62ABB8BFE005596A3 /* CamTest6.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = CamTest6.usdc; sourceTree = "<group>"; };
@@ -436,7 +434,7 @@
 		9989F6902AB3B12E00A1B6F2 /* Testing */ = {
 			isa = PBXGroup;
 			children = (
-				997062B22ABB6036005596A3 /* SceneKitView2.swift */,
+				999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */,
 				99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */,
 				99A91D7F2AF181DA00ED5B65 /* ImageViewer.swift */,
 			);
@@ -453,7 +451,6 @@
 				99E235342AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift */,
 				9941DC532A93F6F000215948 /* CommentButton.swift */,
 				9941DC512A93F6F000215948 /* LikeButton.swift */,
-				999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */,
 				9931AA892ADF25F50054C933 /* PlayerManager.swift */,
 				9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */,
 			);
@@ -675,7 +672,6 @@
 				9923CD262ABF865C0044B02F /* APIService.swift in Sources */,
 				9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
-				997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */,
 				99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */,

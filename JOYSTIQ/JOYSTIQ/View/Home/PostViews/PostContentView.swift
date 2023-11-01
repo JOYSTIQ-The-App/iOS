@@ -198,7 +198,7 @@ struct PostContentView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: UIScreen.main.bounds.width * 0.9)
-                    .frame(maxHeight: UIScreen.main.bounds.height * 0.3)
+                    .frame(minHeight: UIScreen.main.bounds.height * 0.2, maxHeight: UIScreen.main.bounds.height * 0.3)
                     .cornerRadius(10)
                     .zIndex(0)
             
@@ -216,20 +216,23 @@ struct PostContentView: View {
                     
                     Image(systemName: "app")
                         .resizable()
-                        .frame(width: UIScreen.main.bounds.width * 0.1, height: UIScreen.main.bounds.width * 0.1)
-                        .foregroundColor(Color.green)
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(Color("LightGray"))
                     
                     Image(systemName: "arrow.up.left.and.arrow.down.right")
                         .resizable()
-                        .frame(width: UIScreen.main.bounds.width * 0.06, height: UIScreen.main.bounds.width * 0.06)
-                        .foregroundColor(Color.green)
+                        .frame(width: 22, height: 22)
+                        .foregroundColor(Color("LightGray"))
                     
                 }
                 .background(Color.black.opacity(0.6))
                 .cornerRadius(10)
-                .padding()
+                
                                            
             }
+            .frame(width: 35, height: 35)
+            .padding(.bottom, 10)
+            .padding(.trailing, 10)
             .zIndex(1)
             
  
@@ -294,7 +297,7 @@ struct PostContentView: View {
                 Image(systemName: "xmark")
                     .resizable()
                     .frame(width: 20, height: 20)
-                    .foregroundColor(Color.green)
+                    .foregroundColor(Color("LightGray"))
                                    
             }
             
@@ -315,7 +318,7 @@ struct PostContentView: View {
                 Text(bodyText)
                     .font(.system(size: UIScreen.main.bounds.height * 0.017))
                     .foregroundColor(.white)
-                    .padding(.vertical, 10)
+                    .padding(.top, 10)
                     .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
             } else {
                 EmptyView()

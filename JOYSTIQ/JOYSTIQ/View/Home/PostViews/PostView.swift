@@ -62,6 +62,7 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
                     commentCount: post.comments,
                     userLiked: post.user_liked
                 )
+                .padding(.top, 10)
                 .environmentObject(user)
                 .alert(isPresented: $showingReportAlert, content: reportAlert)
                 .zIndex(4)
