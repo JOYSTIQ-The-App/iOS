@@ -144,7 +144,7 @@ struct PostContentView: View {
     }
 
     // MARK: - Image Viewing Vars
-    /*
+    /* Previous version without fullscreen capability
     private var imageContent: some View {
         Group {
             if let url = imageURL {
