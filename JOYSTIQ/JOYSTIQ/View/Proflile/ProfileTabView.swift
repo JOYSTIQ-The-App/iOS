@@ -408,6 +408,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     .environmentObject(user)
                     
                     
+                    
                     Button(action: {
                         deletePostConfirmation(postId: post.id)
                     }) {
@@ -417,6 +418,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     .padding(.trailing, 25)
                     .padding(.bottom, 10)
                 }
+                .padding(.top, 10)
 
                 Divider()
                     .frame(width: UIScreen.main.bounds.width, height: 1)

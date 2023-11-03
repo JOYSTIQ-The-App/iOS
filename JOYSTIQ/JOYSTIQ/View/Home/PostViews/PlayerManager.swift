@@ -49,6 +49,7 @@ class PlayerManager: ObservableObject {
 
         // Set the player item to the player
         player.replaceCurrentItem(with: playerItem)
+
     }
 
     func pause() {

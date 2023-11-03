@@ -18,6 +18,7 @@
 		9923CD262ABF865C0044B02F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9923CD252ABF865C0044B02F /* APIService.swift */; };
 		9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931AA892ADF25F50054C933 /* PlayerManager.swift */; };
 		9931AA8C2ADF4B090054C933 /* ProfilePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */; };
+		9938C1772AF2E2FD00BA9C8D /* TrimmedClip1.mp4 in Sources */ = {isa = PBXBuildFile; fileRef = 9938C1762AF2E2FD00BA9C8D /* TrimmedClip1.mp4 */; };
 		9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */; };
 		9941DC242A93F02300215948 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC232A93F02300215948 /* Assets.xcassets */; };
 		9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9941DC262A93F02300215948 /* Preview Assets.xcassets */; };
@@ -57,7 +58,6 @@
 		99627A3E2AF08B9E002AF1A5 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3D2AF08B9E002AF1A5 /* GameData.swift */; };
 		99627A402AF08C8C002AF1A5 /* GamePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
-		997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062B22ABB6036005596A3 /* SceneKitView2.swift */; };
 		997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */; };
 		997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */; };
 		997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 997062D62ABB8BFE005596A3 /* CamTest6.usdc */; };
@@ -77,10 +77,10 @@
 		999B69F32AAA666D00A48299 /* VideoPlayerTESTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */; };
 		99A5C1512AAE68BA00CDD4AD /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1502AAE68BA00CDD4AD /* RoundedCorner.swift */; };
 		99A5C1532AAE6DD300CDD4AD /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */; };
+		99A91D802AF181DA00ED5B65 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A91D7F2AF181DA00ED5B65 /* ImageViewer.swift */; };
 		99A9F3C72AB7E246000F27E5 /* SceneKitView6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */; };
 		99ADA6092ABFBA5900FB5524 /* PantSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ADA6082ABFBA5900FB5524 /* PantSwitcherView.swift */; };
 		99ADA60B2ABFC42000FB5524 /* ShoeSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */; };
-		99BF23492AC9F7EB00D5E667 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */; };
 		99C4B66B2AC64EDE00AE187D /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C4B66A2AC64EDE00AE187D /* EditPostView.swift */; };
 		99C99C852ADB0E410094D2A5 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C99C842ADB0E410094D2A5 /* Avatar.swift */; };
 		99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */; };
@@ -117,6 +117,7 @@
 		9931AA882ADDE23B0054C933 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9931AA892ADF25F50054C933 /* PlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
 		9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostView.swift; sourceTree = "<group>"; };
+		9938C1762AF2E2FD00BA9C8D /* TrimmedClip1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = TrimmedClip1.mp4; path = ../../../Desktop/JOYSTIQ/TrimmedClip1.mp4; sourceTree = "<group>"; };
 		9941DC1C2A93F02100215948 /* JOYSTIQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JOYSTIQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JOYSTIQApp.swift; sourceTree = "<group>"; };
 		9941DC232A93F02300215948 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -154,7 +155,6 @@
 		99627A3D2AF08B9E002AF1A5 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePickerView.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
-		997062B22ABB6036005596A3 /* SceneKitView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneKitView2.swift; path = ../../Proflile/AvatarViews/SceneKitView2.swift; sourceTree = "<group>"; };
 		997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinToneSwitcherView.swift; sourceTree = "<group>"; };
 		997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSwitcherView.swift; sourceTree = "<group>"; };
 		997062D62ABB8BFE005596A3 /* CamTest6.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = CamTest6.usdc; sourceTree = "<group>"; };
@@ -174,10 +174,10 @@
 		999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTESTS.swift; sourceTree = "<group>"; };
 		99A5C1502AAE68BA00CDD4AD /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		99A5C1522AAE6DD300CDD4AD /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
+		99A91D7F2AF181DA00ED5B65 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView6.swift; sourceTree = "<group>"; };
 		99ADA6082ABFBA5900FB5524 /* PantSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantSwitcherView.swift; sourceTree = "<group>"; };
 		99ADA60A2ABFC42000FB5524 /* ShoeSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoeSwitcherView.swift; sourceTree = "<group>"; };
-		99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		99C4B66A2AC64EDE00AE187D /* EditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostView.swift; sourceTree = "<group>"; };
 		99C99C842ADB0E410094D2A5 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		99D8B7982AB119AC00733B73 /* S3Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Service.swift; sourceTree = "<group>"; };
@@ -240,6 +240,7 @@
 		9941DC132A93F02100215948 = {
 			isa = PBXGroup;
 			children = (
+				9938C1762AF2E2FD00BA9C8D /* TrimmedClip1.mp4 */,
 				99EA3DEE2AC21A950011908F /* AvatarNodes */,
 				997062D62ABB8BFE005596A3 /* CamTest6.usdc */,
 				9941DC1E2A93F02100215948 /* JOYSTIQ */,
@@ -436,8 +437,9 @@
 		9989F6902AB3B12E00A1B6F2 /* Testing */ = {
 			isa = PBXGroup;
 			children = (
-				997062B22ABB6036005596A3 /* SceneKitView2.swift */,
+				999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */,
 				99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */,
+				99A91D7F2AF181DA00ED5B65 /* ImageViewer.swift */,
 			);
 			path = Testing;
 			sourceTree = "<group>";
@@ -452,8 +454,6 @@
 				99E235342AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift */,
 				9941DC532A93F6F000215948 /* CommentButton.swift */,
 				9941DC512A93F6F000215948 /* LikeButton.swift */,
-				999B69F22AAA666D00A48299 /* VideoPlayerTESTS.swift */,
-				99BF23482AC9F7EB00D5E667 /* ImageViewer.swift */,
 				9931AA892ADF25F50054C933 /* PlayerManager.swift */,
 				9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */,
 			);
@@ -601,11 +601,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9938C1772AF2E2FD00BA9C8D /* TrimmedClip1.mp4 in Sources */,
 				99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */,
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
 				9931AA8C2ADF4B090054C933 /* ProfilePostView.swift in Sources */,
 				990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */,
-				99BF23492AC9F7EB00D5E667 /* ImageViewer.swift in Sources */,
 				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
 				99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */,
 				9902A5372AC262C7003E2A74 /* Comment.swift in Sources */,
@@ -659,6 +659,7 @@
 				9941DC6B2A93F6F000215948 /* CreatePostView.swift in Sources */,
 				99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */,
 				99F06F5D2AD33425007F9EE1 /* OtherProfileView.swift in Sources */,
+				99A91D802AF181DA00ED5B65 /* ImageViewer.swift in Sources */,
 				9941DC662A93F6F000215948 /* LeaderboardTabView.swift in Sources */,
 				9959589F2AD5E4A800D6FCD7 /* ResultViewer.swift in Sources */,
 				9974A45C2ACB33A400B3B45C /* FollowersListView.swift in Sources */,
@@ -675,7 +676,6 @@
 				9923CD262ABF865C0044B02F /* APIService.swift in Sources */,
 				9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
-				997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */,
 				99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */,

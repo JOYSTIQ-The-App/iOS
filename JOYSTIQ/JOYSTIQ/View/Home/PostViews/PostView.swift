@@ -24,22 +24,22 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Body
     var body: some View {
         ZStack {
-            if isAvatarFullScreen {
-                Color.black.opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        withAnimation {
-                            self.isAvatarFullScreen = false
-                            self.avatarScale = 1.0
-                        }
-                    }
-            }
+//            if isAvatarFullScreen {
+//                Color.black.opacity(0.4)
+//                    .edgesIgnoringSafeArea(.all)
+//                    .onTapGesture {
+//                        withAnimation {
+//                            self.isAvatarFullScreen = false
+//                            self.avatarScale = 1.0
+//                        }
+//                    }
+//            }
             
             VStack(spacing: 0) {
                 UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key, createdAt: post.created_at)
                     .environmentObject(user)
                     .padding(.top, 5)
-                    .zIndex(4)
+                    .zIndex(3)
                 
                 if post.s3_key.Valid {
                     if post.media == "video" {
@@ -62,8 +62,10 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
                     commentCount: post.comments,
                     userLiked: post.user_liked
                 )
+                .padding(.top, 10)
                 .environmentObject(user)
                 .alert(isPresented: $showingReportAlert, content: reportAlert)
+                .zIndex(4)
                 
                 Divider()
                     .background(
