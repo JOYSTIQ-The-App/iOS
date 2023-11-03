@@ -56,8 +56,8 @@
 		99627A3C2AF0480A002AF1A5 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3B2AF0480A002AF1A5 /* HomeHeaderView.swift */; };
 		99627A3E2AF08B9E002AF1A5 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3D2AF08B9E002AF1A5 /* GameData.swift */; };
 		99627A402AF08C8C002AF1A5 /* GamePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */; };
+		99627A432AF18D13002AF1A5 /* SceneKitView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A422AF18D13002AF1A5 /* SceneKitView2.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
-		997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062B22ABB6036005596A3 /* SceneKitView2.swift */; };
 		997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */; };
 		997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */; };
 		997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 997062D62ABB8BFE005596A3 /* CamTest6.usdc */; };
@@ -153,8 +153,8 @@
 		99627A3B2AF0480A002AF1A5 /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		99627A3D2AF08B9E002AF1A5 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePickerView.swift; sourceTree = "<group>"; };
+		99627A422AF18D13002AF1A5 /* SceneKitView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView2.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
-		997062B22ABB6036005596A3 /* SceneKitView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneKitView2.swift; path = ../../Proflile/AvatarViews/SceneKitView2.swift; sourceTree = "<group>"; };
 		997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinToneSwitcherView.swift; sourceTree = "<group>"; };
 		997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSwitcherView.swift; sourceTree = "<group>"; };
 		997062D62ABB8BFE005596A3 /* CamTest6.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; path = CamTest6.usdc; sourceTree = "<group>"; };
@@ -265,7 +265,7 @@
 				995085E02A95A690003996B6 /* Services */,
 				99F590F12ABA39ED00AD5F8C /* Models */,
 				995085E32A95A72B003996B6 /* Extensions */,
-				9941DC372A93F6F000215948 /* View */,
+				9941DC372A93F6F000215948 /* Views */,
 				99F590E92AB2309000AD5F8C /* Util */,
 				9941DC232A93F02300215948 /* Assets.xcassets */,
 				99F590FE2ABA82B400AD5F8C /* LaunchScreen.storyboard */,
@@ -283,22 +283,21 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		9941DC372A93F6F000215948 /* View */ = {
+		9941DC372A93F6F000215948 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				9941DC402A93F6F000215948 /* AppView.swift */,
-				995085E62A95A7F4003996B6 /* Authentication */,
-				9941DC382A93F6F000215948 /* Home */,
-				9941DC412A93F6F000215948 /* Leaderboard */,
-				9941DC442A93F6F000215948 /* Proflile */,
-				9941DC482A93F6F000215948 /* Connect */,
-				9941DC4A2A93F6F000215948 /* CreatePostViews */,
-				9941DC582A93F6F000215948 /* Extras */,
+				995085E62A95A7F4003996B6 /* Auth */,
+				9941DC382A93F6F000215948 /* HomeTab */,
+				9941DC412A93F6F000215948 /* LeaderboardTab */,
+				9941DC482A93F6F000215948 /* ConnectTab */,
+				9941DC442A93F6F000215948 /* ProflileTab */,
+				99C65B292AA3C72100FC2188 /* Post */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
-		9941DC382A93F6F000215948 /* Home */ = {
+		9941DC382A93F6F000215948 /* HomeTab */ = {
 			isa = PBXGroup;
 			children = (
 				9941DC3C2A93F6F000215948 /* HomeTabView.swift */,
@@ -306,22 +305,20 @@
 				99627A3B2AF0480A002AF1A5 /* HomeHeaderView.swift */,
 				996C9CF62AA50A9A001693BF /* DropDown2.swift */,
 				99C65B2B2AA3C79700FC2188 /* NotificationPanel */,
-				99C65B2A2AA3C75600FC2188 /* CommentSection */,
-				99C65B292AA3C72100FC2188 /* PostViews */,
 			);
-			path = Home;
+			path = HomeTab;
 			sourceTree = "<group>";
 		};
-		9941DC412A93F6F000215948 /* Leaderboard */ = {
+		9941DC412A93F6F000215948 /* LeaderboardTab */ = {
 			isa = PBXGroup;
 			children = (
 				9941DC432A93F6F000215948 /* LeaderboardTabView.swift */,
 				9941DC422A93F6F000215948 /* LeaderboardBanners.swift */,
 			);
-			path = Leaderboard;
+			path = LeaderboardTab;
 			sourceTree = "<group>";
 		};
-		9941DC442A93F6F000215948 /* Proflile */ = {
+		9941DC442A93F6F000215948 /* ProflileTab */ = {
 			isa = PBXGroup;
 			children = (
 				9941DC462A93F6F000215948 /* ProfileTabView.swift */,
@@ -334,26 +331,26 @@
 				9974A45B2ACB33A400B3B45C /* FollowersListView.swift */,
 				9974A45D2ACB33AE00B3B45C /* FollowingListView.swift */,
 			);
-			path = Proflile;
+			path = ProflileTab;
 			sourceTree = "<group>";
 		};
-		9941DC482A93F6F000215948 /* Connect */ = {
+		9941DC482A93F6F000215948 /* ConnectTab */ = {
 			isa = PBXGroup;
 			children = (
 				9941DC492A93F6F000215948 /* ConnectTabView.swift */,
 				9959589E2AD5E4A800D6FCD7 /* ResultViewer.swift */,
 			);
-			path = Connect;
+			path = ConnectTab;
 			sourceTree = "<group>";
 		};
-		9941DC4A2A93F6F000215948 /* CreatePostViews */ = {
+		9941DC4A2A93F6F000215948 /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
 				9941DC4B2A93F6F000215948 /* CreatePostView.swift */,
 				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
 				99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */,
 			);
-			path = CreatePostViews;
+			path = CreatePost;
 			sourceTree = "<group>";
 		};
 		9941DC582A93F6F000215948 /* Extras */ = {
@@ -397,7 +394,7 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		995085E62A95A7F4003996B6 /* Authentication */ = {
+		995085E62A95A7F4003996B6 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
 				995085E72A95A805003996B6 /* LoginView.swift */,
@@ -406,7 +403,7 @@
 				990D3D982AA2930800E8488E /* ForgotPasswordView.swift */,
 				990D3D9A2AA2946800E8488E /* ResetPasswordView.swift */,
 			);
-			path = Authentication;
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		997062D02ABB827F005596A3 /* WardrobeViews */ = {
@@ -436,15 +433,17 @@
 		9989F6902AB3B12E00A1B6F2 /* Testing */ = {
 			isa = PBXGroup;
 			children = (
-				997062B22ABB6036005596A3 /* SceneKitView2.swift */,
+				99627A422AF18D13002AF1A5 /* SceneKitView2.swift */,
 				99A9F3C62AB7E246000F27E5 /* SceneKitView6.swift */,
 			);
 			path = Testing;
 			sourceTree = "<group>";
 		};
-		99C65B292AA3C72100FC2188 /* PostViews */ = {
+		99C65B292AA3C72100FC2188 /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				9941DC4A2A93F6F000215948 /* CreatePost */,
+				99C65B2A2AA3C75600FC2188 /* CommentSection */,
 				99755A092AD639880021DAD3 /* PostView.swift */,
 				9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */,
 				9941DC542A93F6F000215948 /* PostContentView.swift */,
@@ -457,7 +456,7 @@
 				9931AA892ADF25F50054C933 /* PlayerManager.swift */,
 				9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */,
 			);
-			path = PostViews;
+			path = Post;
 			sourceTree = "<group>";
 		};
 		99C65B2A2AA3C75600FC2188 /* CommentSection */ = {
@@ -491,6 +490,7 @@
 		99F590E92AB2309000AD5F8C /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				9941DC582A93F6F000215948 /* Extras */,
 				99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */,
 				99F590ED2AB627F800AD5F8C /* AVPlayerView.swift */,
 			);
@@ -675,10 +675,10 @@
 				9923CD262ABF865C0044B02F /* APIService.swift in Sources */,
 				9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
-				997062B32ABB6036005596A3 /* SceneKitView2.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,
 				997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */,
 				99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */,
+				99627A432AF18D13002AF1A5 /* SceneKitView2.swift in Sources */,
 				99627A3C2AF0480A002AF1A5 /* HomeHeaderView.swift in Sources */,
 				99C99C852ADB0E410094D2A5 /* Avatar.swift in Sources */,
 				995085E82A95A805003996B6 /* LoginView.swift in Sources */,

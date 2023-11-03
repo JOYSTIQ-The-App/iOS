@@ -2,50 +2,8 @@
 //  UserBannerPostView.swift
 //  JOYSTIQ
 //
-//  Created by Connor Sottosanti on 5/4/23.
+//  Updated by Stephen Sottosanti on 10/31/23.
 //
-// Takes in profile picture (png), username (string), game name (string ?)
-//
-
-//    private var userAvatar: some View {
-//        if let image = avatarSnapshot {
-//            return AnyView(
-//                Image(uiImage: image)
-//                    .resizable()
-//                    .frame(width: 45, height: 60)
-//                    .scaleEffect(2.8)
-//                    .offset(y: 46)
-//                    .background(
-//                        LinearGradient(
-//                            gradient: Gradient(colors: [Color.white, Color.gray]),
-//                            startPoint: .top,
-//                            endPoint: .bottom
-//                        )
-//                    )
-//                    .clipShape(Circle())
-//                    .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
-//                    .zIndex(1)
-//            )
-//        } else {
-//            return AnyView(
-//                //default picture if user does not have avatar
-//                Image(systemName: "person.fill")
-//                    .frame(width: 45, height: 45)
-//                    .scaleEffect(1.5)
-//                    .foregroundColor(.gray)
-//                    .background(
-//                        LinearGradient(
-//                            gradient: Gradient(colors: [Color.white, Color.gray]),
-//                            startPoint: .top,
-//                            endPoint: .bottom
-//                        )
-//                    )
-//                    .clipShape(Circle())
-//                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-//                    .zIndex(1)
-//            )
-//        }
-//    }
 
 import SwiftUI
 import Amplify
@@ -57,9 +15,9 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     var username: String
     var avatarS3Key: S3Key
     var createdAt: String
+    @Binding var isAvatarFullScreen : Bool
     
     @State private var avatarSnapshot: UIImage?
-    @State private var isAvatarFullScreen = false
     @State private var avatarScale: CGFloat = 1.0
     
     var dateFormatter: DateFormatter {
@@ -90,119 +48,48 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     }
     
     // MARK: - Body
-//    var body: some View {
-//        HStack {
-//            ZStack(alignment: .leading) {
-//                userAvatar
-//                usernameBanner
-//            }
-//            .frame(width: UIScreen.main.bounds.width * 0.4, height: 50)
-//            .padding(.leading, 10)
-//            
-//            gameLogoButton
-//            
-//            Circle()
-//                .fill(Color.gray)
-//                .frame(width: 5, height: 5)
-//                .padding(.leading, 5)
-//            
-//            Text(timeSincePosted)
-//                .font(.system(size: 14))
-//                .foregroundColor(.gray)
-//            
-//            Spacer()
-//        }
-//        .frame(width: UIScreen.main.bounds.width)
-//        .background(Color("GradientDark3"))
-//        .onAppear{
-//            loadData()
-//        }
-//    }
     var body: some View {
         HStack {
             ZStack(alignment: .leading) {
-                userAvatar
-
-                if !isAvatarFullScreen { // Only show the username banner if the avatar is not in full screen mode
+                if !isAvatarFullScreen {
                     usernameBanner
                 }
+                
+                userAvatar
             }
-            .frame(width: UIScreen.main.bounds.width * 0.4, height: 50)
             .padding(.leading, 10)
             
-            gameLogoButton.opacity(isAvatarFullScreen ? 0 : 1) // Hide the game logo button when the avatar is full screen
+            gameLogoButton.opacity(isAvatarFullScreen ? 0 : 1)
 
             Circle()
                 .fill(Color.gray)
                 .frame(width: 5, height: 5)
-                .opacity(isAvatarFullScreen ? 0 : 1) // Hide the circle when the avatar is full screen
+                .opacity(isAvatarFullScreen ? 0 : 1)
                 .padding(.leading, 5)
             
             Text(timeSincePosted)
                 .font(.system(size: 14))
                 .foregroundColor(.gray)
-                .opacity(isAvatarFullScreen ? 0 : 1) // Hide the time text when the avatar is full screen
+                .opacity(isAvatarFullScreen ? 0 : 1)
             
             Spacer()
         }
         .frame(width: UIScreen.main.bounds.width)
-        .background(Color("GradientDark3"))
         .onAppear{
             loadData()
         }
     }
     
     // MARK: - Subviews
-//    private var userAvatar: some View {
-//        Group {
-//            if let image = avatarSnapshot {
-//                Image(uiImage: image)
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fill) // Keeps the image aspect ratio but fills the given space
-//                    .frame(width: isAvatarFullScreen ? UIScreen.main.bounds.width/2 : 45, height: isAvatarFullScreen ? UIScreen.main.bounds.width/2 : 60) // Assumes square aspect ratio for fullscreen.
-//                    .background(
-//                        LinearGradient(
-//                            gradient: Gradient(colors: [Color.white, Color.gray]),
-//                            startPoint: .top,
-//                            endPoint: .bottom
-//                        )
-//                    )
-//                    .clipShape(Circle())
-//                    .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
-//                    .zIndex(5) // Ensure avatar is on top
-//                    .onTapGesture {
-//                        withAnimation {
-//                            self.isAvatarFullScreen.toggle()
-//                        }
-//                    }
-//            } else {
-//                Image(systemName: "person.fill")
-//                    .frame(width: 45, height: 45)
-//                    .scaleEffect(1.5)
-//                    .foregroundColor(.gray)
-//                    .background(
-//                        LinearGradient(
-//                            gradient: Gradient(colors: [Color.white, Color.gray]),
-//                            startPoint: .top,
-//                            endPoint: .bottom
-//                        )
-//                    )
-//                    .clipShape(Circle())
-//                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-//                    .zIndex(1)
-//            }
-//        }
-//    }
-    
     private var userAvatar: some View {
         Group {
             if let image = avatarSnapshot {
                 Image(uiImage: image)
                     .resizable()
-                    .aspectRatio(contentMode: .fill) // Keeps the image aspect ratio but fills the given space
-                    .frame(width: isAvatarFullScreen ? UIScreen.main.bounds.width/2 : 45, height: isAvatarFullScreen ? UIScreen.main.bounds.width/2 : 60) // Assumes square aspect ratio for fullscreen.
-                    .scaleEffect(isAvatarFullScreen ? 1.0 : 2.8) // Zoom in when not fullscreen
-                    .offset(y: isAvatarFullScreen ? 0 : 46) // Offset only when not fullscreen
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: isAvatarFullScreen ? UIScreen.main.bounds.width/2 : 45, height: isAvatarFullScreen ? UIScreen.main.bounds.width/2 : 60)
+                    .scaleEffect(isAvatarFullScreen ? 1.0 : 2.8)
+                    .offset(y: isAvatarFullScreen ? 10 : 46)
                     .background(
                         LinearGradient(
                             gradient: Gradient(colors: [Color.white, Color.gray]),
@@ -212,7 +99,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                     )
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
-                    .zIndex(5) // Ensure avatar is on top
+                    .zIndex(5)
                     .onTapGesture {
                         withAnimation {
                             self.isAvatarFullScreen.toggle()
@@ -302,7 +189,8 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
 // MARK: - Preview
 struct UserBannerPostView_Previews: PreviewProvider {
     static var previews: some View {
-        UserBannerPostView<MockAPIService>(apiService: MockAPIService(), game: "Valorant", username: "SampleUsername", avatarS3Key: S3Key(String: "someKey1", Valid: false), createdAt: "2023-09-19T19:58:06.499746Z")
+        UserBannerPostView<MockAPIService>(apiService: MockAPIService(), game: "Valorant", username: "Username", avatarS3Key: S3Key(String: "someKey1", Valid: false), createdAt: "2023-09-19T19:58:06.499746Z", isAvatarFullScreen: .constant(false))
+            .background(Color("GradientDark3"))
     }
 }
 

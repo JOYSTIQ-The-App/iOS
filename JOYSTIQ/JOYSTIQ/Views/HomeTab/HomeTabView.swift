@@ -169,7 +169,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                         Color.clear.preference(key: ScrollOffsetKey.self, value: geometry.frame(in: .global).minY)
                     }
                 )
-                .background(Color("GradientDark3"))
             }
             .onPreferenceChange(ScrollOffsetKey.self) { offsetY in
                             
@@ -203,7 +202,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                 
                 
             }
-            .background(Color("GradientDark3"))
             .refreshable {
                 self.refreshAction()
             }

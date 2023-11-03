@@ -12,11 +12,11 @@ struct AccoladeBanner: View {
     @State private var mode = "game_only" //game only as default, other options are accolade_only and game_and_accolade
     @State private var gameMode = true
     
-    let icons = ["Logo1", "TrophyGold", "Logo5", "MedalGold", "Logo4", "MedalSilver", "Logo3","Logo7", "Logo6"]
+//    let icons = ["Logo1", "TrophyGold", "Logo5", "MedalGold", "Logo4", "MedalSilver", "Logo3","Logo7", "Logo6"]
     
-    let accoladeArr = ["MedalGold"]
+//    let accoladeArr = ["MedalGold"]
     
-    let gamesArr = ["Logo5", "Logo1", "Logo7", "Logo6", "Logo2", "Logo4", "Logo3"]
+//    var gamesArr = []
     
 
     var body: some View {
@@ -84,15 +84,15 @@ struct AccoladeBanner: View {
                                 .frame(width: UIScreen.main.bounds.width * 0.07, height: UIScreen.main.bounds.width * 0.09)
                                 .foregroundColor(Color.clear)
                             
-                            ForEach(Array(gamesArr.enumerated()), id: \.element) { (index, icon) in
-                                Image(icon)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: UIScreen.main.bounds.width * 0.085, height: UIScreen.main.bounds.width * 0.085)
-                                    .cornerRadius(10)
-                                    .padding(.top, UIScreen.main.bounds.width * 0.01)
-                                    .padding(.trailing, index < gamesArr.count - 1 ? UIScreen.main.bounds.width * 0.103 : UIScreen.main.bounds.width * 0.016)
-                            }
+//                            ForEach(Array(gamesArr.enumerated()), id: \.element) { (index, icon) in
+//                                Image(icon)
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .frame(width: UIScreen.main.bounds.width * 0.085, height: UIScreen.main.bounds.width * 0.085)
+//                                    .cornerRadius(10)
+//                                    .padding(.top, UIScreen.main.bounds.width * 0.01)
+//                                    .padding(.trailing, index < gamesArr.count - 1 ? UIScreen.main.bounds.width * 0.103 : UIScreen.main.bounds.width * 0.016)
+//                            }
                             
     
                         

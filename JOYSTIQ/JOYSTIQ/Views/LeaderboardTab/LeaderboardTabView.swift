@@ -74,9 +74,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                     Spacer()
                 }
             }
-            .background(Color("GradientDark3"))
         }
-        .background(Color("GradientDark3"))
     }
     
     // MARK: - Funtions
