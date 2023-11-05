@@ -12,13 +12,31 @@ struct GamePickerView: View {
     var dismissAction: () -> Void
     
     @State private var searchText = ""
-    @State private var matchingGames: [String] = Array(GameData.gamesDictionary.keys.sorted())
+    @State private var customGameName = ""
+    @State private var matchingGames: [String] = Array(GameData.gamesDictionary.keys)
 
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
+            HStack {
+                TextField("Type your own game", text: $customGameName)
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .disableAutocorrection(true)
+                
+                Button("Set") {
+                    if !customGameName.isEmpty {
+                        self.selectedGame = customGameName
+                        self.dismissAction()
+                    }
+                }
+                .padding(.horizontal)
+            }
+
             TextField("Search for a game", text: $searchText)
                 .padding()
-                .background(Color.gray.opacity(0.2))
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(10)
                 .onChange(of: searchText) { newValue in
                     updateMatchingGames(with: newValue)
                 }
@@ -33,7 +51,7 @@ struct GamePickerView: View {
                 }
             }
         }
-        .preferredColorScheme(.dark)
+        .padding(.top)
     }
     
     func updateMatchingGames(with query: String) {
@@ -44,6 +62,7 @@ struct GamePickerView: View {
         }
     }
 }
+
 
 // Preview provider
 struct GamePickerView_Previews: PreviewProvider {
