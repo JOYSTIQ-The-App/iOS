@@ -56,6 +56,7 @@ struct GameData {
         "Subnautica": "subnautica",
         "Super Smash Bros": "supersmashbros",
         "Teamfight Tactics": "teamfighttactics",
+        "The Finals": "thefinals",
         "Valorant": "valorant",
         "Warzone": "warzone"
     ]

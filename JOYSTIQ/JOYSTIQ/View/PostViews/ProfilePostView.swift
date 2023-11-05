@@ -21,7 +21,7 @@ struct ProfilePostView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
-            UserBannerPostView(apiService: apiService, game: post.game, username: user.username, avatarS3Key: avatarS3Key, createdAt: post.created_at)
+            UserBannerPostView(apiService: apiService, game: post.game, username: user.username, avatarS3Key: avatarS3Key, createdAt: post.created_at, isAvatarFullScreen: .constant(false))
                 .environmentObject(user)
             
             if post.s3_key.Valid {
@@ -71,4 +71,3 @@ struct ProfilePostView_Previews: PreviewProvider {
         .background(Color.black) // just to make it more visually clear in the preview
     }
 }
-

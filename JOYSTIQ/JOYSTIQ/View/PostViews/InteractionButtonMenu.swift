@@ -21,19 +21,6 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Body
     var body: some View {
         HStack {
-            likeButton
-            commentButton
-            
-            Spacer()
-            reportButton
-        }
-        .padding(.horizontal, 25)
-        .padding(.bottom, 8)
-    }
-
-    // MARK: - Subviews
-    private var likeButton: some View {
-        return AnyView(
             Button(action: {
                 print("Like button pressed on post id", postId)
                 likeButtonAction()
@@ -41,11 +28,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                 LikeButton(isLiked: $userLiked, likesCount: $likesCount)
             }
             .padding(.trailing, 5)
-        )
-    }
-    
-    private var commentButton: some View {
-        return AnyView(
+            
             Button(action: {
                 print("Comment button pressed on post id", postId)
                 showComment = true
@@ -56,28 +39,30 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                 CommentSectionView<APIService>(apiService: apiService, postId: postId)
                     .presentationDetents([.fraction(0.9)])
             }
-        )
-    }
-
-    private var reportButton: some View {
-        Button(action: {
-            showingReportAlert = true
-        }) {
-            Image(systemName: "flag")
-                .imageScale(.small)
-                .padding(.trailing, 10)
-                .foregroundColor(.white).opacity(0.7)
+            
+            Spacer()
+            
+            Button(action: {
+                showingReportAlert = true
+            }) {
+                Image(systemName: "flag")
+                    .imageScale(.small)
+                    .padding(.trailing, 10)
+                    .foregroundColor(.white).opacity(0.7)
+            }
         }
+        .padding(.horizontal, 25)
+        .padding(.bottom, 8)
     }
 
     // MARK: - Functions
     private func likeButtonAction() {
         if userLiked {
-            unlikePost()
             userLiked = false
+            unlikePost()
         } else {
-            likePost()
             userLiked = true
+            likePost()
         }
         
         let generator = UIImpactFeedbackGenerator(style: .medium)
