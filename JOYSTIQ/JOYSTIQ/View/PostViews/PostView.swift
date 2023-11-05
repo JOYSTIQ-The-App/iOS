@@ -19,63 +19,52 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
     @State private var showingReportAlert: Bool = false
     
     @State private var isAvatarFullScreen = false
-    @State private var avatarScale: CGFloat = 1.0
     
     // MARK: - Body
     var body: some View {
-        ZStack {
-//            if isAvatarFullScreen {
-//                Color.black.opacity(0.4)
-//                    .edgesIgnoringSafeArea(.all)
-//                    .onTapGesture {
-//                        withAnimation {
-//                            self.isAvatarFullScreen = false
-//                            self.avatarScale = 1.0
-//                        }
-//                    }
-//            }
+        VStack(spacing: 0) {
+            UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key, createdAt: post.created_at, isAvatarFullScreen: $isAvatarFullScreen)
+                .environmentObject(user)
+                .padding(.top, 5)
+                .zIndex(isAvatarFullScreen ? 2 : 0)
             
-            VStack(spacing: 0) {
-                UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key, createdAt: post.created_at)
-                    .environmentObject(user)
-                    .padding(.top, 5)
-                    .zIndex(3)
-                
-                if post.s3_key.Valid {
-                    if post.media == "video" {
-                        PostContentView(s3_key: post.s3_key, thumbnail: post.thumbnail_s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), vURL: post.mediaURL, tURL: post.thumbnailURL)
-                    } else if post.media == "photo" {
-                        PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), imageURL: post.mediaURL)
-                    } else {
-                        PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
-                    }
+            if post.s3_key.Valid {
+                if post.media == "video" {
+                    PostContentView(s3_key: post.s3_key, thumbnail: post.thumbnail_s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), vURL: post.mediaURL, tURL: post.thumbnailURL)
+                        .zIndex(1)
+                } else if post.media == "photo" {
+                    PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media), imageURL: post.mediaURL)
+                        .zIndex(1)
                 } else {
                     PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
+                        .zIndex(1)
                 }
-                
-                InteractionButtonMenu(
-                    showCommentSection: $showCommentSection,
-                    showingReportAlert: $showingReportAlert,
-                    apiService: apiService,
-                    postId: post.id,
-                    likesCount: post.likes,
-                    commentCount: post.comments,
-                    userLiked: post.user_liked
-                )
-                .padding(.top, 10)
-                .environmentObject(user)
-                .alert(isPresented: $showingReportAlert, content: reportAlert)
-                .zIndex(4)
-                
-                Divider()
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+            } else {
+                PostContentView(s3_key: post.s3_key, bodyText: post.body, mediaType: MediaType(from: post.media))
+                    .zIndex(1)
             }
+            
+            InteractionButtonMenu(
+                showCommentSection: $showCommentSection,
+                showingReportAlert: $showingReportAlert,
+                apiService: apiService,
+                postId: post.id,
+                likesCount: post.likes,
+                commentCount: post.comments,
+                userLiked: post.user_liked
+            )
+            .padding(.top, 10)
+            .environmentObject(user)
+            .alert(isPresented: $showingReportAlert, content: reportAlert)
+            
+            Divider()
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
         }
     }
     
