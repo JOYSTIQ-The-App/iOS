@@ -19,7 +19,7 @@ struct LaunchScreenView: View {
                     .frame(width: UIScreen.main.bounds.width * 0.3)
 
                 
-                Image("alphaversion")
+                Image("alphaversion002")
                     .resizable()
                     .scaledToFit()
                     .frame(width: UIScreen.main.bounds.width * 0.2)
