@@ -93,7 +93,6 @@
 		99F590EC2AB4D10100AD5F8C /* S3Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D8B7982AB119AC00733B73 /* S3Service.swift */; };
 		99F590F82ABA3A7C00AD5F8C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590F72ABA3A7C00AD5F8C /* Post.swift */; };
 		99F590FA2ABA4AB300AD5F8C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590F92ABA4AB300AD5F8C /* Enums.swift */; };
-		99F590FB2ABA514200AD5F8C /* LeaderboardTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC432A93F6F000215948 /* LeaderboardTabView.swift */; };
 		99F590FD2ABA7A6F00AD5F8C /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F590FC2ABA7A6F00AD5F8C /* LaunchScreen.swift */; };
 		99F590FF2ABA82B400AD5F8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99F590FE2ABA82B400AD5F8C /* LaunchScreen.storyboard */; };
 		99F591052ABB8E1400AD5F8C /* DiscPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC4D2A93F6F000215948 /* DiscPostView.swift */; };
@@ -546,7 +545,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					9941DC1B2A93F02100215948 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -668,7 +667,6 @@
 				9922BE852AC4CCDD001F4F40 /* ResumeView.swift in Sources */,
 				99F590F82ABA3A7C00AD5F8C /* Post.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
-				99F590FB2ABA514200AD5F8C /* LeaderboardTabView.swift in Sources */,
 				9923CD262ABF865C0044B02F /* APIService.swift in Sources */,
 				9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
@@ -721,6 +719,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -781,6 +780,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -808,13 +808,13 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"JOYSTIQ/Preview Content\"";
 				DEVELOPMENT_TEAM = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = JOYSTIQ/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_CFBundleDisplayName = JOYSTIQ;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -848,13 +848,13 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"JOYSTIQ/Preview Content\"";
 				DEVELOPMENT_TEAM = 3CJ7U26B8W;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = JOYSTIQ/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_CFBundleDisplayName = JOYSTIQ;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
