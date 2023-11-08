@@ -13,13 +13,13 @@ struct GamePickerView: View {
     
     @State private var searchText = ""
     @State private var customGameName = ""
-    @State private var matchingGames: [String] = Array(GameData.gamesDictionary.keys)
+    @State private var matchingGames: [String] = Array(GameData.gamesDictionary.keys.sorted())
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 0) {
             HStack {
                 TextField("Type your own game", text: $customGameName)
-                    .padding()
+                    .padding(10)
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
                     .disableAutocorrection(true)
@@ -30,17 +30,26 @@ struct GamePickerView: View {
                         self.dismissAction()
                     }
                 }
-                .padding(.horizontal)
+                //.frame(width: 40, height: 40)
+                .padding(10)
+                .foregroundColor(Color("CustomGray"))
+                .background(Color.green)
+                .cornerRadius(10)
+                
             }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 20)
 
             TextField("Search for a game", text: $searchText)
-                .padding()
+                .frame(width: UIScreen.main.bounds.width * 0.85)
+                .padding(10)
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(10)
                 .onChange(of: searchText) { newValue in
                     updateMatchingGames(with: newValue)
                 }
                 .disableAutocorrection(true)
+                .padding(.bottom, 10)
 
             List(matchingGames, id: \.self) { gameName in
                 Button(action: {
@@ -52,6 +61,7 @@ struct GamePickerView: View {
             }
         }
         .padding(.top)
+        .preferredColorScheme(.dark)
     }
     
     func updateMatchingGames(with query: String) {
