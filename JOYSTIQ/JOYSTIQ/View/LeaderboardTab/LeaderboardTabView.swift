@@ -61,7 +61,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
             LazyVStack(spacing: 0) {
                 ForEach(Array(posts.enumerated()), id: \.element.id) { index, post in
                     LeaderboardBanners(placeValue: index + 1)
-                        .padding(.bottom, 5)
+                        .padding(.bottom, 0)
                     
                     PostView(
                         apiService: apiService,

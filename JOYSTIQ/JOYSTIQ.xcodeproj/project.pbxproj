@@ -345,7 +345,6 @@
 			isa = PBXGroup;
 			children = (
 				9941DC4B2A93F6F000215948 /* CreatePostView.swift */,
-				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
 				99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */,
 			);
 			path = CreatePostViews;
@@ -354,6 +353,7 @@
 		9941DC582A93F6F000215948 /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
 				9989F6902AB3B12E00A1B6F2 /* Testing */,
 				9941DC592A93F6F000215948 /* ContentFilter.swift */,
 				9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */,

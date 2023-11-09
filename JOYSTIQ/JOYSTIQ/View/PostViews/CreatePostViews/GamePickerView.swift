@@ -30,7 +30,6 @@ struct GamePickerView: View {
                         self.dismissAction()
                     }
                 }
-                //.frame(width: 40, height: 40)
                 .padding(10)
                 .foregroundColor(Color("CustomGray"))
                 .background(Color.green)
