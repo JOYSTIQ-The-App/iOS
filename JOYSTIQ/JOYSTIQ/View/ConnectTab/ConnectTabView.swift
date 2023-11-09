@@ -24,7 +24,7 @@ struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
             
             VStack {
                 
-                searchbar
+                clearSearch
                 
                 //result viewer
                 if isLoading {
@@ -52,6 +52,34 @@ struct ConnectTabView<APIServiceType: APIServiceProtocol>: View {
         .edgesIgnoringSafeArea(.all)
         
     } //end body
+    
+    private var clearSearch: some View { //search bar with clear button
+        
+        ZStack(alignment: .trailing) {
+            
+            searchbar
+            
+            if searchText != "search" && searchText != "" {
+                
+                Button(action: {
+                    searchText = ""
+                }) {
+                    Image(systemName: "xmark.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color("LightGray"))
+                }
+                .offset(x: -30)
+                
+            }
+            
+            
+            
+            
+        }
+        .frame(width: UIScreen.main.bounds.width)
+    }
     
     
     private var searchbar: some View {
