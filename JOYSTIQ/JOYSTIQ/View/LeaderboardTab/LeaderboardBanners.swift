@@ -133,6 +133,6 @@ struct LeaderboardBanners: View {
 
 struct LeaderboardBanners_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardBanners(placeValue: 4)
+        LeaderboardBanners(placeValue: 1)
     }
 }

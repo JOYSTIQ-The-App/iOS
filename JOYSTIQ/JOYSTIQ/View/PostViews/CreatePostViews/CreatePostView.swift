@@ -134,8 +134,8 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 15)
-        .padding(.leading, 15)
-        .background(Rectangle().fill(Color.gray.opacity(0.2)).cornerRadius(10))
+        .padding(.horizontal, 15)
+        .background(Color.clear)
         .sheet(isPresented: $isGamePickerShown) {
             GamePickerView(selectedGame: $game) {
                 isGamePickerShown = false
