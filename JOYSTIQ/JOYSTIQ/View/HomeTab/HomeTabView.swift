@@ -28,7 +28,6 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     @State private var showDropDown = false
     @State private var selectedFeed: FeedType = .following
     @State private var posts: [Post] = []
-    @State var showCommentSection: Bool = false
     
     @State private var lastSeenCreatedAt: String? = nil
     @State private var showLoadMoreButton = false
@@ -155,8 +154,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                     ForEach(posts) { post in
                         PostView(
                             apiService: apiService,
-                            post: post,
-                            showCommentSection: $showCommentSection
+                            post: post
                         )
                         .environmentObject(user)
                         .environmentObject(playerManager)

@@ -15,7 +15,6 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     var username: String
     var avatarS3Key: S3Key
     var createdAt: String
-    @Binding var isAvatarFullScreen : Bool
     
     @State private var avatarSnapshot: UIImage?
     @State private var avatarScale: CGFloat = 1.0
@@ -49,32 +48,31 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     
     // MARK: - Body
     var body: some View {
-        HStack {
+        HStack { //for avatar image, username, game, dot, timeSincePosted
+            
+            //for avatar image and username banner
             ZStack(alignment: .leading) {
-                if !isAvatarFullScreen {
-                    usernameBanner
-                }
-                
+                usernameBanner
                 userAvatar
             }
             .padding(.leading, 10)
             
-            gameLogoButton.opacity(isAvatarFullScreen ? 0 : 1)
+            //image of the game in the post
+            gameLogoButton
 
+            //dot between game and timeSincePosted
             Circle()
                 .fill(Color.gray)
                 .frame(width: 5, height: 5)
-                .opacity(isAvatarFullScreen ? 0 : 1)
                 .padding(.leading, 5)
             
             Text(timeSincePosted)
-                .font(.system(size: 14))
+                .font(.system(size: ScreenUtil.height * 0.013))
                 .foregroundColor(.gray)
-                .opacity(isAvatarFullScreen ? 0 : 1)
             
             Spacer()
         }
-        .frame(width: UIScreen.main.bounds.width)
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height / 18)
         .onAppear{
             loadData()
         }
@@ -87,9 +85,9 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: isAvatarFullScreen ? UIScreen.main.bounds.width/2 : 45, height: isAvatarFullScreen ? UIScreen.main.bounds.width/2 : 60)
-                    .scaleEffect(isAvatarFullScreen ? 1.0 : 2.8)
-                    .offset(y: isAvatarFullScreen ? 10 : 46)
+                    .frame(width: 45, height: 60)
+                    .scaleEffect(2.8)
+                    .offset(y: 46)
                     .background(
                         LinearGradient(
                             gradient: Gradient(colors: [Color.white, Color.gray]),
@@ -99,26 +97,21 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                     )
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
-                    .zIndex(5)
-                    .onTapGesture {
-                        withAnimation {
-                            self.isAvatarFullScreen.toggle()
-                        }
-                    }
+                    .zIndex(1)
             } else {
                 Image(systemName: "person.fill")
-                    .frame(width: 45, height: 45)
+                    .frame(width: ScreenUtil.height / 21, height: ScreenUtil.height / 21)
                     .scaleEffect(1.5)
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color("LightGray"))
                     .background(
                         LinearGradient(
-                            gradient: Gradient(colors: [Color.white, Color.gray]),
+                            gradient: Gradient(colors: [Color("ColorJSGreen"), Color.black]),
                             startPoint: .top,
                             endPoint: .bottom
                         )
                     )
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                    .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
                     .zIndex(1)
             }
         }
@@ -127,13 +120,15 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     private var usernameBanner: some View {
         NavigationLink(destination: OtherProfileView(apiService: apiService, profileUsername: username)) {
             Text(username)
-                .font(.system(size: 15))
+                .font(.system(size: ScreenUtil.height * 0.015))
                 .foregroundColor(.black)
-                .frame(width: UIScreen.main.bounds.width * 0.30, height: 30)
+                .padding(.leading, ScreenUtil.width * 0.05) //inner padding
+                .padding(.trailing, ScreenUtil.width * 0.03) //inner padding
+                .frame(height: ScreenUtil.height * 0.035)
                 .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color.gray]), startPoint: .top, endPoint: .bottom))
                 .cornerRadius(10)
                 .zIndex(0)
-                .padding(.leading, 30)
+                .padding(.leading, ScreenUtil.width * 0.07) //outer padding from left
         }
     }
     
@@ -144,16 +139,19 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                 Image(imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 35, height: 35)
-                    .cornerRadius(10)
+                    .frame(width: ScreenUtil.height * 0.04, height: ScreenUtil.height * 0.04)
+                    .cornerRadius(ScreenUtil.height * 0.01)
             } else {
                 Text(game)
                     .foregroundColor(.purple)
+                    .font(.system(size: ScreenUtil.height * 0.02))
             }
         }
     }
     
     // MARK: - Functions
+    
+    
     private func loadData() {
         if avatarS3Key.Valid {
             fetchAvatarImage(s3Key: avatarS3Key.String)
@@ -189,7 +187,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
 // MARK: - Preview
 struct UserBannerPostView_Previews: PreviewProvider {
     static var previews: some View {
-        UserBannerPostView<MockAPIService>(apiService: MockAPIService(), game: "Valorant", username: "Username", avatarS3Key: S3Key(String: "someKey1", Valid: false), createdAt: "2023-09-19T19:58:06.499746Z", isAvatarFullScreen: .constant(false))
+        UserBannerPostView<MockAPIService>(apiService: MockAPIService(), game: "Valorant", username: "Username", avatarS3Key: S3Key(String: "someKey1", Valid: false), createdAt: "2023-09-19T19:58:06.499746Z")
             .background(Color("GradientDark3"))
     }
 }

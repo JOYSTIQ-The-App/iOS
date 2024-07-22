@@ -17,7 +17,6 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
     
     @State private var showingReportAlert = false
     @State private var posts: [Post] = []
-    @State var showCommentSection: Bool = false
     @State private var isLoading: Bool = false
     
     // MARK: - Body
@@ -65,8 +64,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                     
                     PostView(
                         apiService: apiService,
-                        post: post,
-                        showCommentSection: $showCommentSection
+                        post: post
                     )
                     .environmentObject(user)
                     .environmentObject(playerManager)

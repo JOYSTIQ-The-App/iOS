@@ -17,7 +17,6 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     
     var apiService: APIServiceType
     var profileUsername: String
-    @State var showCommentSection: Bool = false
     
     @State private var showSocials = false
     //@State private var showResume = false
@@ -323,8 +322,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             ForEach(userPosts) { post in
                 PostView(
                     apiService: apiService,
-                    post: post,
-                    showCommentSection: $showCommentSection
+                    post: post
                 )
                 .environmentObject(user)
                 .environmentObject(playerManager)

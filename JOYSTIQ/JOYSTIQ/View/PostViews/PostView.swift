@@ -14,19 +14,15 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
     @EnvironmentObject var playerManager: PlayerManager
     var apiService: APIServiceType
     var post: Post
-    @Binding var showCommentSection: Bool
     
     @State private var showingReportAlert: Bool = false
-    
-    @State private var isAvatarFullScreen = false
-    
+
     // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
-            UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key, createdAt: post.created_at, isAvatarFullScreen: $isAvatarFullScreen)
+            UserBannerPostView(apiService: apiService, game: post.game, username: post.username, avatarS3Key: post.avatar_s3_key, createdAt: post.created_at)
                 .environmentObject(user)
                 .padding(.top, 5)
-                .zIndex(isAvatarFullScreen ? 2 : 0)
             
             if post.s3_key.Valid {
                 if post.media == "video" {
@@ -45,7 +41,6 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
             }
             
             InteractionButtonMenu(
-                showCommentSection: $showCommentSection,
                 showingReportAlert: $showingReportAlert,
                 apiService: apiService,
                 postId: post.id,
@@ -112,8 +107,7 @@ struct PostView_Previews: PreviewProvider {
         
         return PostView<MockAPIService>(
             apiService: MockAPIService(),
-            post: testPost,
-            showCommentSection: .constant(false)
+            post: testPost
         )
         .environmentObject(testUser)
         .background(Color("GradientDark3")) // just to make it more visually clear in the preview

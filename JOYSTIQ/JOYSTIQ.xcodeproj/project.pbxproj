@@ -38,8 +38,6 @@
 		9941DC722A93F6F000215948 /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC532A93F6F000215948 /* CommentButton.swift */; };
 		9941DC732A93F6F000215948 /* PostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC542A93F6F000215948 /* PostContentView.swift */; };
 		9941DC742A93F6F000215948 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC552A93F6F000215948 /* CommentView.swift */; };
-		9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC592A93F6F000215948 /* ContentFilter.swift */; };
-		9941DC772A93F6F000215948 /* LeaderboardContentFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */; };
 		9941DC782A93F6F000215948 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC5B2A93F6F000215948 /* HeaderView.swift */; };
 		9941DC792A93F6F000215948 /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9941DC5C2A93F6F000215948 /* Triangle.swift */; };
 		9941DC7C2A93F80F00215948 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9941DC7B2A93F80F00215948 /* SceneKit.framework */; };
@@ -100,6 +98,7 @@
 		99FD29ED2ABCEB100049AAFA /* HairSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */; };
 		99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
+		C31231792C4EA7A4003893AB /* ScreenUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31231782C4EA7A4003893AB /* ScreenUtil.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -137,8 +136,6 @@
 		9941DC532A93F6F000215948 /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
 		9941DC542A93F6F000215948 /* PostContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContentView.swift; sourceTree = "<group>"; };
 		9941DC552A93F6F000215948 /* CommentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
-		9941DC592A93F6F000215948 /* ContentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentFilter.swift; sourceTree = "<group>"; };
-		9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardContentFilter.swift; sourceTree = "<group>"; };
 		9941DC5B2A93F6F000215948 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		9941DC5C2A93F6F000215948 /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
 		9941DC7B2A93F80F00215948 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
@@ -193,6 +190,7 @@
 		99F591072ABCAD0B00AD5F8C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairSwitcherView.swift; sourceTree = "<group>"; };
 		99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShirtSwitcherView.swift; sourceTree = "<group>"; };
+		C31231782C4EA7A4003893AB /* ScreenUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenUtil.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -290,6 +288,7 @@
 				9941DC442A93F6F000215948 /* ProflileTab */,
 				9941DC482A93F6F000215948 /* ConnectTab */,
 				99C65B292AA3C72100FC2188 /* PostViews */,
+				9941DC4A2A93F6F000215948 /* CreatePostViews */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -354,8 +353,6 @@
 			children = (
 				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
 				9989F6902AB3B12E00A1B6F2 /* Testing */,
-				9941DC592A93F6F000215948 /* ContentFilter.swift */,
-				9941DC5A2A93F6F000215948 /* LeaderboardContentFilter.swift */,
 			);
 			path = Extras;
 			sourceTree = "<group>";
@@ -440,16 +437,14 @@
 		99C65B292AA3C72100FC2188 /* PostViews */ = {
 			isa = PBXGroup;
 			children = (
-				9941DC4A2A93F6F000215948 /* CreatePostViews */,
 				99C65B2A2AA3C75600FC2188 /* CommentSection */,
 				99755A092AD639880021DAD3 /* PostView.swift */,
 				9941DC3E2A93F6F000215948 /* UserBannerPostView.swift */,
 				9941DC542A93F6F000215948 /* PostContentView.swift */,
 				9941DC3F2A93F6F000215948 /* InteractionButtonMenu.swift */,
-				99E235342AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift */,
-				9941DC532A93F6F000215948 /* CommentButton.swift */,
 				9941DC512A93F6F000215948 /* LikeButton.swift */,
-				9931AA892ADF25F50054C933 /* PlayerManager.swift */,
+				9941DC532A93F6F000215948 /* CommentButton.swift */,
+				99E235342AD0A6AC000A1542 /* SelfInteractionButtonMenu.swift */,
 				9931AA8B2ADF4B090054C933 /* ProfilePostView.swift */,
 			);
 			path = PostViews;
@@ -486,9 +481,11 @@
 		99F590E92AB2309000AD5F8C /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				9931AA892ADF25F50054C933 /* PlayerManager.swift */,
 				9941DC582A93F6F000215948 /* Extras */,
 				99F590EA2AB230AB00AD5F8C /* MediaPicker.swift */,
 				99F590ED2AB627F800AD5F8C /* AVPlayerView.swift */,
+				C31231782C4EA7A4003893AB /* ScreenUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -624,13 +621,11 @@
 				9941DC672A93F6F000215948 /* SceneKitExtras.swift in Sources */,
 				9941DC202A93F02100215948 /* JOYSTIQApp.swift in Sources */,
 				9941DC602A93F6F000215948 /* HomeTabView.swift in Sources */,
-				9941DC772A93F6F000215948 /* LeaderboardContentFilter.swift in Sources */,
 				9974A45E2ACB33AE00B3B45C /* FollowingListView.swift in Sources */,
 				9974A46B2ACBA5D600B3B45C /* EditSocialsView.swift in Sources */,
 				995085EC2A95A82D003996B6 /* ConfirmSignUpView.swift in Sources */,
 				995085EA2A95A817003996B6 /* SignUpView.swift in Sources */,
 				9923CD242ABF5E280044B02F /* HomeTabViewModel.swift in Sources */,
-				9941DC762A93F6F000215948 /* ContentFilter.swift in Sources */,
 				99F591082ABCAD0B00AD5F8C /* User.swift in Sources */,
 				99F590FA2ABA4AB300AD5F8C /* Enums.swift in Sources */,
 				99ADA60B2ABFC42000FB5524 /* ShoeSwitcherView.swift in Sources */,
@@ -668,6 +663,7 @@
 				99F590F82ABA3A7C00AD5F8C /* Post.swift in Sources */,
 				9941DC782A93F6F000215948 /* HeaderView.swift in Sources */,
 				9923CD262ABF865C0044B02F /* APIService.swift in Sources */,
+				C31231792C4EA7A4003893AB /* ScreenUtil.swift in Sources */,
 				9931AA8A2ADF25F50054C933 /* PlayerManager.swift in Sources */,
 				99D8B79C2AB126D600733B73 /* ResetPasswordView.swift in Sources */,
 				9941DC712A93F6F000215948 /* NotiView.swift in Sources */,

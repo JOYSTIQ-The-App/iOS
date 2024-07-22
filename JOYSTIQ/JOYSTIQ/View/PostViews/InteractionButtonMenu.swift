@@ -9,7 +9,6 @@ import SwiftUI
 struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Properties
     @EnvironmentObject var user: User
-    @Binding var showCommentSection: Bool
     @Binding var showingReportAlert: Bool
     var apiService: APIServiceType
     var postId: Int
@@ -20,7 +19,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
 
     // MARK: - Body
     var body: some View {
-        HStack {
+        HStack { //for like, comment, report buttons
             Button(action: {
                 print("Like button pressed on post id", postId)
                 likeButtonAction()
@@ -47,12 +46,11 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
             }) {
                 Image(systemName: "flag")
                     .imageScale(.small)
-                    .padding(.trailing, 10)
                     .foregroundColor(.white).opacity(0.7)
             }
         }
-        .padding(.horizontal, 25)
-        .padding(.bottom, 8)
+        .padding(.horizontal, ScreenUtil.width * 0.05)
+        .padding(.vertical, ScreenUtil.height * 0.01)
     }
 
     // MARK: - Functions
@@ -101,7 +99,6 @@ struct InteractionButtonMenu_Previews: PreviewProvider {
         let testUser = User(email: "testEmail@example.com", username: "testUsername")
         
         return InteractionButtonMenu<MockAPIService>(
-            showCommentSection: .constant(false),
             showingReportAlert: .constant(false),
             apiService: MockAPIService(),
             postId: 1,

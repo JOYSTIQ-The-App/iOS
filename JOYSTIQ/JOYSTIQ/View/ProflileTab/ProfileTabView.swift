@@ -414,6 +414,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     }) {
                         Image(systemName: "trash.fill")
                             .foregroundColor(Color("LightGray"))
+                        
                     }
                     .padding(.trailing, 25)
                     .padding(.bottom, 10)
