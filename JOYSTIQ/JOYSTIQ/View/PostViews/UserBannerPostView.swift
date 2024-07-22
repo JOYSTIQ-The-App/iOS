@@ -63,11 +63,11 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
             //dot between game and timeSincePosted
             Circle()
                 .fill(Color.gray)
-                .frame(width: 5, height: 5)
+                .frame(width: ScreenUtil.width * 0.01, height: ScreenUtil.width * 0.01)
                 .padding(.leading, 5)
             
             Text(timeSincePosted)
-                .font(.system(size: ScreenUtil.height * 0.013))
+                .font(.system(size: ScreenUtil.height * 0.014))
                 .foregroundColor(.gray)
             
             Spacer()
@@ -96,7 +96,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                         )
                     )
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
+                    .overlay(Circle().stroke(Color("LightGray"), lineWidth: 1.5))
                     .zIndex(1)
             } else {
                 Image(systemName: "person.fill")
@@ -111,7 +111,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                         )
                     )
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(Color("LightGray"), lineWidth: 2))
+                    .overlay(Circle().stroke(Color("LightGray"), lineWidth: 1.5))
                     .zIndex(1)
             }
         }
@@ -120,7 +120,7 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     private var usernameBanner: some View {
         NavigationLink(destination: OtherProfileView(apiService: apiService, profileUsername: username)) {
             Text(username)
-                .font(.system(size: ScreenUtil.height * 0.015))
+                .font(.system(size: ScreenUtil.height * 0.016))
                 .foregroundColor(.black)
                 .padding(.leading, ScreenUtil.width * 0.05) //inner padding
                 .padding(.trailing, ScreenUtil.width * 0.03) //inner padding

@@ -34,11 +34,16 @@ struct PostContentView: View {
     
     @State private var playerItemStatus: AVPlayerItem.Status = .unknown
     @State private var subscriptions: Set<AnyCancellable> = []
+    
+    //image vars - in testing
+    @State private var isFullScreen = false
+    @State private var imageOffset: CGSize = .zero
+    @State private var dragOffset: CGFloat = 0
 
     // MARK: - Body
     var body: some View {
         content
-            .padding(.top, 5)
+            .padding(.vertical, ScreenUtil.height * 0.01)
             .onAppear {
                 Task {
                     loadContentIfNecessary()
@@ -54,10 +59,9 @@ struct PostContentView: View {
 
     // MARK: - SubViews
     private var content: some View {
-        VStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .center, spacing: 10) {
             mediaContent
-            
-            HStack {
+            HStack(spacing: 0) { //for leading alignment with captions
                 textContent
                 Spacer()
             }
@@ -74,12 +78,12 @@ struct PostContentView: View {
             return AnyView(EmptyView())
         }
     }
-
+    // MARK: - Video Views
     private var videoContent: some View {
         Group {
             if playerManager.currentlyPlayingID == s3_key.String, playerManager.isReady {
                 VideoPlayer(player: playerManager.player)
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
                     .cornerRadius(10)
             } else if isLoading {
                 screenWithLoading
@@ -143,112 +147,31 @@ struct PostContentView: View {
         }
     }
 
-    // MARK: - Image Viewing Vars
-    /* Previous version without fullscreen capability
+    // MARK: - Image Views
     private var imageContent: some View {
         Group {
             if let url = imageURL {
-                VStack(alignment: .center) {
-                    WebImage(url: url)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: UIScreen.main.bounds.width * 0.9)
-                        .frame(maxHeight: UIScreen.main.bounds.height * 0.25)
-                        .cornerRadius(10)
-                }
-                .frame(width: UIScreen.main.bounds.width)
-            } else {
-                EmptyView()
-            }
-        }
-        .asAnyView()
-    }
-     */
-    
-    
-    @State private var isFullScreen = false
-    @State private var imageOffset: CGSize = .zero
-    @State private var dragOffset: CGFloat = 0
-    
-    private var imageContent: some View {
-       
-            
-        VStack(alignment: .center) {
-            imagePostView
-                .fullScreenCover(isPresented: $isFullScreen) {
-                    imageFullScreenViewer
-                }
-        }
-        .frame(width: UIScreen.main.bounds.width)
-            
-        
-    }
-    
-    
-    
-    
-    private var imagePostView: some View {
-   
- 
-        ZStack(alignment: .bottomTrailing) {
-            
-            if let url = imageURL {
-               
                 WebImage(url: url)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
-                    .frame(minHeight: UIScreen.main.bounds.height * 0.2, maxHeight: UIScreen.main.bounds.height * 0.3)
-                    .cornerRadius(10)
-                    .zIndex(0)
-            
+                 .resizable()
+                 .scaledToFill()
+                 .frame(minWidth: ScreenUtil.width * 0.3, maxWidth: ScreenUtil.width * 0.9)
+                 .frame(minHeight: ScreenUtil.height * 0.01, maxHeight: ScreenUtil.height * 0.6)
+                 .cornerRadius(10)
+                 .onTapGesture {
+                     isFullScreen = true
+                 }
+                 .fullScreenCover(isPresented: $isFullScreen) {
+                     imageFullScreenViewer
+                 }
             } else {
                 EmptyView()
             }
-            
-
-            
-            Button(action: {
-                self.isFullScreen.toggle()
-            }) {
-            
-                ZStack() {
-                    
-                    Image(systemName: "app")
-                        .resizable()
-                        .frame(width: 35, height: 35)
-                        .foregroundColor(Color("LightGray"))
-                    
-                    Image(systemName: "arrow.up.left.and.arrow.down.right")
-                        .resizable()
-                        .frame(width: 22, height: 22)
-                        .foregroundColor(Color("LightGray"))
-                    
-                }
-                .background(Color.black.opacity(0.6))
-                .cornerRadius(10)
-                
-                                           
-            }
-            .frame(width: 35, height: 35)
-            .padding(.bottom, 10)
-            .padding(.trailing, 10)
-            .zIndex(1)
-            
- 
-            
         }
-            
-      
-        
     }
     
     private var imageFullScreenViewer: some View {
-            
         VStack(spacing: 0) {
-            actionMenu
             Spacer()
-          
             if let url = imageURL {
                 WebImage(url: url)
                     .resizable()
@@ -257,10 +180,9 @@ struct PostContentView: View {
                 EmptyView()
             }
             
-            
             Spacer()
         } //end VStack
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height)
         .background(Color.black)
         .offset(y: max(-20, imageOffset.height + dragOffset))
         .gesture(
@@ -285,41 +207,14 @@ struct PostContentView: View {
         )
     }
     
-    private var actionMenu: some View {
-        HStack { //for close and ...
-            
-            Spacer()
-            
-            Button(action: {
-                isFullScreen = false
-            }) {
-            
-                Image(systemName: "xmark")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color("LightGray"))
-                                   
-            }
-            
-        }//end HStack for action menu
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 30)
-        .padding(.top, 30)
-    }
-    
-    
-    
-    
-    
-    
-    //MARK: - Caption Vars
+    //MARK: - Caption View
     private var textContent: some View {
         Group {
             if bodyText != "" {
                 Text(bodyText)
-                    .font(.system(size: UIScreen.main.bounds.height * 0.017))
+                    .font(.system(size: ScreenUtil.height * 0.018))
                     .foregroundColor(.white)
-                    .padding(.top, 10)
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
+                    .padding(.horizontal, ScreenUtil.width * 0.05)
             } else {
                 EmptyView()
             }
@@ -377,7 +272,9 @@ extension View {
 struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         LazyVStack(alignment: .center, spacing: 0) {
-            PostContentView(s3_key: S3Key(String: "someKey1", Valid: false), bodyText: "This caption is to serve=]", mediaType: .none)
+            PostContentView(s3_key: S3Key(String: "someKey1", Valid: false), 
+                            bodyText: "Here's my caption afsd dasf asd fasd fsadf asdasdfsad fsda asd fsad dfas fas fas df sadf sad fsda fsda fsad fsad f",
+                            mediaType: .video)
         }
         .frame(width: UIScreen.main.bounds.width)
         .background(Color("GradientDark"))

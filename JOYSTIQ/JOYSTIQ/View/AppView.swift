@@ -113,7 +113,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
     private var navBar: some View {
         VStack(spacing: 0) {  // ensure no spacing between the VStack's contents
             Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("GradientDark2").opacity(0.6), Color("GradientLight2").opacity(0.8), Color("GradientDark2").opacity(0.6)]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 .frame(width: UIScreen.main.bounds.width, height: 1)
                 .opacity(contentOpacity)
 
