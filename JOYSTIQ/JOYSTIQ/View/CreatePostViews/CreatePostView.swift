@@ -18,9 +18,8 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
 
     var s3Service: S3ServiceProtocol = S3Service()
     
-    @Binding var isPresented: Bool
+    @Binding var isPresented: Bool //controls open state of entire view
 
-    @State private var game = ""
     @State private var text = ""
     @State private var selectedImage: UIImage?
     @State private var selectedVideoURL: URL?
@@ -28,7 +27,9 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
     @State private var uploadInProgress = false
     @State private var uploadCompleted = false
     @State private var isLoading: Bool = false
-    @State private var isGamePickerShown = false
+    //game dropdown testing vars
+    @State private var game: String = ""
+    @State private var isGamePickerShown: Bool = false
 
     // MARK: - Body
     var body: some View {
@@ -73,13 +74,14 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
         Image("createapost")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: UIScreen.main.bounds.width * 0.55, height: 30)
+            .frame(width: ScreenUtil.width * 0.55, height: 30)
             .padding(.top, 30)
     }
 
     private var contentForm: some View {
         VStack(alignment: .leading, spacing: 0) {
             selectMediaButton
+            
             divider
             if selectedImage != nil {
                 imageSelectedInfo
@@ -90,12 +92,13 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
                 divider
             }
             
-            gameSelectionButton
+            GameDropdown(game: $game, isGamePickerShown: $isGamePickerShown)
             divider
             
             captionTextField
+
         }
-        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .frame(width: ScreenUtil.width * 0.9)
         .background(Color.gray.opacity(0.2))
         .cornerRadius(10)
         .padding(.top, 15)
@@ -121,27 +124,6 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
         .disabled(uploadInProgress)
     }
     
-    private var gameSelectionButton: some View {
-        Button(action: {
-            isGamePickerShown = true
-        }) {
-            HStack {
-                Text(game.isEmpty ? "Select Game" : game)
-                    .foregroundColor(game.isEmpty ? .gray : .white)
-                Spacer()
-                Image(systemName: "chevron.down")
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, 15)
-        .padding(.horizontal, 15)
-        .background(Color.clear)
-        .sheet(isPresented: $isGamePickerShown) {
-            GamePickerView(selectedGame: $game) {
-                isGamePickerShown = false
-            }
-        }
-    }
 
     private var selectMediaButton: some View {
         Button("Select Media") {
@@ -182,20 +164,31 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
     }
 
     private var captionTextField: some View {
-        TextField("Enter caption", text: $text)
-            .padding(.horizontal, 15)
-            .padding(.vertical, 15)
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .autocapitalization(.none)
+        //custom text field for clear background, text wrapping, and scrollview
+        //TD: Add Char limit?
+        ZStack(alignment: .topLeading) {
+            if text.isEmpty {
+                Text("Enter Caption")
+                    .foregroundColor(Color.gray)
+                    .padding(.top, 15)
+                    .padding(.leading, 15)
+            }
+            
+            TextEditor(text: $text)
+                .autocapitalization(.none)
+                .padding(10)
+                .scrollContentBackground(.hidden) //opaque background
+                .background(Color.clear)
+                .foregroundColor(Color.white)
+                .frame(width: ScreenUtil.width * 0.9, height: 100, alignment: .leading)
+        }
     }
-
+    
     private var divider: some View {
         Divider()
             .frame(height: 1)
             .background(Color.gray.opacity(0.2))
-            .frame(width: UIScreen.main.bounds.width * 0.9)
+            .frame(width: ScreenUtil.width * 0.9)
     }
 
     // MARK: - Functions
@@ -272,7 +265,6 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
             }
         }
     }
-
 
     func uploadData(_ data: Data, withKey key: String) {
         uploadInProgress = true
@@ -359,7 +351,7 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
 private extension Text {
     func postButtonStyle() -> some View {
         self
-            .frame(width: UIScreen.main.bounds.width * 0.2, height: 35)
+            .frame(width: ScreenUtil.width * 0.2, height: 35)
             .background(
                 LinearGradient(
                     gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),

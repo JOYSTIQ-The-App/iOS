@@ -44,9 +44,9 @@ struct ConfirmSignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject
                         "",
                         text: $confirmationCode
                     )
-                    .placeholder(when: confirmationCode.isEmpty) {
+                    .placeholder(when: confirmationCode.isEmpty, placeholder: {
                         Text("Confirmation Code").foregroundColor(.white).opacity(0.4)
-                    }
+                    })
                     .padding(.all, 15.0)
                     .foregroundColor(.white)
                     .background(Color("LightGray").opacity(0.4))
