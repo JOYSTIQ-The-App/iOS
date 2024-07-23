@@ -1,0 +1,44 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-joystiq-dev-222418-authRole",
+      "UnauthRoleArn": "arn:aws:iam::209802122676:role/amplify-joystiq-dev-222418-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::209802122676:role/amplify-joystiq-dev-222418-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-joystiq-dev-222418-deployment",
+      "UnauthRoleName": "amplify-joystiq-dev-222418-unauthRole",
+      "StackName": "amplify-joystiq-dev-222418",
+      "StackId": "arn:aws:cloudformation:us-east-1:209802122676:stack/amplify-joystiq-dev-222418/29f2d1c0-415c-11ee-b8e0-0a0c26c80175",
+      "AmplifyAppId": "d3jxk2xinm1e2l"
+    },
+    "categories": {
+      "auth": {
+        "joystiqfbf44177": {}
+      },
+      "storage": {
+        "joystiqAlphaContent": {}
+      }
+    }
+  },
+  "alpha": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-joystiq-alpha-144332-authRole",
+      "UnauthRoleArn": "arn:aws:iam::209802122676:role/amplify-joystiq-alpha-144332-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::209802122676:role/amplify-joystiq-alpha-144332-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-joystiq-alpha-144332-deployment",
+      "UnauthRoleName": "amplify-joystiq-alpha-144332-unauthRole",
+      "StackName": "amplify-joystiq-alpha-144332",
+      "StackId": "arn:aws:cloudformation:us-east-1:209802122676:stack/amplify-joystiq-alpha-144332/407d7140-6478-11ee-a984-0e70218fdb3d",
+      "AmplifyAppId": "d3jxk2xinm1e2l"
+    },
+    "categories": {
+      "auth": {
+        "joystiqccd91d73": {}
+      },
+      "storage": {
+        "joystiqAlphaContent": {}
+      }
+    }
+  }
+}
