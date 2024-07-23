@@ -11,39 +11,55 @@ import AVKit
 struct VideoPlayerTESTS: View {
     
     @State private var player = AVPlayer()
+    @State private var videoSize: CGSize = .zero
     
     var body: some View {
         
-        VStack(spacing: 0) { //for video/image content and caption
+        VStack(spacing: 0) {
             
-      
-            if let videoURL = Bundle.main.url(forResource: "TrimmedClip2", withExtension: "mp4") {
+            if let videoURL = Bundle.main.url(forResource: "portaitVideo", withExtension: "mp4") {
                 
-            let player = AVPlayer(url: videoURL)
-           
+                let player = AVPlayer(url: videoURL)
                 
-            VideoPlayer(player: player).onAppear{player.play()}
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
-                    .cornerRadius(10)
+                VideoPlayer(player: player)
+                    .onAppear {
+                        player.play()
+                        self.getVideoSize(url: videoURL)
+                    }
+                    .frame(width: ScreenUtil.width * 0.99, height: self.getAdjustedHeight())
+                    .cornerRadius(5)
                 
-                    
             } else {
-               
                 Rectangle()
-                    .fill(Color.gray)
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .fill(Color.black)
+                    .frame(width: ScreenUtil.width * 0.99, height: UIScreen.main.bounds.height * 0.24)
                     .cornerRadius(10)
             }
-          
-          
-            
-        } //end VStack for video/image content and caption
+        }
         .padding(.top, 5)
      
+    } // end body
+    
+    private func getVideoSize(url: URL) {
+        let asset = AVAsset(url: url)
+        let tracks = asset.tracks(withMediaType: .video)
+        if let track = tracks.first {
+            self.videoSize = track.naturalSize.applying(track.preferredTransform)
+            self.videoSize = CGSize(width: abs(self.videoSize.width), height: abs(self.videoSize.height))
+        }
+    }
+    
+    private func getAdjustedHeight() -> CGFloat {
+        let aspectRatio = videoSize.height / videoSize.width
+        let width = ScreenUtil.width * 0.99
+        let height = width * aspectRatio
+        let minHeight = ScreenUtil.height * 0.245
+        let maxHeight = ScreenUtil.height * 0.7
         
-    } //end body
-        
+        return min(max(height, minHeight), maxHeight)
+    }
 }
+
 
 
 struct CustomVideoPlayerView: View {
@@ -83,7 +99,7 @@ struct CustomVideoPlayerView: View {
             }
         }
         .onAppear {
-            let videoURL = URL(string: "TrimmedClip1.mp4") // Replace with your video URL
+            let videoURL = URL(string: "landscapeVideo") // Replace with your video URL
             player = AVPlayer(url: videoURL!)
         }
     }
@@ -93,7 +109,7 @@ struct CustomVideoPlayerView: View {
 
 struct VideoPlayerTESTS_Previews: PreviewProvider {
     static var previews: some View {
-        //VideoPlayerTESTS()
-        CustomVideoPlayerView()
+        VideoPlayerTESTS()
+        //CustomVideoPlayerView()
     }
 }

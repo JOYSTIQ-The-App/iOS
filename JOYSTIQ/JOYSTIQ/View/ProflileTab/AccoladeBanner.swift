@@ -105,6 +105,21 @@ struct AccoladeBanner: View {
                                     .scaledToFit()
                                     .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.13)
                                 
+                                Image("MedalAlpha")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.1)
+                                
+                                Image("MedalBeta")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.1)
+                                
+                                Image("MedalGold")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: UIScreen.main.bounds.width * 0.12, height: UIScreen.main.bounds.width * 0.1)
+                                
                                 Image("MedalGold")
                                     .resizable()
                                     .scaledToFit()
