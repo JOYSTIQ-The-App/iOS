@@ -167,7 +167,6 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
 
     private var captionTextField: some View {
         //custom text field for clear background, text wrapping, and scrollview
-        //TD: Add Char limit?
         ZStack(alignment: .topLeading) {
             if text.isEmpty {
                 Text("Enter Caption")

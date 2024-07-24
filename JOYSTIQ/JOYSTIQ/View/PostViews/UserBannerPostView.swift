@@ -63,11 +63,11 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
             //dot between game and timeSincePosted
             Circle()
                 .fill(Color.gray)
-                .frame(width: ScreenUtil.width * 0.01, height: ScreenUtil.width * 0.01)
-                .padding(.leading, 5)
+                .frame(width: ScreenUtil.width * 0.006, height: ScreenUtil.width * 0.006)
+                .padding(.leading, 0)
             
             Text(timeSincePosted)
-                .font(.system(size: ScreenUtil.height * 0.014))
+                .font(.system(size: ScreenUtil.height * 0.012))
                 .foregroundColor(.gray)
             
             Spacer()
@@ -82,12 +82,14 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
     private var userAvatar: some View {
         Group {
             if let image = avatarSnapshot {
-                Image(uiImage: image)
+                
+                /* TEST image
+                Image("photo")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 45, height: 60)
-                    .scaleEffect(2.8)
-                    .offset(y: 46)
+                    .scaleEffect(3)
+                    .frame(width: ScreenUtil.height / 21, height: ScreenUtil.height / 21)
+                    .offset(y: ScreenUtil.height / 19)
                     .background(
                         LinearGradient(
                             gradient: Gradient(colors: [Color.white, Color.gray]),
@@ -98,14 +100,33 @@ struct UserBannerPostView<APIServiceType: APIServiceProtocol>: View {
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color("LightGray"), lineWidth: 1.5))
                     .zIndex(1)
+                */
+                
+                Image(uiImage: image)
+                    .resizable()
+                     .aspectRatio(contentMode: .fill)
+                     .scaleEffect(3)
+                     .frame(width: ScreenUtil.height / 21, height: ScreenUtil.height / 21)
+                     .offset(y: ScreenUtil.height / 19)
+                     .background(
+                         LinearGradient(
+                             gradient: Gradient(colors: [Color.white, Color.gray]),
+                             startPoint: .top,
+                             endPoint: .bottom
+                         )
+                     )
+                     .clipShape(Circle())
+                     .overlay(Circle().stroke(Color("LightGray"), lineWidth: 1.5))
+                     .zIndex(1)
+                 
             } else {
                 Image(systemName: "person.fill")
                     .frame(width: ScreenUtil.height / 21, height: ScreenUtil.height / 21)
                     .scaleEffect(1.5)
-                    .foregroundColor(Color("LightGray"))
+                    .foregroundColor(Color.gray)
                     .background(
                         LinearGradient(
-                            gradient: Gradient(colors: [Color("ColorJSGreen"), Color.black]),
+                            gradient: Gradient(colors: [Color.white, Color.gray]),
                             startPoint: .top,
                             endPoint: .bottom
                         )
