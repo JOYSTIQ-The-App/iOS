@@ -9,7 +9,7 @@
 import SwiftUI
 import Amplify
 
-struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
+struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceProtocol & ObservableObject>: View {
     // MARK: - Properties
     @EnvironmentObject var authService: AuthServiceType
     @EnvironmentObject var user: User
@@ -48,6 +48,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         NavigationView {
             ZStack {
                 mainContent
+                
                 if showSocials {
                     socialsModal
                 }
@@ -82,15 +83,12 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 avatarSection
                 
                 AccoladeBanner()
-                    .padding(.vertical, 10)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
+                    .offset(y: -ScreenUtil.height * 0.01)
+                    .zIndex(-1)
                 
+                bioSection
+                
+                /*
                 Divider()
                     .frame(width: UIScreen.main.bounds.width, height: 1)
                     .background(
@@ -100,22 +98,10 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                             endPoint: .trailing
                         )
                     )
+                  */
                 
-                
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .frame(height: 5)
-                  
-                
-                userPostsScrollView
+                //userPostsScrollView
             }
-            .background(Color("GradientDark3"))
         } //end main scrollview
         .edgesIgnoringSafeArea([.top, .bottom])
         .onAppear {
@@ -137,40 +123,45 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
         .background(Color("GradientDark3"))
     }
+    
+    
+    //private var namePlateOffset = user.username.count
 
     private var avatarSection: some View {
         VStack(spacing: 0) {
             
-            ZStack(alignment: .bottom) { //to push wardrobe and settings buttons to bottom of avatar frame
+            ZStack(alignment: .bottom) { //to push wardrobe & settings buttons to bottom of avatar frame
                 
                 ZStack(alignment: .center) {
                     avatarBackground
                     avatarImage
                 }
-                .shadow(color: Color.black.opacity(0.6), radius: 1, x: -1, y: 1)
                 
                 HStack {
-                    wardrobeButton
+                    
                     Spacer()
+                    wardrobeButton
                     settingsButton
                 }
                 .padding(.horizontal)
-                .padding(.bottom, UIScreen.main.bounds.height * 0.03)
+                .padding(.bottom, ScreenUtil.height * 0.03)
                 .shadow(color: Color.black.opacity(0.4), radius: 1, x: 1, y: 1)
+                
+                namePlate
+                    .offset(x: (-ScreenUtil.width * 0.55) + (CGFloat(user.username.count) * 7.9), y: -ScreenUtil.height * 0.01)
             }
             .padding(.bottom, 1)
 
-            bioSection
         } //end Vstack for avatar environment and bio
     }
 
     private var avatarBackground: some View {
         Image(enviroInt == 1 ? "bedroomEnv" : "defaultEnv")
             .resizable()
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.38)
+            .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.38)
             .edgesIgnoringSafeArea(.top)
             .aspectRatio(contentMode: .fill)
-            .shadow(color: Color.black, radius: 6, x: 2, y: 4)
+            .shadow(color: Color.black, radius: 6, x: 0, y: 4)
     }
 
     private var avatarImage: some View {
@@ -178,9 +169,10 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             return AnyView(
                 Image(uiImage: image)
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.height * 0.28)
+                    .frame(width: ScreenUtil.width * 0.43, height: ScreenUtil.height * 0.28)
                     .scaleEffect(1.5)
-                    .padding(.top, UIScreen.main.bounds.height * 0.05)
+                    .padding(.top, ScreenUtil.height * 0.05)
+                    .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
             )
         } else if isLoadingAvatar {
             return AnyView(
@@ -202,12 +194,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
     
     private var wardrobeButton: some View {
-        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, avatarS3Key: $avatarS3Key, apiService: apiService).navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Wardrobe")
-                }
-            }) {
+        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, avatarS3Key: $avatarS3Key, apiService: apiService)) {
             ZStack {
                 Image(systemName: "square")
                     .resizable()
@@ -279,12 +266,11 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
     }
     
-
     private var bioSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             socialButtons
             
-            
+            /*
             Text(bio)
                 .padding(.all, 13)
                 .background(Color("Black0").opacity(0.3))
@@ -292,24 +278,15 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.4, alignment: .topLeading)
                 .font(.system(size: UIScreen.main.bounds.width * 0.03))
                 .foregroundColor(Color("LightGray"))
-             
-             
+             */
          }
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight"), Color("GradientLight")]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        )
     }
 
     private var socialButtons: some View {
         HStack {
-            namePlate
             Spacer()
-            followersButtons
-            socialButton(imageName: "network")
+            //followersButtons
+            //socialButton(imageName: "network")
             //resumeButton(imageName: "list.bullet.clipboard.fill")
         }
         .frame(width: UIScreen.main.bounds.width)
@@ -317,16 +294,16 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
 
     private var namePlate: some View {
-        ZStack {
+        ZStack(alignment: .trailing) {
             Image("NamePlate5")
                 .resizable()
                 .scaledToFill()
             Text(user.username)
-                .font(.system(size: 16))
+                .font(.system(size: (ScreenUtil.height * 0.023) - CGFloat(user.username.count) * 0.2))
                 .foregroundColor(Color("LightGray"))
-                .padding(.trailing, UIScreen.main.bounds.width * 0.04)
+                .padding(.trailing, ScreenUtil.width * 0.11)
         }
-        .frame(width: UIScreen.main.bounds.width * 0.35, height: UIScreen.main.bounds.height * 0.05)
+        .frame(width: ScreenUtil.width * 0.4, height: ScreenUtil.height * 0.01)
         .shadow(color: Color.black, radius: 6, x: 2, y: 4)
         .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
     }
@@ -338,13 +315,15 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             Image(systemName: imageName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 25, height: 25)
+                .frame(width: 30, height: 30)
                 .foregroundColor(Color("LightGray"))
+                .padding(5)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5) // Adjust corner radius as needed
+                        .stroke(Color("LightGray").opacity(0.6), lineWidth: 2) // Customize border color and width
+                )
         }
-        .buttonStyle(NeumorphicButtonStyle())
-        .padding(.horizontal, 5)
     }
-    
     
     private func resumeButton(imageName: String) -> some View {
         Button(action: {
@@ -359,7 +338,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         .buttonStyle(NeumorphicButtonStyle())
         .padding(.trailing, 10)
     }
-     
     
     private var socialsModal: some View {
         ZStack {
@@ -383,7 +361,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
     }
     
-
     private var userPostsScrollView: some View {
         LazyVStack(spacing: 0) {
             ForEach(userPosts, id: \.id) { post in
@@ -543,7 +520,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         showDeleteConfirmation = true
     }
 
-
     // This function calls the API to delete the post and updates the local userPosts list on success.
     func deletePost(postId: Int) {
         apiService.deletePost(email: user.email, postId: postId) { result in
@@ -558,14 +534,14 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
 }
 
 // MARK: - Preview
-struct ProfileTabView_Previews: PreviewProvider {
+struct ProfileTabViewNew_Previews: PreviewProvider {
 
     let blankImage = UIImage()
 
     static var previews: some View {
-        let testUser = User(email: "testEmail@example.com", username: "Apical")
+        let testUser = User(email: "testEmail@example.com", username: "ApicalArtist")
         
-        return ProfileTabView<MockAPIService, MockAuthService>(apiService: MockAPIService(), hideNavBar: .constant(false))
+        return ProfileTabViewNew<MockAPIService, MockAuthService>(apiService: MockAPIService(), hideNavBar: .constant(false))
             .environmentObject(testUser)
             .environmentObject(MockAuthService())
             .environmentObject(PlayerManager())
