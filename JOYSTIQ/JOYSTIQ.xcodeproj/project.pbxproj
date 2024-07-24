@@ -53,7 +53,6 @@
 		99627A3A2AEB1FF8002AF1A5 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 99627A392AEB1FF8002AF1A5 /* SwiftUIX */; };
 		99627A3C2AF0480A002AF1A5 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3B2AF0480A002AF1A5 /* HomeHeaderView.swift */; };
 		99627A3E2AF08B9E002AF1A5 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3D2AF08B9E002AF1A5 /* GameData.swift */; };
-		99627A402AF08C8C002AF1A5 /* GamePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */; };
 		996C9CF72AA50A9A001693BF /* DropDown2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996C9CF62AA50A9A001693BF /* DropDown2.swift */; };
 		997062D22ABB8293005596A3 /* SkinToneSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */; };
 		997062D52ABB862F005596A3 /* EnvironmentSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */; };
@@ -99,6 +98,7 @@
 		99FD29EF2ABCEC830049AAFA /* ShirtSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */; };
 		C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39D9CB767C6C314984A7DBD4 /* awsconfiguration.json */; };
 		C31231792C4EA7A4003893AB /* ScreenUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31231782C4EA7A4003893AB /* ScreenUtil.swift */; };
+		C32E1D652C503C54009764DE /* GameDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32E1D642C503C54009764DE /* GameDropdown.swift */; };
 		C3DD3DD22C4FFC70004277B1 /* landscapeVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C3DD3DD02C4FFC70004277B1 /* landscapeVideo.mp4 */; };
 		C3DD3DD32C4FFC70004277B1 /* portaitVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C3DD3DD12C4FFC70004277B1 /* portaitVideo.mp4 */; };
 /* End PBXBuildFile section */
@@ -149,7 +149,6 @@
 		9959589E2AD5E4A800D6FCD7 /* ResultViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewer.swift; sourceTree = "<group>"; };
 		99627A3B2AF0480A002AF1A5 /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		99627A3D2AF08B9E002AF1A5 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
-		99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePickerView.swift; sourceTree = "<group>"; };
 		996C9CF62AA50A9A001693BF /* DropDown2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown2.swift; sourceTree = "<group>"; };
 		997062D12ABB8293005596A3 /* SkinToneSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinToneSwitcherView.swift; sourceTree = "<group>"; };
 		997062D42ABB862F005596A3 /* EnvironmentSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSwitcherView.swift; sourceTree = "<group>"; };
@@ -193,6 +192,7 @@
 		99FD29EC2ABCEB100049AAFA /* HairSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairSwitcherView.swift; sourceTree = "<group>"; };
 		99FD29EE2ABCEC830049AAFA /* ShirtSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShirtSwitcherView.swift; sourceTree = "<group>"; };
 		C31231782C4EA7A4003893AB /* ScreenUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenUtil.swift; sourceTree = "<group>"; };
+		C32E1D642C503C54009764DE /* GameDropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDropdown.swift; sourceTree = "<group>"; };
 		C3DD3DD02C4FFC70004277B1 /* landscapeVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = landscapeVideo.mp4; path = ../../../../../../Downloads/landscapeVideo.mp4; sourceTree = "<group>"; };
 		C3DD3DD12C4FFC70004277B1 /* portaitVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = portaitVideo.mp4; path = ../../../../../../Downloads/portaitVideo.mp4; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
@@ -348,7 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				9941DC4B2A93F6F000215948 /* CreatePostView.swift */,
-				99627A3F2AF08C8C002AF1A5 /* GamePickerView.swift */,
+				C32E1D642C503C54009764DE /* GameDropdown.swift */,
 			);
 			path = CreatePostViews;
 			sourceTree = "<group>";
@@ -614,6 +614,7 @@
 				9941DC682A93F6F000215948 /* ProfileTabView.swift in Sources */,
 				9931AA8C2ADF4B090054C933 /* ProfilePostView.swift in Sources */,
 				990B8C052AB8E8FF00A2E794 /* SceneKitView.swift in Sources */,
+				C32E1D652C503C54009764DE /* GameDropdown.swift in Sources */,
 				9989F68A2AB39E4000A1B6F2 /* NeumorphicButtons.swift in Sources */,
 				99EA3DF22AC223050011908F /* ComingSoonView.swift in Sources */,
 				9902A5372AC262C7003E2A74 /* Comment.swift in Sources */,
@@ -654,7 +655,6 @@
 				9941DC732A93F6F000215948 /* PostContentView.swift in Sources */,
 				99A5C1532AAE6DD300CDD4AD /* ProfileSettingsView.swift in Sources */,
 				9941DC742A93F6F000215948 /* CommentView.swift in Sources */,
-				99627A402AF08C8C002AF1A5 /* GamePickerView.swift in Sources */,
 				99A9F3C72AB7E246000F27E5 /* SceneKitView6.swift in Sources */,
 				9974A4642ACB70B300B3B45C /* EditResumeView.swift in Sources */,
 				9941DC6A2A93F6F000215948 /* ConnectTabView.swift in Sources */,

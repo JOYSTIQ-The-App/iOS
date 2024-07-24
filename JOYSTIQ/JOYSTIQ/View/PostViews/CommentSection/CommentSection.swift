@@ -72,9 +72,9 @@ struct CommentSectionView<APIServiceType: APIServiceProtocol>: View {
     private var commentInputView: some View {
         HStack {
             TextField("", text: $userComment)
-                .placeholder(when: userComment.isEmpty) {
+                .placeholder(when: userComment.isEmpty, placeholder: {
                     Text("comment").foregroundColor(.white).opacity(0.4)
-                }
+                })
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .padding(.all, 10)

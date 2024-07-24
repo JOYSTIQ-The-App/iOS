@@ -43,7 +43,7 @@ struct SignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View
                             "",
                             text: $email
                         )
-                        .placeholder(when: email.isEmpty) {
+                        .placeholder(when: password.isEmpty) {
                             Text("Email").foregroundColor(.white).opacity(0.4)
                         }
                         .padding(.all, 15.0)

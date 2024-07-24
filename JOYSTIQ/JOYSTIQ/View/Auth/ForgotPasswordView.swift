@@ -38,12 +38,9 @@ struct ForgotPasswordView<AuthServiceType: AuthServiceProtocol & ObservableObjec
                     VStack(alignment: .center) {
                         
                         TextField(
-                            "",
+                            "Email",
                             text: $username
                         )
-                        .placeholder(when: username.isEmpty) {
-                            Text("Email").foregroundColor(.white).opacity(0.4)
-                        }
                         .padding(.all, 15.0)
                         .foregroundColor(.white)
                         .background(Color("LightGray").opacity(0.4))
