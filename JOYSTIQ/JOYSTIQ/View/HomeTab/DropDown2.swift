@@ -203,12 +203,9 @@ struct DropDown2<FeedbackServiceType: FeedbackServiceProtocol>: View {
             
             
             TextField(
-                "",
+                "Enter feedback",
                 text: $feedbacktext
             )
-            .placeholder(when: feedbacktext.isEmpty, placeholder: {
-                Text("Enter feedback").foregroundColor(.white).opacity(0.4)
-            })
             .padding(.all, 15.0)
             .foregroundColor(.white)
             .background(Color("LightGray").opacity(0.4))

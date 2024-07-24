@@ -16,22 +16,19 @@ struct GameDropdown: View {
     var body: some View {
         VStack {
             HStack {
-                TextField(text: $game)
+                TextField("", text: $game)
+                    .placeholder(when: game.isEmpty) {
+                        Text("Select Game").foregroundColor(Color.gray)
+                    }
                     .padding(.vertical, 15)
                     .padding(.horizontal, 15)
                     .background(Color.clear)
                     .foregroundColor(.white)
                     .onChange(of: game) { newValue in
                         filterGames(query: newValue)
-                        isGamePickerShown = !newValue.isEmpty && !filteredGames.isEmpty
+                        withAnimation{isGamePickerShown = !newValue.isEmpty}
                     }
-                    .placeholder(when: game.isEmpty) {
-                        Text("Select Game")
-                            .foregroundColor(Color.gray)
-                            .padding(.vertical, 15)
-                            .padding(.horizontal, 15)
-                    }
-                
+                    
                 Spacer()
                 
                 if !game.isEmpty {
@@ -47,7 +44,7 @@ struct GameDropdown: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            if isGamePickerShown {
+            if isGamePickerShown && !filteredGames.isEmpty {
                 ScrollView {
                     VStack(alignment: .leading) {
                         ForEach(filteredGames, id: \.self) { game in

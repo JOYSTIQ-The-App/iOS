@@ -95,7 +95,7 @@ struct PostView_Previews: PreviewProvider {
             thumbnail_s3_key: S3Key(String: "", Valid: false),
             media: "none",
             game: "Valorant",
-            body: "This is a sample post content",
+            body: "This is sample post content \n-This app is cool \n-This app is great \n-This app has great engineers",
             status: "reported",
             likes: 123,
             comments: 45,

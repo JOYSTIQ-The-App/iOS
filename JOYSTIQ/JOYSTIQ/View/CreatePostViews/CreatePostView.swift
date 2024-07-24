@@ -27,9 +27,11 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
     @State private var uploadInProgress = false
     @State private var uploadCompleted = false
     @State private var isLoading: Bool = false
-    //game dropdown testing vars
+    //game dropdown vars
     @State private var game: String = ""
     @State private var isGamePickerShown: Bool = false
+    //caption text limit
+    @State private var characterLimit = 500
 
     // MARK: - Body
     var body: some View {
@@ -181,6 +183,11 @@ struct CreatePostView<APIServiceType: APIServiceProtocol>: View {
                 .background(Color.clear)
                 .foregroundColor(Color.white)
                 .frame(width: ScreenUtil.width * 0.9, height: 100, alignment: .leading)
+                .onChange(of: text) { newText in
+                                if newText.count > characterLimit {
+                                    text = String(newText.prefix(characterLimit))
+                                }
+                            }
         }
     }
     
