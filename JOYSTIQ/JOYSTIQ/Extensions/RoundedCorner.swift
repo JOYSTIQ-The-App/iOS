@@ -4,6 +4,7 @@
 //
 //  Created by Connor Sottosanti on 9/10/23.
 //
+// USAGE: .cornerRadius([.bottomLeading, .bottomTrailing], 10)
 
 import SwiftUI
 

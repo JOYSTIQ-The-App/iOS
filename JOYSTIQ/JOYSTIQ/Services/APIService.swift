@@ -1575,10 +1575,10 @@ class MockAPIService: APIServiceProtocol {
         // Mocked profile data
         let mockProfile = UserProfile(
             avatar_s3_key: S3Key(String: "", Valid: false),
-            bio: "This is a sample bio for development",
+            bio: "",
             environment: "",
-            followers: 12,
-            following: 8,
+            followers: 1200,
+            following: 800,
             posts: [
                 Post(
                     id: 1,

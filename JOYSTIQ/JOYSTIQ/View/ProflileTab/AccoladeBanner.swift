@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AccoladeBanner: View {
 
-    @State private var gameMode = true
+    @Binding var accMode: Bool
     
     //for testing
     var gamesArr = ["valorant", "fortnite", "overwatch", "callofduty", "bloodhunt", "thefinals"]
@@ -35,7 +35,7 @@ struct AccoladeBanner: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
 
-                        switch gameMode{
+                        switch accMode{
                             
                         case true:
                             
@@ -98,6 +98,6 @@ struct AccoladeBanner: View {
 
 struct AccoladeBanner_Previews: PreviewProvider {
     static var previews: some View {
-        AccoladeBanner()
+        AccoladeBanner(accMode: .constant(true))
     }
 }

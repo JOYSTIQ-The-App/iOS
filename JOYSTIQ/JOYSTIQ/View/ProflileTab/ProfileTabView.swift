@@ -22,11 +22,13 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @Binding var hideNavBar: Bool
     @State private var avatarSnapshot: UIImage?
     @State private var enviroInt: Int = 0
+    @State private var accMode = false //determines accolade display
     
     @State private var bio: String = ""
     @State private var resume: String = ""
     @State private var followers: Int = 0
     @State private var following: Int = 0
+    
     
     @State private var userPosts: [Post] = []
     //@State private var showEditPostModal = false
@@ -81,7 +83,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 
                 avatarSection
                 
-                AccoladeBanner()
+                AccoladeBanner(accMode: $accMode)
                     .padding(.vertical, 10)
                     .background(
                         LinearGradient(

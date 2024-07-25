@@ -4,6 +4,7 @@
 //
 //  Created by Connor Sottosanti on 9/20/23.
 //
+// USAGE: UIColor(hexString: "ffffff")
 
 import SwiftUI
 

@@ -22,6 +22,7 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
     @Binding var hideNavBar: Bool
     @State private var avatarSnapshot: UIImage?
     @State private var enviroInt: Int = 0
+    @State private var accMode = true //determines accolade display
     
     @State private var bio: String = ""
     @State private var resume: String = ""
@@ -52,9 +53,10 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                 if showSocials {
                     socialsModal
                 }
-                if showResume {
-                    resumeModal
-                }
+                
+                //if showResume {
+                 //   resumeModal
+                //}
                 
                 if isLoading {
                     loadingOverlay
@@ -77,18 +79,88 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
     }
     
     private var mainContent: some View {
+
+            VStack(spacing: 0) {
+                
+                avatarSection
+                    .zIndex(3)
+                
+                AccoladeBanner(accMode: $accMode)
+                    .offset(y: -ScreenUtil.height * 0.01)
+                    .zIndex(2)
+                
+                attributeButtons
+                    .zIndex(1)
+                
+                bioSection
+                
+                Spacer()
+                    .frame(height: ScreenUtil.height * 0.2)
+                
+                chevronButton
+                    .padding(.bottom, ScreenUtil.height * 0.02)
+
+                /*
+                Divider()
+                    .frame(width: UIScreen.main.bounds.width, height: 5)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color("GradientDark3"), Color("LightGray"), Color("GradientDark3")]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                 */
+
+            
+                
+                //userPostsScrollView
+            
+
+            } //end profileView
+            .edgesIgnoringSafeArea([.top, .bottom])
+            .onAppear {
+                fetchUserProfile()
+                hideNavBar = false
+            }
+            .alert(isPresented: $showDeleteConfirmation) {
+                Alert(title: Text("Delete Post"),
+                      message: Text("Are you sure you want to delete this post?"),
+                      primaryButton: .destructive(Text("Delete")) {
+                          if let postId = postToDelete {
+                              deletePost(postId: postId)
+                          }
+                      },
+                      secondaryButton: .cancel {
+                          postToDelete = nil // Reset the postToDelete when canceled
+                      }
+                )
+            }
+            .background(Color("GradientDark3"))
+    }
+    
+    
+    /*
+    private var mainContent: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
                 
                 avatarSection
+                    .zIndex(3)
                 
-                AccoladeBanner()
+                AccoladeBanner(accMode: $accMode)
                     .offset(y: -ScreenUtil.height * 0.01)
-                    .zIndex(-1)
+                    .zIndex(2)
+                
+                attributeButtons
+                    .zIndex(1)
                 
                 bioSection
                 
-                /*
+                Spacer()
+                
+                chevronButton
+
                 Divider()
                     .frame(width: UIScreen.main.bounds.width, height: 1)
                     .background(
@@ -98,8 +170,7 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                             endPoint: .trailing
                         )
                     )
-                  */
-                
+
                 //userPostsScrollView
             }
         } //end main scrollview
@@ -123,9 +194,9 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
         }
         .background(Color("GradientDark3"))
     }
+    */
     
-    
-    //private var namePlateOffset = user.username.count
+    //MARK: - Avatar Section Subviews
 
     private var avatarSection: some View {
         VStack(spacing: 0) {
@@ -137,7 +208,7 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                     avatarImage
                 }
                 
-                HStack {
+                HStack(spacing: ScreenUtil.width * 0.04) {
                     
                     Spacer()
                     wardrobeButton
@@ -148,7 +219,7 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                 .shadow(color: Color.black.opacity(0.4), radius: 1, x: 1, y: 1)
                 
                 namePlate
-                    .offset(x: (-ScreenUtil.width * 0.55) + (CGFloat(user.username.count) * 7.9), y: -ScreenUtil.height * 0.01)
+                    .offset(x: (-ScreenUtil.width * 0.55) + (CGFloat(user.username.count) * 7.9), y: -ScreenUtil.height * 0.02)
             }
             .padding(.bottom, 1)
 
@@ -185,12 +256,27 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                     Text("Create your Avatar!")
                         .frame(width: 200, height: 50)
                         .foregroundColor(.black)
-                    Image(systemName: "arrow.down.left")
+                    Image(systemName: "arrow.down.right")
                         .frame(width: 10, height: 10)
                         .foregroundColor(.black)
                 }
             )
         }
+    }
+    
+    private var namePlate: some View {
+        ZStack(alignment: .trailing) {
+            Image("NamePlate5")
+                .resizable()
+                .scaledToFill()
+            Text(user.username)
+                .font(.system(size: (ScreenUtil.height * 0.023) - CGFloat(user.username.count) * 0.2))
+                .foregroundColor(Color("LightGray"))
+                .padding(.trailing, ScreenUtil.width * 0.11)
+        }
+        .frame(width: ScreenUtil.width * 0.4, height: ScreenUtil.height * 0.005)
+        .shadow(color: Color.black, radius: 6, x: 2, y: 4)
+        .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
     }
     
     private var wardrobeButton: some View {
@@ -232,6 +318,68 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
         }
     }
     
+    //MARK: - Profile Attributes
+    private var attributeButtons: some View { // socials, followers, accolade button
+        HStack(spacing: 0) {
+            
+            Spacer()
+            
+            socialButton
+                .padding(.trailing, ScreenUtil.width * 0.04)
+            
+            followersButtons
+                .padding(.trailing, ScreenUtil.width * 0.04)
+            
+            accButton
+            
+        } //end HStack
+    }
+    
+    //Relocate to otherProfileView
+    private var followButton: some View {
+        Button(action: {/*follow unfollow*/},
+        
+        label: {
+            Text("Follow")
+                .foregroundColor(Color("LightGray"))
+                .padding(.vertical, 10)
+                .padding(.horizontal, 10)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color("GradientDark"))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.white.opacity(0.4), lineWidth: 2)
+                )
+                .cornerRadius(10)
+        })
+    }
+    
+    private var accButton: some View {
+        Button(action: {
+            accMode.toggle()
+        },
+       label: {
+            Image(systemName: accMode ? "gamecontroller.fill" : "medal.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .padding(ScreenUtil.width * 0.02)
+                .padding(.top, ScreenUtil.height * 0.01)
+                .foregroundColor(Color("LightGray"))
+                .background(Color("Black0"))
+                .cornerRadius([.bottomLeading, .bottomTrailing], 10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+                .shadow(color: Color.black.opacity(0.6), radius: 5, x: 0, y: 2)
+                .offset(y: -ScreenUtil.height * 0.013) //tuck behind acc banner
+                .padding(.trailing, ScreenUtil.width * 0.02)
+        })
+    }
+    
     private var followersButtons: some View {
         HStack(spacing: 10) {
             NavigationLink(destination: FollowersListView(apiService: apiService, username: user.username)) {
@@ -240,11 +388,11 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                         .font(.headline)
                         .foregroundColor(Color.white)
                     Text("Followers")
-                        .font(.system(size: 8))
+                        .font(.system(size: ScreenUtil.height * 0.011))
                         .foregroundColor(Color.white)
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 15)
+                .padding(.vertical, ScreenUtil.height * 0.011)
+                .padding(.horizontal, ScreenUtil.width * 0.03)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
@@ -255,11 +403,11 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                         .font(.headline)
                         .foregroundColor(Color.white)
                     Text("Following")
-                        .font(.system(size: 8))
+                        .font(.system(size: ScreenUtil.height * 0.011))
                         .foregroundColor(Color.white)
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 15)
+                .padding(.vertical, ScreenUtil.height * 0.011)
+                .padding(.horizontal, ScreenUtil.width * 0.03)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
@@ -267,52 +415,28 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
     }
     
     private var bioSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            socialButtons
-            
-            /*
-            Text(bio)
-                .padding(.all, 13)
-                .background(Color("Black0").opacity(0.3))
-                .cornerRadius(15, corners: [.topRight, .bottomRight])
-                .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.4, alignment: .topLeading)
-                .font(.system(size: UIScreen.main.bounds.width * 0.03))
-                .foregroundColor(Color("LightGray"))
-             */
-         }
-    }
-
-    private var socialButtons: some View {
-        HStack {
-            Spacer()
-            //followersButtons
-            //socialButton(imageName: "network")
-            //resumeButton(imageName: "list.bullet.clipboard.fill")
+        Group {
+            if (!bio.isEmpty) {
+                Text(bio)
+                    .padding(.all, 13)
+                    .background(Color("Black0").opacity(0.6))
+                    .cornerRadius(10)
+                    .frame(width: ScreenUtil.width * 0.9, alignment: .center)
+                    .font(.system(size: ScreenUtil.width * 0.05))
+                    .foregroundColor(Color.white)
+                    .padding(.top, ScreenUtil.height * 0.01)
+            }
+            else {
+                EmptyView()
+            }
         }
-        .frame(width: UIScreen.main.bounds.width)
-        .padding(.top, 8)
     }
 
-    private var namePlate: some View {
-        ZStack(alignment: .trailing) {
-            Image("NamePlate5")
-                .resizable()
-                .scaledToFill()
-            Text(user.username)
-                .font(.system(size: (ScreenUtil.height * 0.023) - CGFloat(user.username.count) * 0.2))
-                .foregroundColor(Color("LightGray"))
-                .padding(.trailing, ScreenUtil.width * 0.11)
-        }
-        .frame(width: ScreenUtil.width * 0.4, height: ScreenUtil.height * 0.01)
-        .shadow(color: Color.black, radius: 6, x: 2, y: 4)
-        .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
-    }
-
-    private func socialButton(imageName: String) -> some View {
+    private var socialButton: some View {
         Button(action: {
             showSocials.toggle()
         }) {
-            Image(systemName: imageName)
+            Image(systemName: "network")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 30, height: 30)
@@ -320,23 +444,9 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                 .padding(5)
                 .overlay(
                     RoundedRectangle(cornerRadius: 5) // Adjust corner radius as needed
-                        .stroke(Color("LightGray").opacity(0.6), lineWidth: 2) // Customize border color and width
+                        .stroke(Color("LightGray").opacity(0.4), lineWidth: 2) // Customize border color and width
                 )
         }
-    }
-    
-    private func resumeButton(imageName: String) -> some View {
-        Button(action: {
-            showResume.toggle()
-        }) {
-            Image(systemName: imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 25, height: 25)
-                .foregroundColor(Color("LightGray"))
-        }
-        .buttonStyle(NeumorphicButtonStyle())
-        .padding(.trailing, 10)
     }
     
     private var socialsModal: some View {
@@ -361,6 +471,25 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
         }
     }
     
+    private var chevronButton: some View{
+        HStack {
+            Button(action: {/*collapse profile for content viewing*/},
+            
+            label: {
+                Image(systemName: "chevron.compact.up")
+                    .resizable()
+                    .frame(width: ScreenUtil.width * 0.1, height: ScreenUtil.height * 0.02)
+                    .foregroundColor(Color("LightGray"))
+                    
+            })
+        }
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.06)
+        .background(.blue)
+        .zIndex(2)
+        
+    }
+    
+    // MARK: - User's content
     private var userPostsScrollView: some View {
         LazyVStack(spacing: 0) {
             ForEach(userPosts, id: \.id) { post in

@@ -29,6 +29,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     @State private var following: Int = 0
     @State private var isFollowingUser = false
     @State private var showFollowButton = true
+    @State private var accMode = false //determines accolade display
     
     @State private var userPosts: [Post] = []
     
@@ -76,7 +77,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             VStack(spacing: 0) {
                 avatarSection
                 
-                AccoladeBanner()
+                AccoladeBanner(accMode: $accMode)
                     .padding(.bottom, 10)
                     .background(
                         LinearGradient(
