@@ -44,32 +44,50 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
     @State private var isLoading: Bool = false
     @State private var isLoadingAvatar: Bool = false
 
+    //for sliding profile up
+    @State private var isExpanded = false
+    @State private var viewOffset: CGFloat = 0
+
+
     // MARK: - Body
     var body: some View {
         NavigationView {
             ZStack {
                 mainContent
                 
+                if (isExpanded) {
+                    userPostsScrollView
+                }
+                
                 if showSocials {
                     socialsModal
                 }
-                
-                //if showResume {
-                 //   resumeModal
-                //}
                 
                 if isLoading {
                     loadingOverlay
                 }
             }
             .accentColor(Color(.label))
+            .alert(isPresented: $showDeleteConfirmation) {
+                Alert(title: Text("Delete Post"),
+                      message: Text("Are you sure you want to delete this post?"),
+                      primaryButton: .destructive(Text("Delete")) {
+                          if let postId = postToDelete {
+                              deletePost(postId: postId)
+                          }
+                      },
+                      secondaryButton: .cancel {
+                          postToDelete = nil // Reset the postToDelete when canceled
+                      }
+                )
+            }
         }
     }
 
     // MARK: - Subviews
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.7)
+            Color.black.opacity(0.4)
                 .edgesIgnoringSafeArea(.all)
             
             ProgressView()
@@ -95,27 +113,11 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                 bioSection
                 
                 Spacer()
-                    .frame(height: ScreenUtil.height * 0.2)
                 
                 chevronButton
-                    .padding(.bottom, ScreenUtil.height * 0.02)
-
-                /*
-                Divider()
-                    .frame(width: UIScreen.main.bounds.width, height: 5)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark3"), Color("LightGray"), Color("GradientDark3")]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                 */
-
-            
+                    .padding(.bottom, ScreenUtil.height * 0.08)
                 
-                //userPostsScrollView
-            
+                
 
             } //end profileView
             .edgesIgnoringSafeArea([.top, .bottom])
@@ -123,19 +125,7 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                 fetchUserProfile()
                 hideNavBar = false
             }
-            .alert(isPresented: $showDeleteConfirmation) {
-                Alert(title: Text("Delete Post"),
-                      message: Text("Are you sure you want to delete this post?"),
-                      primaryButton: .destructive(Text("Delete")) {
-                          if let postId = postToDelete {
-                              deletePost(postId: postId)
-                          }
-                      },
-                      secondaryButton: .cancel {
-                          postToDelete = nil // Reset the postToDelete when canceled
-                      }
-                )
-            }
+            .offset(y: viewOffset)
             .background(Color("GradientDark3"))
     }
     
@@ -219,7 +209,7 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                 .shadow(color: Color.black.opacity(0.4), radius: 1, x: 1, y: 1)
                 
                 namePlate
-                    .offset(x: (-ScreenUtil.width * 0.55) + (CGFloat(user.username.count) * 7.9), y: -ScreenUtil.height * 0.02)
+                    .offset(x: (-ScreenUtil.width * 0.31), y: -ScreenUtil.height * 0.02)
             }
             .padding(.bottom, 1)
 
@@ -229,7 +219,7 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
     private var avatarBackground: some View {
         Image(enviroInt == 1 ? "bedroomEnv" : "defaultEnv")
             .resizable()
-            .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.38)
+            .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.4)
             .edgesIgnoringSafeArea(.top)
             .aspectRatio(contentMode: .fill)
             .shadow(color: Color.black, radius: 6, x: 0, y: 4)
@@ -240,7 +230,7 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
             return AnyView(
                 Image(uiImage: image)
                     .resizable()
-                    .frame(width: ScreenUtil.width * 0.43, height: ScreenUtil.height * 0.28)
+                    .frame(width: ScreenUtil.width * 0.46, height: ScreenUtil.height * 0.3)
                     .scaleEffect(1.5)
                     .padding(.top, ScreenUtil.height * 0.05)
                     .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
@@ -265,16 +255,16 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
     }
     
     private var namePlate: some View {
-        ZStack(alignment: .trailing) {
+        ZStack(alignment: .center) {
             Image("NamePlate5")
                 .resizable()
                 .scaledToFill()
             Text(user.username)
-                .font(.system(size: (ScreenUtil.height * 0.023) - CGFloat(user.username.count) * 0.2))
+                .font(.system(size: (ScreenUtil.height * 0.023) - CGFloat(user.username.count) * 0.01))
                 .foregroundColor(Color("LightGray"))
-                .padding(.trailing, ScreenUtil.width * 0.11)
+                .padding(.trailing, ScreenUtil.width * 0.06)
         }
-        .frame(width: ScreenUtil.width * 0.4, height: ScreenUtil.height * 0.005)
+        .frame(width: ScreenUtil.width * 0.4, height: ScreenUtil.height * 0.01)
         .shadow(color: Color.black, radius: 6, x: 2, y: 4)
         .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
     }
@@ -443,8 +433,8 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
                 .foregroundColor(Color("LightGray"))
                 .padding(5)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 5) // Adjust corner radius as needed
-                        .stroke(Color("LightGray").opacity(0.4), lineWidth: 2) // Customize border color and width
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color("LightGray").opacity(0.4), lineWidth: 2)
                 )
         }
     }
@@ -460,23 +450,17 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
         }
     }
     
-    private var resumeModal: some View {
-        ZStack {
-            Color.black.opacity(0.6)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    showResume = false
-                }
-            //Resume View
-        }
-    }
-    
     private var chevronButton: some View{
         HStack {
-            Button(action: {/*collapse profile for content viewing*/},
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                    viewOffset = isExpanded ? -ScreenUtil.height * 0.75 : 0
+                }
+            },
             
             label: {
-                Image(systemName: "chevron.compact.up")
+                Image(systemName: isExpanded ? "chevron.compact.down" : "chevron.compact.up")
                     .resizable()
                     .frame(width: ScreenUtil.width * 0.1, height: ScreenUtil.height * 0.02)
                     .foregroundColor(Color("LightGray"))
@@ -486,62 +470,63 @@ struct ProfileTabViewNew<APIServiceType: APIServiceProtocol, AuthServiceType: Au
         .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.06)
         .background(.blue)
         .zIndex(2)
-        
     }
     
     // MARK: - User's content
     private var userPostsScrollView: some View {
-        LazyVStack(spacing: 0) {
-            ForEach(userPosts, id: \.id) { post in
-                ProfilePostView(
-                    apiService: apiService,
-                    post: post,
-                    avatarS3Key: avatarS3Key
-                )
-                .environmentObject(user)
-                .environmentObject(playerManager)
-                                  
-                
-                HStack { //for interaction buttons and delete post
-                    SelfInteractionButtonMenu(
-                        showCommentSection: $showCommentSection,
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(userPosts, id: \.id) { post in
+                    ProfilePostView(
                         apiService: apiService,
-                        postId: post.id,
-                        likesCount: post.likes,
-                        commentCount: post.comments,
-                        userLiked: post.user_liked
+                        post: post,
+                        avatarS3Key: avatarS3Key
                     )
                     .environmentObject(user)
+                    .environmentObject(playerManager)
+                                      
                     
-                    
-                    
-                    Button(action: {
-                        deletePostConfirmation(postId: post.id)
-                    }) {
-                        Image(systemName: "trash.fill")
-                            .foregroundColor(Color("LightGray"))
-                            .imageScale(.small)
-                    }
-                    .padding(.trailing, 25)
-                    .padding(.bottom, 10)
-                }
-                .padding(.top, 10)
-
-                Divider()
-                    .frame(width: UIScreen.main.bounds.width, height: 1)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                            startPoint: .leading,
-                            endPoint: .trailing
+                    HStack { //for interaction buttons and delete post
+                        SelfInteractionButtonMenu(
+                            showCommentSection: $showCommentSection,
+                            apiService: apiService,
+                            postId: post.id,
+                            likesCount: post.likes,
+                            commentCount: post.comments,
+                            userLiked: post.user_liked
                         )
-                    )
-                
-                Spacer()
+                        .environmentObject(user)
+                        
+                        Button(action: {
+                            deletePostConfirmation(postId: post.id)
+                        }) {
+                            Image(systemName: "trash.fill")
+                                .foregroundColor(Color("LightGray"))
+                                .imageScale(.small)
+                        }
+                        .padding(.trailing, 25)
+                        .padding(.bottom, 10)
+                    }
+                    .padding(.top, 10)
+
+                    Divider()
+                        .frame(width: UIScreen.main.bounds.width, height: 1)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                    
+                    Spacer()
+                }
             }
-        }
-        .background(Color("GradientDark3"))
-        //.padding(.top, 10)
+            .background(Color("GradientDark3"))
+        } //end ScrollView
+        .padding(.top, ScreenUtil.height * 0.061) //start below chevron
+
+        
     }
   
     // MARK: - Functions
