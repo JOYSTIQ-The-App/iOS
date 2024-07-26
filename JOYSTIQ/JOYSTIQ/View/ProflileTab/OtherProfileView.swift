@@ -19,49 +19,64 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     var profileUsername: String
     
     @State private var showSocials = false
-    //@State private var showResume = false
     @State private var avatarSnapshot: UIImage?
     @State private var enviroInt: Int = 0
+    @State private var accMode = true //determines accolade display
     
     @State private var bio: String = ""
-    //@State private var resume: String = ""
+    @State private var resume: String = ""
     @State private var followers: Int = 0
     @State private var following: Int = 0
-    @State private var isFollowingUser = false
-    @State private var showFollowButton = true
-    @State private var accMode = false //determines accolade display
     
     @State private var userPosts: [Post] = []
+    //@State private var showEditPostModal = false
+    //@State private var currentEditingPost: Post? = nil
     
-    @State private var showingReportAlert = false
+    @State var showCommentSection: Bool = false
     
-//    @State private var avatarS3Key: String?
-    
+    @State private var showDeleteConfirmation = false
+    @State private var postToDelete: Int? // Store the post ID to delete if confirmed
+    @State private var isFollowingUser = false
+    @State private var avatarS3Key: S3Key = S3Key(String: "", Valid: false)
+
     @State private var userSocials: [String: String]?
     @State private var isLoading: Bool = false
     @State private var isLoadingAvatar: Bool = false
-    
+    @State private var showFollowButton = true
+    //for sliding profile up
+    @State private var isExpanded = false
+    @State private var viewOffset: CGFloat = 0
+
     // MARK: - Body
     var body: some View {
-        //NavigationView {
-            ZStack {
-                mainContent
-                if showSocials {
-                    socialsModal
+        ZStack {
+            
+            userProfile
+            
+            if (isExpanded) {
+                VStack(spacing: 0) {
+                    chevronButtonExpanded
+                    userPostsView
                 }
+                .padding(.bottom, ScreenUtil.height * 0.04)
                 
-                if isLoading {
-                    loadingOverlay
-                }
             }
-            .accentColor(Color(.label))
-        //}
+            
+            if showSocials {
+                socialsModal
+            }
+            
+            if isLoading {
+                loadingOverlay
+            }
+        }
+        .accentColor(Color(.label))
     }
-    
+
     // MARK: - Subviews
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.7)
+            Color.black.opacity(0.4)
                 .edgesIgnoringSafeArea(.all)
             
             ProgressView()
@@ -70,84 +85,64 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
     }
     
-    private var mainContent: some View {
-        
-        ScrollView(.vertical, showsIndicators: true) {
-            
+    private var userProfile: some View {
+
             VStack(spacing: 0) {
+                
                 avatarSection
+                    .zIndex(3)
                 
                 AccoladeBanner(accMode: $accMode)
-                    .padding(.bottom, 10)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
+                    .offset(y: -ScreenUtil.height * 0.01)
+                    .zIndex(2)
                 
-                Divider()
-                    .frame(width: UIScreen.main.bounds.width, height: 1)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+                attributeButtons
+                    .zIndex(1)
                 
+                bioSection
                 
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .frame(height: 5)
+                Spacer()
                 
-                userPostsScrollView
-            } //end VSTack for avatar, accolade, posts
-            .background(Color("GradientDark3"))
-        } //end main scrollview
-        .edgesIgnoringSafeArea([.top, .bottom])
-        .onAppear {
-            if user.username == profileUsername {
-                showFollowButton = false
-            } else {
-                fetchIsFollowing()
-            }
-            
-            fetchUserProfile()
-        }
-        .background(Color("GradientDark3"))
-        
-        
-    }
+                chevronButton
+                    .padding(.bottom, ScreenUtil.height * 0.08)
+                
 
-    private var avatarSection: some View {
-        VStack(spacing: 0) {
+            } //end profileView
+            .edgesIgnoringSafeArea([.top, .bottom])
+            .onAppear {
+               if user.username == profileUsername {
+                   showFollowButton = false
+               } else {
+                   fetchIsFollowing()
+               }
+               
+               fetchUserProfile()
+           }
+            .offset(y: viewOffset)
+            .background( Color("GradientDark3"))
+    }
+    
+    //MARK: - Avatar Section Subviews
+    private var avatarSection: some View { //env, avatar, name plate
+        ZStack(alignment: .bottom) { //to push wardrobe & settings buttons to bottom of avatar frame
             
             ZStack(alignment: .center) {
                 avatarBackground
                 avatarImage
             }
-            .shadow(color: Color.black.opacity(0.6), radius: 1, x: -1, y: 1)
-                
-
-            bioSection
+            
+            namePlate
+                .offset(x: (-ScreenUtil.width * 0.31), y: -ScreenUtil.height * 0.02)
         }
     }
 
     private var avatarBackground: some View {
         Image(enviroInt == 1 ? "bedroomEnv" : "defaultEnv")
             .resizable()
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.38)
+            .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.4)
             .edgesIgnoringSafeArea(.top)
             .aspectRatio(contentMode: .fill)
-            .shadow(color: Color.black, radius: 6, x: 2, y: 4)
+            .shadow(color: Color.black, radius: 6, x: 0, y: 4)
     }
 
     private var avatarImage: some View {
@@ -155,9 +150,10 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             return AnyView(
                 Image(uiImage: image)
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.height * 0.28)
+                    .frame(width: ScreenUtil.width * 0.46, height: ScreenUtil.height * 0.3)
                     .scaleEffect(1.5)
-                    .padding(.top, UIScreen.main.bounds.height * 0.05)
+                    .padding(.top, ScreenUtil.height * 0.05)
+                    .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
             )
         } else if isLoadingAvatar {
             return AnyView(
@@ -166,146 +162,195 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             )
         } else {
             return AnyView(
-                Text("No Avatar Yet!")
+                Text("No Avatar Yet")
                     .frame(width: 200, height: 50)
                     .foregroundColor(.black)
             )
         }
     }
-   
+    
+    private var namePlate: some View {
+        ZStack(alignment: .center) {
+            Image("NamePlate5")
+                .resizable()
+                .scaledToFill()
+            Text(user.username) //shrinks as name length increases
+                .font(.system(size: (ScreenUtil.height * 0.023) - (CGFloat(user.username.count) * 0.3)))
+                .foregroundColor(Color("LightGray"))
+                .padding(.trailing, ScreenUtil.width * 0.06)
+        }
+        .frame(width: ScreenUtil.width * 0.4, height: ScreenUtil.height * 0.01)
+        .shadow(color: Color.black, radius: 6, x: 2, y: 4)
+        .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
+    }
+    
+    //MARK: - Profile Attributes
+    private var attributeButtons: some View { // socials, followers, accolade button
+        HStack(spacing: 0) {
+            
+            if showFollowButton {
+                followButton
+                    .padding(.trailing, ScreenUtil.width * 0.03)
+            }
+            else {
+                Spacer()
+            }
+            
+            
+            socialButton
+                .padding(.trailing, ScreenUtil.width * 0.03)
+            
+            followersButtons
+                .padding(.trailing, ScreenUtil.width * 0.03)
+            
+            accButton
+            
+        }
+        .padding(.leading, isFollowingUser ? ScreenUtil.width * 0.09 : ScreenUtil.width * 0.12)
+    }
+    
+    private var followButton: some View {
+        Button(action: {followButtonAction()},
+        
+        label: {
+            if (isFollowingUser) {
+                HStack (spacing: 0) {
+                    Text("Following")
+                        .foregroundColor(Color("LightGray"))
+                        .font(.system(size: ScreenUtil.width * 0.031))
+                    Image(systemName: "checkmark")
+                        .resizable()
+                        .foregroundColor(Color("LightGray"))
+                        .frame(width: ScreenUtil.width * 0.025, height: ScreenUtil.height * 0.011)
+                        .padding(.leading, ScreenUtil.width * 0.015)
+                }
+                .padding(.vertical, ScreenUtil.height * 0.012)
+                .padding(.horizontal, ScreenUtil.width * 0.02)
+                .background(
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(Color("GradientDark3"))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.white.opacity(0.4), lineWidth: 2)
+                )
+                .shadow(color: Color.black.opacity(0.4), radius: 5, x: 0, y: 2)
+            }
+            else {
+                Text("Follow")
+                    .foregroundColor(Color("GradientDark"))
+                    .font(.system(size: ScreenUtil.width * 0.038))
+                    .padding(.vertical, ScreenUtil.height * 0.012)
+                    .padding(.horizontal, ScreenUtil.width * 0.04)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(Color("LightGray"))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.white.opacity(0.4), lineWidth: 2)
+                    )
+                    .shadow(color: Color.black.opacity(0.4), radius: 5, x: 0, y: 2)
+            }
+        })
+    }
+    
+    private var accButton: some View {
+        Button(action: {
+            accMode.toggle()
+        },
+       label: {
+            Image(systemName: accMode ? "gamecontroller.fill" : "medal.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .padding(ScreenUtil.width * 0.02)
+                .padding(.top, ScreenUtil.height * 0.01)
+                .foregroundColor(Color("LightGray"))
+                .background(Color("Black0"))
+                .cornerRadius([.bottomLeading, .bottomTrailing], 10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+                .shadow(color: Color.black.opacity(0.6), radius: 5, x: 0, y: 2)
+                .offset(y: -ScreenUtil.height * 0.013) //tuck behind acc banner
+                .padding(.trailing, ScreenUtil.width * 0.02)
+        })
+    }
+    
     private var followersButtons: some View {
         HStack(spacing: 10) {
-            NavigationLink(destination: FollowersListView(apiService: apiService, username: profileUsername)) {
+            NavigationLink(destination: FollowersListView(apiService: apiService, username: user.username)) {
                 VStack {
                     Text("\(followers)")
                         .font(.headline)
                         .foregroundColor(Color.white)
                     Text("Followers")
-                        .font(.system(size: 8))
+                        .font(.system(size: ScreenUtil.height * 0.011))
                         .foregroundColor(Color.white)
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 15)
+                .frame(width: ScreenUtil.width * 0.16, height: ScreenUtil.height * 0.06)
+                //.padding(.vertical, ScreenUtil.height * 0.011)
+                //.padding(.horizontal, ScreenUtil.width * 0.03)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
             
-            NavigationLink(destination: FollowingListView(apiService: apiService, username: profileUsername)) {
+            NavigationLink(destination: FollowingListView(apiService: apiService, username: user.username)) {
                 VStack {
                     Text("\(following)")
                         .font(.headline)
                         .foregroundColor(Color.white)
                     Text("Following")
-                        .font(.system(size: 8))
+                        .font(.system(size: ScreenUtil.height * 0.011))
                         .foregroundColor(Color.white)
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 15)
+                .frame(width: ScreenUtil.width * 0.16, height: ScreenUtil.height * 0.06)
+                //.padding(.vertical, ScreenUtil.height * 0.011)
+                //.padding(.horizontal, ScreenUtil.width * 0.03)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
         }
     }
     
-
     private var bioSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            socialButtons
-            HStack {
+        Group {
+            if (!bio.isEmpty) {
                 Text(bio)
                     .padding(.all, 13)
-                    .background(Color("Black0").opacity(0.3))
-                    .cornerRadius(15, corners: [.topRight, .bottomRight])
-                    .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.4, alignment: .topLeading)
-                    .font(.system(size: UIScreen.main.bounds.width * 0.03))
-                    .foregroundColor(Color("LightGray"))
-                
-                Spacer()
-                if showFollowButton {
-                    loadingOrFollowButton
-                }
+                    .background(Color("Black0").opacity(0.6))
+                    .cornerRadius(10)
+                    .frame(width: ScreenUtil.width * 0.9, alignment: .center)
+                    .font(.system(size: ScreenUtil.width * 0.05))
+                    .foregroundColor(Color.white)
+                    .padding(.top, ScreenUtil.height * 0.01)
+                    .opacity(isExpanded ? 0 : 1)
             }
-            .padding(.bottom, UIScreen.main.bounds.height * 0.022)
-        }
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight"), Color("GradientLight")]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        )
-    }
-    
-    private var loadingOrFollowButton: some View {
-        if isLoading {
-            return AnyView(
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .green))
-                    .scaleEffect(1.5)
-                    .padding(.trailing, 10)
-                    .offset(y: UIScreen.main.bounds.height * 0.013)
-            )
-        } else {
-            return AnyView(
-                Button(action: {
-                    followButtonAction()
-                }, label: {
-                    
-                    Text(isFollowingUser ? "Unfollow" : "Follow")
-                        .foregroundColor(.white)
-                        .font(.system(size: UIScreen.main.bounds.width * 0.035))
-                        .frame(width: UIScreen.main.bounds.width * 0.15, height: 20)
-                        
-                })
-                .buttonStyle(NeumorphicRectangleButtonStyle())
-                .padding(.trailing, 10)
-                .offset(y: UIScreen.main.bounds.height * 0.013)
-            )
+            else {
+                EmptyView()
+            }
         }
     }
 
-    private var socialButtons: some View {
-        HStack {
-            namePlate
-            Spacer()
-            followersButtons
-            socialButton(imageName: "network")
-            //resumeButton(imageName: "list.bullet.clipboard.fill")
-        }
-        .frame(width: UIScreen.main.bounds.width)
-        .padding(.top, 8)
-    }
-
-    private var namePlate: some View {
-        ZStack {
-            Image("NamePlate5")
-                .resizable()
-                .scaledToFill()
-            Text(profileUsername)
-                .font(.system(size: 16))
-                .foregroundColor(Color("LightGray"))
-                .padding(.trailing, UIScreen.main.bounds.width * 0.04)
-        }
-        .frame(width: UIScreen.main.bounds.width * 0.35, height: UIScreen.main.bounds.height * 0.05)
-        .shadow(color: Color.black, radius: 6, x: 2, y: 4)
-        .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
-    }
-
-    private func socialButton(imageName: String) -> some View {
+    private var socialButton: some View {
         Button(action: {
             showSocials.toggle()
         }) {
-            Image(systemName: imageName)
+            Image(systemName: "network")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 25, height: 25)
+                .frame(width: 30, height: 30)
                 .foregroundColor(Color("LightGray"))
+                .padding(5)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color("LightGray").opacity(0.4), lineWidth: 2)
+                )
         }
-        .buttonStyle(NeumorphicButtonStyle())
-        .padding(.horizontal, 5)
     }
     
-
     private var socialsModal: some View {
         ZStack {
             Color.black.opacity(0.6)
@@ -317,26 +362,101 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
         }
     }
     
-
-    private var userPostsScrollView: some View {
-        LazyVStack(spacing: 0) {
-            ForEach(userPosts) { post in
-                PostView(
-                    apiService: apiService,
-                    post: post
-                )
-                .environmentObject(user)
-                .environmentObject(playerManager)
+    private var chevronButton: some View{
+        HStack {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                    viewOffset = -ScreenUtil.height
+                }
+            },
+                   
+                   label: {
+                Image(systemName: isExpanded ? "chevron.compact.down" : "chevron.compact.up")
+                    .resizable()
+                    .frame(width: ScreenUtil.width * 0.1, height: ScreenUtil.height * 0.02)
+                    .foregroundColor(Color("LightGray"))
                 
+            })
+        }
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.06)
+        .background(Color.black.opacity(0.4))
+        .overlay(
+            Rectangle()
+                .frame(height: 0.4) // Border height
+                .foregroundColor(Color.gray.opacity(0.6)) // Border color
+                .frame(maxHeight: .infinity, alignment: .top),
+            alignment: .top
+        )
+        .zIndex(2)
+        //.offset(y: viewOffset)
+        .onTapGesture {
+            withAnimation {
+                isExpanded.toggle()
+                viewOffset = -ScreenUtil.height * 0.75
+            }
+        }
+        .opacity(isExpanded ? 0 : 1)
+        .disabled(isExpanded)
+    }
+    
+    private var chevronButtonExpanded: some View{
+        HStack {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                    viewOffset = 0
+                }
+            },
+                   
+                   label: {
+                Image(systemName: "chevron.compact.down")
+                    .resizable()
+                    .frame(width: ScreenUtil.width * 0.1, height: ScreenUtil.height * 0.02)
+                    .foregroundColor(Color("LightGray"))
+                
+            })
+        }
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.06)
+        .background(Color.black.opacity(0.3))
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(Color.gray.opacity(0.6))
+                .frame(maxHeight: .infinity, alignment: .bottom),
+            alignment: .top
+        )
+        .zIndex(2)
+        .onTapGesture {
+            withAnimation {
+                isExpanded.toggle()
+                viewOffset = 0
+            }
+        }
+    }
+    
+    // MARK: - User's content
+    private var userPostsView: some View {
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(userPosts) { post in
+                    PostView(
+                        apiService: apiService,
+                        post: post
+                    )
+                    .environmentObject(user)
+                    .environmentObject(playerManager)
+                    
+                }
             }
         }
         .background(Color("GradientDark3"))
     }
-  
+    
     // MARK: - Functions
     func fetchUserProfile() {
         isLoading = true
-        apiService.getGamerProfile(for: user.email, username: profileUsername) { result in
+        apiService.getUserProfile(for: user.username) { result in
             handleFetchResult(result)
         }
     }
@@ -346,7 +466,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
         case .success(let Profile):
             if Profile.avatar_s3_key.Valid {
                 isLoadingAvatar = true
-//                avatarS3Key = Profile.avatar_s3_key
+                avatarS3Key = Profile.avatar_s3_key
                 fetchAvatarImage(s3Key: Profile.avatar_s3_key.String)
             }
             bio = Profile.bio
@@ -477,7 +597,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             }
         }
     }
-
+    
 }
 
 // MARK: - Preview
@@ -486,7 +606,7 @@ struct OtherProfileView_Previews: PreviewProvider {
     let blankImage = UIImage()
 
     static var previews: some View {
-        let testUser = User(email: "testEmail@example.com", username: "Apical")
+        let testUser = User(email: "testEmail@example.com", username: "ApicalArtist")
         
         return OtherProfileView<MockAPIService>(apiService: MockAPIService(), profileUsername: "Apical")
             .environmentObject(testUser)

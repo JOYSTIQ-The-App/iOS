@@ -22,13 +22,12 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @Binding var hideNavBar: Bool
     @State private var avatarSnapshot: UIImage?
     @State private var enviroInt: Int = 0
-    @State private var accMode = false //determines accolade display
+    @State private var accMode = true //determines accolade display
     
     @State private var bio: String = ""
     @State private var resume: String = ""
     @State private var followers: Int = 0
     @State private var following: Int = 0
-    
     
     @State private var userPosts: [Post] = []
     //@State private var showEditPostModal = false
@@ -40,21 +39,34 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @State private var postToDelete: Int? // Store the post ID to delete if confirmed
     
     @State private var avatarS3Key: S3Key = S3Key(String: "", Valid: false)
-    
+
     @State private var userSocials: [String: String]?
     @State private var isLoading: Bool = false
     @State private var isLoadingAvatar: Bool = false
+
+    //for sliding profile up
+    @State private var isExpanded = false
+    @State private var viewOffset: CGFloat = 0
 
     // MARK: - Body
     var body: some View {
         NavigationView {
             ZStack {
-                mainContent
+                
+                userProfile
+                
+                if (isExpanded) {
+                    VStack(spacing: 0) {
+                        chevronButtonExpanded
+                        userPostsView
+                    }
+                    //.padding(.top, ScreenUtil.height * 0.01) //start above closing chevron
+                    .padding(.bottom, ScreenUtil.height * 0.04)
+                    
+                }
+                
                 if showSocials {
                     socialsModal
-                }
-                if showResume {
-                    resumeModal
                 }
                 
                 if isLoading {
@@ -62,13 +74,26 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 }
             }
             .accentColor(Color(.label))
+            .alert(isPresented: $showDeleteConfirmation) {
+                Alert(title: Text("Delete Post"),
+                      message: Text("Are you sure you want to delete this post?"),
+                      primaryButton: .destructive(Text("Delete")) {
+                          if let postId = postToDelete {
+                              deletePost(postId: postId)
+                          }
+                      },
+                      secondaryButton: .cancel {
+                          postToDelete = nil // Reset the postToDelete when canceled
+                      }
+                )
+            }
         }
     }
 
     // MARK: - Subviews
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.7)
+            Color.black.opacity(0.4)
                 .edgesIgnoringSafeArea(.all)
             
             ProgressView()
@@ -77,102 +102,69 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         .frame(maxWidth: .infinity, maxHeight: .infinity) // To ensure it covers the entire screen
     }
     
-    private var mainContent: some View {
-        ScrollView(.vertical, showsIndicators: false) {
+    private var userProfile: some View {
+
             VStack(spacing: 0) {
                 
                 avatarSection
+                    .zIndex(3)
                 
                 AccoladeBanner(accMode: $accMode)
-                    .padding(.vertical, 10)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
+                    .offset(y: -ScreenUtil.height * 0.01)
+                    .zIndex(2)
                 
-                Divider()
-                    .frame(width: UIScreen.main.bounds.width, height: 1)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+                attributeButtons
+                    .zIndex(1)
                 
+                bioSection
                 
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .frame(height: 5)
-                  
+                Spacer()
                 
-                userPostsScrollView
+                chevronButton
+                    .padding(.bottom, ScreenUtil.height * 0.08)
+                
+
+            } //end profileView
+            .edgesIgnoringSafeArea([.top, .bottom])
+            .onAppear {
+                fetchUserProfile()
+                hideNavBar = false
             }
-            .background(Color("GradientDark3"))
-        } //end main scrollview
-        .edgesIgnoringSafeArea([.top, .bottom])
-        .onAppear {
-            fetchUserProfile()
-            hideNavBar = false
-        }
-        .alert(isPresented: $showDeleteConfirmation) {
-            Alert(title: Text("Delete Post"),
-                  message: Text("Are you sure you want to delete this post?"),
-                  primaryButton: .destructive(Text("Delete")) {
-                      if let postId = postToDelete {
-                          deletePost(postId: postId)
-                      }
-                  },
-                  secondaryButton: .cancel {
-                      postToDelete = nil // Reset the postToDelete when canceled
-                  }
-            )
-        }
-        .background(Color("GradientDark3"))
+            .offset(y: viewOffset)
+            .background( Color("GradientDark3"))
     }
-
+    
+    //MARK: - Avatar Section Subviews
     private var avatarSection: some View {
-        VStack(spacing: 0) {
+        ZStack(alignment: .bottom) { //to push wardrobe & settings buttons to bottom of avatar frame
             
-            ZStack(alignment: .bottom) { //to push wardrobe and settings buttons to bottom of avatar frame
-                
-                ZStack(alignment: .center) {
-                    avatarBackground
-                    avatarImage
-                }
-                .shadow(color: Color.black.opacity(0.6), radius: 1, x: -1, y: 1)
-                
-                HStack {
-                    wardrobeButton
-                    Spacer()
-                    settingsButton
-                }
-                .padding(.horizontal)
-                .padding(.bottom, UIScreen.main.bounds.height * 0.03)
-                .shadow(color: Color.black.opacity(0.4), radius: 1, x: 1, y: 1)
+            ZStack(alignment: .center) {
+                avatarBackground
+                avatarImage
             }
-            .padding(.bottom, 1)
-
-            bioSection
-        } //end Vstack for avatar environment and bio
+            
+            HStack(spacing: ScreenUtil.width * 0.04) {
+                
+                Spacer()
+                wardrobeButton
+                settingsButton
+            }
+            .padding(.horizontal)
+            .padding(.bottom, ScreenUtil.height * 0.03)
+            .shadow(color: Color.black.opacity(0.4), radius: 1, x: 1, y: 1)
+            
+            namePlate
+                .offset(x: (-ScreenUtil.width * 0.31), y: -ScreenUtil.height * 0.02)
+        }
     }
 
     private var avatarBackground: some View {
         Image(enviroInt == 1 ? "bedroomEnv" : "defaultEnv")
             .resizable()
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.38)
+            .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.4)
             .edgesIgnoringSafeArea(.top)
             .aspectRatio(contentMode: .fill)
-            .shadow(color: Color.black, radius: 6, x: 2, y: 4)
+            .shadow(color: Color.black, radius: 6, x: 0, y: 4)
     }
 
     private var avatarImage: some View {
@@ -180,9 +172,10 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
             return AnyView(
                 Image(uiImage: image)
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.43, height: UIScreen.main.bounds.height * 0.28)
+                    .frame(width: ScreenUtil.width * 0.46, height: ScreenUtil.height * 0.3)
                     .scaleEffect(1.5)
-                    .padding(.top, UIScreen.main.bounds.height * 0.05)
+                    .padding(.top, ScreenUtil.height * 0.05)
+                    .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
             )
         } else if isLoadingAvatar {
             return AnyView(
@@ -195,7 +188,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     Text("Create your Avatar!")
                         .frame(width: 200, height: 50)
                         .foregroundColor(.black)
-                    Image(systemName: "arrow.down.left")
+                    Image(systemName: "arrow.down.right")
                         .frame(width: 10, height: 10)
                         .foregroundColor(.black)
                 }
@@ -203,13 +196,23 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
     }
     
+    private var namePlate: some View {
+        ZStack(alignment: .center) {
+            Image("NamePlate5")
+                .resizable()
+                .scaledToFill()
+            Text(user.username) //shrinks as name length increases
+                .font(.system(size: (ScreenUtil.height * 0.023) - (CGFloat(user.username.count) * 0.3)))
+                .foregroundColor(Color("LightGray"))
+                .padding(.trailing, ScreenUtil.width * 0.06)
+        }
+        .frame(width: ScreenUtil.width * 0.4, height: ScreenUtil.height * 0.01)
+        .shadow(color: Color.black, radius: 6, x: 2, y: 4)
+        .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
+    }
+    
     private var wardrobeButton: some View {
-        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, avatarS3Key: $avatarS3Key, apiService: apiService).navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Wardrobe")
-                }
-            }) {
+        NavigationLink(destination: WardrobeView(hideNavBar: $hideNavBar, avatarSnapshot: $avatarSnapshot, enviroInt: $enviroInt, avatarS3Key: $avatarS3Key, apiService: apiService)) {
             ZStack {
                 Image(systemName: "square")
                     .resizable()
@@ -247,6 +250,47 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
     }
     
+    //MARK: - Profile Attributes
+    private var attributeButtons: some View { // socials, followers, accolade button
+        HStack(spacing: 0) {
+            
+            Spacer()
+            
+            socialButton
+                .padding(.trailing, ScreenUtil.width * 0.04)
+            
+            followersButtons
+                .padding(.trailing, ScreenUtil.width * 0.04)
+            
+            accButton
+            
+        } //end HStack
+    }
+    
+    private var accButton: some View {
+        Button(action: {
+            accMode.toggle()
+        },
+       label: {
+            Image(systemName: accMode ? "gamecontroller.fill" : "medal.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .padding(ScreenUtil.width * 0.02)
+                .padding(.top, ScreenUtil.height * 0.01)
+                .foregroundColor(Color("LightGray"))
+                .background(Color("Black0"))
+                .cornerRadius([.bottomLeading, .bottomTrailing], 10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+                .shadow(color: Color.black.opacity(0.6), radius: 5, x: 0, y: 2)
+                .offset(y: -ScreenUtil.height * 0.013) //tuck behind acc banner
+                .padding(.trailing, ScreenUtil.width * 0.02)
+        })
+    }
+    
     private var followersButtons: some View {
         HStack(spacing: 10) {
             NavigationLink(destination: FollowersListView(apiService: apiService, username: user.username)) {
@@ -255,11 +299,11 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                         .font(.headline)
                         .foregroundColor(Color.white)
                     Text("Followers")
-                        .font(.system(size: 8))
+                        .font(.system(size: ScreenUtil.height * 0.011))
                         .foregroundColor(Color.white)
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 15)
+                .padding(.vertical, ScreenUtil.height * 0.011)
+                .padding(.horizontal, ScreenUtil.width * 0.03)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
@@ -270,98 +314,52 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                         .font(.headline)
                         .foregroundColor(Color.white)
                     Text("Following")
-                        .font(.system(size: 8))
+                        .font(.system(size: ScreenUtil.height * 0.011))
                         .foregroundColor(Color.white)
                 }
-                .padding(.vertical, 8)
-                .padding(.horizontal, 15)
+                .padding(.vertical, ScreenUtil.height * 0.011)
+                .padding(.horizontal, ScreenUtil.width * 0.03)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
         }
     }
     
-
     private var bioSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            socialButtons
-            
-            
-            Text(bio)
-                .padding(.all, 13)
-                .background(Color("Black0").opacity(0.3))
-                .cornerRadius(15, corners: [.topRight, .bottomRight])
-                .frame(minWidth: UIScreen.main.bounds.width * 0.3, maxWidth: UIScreen.main.bounds.width * 0.4, alignment: .topLeading)
-                .font(.system(size: UIScreen.main.bounds.width * 0.03))
-                .foregroundColor(Color("LightGray"))
-             
-             
-         }
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight"), Color("GradientLight")]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        )
-    }
-
-    private var socialButtons: some View {
-        HStack {
-            namePlate
-            Spacer()
-            followersButtons
-            socialButton(imageName: "network")
-            //resumeButton(imageName: "list.bullet.clipboard.fill")
+        Group {
+            if (!bio.isEmpty) {
+                Text(bio)
+                    .padding(.all, 13)
+                    .background(Color("Black0").opacity(0.6))
+                    .cornerRadius(10)
+                    .frame(width: ScreenUtil.width * 0.9, alignment: .center)
+                    .font(.system(size: ScreenUtil.width * 0.05))
+                    .foregroundColor(Color.white)
+                    .padding(.top, ScreenUtil.height * 0.01)
+                    .opacity(isExpanded ? 0 : 1)
+            }
+            else {
+                EmptyView()
+            }
         }
-        .frame(width: UIScreen.main.bounds.width)
-        .padding(.top, 8)
     }
 
-    private var namePlate: some View {
-        ZStack {
-            Image("NamePlate5")
-                .resizable()
-                .scaledToFill()
-            Text(user.username)
-                .font(.system(size: 16))
-                .foregroundColor(Color("LightGray"))
-                .padding(.trailing, UIScreen.main.bounds.width * 0.04)
-        }
-        .frame(width: UIScreen.main.bounds.width * 0.35, height: UIScreen.main.bounds.height * 0.05)
-        .shadow(color: Color.black, radius: 6, x: 2, y: 4)
-        .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: -1)
-    }
-
-    private func socialButton(imageName: String) -> some View {
+    private var socialButton: some View {
         Button(action: {
             showSocials.toggle()
         }) {
-            Image(systemName: imageName)
+            Image(systemName: "network")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 25, height: 25)
+                .frame(width: 30, height: 30)
                 .foregroundColor(Color("LightGray"))
+                .padding(5)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color("LightGray").opacity(0.4), lineWidth: 2)
+                )
         }
-        .buttonStyle(NeumorphicButtonStyle())
-        .padding(.horizontal, 5)
     }
-    
-    
-    private func resumeButton(imageName: String) -> some View {
-        Button(action: {
-            showResume.toggle()
-        }) {
-            Image(systemName: imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 25, height: 25)
-                .foregroundColor(Color("LightGray"))
-        }
-        .buttonStyle(NeumorphicButtonStyle())
-        .padding(.trailing, 10)
-    }
-     
     
     private var socialsModal: some View {
         ZStack {
@@ -374,70 +372,131 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
     }
     
-    private var resumeModal: some View {
-        ZStack {
-            Color.black.opacity(0.6)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    showResume = false
+    private var chevronButton: some View{
+        HStack {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                    viewOffset = -ScreenUtil.height
                 }
-            //Resume View
+            },
+                   
+                   label: {
+                Image(systemName: isExpanded ? "chevron.compact.down" : "chevron.compact.up")
+                    .resizable()
+                    .frame(width: ScreenUtil.width * 0.1, height: ScreenUtil.height * 0.02)
+                    .foregroundColor(Color("LightGray"))
+                
+            })
+        }
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.06)
+        .background(Color.black.opacity(0.4))
+        .overlay(
+            Rectangle()
+                .frame(height: 0.6) // Border height
+                .foregroundColor(Color.gray.opacity(0.6)) // Border color
+                .frame(maxHeight: .infinity, alignment: .top),
+            alignment: .top
+        )
+        .zIndex(2)
+        //.offset(y: viewOffset)
+        .onTapGesture {
+            withAnimation {
+                isExpanded.toggle()
+                viewOffset = -ScreenUtil.height * 0.75
+            }
+        }
+        .opacity(isExpanded ? 0 : 1)
+        .disabled(isExpanded)
+    }
+    private var chevronButtonExpanded: some View{
+        HStack {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                    viewOffset = 0
+                }
+            },
+                   
+                   label: {
+                Image(systemName: "chevron.compact.down")
+                    .resizable()
+                    .frame(width: ScreenUtil.width * 0.1, height: ScreenUtil.height * 0.02)
+                    .foregroundColor(Color("LightGray"))
+                
+            })
+        }
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.06)
+        .background(Color.black.opacity(0.3))
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(Color.gray.opacity(0.6))
+                .frame(maxHeight: .infinity, alignment: .bottom),
+            alignment: .top
+        )
+        .zIndex(2)
+        .onTapGesture {
+            withAnimation {
+                isExpanded.toggle()
+                viewOffset = 0
+            }
         }
     }
     
-
-    private var userPostsScrollView: some View {
-        LazyVStack(spacing: 0) {
-            ForEach(userPosts, id: \.id) { post in
-                ProfilePostView(
-                    apiService: apiService,
-                    post: post,
-                    avatarS3Key: avatarS3Key
-                )
-                .environmentObject(user)
-                .environmentObject(playerManager)
-                                  
-                
-                HStack { //for interaction buttons and delete post
-                    SelfInteractionButtonMenu(
-                        showCommentSection: $showCommentSection,
+    // MARK: - User's content
+    private var userPostsView: some View {
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(userPosts, id: \.id) { post in
+                    ProfilePostView(
                         apiService: apiService,
-                        postId: post.id,
-                        likesCount: post.likes,
-                        commentCount: post.comments,
-                        userLiked: post.user_liked
+                        post: post,
+                        avatarS3Key: avatarS3Key
                     )
                     .environmentObject(user)
+                    .environmentObject(playerManager)
+                                      
                     
-                    
-                    
-                    Button(action: {
-                        deletePostConfirmation(postId: post.id)
-                    }) {
-                        Image(systemName: "trash.fill")
-                            .foregroundColor(Color("LightGray"))
-                            .imageScale(.small)
-                    }
-                    .padding(.trailing, 25)
-                    .padding(.bottom, 10)
-                }
-                .padding(.top, 10)
-
-                Divider()
-                    .frame(width: UIScreen.main.bounds.width, height: 1)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
-                            startPoint: .leading,
-                            endPoint: .trailing
+                    HStack { //for interaction buttons and delete post
+                        SelfInteractionButtonMenu(
+                            showCommentSection: $showCommentSection,
+                            apiService: apiService,
+                            postId: post.id,
+                            likesCount: post.likes,
+                            commentCount: post.comments,
+                            userLiked: post.user_liked
                         )
-                    )
-                
-                Spacer()
+                        .environmentObject(user)
+                        
+                        Button(action: {
+                            deletePostConfirmation(postId: post.id)
+                        }) {
+                            Image(systemName: "trash.fill")
+                                .foregroundColor(Color("LightGray"))
+                                .imageScale(.small)
+                        }
+                        .padding(.trailing, 25)
+                        .padding(.bottom, ScreenUtil.height * 0.01)
+                    }
+                    .padding(.top, ScreenUtil.height * 0.01)
+
+                    Divider()
+                        .frame(width: UIScreen.main.bounds.width, height: 1)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color("GradientDark3"), Color("GradientLight"), Color("GradientDark3")]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                    
+                    Spacer()
+                }
             }
-        }
+            
+        } //end ScrollView
         .background(Color("GradientDark3"))
-        //.padding(.top, 10)
     }
   
     // MARK: - Functions
@@ -545,7 +604,6 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         showDeleteConfirmation = true
     }
 
-
     // This function calls the API to delete the post and updates the local userPosts list on success.
     func deletePost(postId: Int) {
         apiService.deletePost(email: user.email, postId: postId) { result in
@@ -565,7 +623,7 @@ struct ProfileTabView_Previews: PreviewProvider {
     let blankImage = UIImage()
 
     static var previews: some View {
-        let testUser = User(email: "testEmail@example.com", username: "Apical")
+        let testUser = User(email: "testEmail@example.com", username: "ApicalArtist")
         
         return ProfileTabView<MockAPIService, MockAuthService>(apiService: MockAPIService(), hideNavBar: .constant(false))
             .environmentObject(testUser)

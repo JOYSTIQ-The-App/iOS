@@ -75,7 +75,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
             )
         case 4:
             return AnyView(
-                ProfileTabViewNew<APIServiceType, AuthServiceType>(apiService: apiService, hideNavBar: $hideNavBar)
+                ProfileTabView<APIServiceType, AuthServiceType>(apiService: apiService, hideNavBar: $hideNavBar)
                     .environmentObject(user)
                     .environmentObject(authService)
             )
