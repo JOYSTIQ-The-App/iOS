@@ -13,7 +13,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
     @EnvironmentObject var authService: AuthServiceType
     @EnvironmentObject var user: User
     
-    @State private var showDropDown = false
+    //@State private var showDropDown = false
     @State private var selectedTab = 0
     @State private var showPostScreen = false
     @State private var hideNavBar = false
@@ -89,24 +89,6 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                     }
                 }
             )
-        }
-    }
-    
-    private var header: some View {
-        HeaderView(showDropDown: $showDropDown, onRefreshPress: {
-            refreshPosts()
-        })
-    }
-    
-    private var dropDownView: some View {
-        ZStack {
-            if showDropDown {
-                Color.black.opacity(0.6)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture { showDropDown = false }
-                
-                DropDown2(feedbackService: FeedbackService(), showDropDown: $showDropDown)
-            }
         }
     }
     

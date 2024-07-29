@@ -44,26 +44,18 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Body
     var body: some View {
         NavigationView {
-            ZStack {
                 mainContent
-                
-                if isLoading {
-                    loadingOverlay
-                }
-                
-                dropDownView
-            }
-            .accentColor(Color.green)
         }
+        .accentColor(Color.green)
+        .edgesIgnoringSafeArea(.all)
     }
     
     // MARK: - Subviews
     
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.4)
-                .edgesIgnoringSafeArea(.all)
-            
+            Color.black.opacity(0.2)
+
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
         }
@@ -71,19 +63,28 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     }
     
     private var mainContent: some View {
-        ZStack(alignment: .top) {
-            feedView
-                .padding(.top, showHeader ? 100 : 0)
+        VStack(spacing: 0) {
             
             if showHeader {
                 header
+                    .zIndex(2)
             }
+            
+            ZStack {
+                feedView
+                if isLoading {
+                    loadingOverlay
+                }
+            }
+            .zIndex(1)
+            
         }
         .background(Color("GradientDark3"))
         .onAppear {
             fetchPosts()
         }
         .accentColor(Color.green)
+        
     }
     
     private var header: some View {
@@ -102,6 +103,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
         }
     }
     
+    /*
     private var dropDownView: some View {
         ZStack {
             if showDropDown {
@@ -116,7 +118,7 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
     
     private var feedTypePicker: some View {
         Picker("", selection: $selectedFeed) {
-            Text("Following").tag(FeedType.following)
+            Text("Follower").tag(FeedType.following)
             Text("Global").tag(FeedType.global)
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -130,9 +132,9 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                 fetchPosts()
             }
         }
-
     }
-    
+     */
+
     private var loadMoreButton: some View {
         Group {
             if showLoadMoreButton {
@@ -202,12 +204,15 @@ struct HomeTabView<APIServiceType: APIServiceProtocol>: View {
                 
             }
             .background(Color("GradientDark3"))
+            .padding(.bottom, ScreenUtil.height * 0.04) //padding for nav bar
             .refreshable {
                 self.refreshAction()
             }
             .onAppear {
                 UIRefreshControl.appearance().tintColor = .white
             }
+            .disabled(showDropDown)
+            
         }
     }
     

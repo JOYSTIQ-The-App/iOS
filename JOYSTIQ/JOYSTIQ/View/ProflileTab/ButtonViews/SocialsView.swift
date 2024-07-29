@@ -73,11 +73,7 @@ struct SocialsView: View {
                 Text("Close")
                     .foregroundColor(.white)
                     .frame(width: ScreenUtil.width * 0.2, height: ScreenUtil.height * 0.04)
-                    .background(LinearGradient(
-                        gradient: Gradient(colors: [Color.red, Color(red: 0.9, green: 0.3, blue: 0)]),
-                                    startPoint: .topTrailing,
-                                    endPoint: .bottomLeading
-                    ).opacity(0.9))
+                    .background(Color.gray.opacity(0.9))
                     .cornerRadius(30)
             })
             .contentShape(Rectangle()) // This makes the entire frame tappable
