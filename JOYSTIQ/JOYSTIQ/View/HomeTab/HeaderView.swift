@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HeaderView: View {
     
-    @Binding var showDropDown: Bool
+    //@Binding var showDropDown: Bool
     var onRefreshPress: () -> Void
 
     
@@ -56,7 +56,7 @@ struct HeaderView: View {
             Button(action: {
                 
                 //open drop down menu
-                showDropDown.toggle()
+                //showDropDown.toggle()
                 
             }) {
             
@@ -119,6 +119,6 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(showDropDown: .constant(false), onRefreshPress: {})
+        HeaderView(onRefreshPress: {})
     }
 }

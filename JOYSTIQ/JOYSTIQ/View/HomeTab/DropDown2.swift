@@ -43,9 +43,9 @@ struct DropDown2<FeedbackServiceType: FeedbackServiceProtocol>: View {
                 
                 discordButton
                 
-                coffeeButton
+                //coffeeButton
                 
-                
+                feedbackMenu
                 
                 Spacer()
                 
