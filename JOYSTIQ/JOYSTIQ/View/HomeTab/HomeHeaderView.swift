@@ -19,7 +19,7 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
     @State private var showFeedbackModal = false
     @State private var selectedOption: String? = nil
     @State private var feedbackSubmitted: Bool = false
-    let options = ["Sharing & exploring gaming content", "Finding new gamers to play with", "Having a place to store my clips", "Having a profile with all my gaming interests & statistics"]
+    let options = ["Sharing & exploring gaming content", "Finding new gamers to play with", "Having a place to store my clips", "Having a profile to represent my gaming interests & statistics"]
     @State private var showBugReportModal = false
     @State private var bugReportText = ""
     
@@ -149,17 +149,16 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
                     .zIndex(2)
             }
             
-            VStack(spacing: ScreenUtil.height * 0.025) { //info, discord, support the team, feedback
+            VStack(spacing: ScreenUtil.height * 0.025) {
 
                 menuTitle
                 
                 menuInfo
                 
-                HStack(spacing: ScreenUtil.width * 0.1) {
+                HStack(spacing: ScreenUtil.width * 0.08) {
                     coffeeButton
                     discordButton
                 }
-                //.padding(.vertical, )
                 
                 feedbackButton
                 
@@ -280,7 +279,7 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
             feedbackSubmitted ?
             AnyView (
                 LinearGradient(
-                    gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight2").opacity(0.8)]),
+                    gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight2").opacity(0.6)]),
                     startPoint: .bottomLeading,
                     endPoint: .topTrailing
                 )
@@ -291,7 +290,7 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
                     gradient: Gradient(colors: [Color("GradientDark2"), Color("GradientLight")]),
                     center: .center,
                     startRadius: 0,
-                    endRadius: 180
+                    endRadius: 240
                 )
             )
         )
@@ -370,9 +369,15 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
             
             
         } //end vstack for feedback
-        .frame(width: ScreenUtil.width * 0.7)
+        .frame(width: ScreenUtil.width * 0.75)
         .padding()
-        .background(Color("GradientLight"))
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [Color("GradientLight"), Color("GradientDark")]),
+                startPoint: .topTrailing,
+                endPoint: .bottomLeading
+            )
+        )
         .cornerRadius(10)
     }
     
@@ -417,17 +422,24 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 10)
             
-            TextField(
-                "Description",
-                text: $bugReportText
-            )
-            .padding(.all, 15.0)
-            .foregroundColor(.white)
-            .background(Color("LightGray").opacity(0.4))
-            .border(Color(UIColor.separator))
-            .cornerRadius(10)
-            .autocapitalization(.none)
-            .disableAutocorrection(true)
+            //custom text field for clear background, text wrapping, and scrollable overflow
+            ZStack(alignment: .topLeading) {
+                if bugReportText.isEmpty {
+                    Text("Description")
+                        .foregroundColor(Color.gray)
+                        .padding(.top, 15)
+                        .padding(.leading, 15)
+                }
+                
+                TextEditor(text: $bugReportText)
+                    .autocapitalization(.none)
+                    .padding(10)
+                    .scrollContentBackground(.hidden) //opaque background
+                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(Color.white)
+                    .frame(height: 100, alignment: .leading)
+                    .cornerRadius(10)
+            }
             
             HStack(spacing: ScreenUtil.width * 0.04) {
                 
@@ -438,11 +450,7 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
                     Text("Cancel")
                         .foregroundColor(.white)
                         .frame(width: ScreenUtil.width * 0.2, height: 50)
-                        .background(LinearGradient(
-                            gradient: Gradient(colors: [Color.red, Color(red: 0.9, green: 0.3, blue: 0)]),
-                                        startPoint: .topTrailing,
-                                        endPoint: .bottomLeading
-                                    ))
+                        .background(Color.gray.opacity(0.8))
                         .cornerRadius(30)
                 })
                 .contentShape(Rectangle()) // This makes the entire frame tappable
@@ -477,13 +485,9 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
                 .contentShape(Rectangle()) // This makes the entire frame tappable
                 .padding(.top, 10)
             }
-                        
             
-            
-            
-            
-        } //end vstack for feedback
-        .frame(width: UIScreen.main.bounds.width * 0.65)
+        } //end vstack for bug report entry
+        .frame(width: ScreenUtil.width * 0.75)
         .padding()
         .background(
             LinearGradient(
@@ -494,7 +498,6 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
         )
         .cornerRadius(15)
     }
-
 
 }
 
