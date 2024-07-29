@@ -21,11 +21,11 @@ struct SocialsView: View {
                 Image("socials")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: UIScreen.main.bounds.width , height: 20)
+                    .frame(width: ScreenUtil.width , height: ScreenUtil.height * 0.025)
                     //.padding(.bottom, 20)
                 
                 Divider()
-                    .frame(width: UIScreen.main.bounds.width * 0.5, height: 1)
+                    .frame(width: ScreenUtil.width * 0.5, height: 1)
                     .background(
                         LinearGradient(
                             gradient: Gradient(colors: [Color("GradientDark"), Color("GradientLight"), Color("GradientDark")]),
@@ -34,13 +34,12 @@ struct SocialsView: View {
                         )
                     )
                     .padding(.bottom, 10)
-                
-                
-                
+  
                 if let socials = userSocials, !socials.isEmpty {
                     ForEach(socials.keys.sorted(), id: \.self) { key in
                         
                         HStack {
+                            
                             
                             Image(key + "Logo")
                                 .resizable()
@@ -50,13 +49,13 @@ struct SocialsView: View {
                             
                             
                             Text(socials[key] ?? "")
-                                .font(.system(size: UIScreen.main.bounds.width * 0.04))
+                                .font(.system(size: ScreenUtil.width * 0.04))
                                 .foregroundColor(Color("LightGray"))
                             
                             Spacer()
                             
                         } //end Socials HStack
-                        .frame(width: UIScreen.main.bounds.width * 0.4)
+                        .padding(.horizontal, 30)
                     }//end for each
                 }
                 
@@ -73,7 +72,7 @@ struct SocialsView: View {
                 
                 Text("Close")
                     .foregroundColor(.white)
-                    .frame(width: UIScreen.main.bounds.width * 0.2, height: 35)
+                    .frame(width: ScreenUtil.width * 0.2, height: ScreenUtil.height * 0.04)
                     .background(LinearGradient(
                         gradient: Gradient(colors: [Color.red, Color(red: 0.9, green: 0.3, blue: 0)]),
                                     startPoint: .topTrailing,
@@ -85,17 +84,18 @@ struct SocialsView: View {
             .padding(.vertical, 20)
 
         }
-        .frame(width: UIScreen.main.bounds.width * 0.6)
-        .frame(minHeight: UIScreen.main.bounds.height * 0.2)
-        .background(Color("GradientDark"))
+        .frame(width: ScreenUtil.width * 0.7)
+        .frame(minHeight: ScreenUtil.height * 0.2)
+        .background(Color("GradientDark3"))
         .cornerRadius(10)
         .shadow(color: Color("GradientLight").opacity(0.7), radius: 4, x: 2, y: 2)
         .shadow(color: Color("GradientLight").opacity(0.7), radius: 4, x: -2, y: -2)
-        .padding(.bottom, UIScreen.main.bounds.height * 0.2)
+        .padding(.bottom, ScreenUtil.height * 0.2)
     }
 }
 
 struct SocialsView_Previews: PreviewProvider {
+    
     static let mockSocials: [String: String]? = ["discord": "Joystiq_dev", "twitch": "Joystiq_live", "xbox": "Joystiq_Xbox", "kick": "cotts", "playstation": "cotts", "youtube": "NormalName"]
     static let nilSocials: [String: String]? = nil
 

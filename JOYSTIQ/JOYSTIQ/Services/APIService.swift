@@ -44,7 +44,7 @@ protocol APIServiceProtocol {
 
 
 class APIService: APIServiceProtocol {
-    let baseURL = "https://api.joystiq.gg"
+    let baseURL = "http://192.168.1.205:8080"
     
     func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
@@ -1575,10 +1575,10 @@ class MockAPIService: APIServiceProtocol {
         // Mocked profile data
         let mockProfile = UserProfile(
             avatar_s3_key: S3Key(String: "", Valid: false),
-            bio: "This is a sample bio for development",
+            bio: "25 \nValorant Pro for NRG \nThis is a sample bio for a sample profile for a sample view. I play games and like to play them and I have a discord server. ",
             environment: "",
-            followers: 12,
-            following: 8,
+            followers: 700,
+            following: 500,
             posts: [
                 Post(
                     id: 1,
@@ -1598,6 +1598,102 @@ class MockAPIService: APIServiceProtocol {
                 ),
                 Post(
                     id: 2,
+                    user_id: 10,
+                    s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
+                    media: "none",
+                    game: "MockGameA",
+                    body: "Check out this cool mock video!",
+                    status: "live",
+                    likes: 5,
+                    comments: 2,
+                    created_at: "2023-09-25T16:56:31.187556Z",
+                    user_liked: true,
+                    username: "mockUsernameA",
+                    avatar_s3_key: S3Key(String: "", Valid: false)
+                ),
+                Post(
+                    id: 3,
+                    user_id: 10,
+                    s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
+                    media: "none",
+                    game: "MockGameA",
+                    body: "Check out this cool mock video!",
+                    status: "live",
+                    likes: 5,
+                    comments: 2,
+                    created_at: "2023-09-25T16:56:31.187556Z",
+                    user_liked: true,
+                    username: "mockUsernameA",
+                    avatar_s3_key: S3Key(String: "", Valid: false)
+                ),
+                Post(
+                    id: 4,
+                    user_id: 10,
+                    s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
+                    media: "none",
+                    game: "MockGameA",
+                    body: "Check out this cool mock video!",
+                    status: "live",
+                    likes: 5,
+                    comments: 2,
+                    created_at: "2023-09-25T16:56:31.187556Z",
+                    user_liked: true,
+                    username: "mockUsernameA",
+                    avatar_s3_key: S3Key(String: "", Valid: false)
+                ),
+                Post(
+                    id: 5,
+                    user_id: 10,
+                    s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
+                    media: "none",
+                    game: "MockGameA",
+                    body: "Check out this cool mock video!",
+                    status: "live",
+                    likes: 5,
+                    comments: 2,
+                    created_at: "2023-09-25T16:56:31.187556Z",
+                    user_liked: true,
+                    username: "mockUsernameA",
+                    avatar_s3_key: S3Key(String: "", Valid: false)
+                ),
+                Post(
+                    id: 6,
+                    user_id: 11,
+                    s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
+                    media: "none",
+                    game: "MockGameB",
+                    body: "Another mock video!",
+                    status: "live",
+                    likes: 3,
+                    comments: 1,
+                    created_at: "2023-09-24T16:56:31.187556Z",
+                    user_liked: false,
+                    username: "mockUsernameB",
+                    avatar_s3_key: S3Key(String: "", Valid: false)
+                ),
+                Post(
+                    id: 7,
+                    user_id: 11,
+                    s3_key: S3Key(String: "", Valid: false),
+                    thumbnail_s3_key: S3Key(String: "", Valid: false),
+                    media: "none",
+                    game: "MockGameB",
+                    body: "Another mock video!",
+                    status: "live",
+                    likes: 3,
+                    comments: 1,
+                    created_at: "2023-09-24T16:56:31.187556Z",
+                    user_liked: false,
+                    username: "mockUsernameB",
+                    avatar_s3_key: S3Key(String: "", Valid: false)
+                ),
+                Post(
+                    id: 8,
                     user_id: 11,
                     s3_key: S3Key(String: "", Valid: false),
                     thumbnail_s3_key: S3Key(String: "", Valid: false),

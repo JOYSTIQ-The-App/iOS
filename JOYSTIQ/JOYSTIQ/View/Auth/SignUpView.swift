@@ -55,7 +55,7 @@ struct SignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View
                         .disableAutocorrection(true)
                         
                         //PASSWORD
-                        SecureField (
+                        TextField (
                             "",
                             text: $password
                         )
@@ -71,7 +71,7 @@ struct SignUpView<AuthServiceType: AuthServiceProtocol & ObservableObject>: View
                         .disableAutocorrection(true)
                         
                         //CONFIRM PASSWORD
-                        SecureField (
+                        TextField (
                             "",
                             text: $confirmpassword
                         )

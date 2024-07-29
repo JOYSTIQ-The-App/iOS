@@ -164,24 +164,17 @@ struct WardrobeView: View {
                             
                         }
                         
-                        NavigationLink(destination: ShoeSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
-                            
-                            ZStack { //for torso button
-
-                                Image(systemName: "square")
+                        NavigationLink(destination: ShoeSwitcherView(sceneKitView: $sceneKitView)) {
+                                Image(systemName: "shoe.2.fill")
                                     .resizable()
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 50, height: 35)
                                     .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "shoeprints.fill")
-                                    .resizable()
-                                    .frame(width: 25, height: 30)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            } //end zstack for torso button
-                            
-                        } //end navLink
+                                    .padding(10)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 5) // Adjust corner radius as needed
+                                            .stroke(Color("LightGray"), lineWidth: 2) // Customize border color and width
+                                    )
+                        } //end navLink for shoes
                         
                         
                         NavigationLink(destination: EnvironmentSwitcherView(enviroInt: $enviroInt)) {

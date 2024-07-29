@@ -129,7 +129,7 @@ struct AppView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthServiceP
                 Spacer()
             }
             .opacity(contentOpacity)
-            .frame(width: UIScreen.main.bounds.width, height: 45)
+            .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.06)
             .background(
                 LinearGradient(
                     gradient: Gradient(colors: [Color("GradientDark"), Color("GradientDark3")]),
