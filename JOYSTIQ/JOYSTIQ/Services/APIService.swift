@@ -44,7 +44,7 @@ protocol APIServiceProtocol {
 
 
 class APIService: APIServiceProtocol {
-    let baseURL = "http://192.168.1.205:8080"
+    let baseURL = "http://4.227.153.68:8080"
     
     func checkUsernameAvailability(username: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let usernameEncoded = username.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {

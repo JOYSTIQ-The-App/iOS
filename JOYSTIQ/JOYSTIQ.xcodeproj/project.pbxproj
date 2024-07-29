@@ -97,8 +97,6 @@
 		C31231792C4EA7A4003893AB /* ScreenUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31231782C4EA7A4003893AB /* ScreenUtil.swift */; };
 		C32BD10A2C542CC8007CC101 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32BD1092C542CC8007CC101 /* OtherProfileView.swift */; };
 		C32E1D652C503C54009764DE /* GameDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32E1D642C503C54009764DE /* GameDropdown.swift */; };
-		C3DD3DD22C4FFC70004277B1 /* landscapeVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C3DD3DD02C4FFC70004277B1 /* landscapeVideo.mp4 */; };
-		C3DD3DD32C4FFC70004277B1 /* portaitVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C3DD3DD12C4FFC70004277B1 /* portaitVideo.mp4 */; };
 		C3F212C52C51742200700369 /* ProfileTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F212C42C51742200700369 /* ProfileTabView.swift */; };
 		C3F212C72C51745A00700369 /* AccoladeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F212C62C51745A00700369 /* AccoladeBanner.swift */; };
 /* End PBXBuildFile section */
@@ -191,8 +189,6 @@
 		C31231782C4EA7A4003893AB /* ScreenUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenUtil.swift; sourceTree = "<group>"; };
 		C32BD1092C542CC8007CC101 /* OtherProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		C32E1D642C503C54009764DE /* GameDropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDropdown.swift; sourceTree = "<group>"; };
-		C3DD3DD02C4FFC70004277B1 /* landscapeVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = landscapeVideo.mp4; path = ../../../../../../Downloads/landscapeVideo.mp4; sourceTree = "<group>"; };
-		C3DD3DD12C4FFC70004277B1 /* portaitVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = portaitVideo.mp4; path = ../../../../../../Downloads/portaitVideo.mp4; sourceTree = "<group>"; };
 		C3F212C42C51742200700369 /* ProfileTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTabView.swift; sourceTree = "<group>"; };
 		C3F212C62C51745A00700369 /* AccoladeBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccoladeBanner.swift; sourceTree = "<group>"; };
 		FF1C8BB59F636EDCCC7E2F90 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
@@ -259,7 +255,6 @@
 		9941DC1E2A93F02100215948 /* JOYSTIQ */ = {
 			isa = PBXGroup;
 			children = (
-				C3DD3DCF2C4FFC48004277B1 /* VideoTestContent */,
 				9931AA882ADDE23B0054C933 /* Info.plist */,
 				9941DC1F2A93F02100215948 /* JOYSTIQApp.swift */,
 				995085E02A95A690003996B6 /* Services */,
@@ -512,15 +507,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		C3DD3DCF2C4FFC48004277B1 /* VideoTestContent */ = {
-			isa = PBXGroup;
-			children = (
-				C3DD3DD02C4FFC70004277B1 /* landscapeVideo.mp4 */,
-				C3DD3DD12C4FFC70004277B1 /* portaitVideo.mp4 */,
-			);
-			path = VideoTestContent;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -593,9 +579,7 @@
 			files = (
 				99EA3DEF2AC21A950011908F /* AvatarNodes in Resources */,
 				997062D72ABB8BFE005596A3 /* CamTest6.usdc in Resources */,
-				C3DD3DD32C4FFC70004277B1 /* portaitVideo.mp4 in Resources */,
 				9941DC272A93F02300215948 /* Preview Assets.xcassets in Resources */,
-				C3DD3DD22C4FFC70004277B1 /* landscapeVideo.mp4 in Resources */,
 				9941DC242A93F02300215948 /* Assets.xcassets in Resources */,
 				99F590FF2ABA82B400AD5F8C /* LaunchScreen.storyboard in Resources */,
 				C06F0009DB0FE1BB54A28EE9 /* awsconfiguration.json in Resources */,
