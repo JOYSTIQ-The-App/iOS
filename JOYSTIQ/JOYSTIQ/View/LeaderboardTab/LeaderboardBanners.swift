@@ -26,8 +26,8 @@ struct LeaderboardBanners: View {
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
                 .padding(.top, 5)
-                .shadow(color: Color.black, radius: 5, x: 2, y: 2)
-                .shadow(color: Color.yellow.opacity(0.5), radius: 5, x: -2, y: -2)
+                .shadow(color: Color.black, radius: 4, x: 1, y: 1)
+                .shadow(color: Color.yellow.opacity(0.5), radius: 4, x: -1, y: -1)
     
             
         case 2:
@@ -36,8 +36,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
-                .shadow(color: Color.black, radius: 5, x: 2, y: 2)
-                .shadow(color: Color.white.opacity(0.5), radius: 5, x: -2, y: -2)
+                .shadow(color: Color.black, radius: 4, x: 1, y: 1)
+                .shadow(color: Color.white.opacity(0.5), radius: 4, x: -1, y: -1)
             
         case 3:
             
@@ -45,8 +45,8 @@ struct LeaderboardBanners: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width * 0.95)
-                .shadow(color: Color.black, radius: 5, x: 2, y: 2)
-                .shadow(color: Color.brown, radius: 5, x: -2, y: -2)
+                .shadow(color: Color.black, radius: 4, x: 1, y: 1)
+                .shadow(color: Color.brown, radius: 4, x: -1, y: -1)
             
             
         case 4:

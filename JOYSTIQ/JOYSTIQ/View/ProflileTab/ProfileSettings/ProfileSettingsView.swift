@@ -14,19 +14,34 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
     @EnvironmentObject var authService: AuthServiceType
     @EnvironmentObject var user: User
     @Binding var hideNavBar: Bool
-    
     @State private var showingLogoutAlert = false
-    
+
     // MARK: - Body
     var body: some View {
-        VStack {
-            contentList
+        VStack() {
+            profileSettings
             Spacer()
-            logoutButton
-                .padding(.bottom, 20)
         }
-        .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Settings")
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height)
+        .background(Color("GradientDark3"))
+    }
+    
+    // MARK: - Subviews
+    private var profileSettings: some View {
+        VStack {
+            usernameNavigationLink
+            divider
+            bioNavigationLink
+            divider
+            socialsNavigationLink
+            divider
+            logoutButton
+        }
+        .frame(width: ScreenUtil.width * 0.9)
+        .padding(.vertical, 10)
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(10)
+        .padding(.top, ScreenUtil.height * 0.1)
         .onAppear{
             hideNavBar = true
         }
@@ -36,57 +51,96 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
                   primaryButton: .default(Text("Yes"), action: performLogout),
                   secondaryButton: .cancel())
         }
-        .preferredColorScheme(.dark) // Force dark mode
     }
     
-    // MARK: - Subviews
-    private var contentList: some View {
-        List {
-            profileSection
-        }
-    }
-    
-    private var profileSection: some View {
-        Section(header: Text("Profile")) {
-            bioNavigationLink
-            socialsNavigationLink
-            usernameNavigationLink
+    private var usernameNavigationLink: some View {
+        NavigationLink(destination: EditUsernameView(apiService: apiService).navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Update Username")
+                        .font(.system(size: 18))
+                        .foregroundColor(Color("LightGray"))
+                }
+            }) {
+            HStack(spacing: 0) {
+                Image(systemName: "person")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: ScreenUtil.width * 0.05, height: ScreenUtil.width * 0.05)
+                    .foregroundColor(Color("LightGray"))
+                    .padding(.trailing, ScreenUtil.width * 0.04)
+                
+                Text("Username")
+                    .foregroundColor(Color("LightGray"))
+                    .font(.system(size: ScreenUtil.width * 0.04))
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: ScreenUtil.width * 0.03, height: ScreenUtil.width * 0.03)
+                    .foregroundColor(Color("LightGray"))
+
+            }
+            .padding(.vertical, ScreenUtil.width * 0.012)
+            .padding(.horizontal, ScreenUtil.width * 0.04)
         }
     }
     
     private var bioNavigationLink: some View {
         NavigationLink(destination: EditBioView(apiService: apiService)) {
-            HStack {
-                Image(systemName: "person.crop.square.fill")
+            HStack(spacing: 0) {
+                Image(systemName: "text.bubble")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 25, height: 25)
-                    .foregroundColor(Color(.label))
-                    .padding(.trailing, 5)
+                    .frame(width: ScreenUtil.width * 0.05, height: ScreenUtil.width * 0.05)
+                    .foregroundColor(Color("LightGray"))
+                    .padding(.trailing, ScreenUtil.width * 0.04)
                 
                 Text("Bio")
+                    .foregroundColor(Color("LightGray"))
+                    .font(.system(size: ScreenUtil.width * 0.04))
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: ScreenUtil.width * 0.03, height: ScreenUtil.width * 0.03)
+                    .foregroundColor(Color("LightGray"))
+                
             }
+            .padding(.vertical, ScreenUtil.width * 0.012)
+            .padding(.horizontal, ScreenUtil.width * 0.04)
         }
     }
     
     private var socialsNavigationLink: some View {
         NavigationLink(destination: EditSocialsView(apiService: apiService)) {
-            HStack {
-                Image(systemName: "network")
+            HStack(spacing: 0) {
+                Image(systemName: "person.crop.rectangle.stack")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 25, height: 25)
-                    .foregroundColor(Color(.label))
-                    .padding(.trailing, 5)
+                    .frame(width: ScreenUtil.width * 0.05, height: ScreenUtil.width * 0.05)
+                    .foregroundColor(Color("LightGray"))
+                    .padding(.trailing, ScreenUtil.width * 0.04)
                 
                 Text("Socials")
+                    .foregroundColor(Color("LightGray"))
+                    .font(.system(size: ScreenUtil.width * 0.04))
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: ScreenUtil.width * 0.03, height: ScreenUtil.width * 0.03)
+                    .foregroundColor(Color("LightGray"))
+
             }
-        }
-    }
-    
-    private var usernameNavigationLink: some View {
-        NavigationLink(destination: EditUsernameView(apiService: apiService)) {
-            Text("Change Username")
+            .padding(.vertical, ScreenUtil.width * 0.012)
+            .padding(.horizontal, ScreenUtil.width * 0.04)
         }
     }
     
@@ -94,10 +148,36 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
         Button(action: {
             showingLogoutAlert = true
         }) {
-            Text("Logout")
-                .foregroundColor(.red)
+            HStack(spacing: 0) {
+                Image(systemName: "rectangle.portrait.and.arrow.right")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: ScreenUtil.width * 0.05, height: ScreenUtil.width * 0.05)
+                    .foregroundColor(Color.red)
+                    .padding(.trailing, ScreenUtil.width * 0.035)
+                
+                Text("Logout")
+                    .foregroundColor(Color.red)
+                    .font(.system(size: ScreenUtil.width * 0.04))
+                
+                Spacer()
+
+            }
+            .padding(.vertical, ScreenUtil.width * 0.012)
+            .padding(.horizontal, ScreenUtil.width * 0.05)
+
         }
         .frame(maxWidth: .infinity, alignment: .center)
+    }
+    
+    private var divider: some View {
+        HStack {
+            Spacer()
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(Color("LightGray").opacity(0.1))
+                .frame(width: ScreenUtil.width * 0.775)
+        }
     }
     
     // MARK: - Functions

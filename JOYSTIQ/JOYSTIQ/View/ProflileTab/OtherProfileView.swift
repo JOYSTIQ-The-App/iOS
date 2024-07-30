@@ -323,7 +323,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                     .background(Color("Black0").opacity(0.6))
                     .cornerRadius(10)
                     .frame(width: ScreenUtil.width * 0.9, alignment: .center)
-                    .font(.system(size: ScreenUtil.width * 0.05))
+                    .font(.system(size: ScreenUtil.width * 0.04))
                     .foregroundColor(Color.white)
                     .padding(.top, ScreenUtil.height * 0.01)
                     .opacity(isExpanded ? 0 : 1)
@@ -338,7 +338,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
         Button(action: {
             showSocials.toggle()
         }) {
-            Image(systemName: "network")
+            Image(systemName: "person.crop.rectangle.stack")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 30, height: 30)

@@ -193,14 +193,14 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
                 +
                 Text("\n- Improved post structures to resolve like & comment button issues \n- Updated JOYSTIQ Menu \n- Improved create post UX \n- Profile page redesign \n- Introduced alpha / beta medals \n- Improved avatars \n- UI improvements in settings")
                     .foregroundColor(Color.white)
-                    .font(.system(size: ScreenUtil.height * 0.020))
+                    .font(.system(size: ScreenUtil.height * 0.016))
             }
             .padding(.vertical, 10)
             .padding(.horizontal, 15)
 
         }
         .frame(width: ScreenUtil.width * 0.8, height: ScreenUtil.height * 0.2, alignment: .leading)
-        .background(Color.black.opacity(0.2))
+        .background(Color.black.opacity(0.3))
         .cornerRadius(10)
     }
     
