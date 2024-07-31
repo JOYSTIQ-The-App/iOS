@@ -51,11 +51,14 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
                 .placeholder(when: username.isEmpty) {
                     Text("Enter Username").foregroundColor(Color.gray.opacity(0.6))
                 }
+                .autocapitalization(.none)
                 .onChange(of: username) { _ in
                     checkUsernameAvailability()
                 }
+            
                 .foregroundColor(Color.white)
                 .padding()
+                .background(Color.gray.opacity(0.15))
                 .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
             
             updateButton
@@ -66,7 +69,10 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
     
     private var updateButton: some View {
         Button(action: {
-            updateUsername() //IF VALID
+            if (isValidUsername(username) && isAvailable) {
+                updateUsername()
+            }
+
         }, label: {
             Text("Update")
                 .padding()
@@ -76,7 +82,7 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
                     endPoint: .bottomLeading
                 ))
                 .opacity(isValidUsername(username) && isAvailable ? 1 : 0.4) //dim when username not valid / available
-                .disabled(isValidUsername(username) || !isAvailable)
+                .disabled(!isValidUsername(username) || !isAvailable)
                 .foregroundColor(Color.white)
                 .cornerRadius(10)
                 .contentShape(Rectangle())
