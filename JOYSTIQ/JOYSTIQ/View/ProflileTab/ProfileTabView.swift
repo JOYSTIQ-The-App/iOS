@@ -30,11 +30,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @State private var following: Int = 0
     
     @State private var userPosts: [Post] = []
-    //@State private var showEditPostModal = false
-    //@State private var currentEditingPost: Post? = nil
-    
     @State var showCommentSection: Bool = false
-    
     @State private var showDeleteConfirmation = false
     @State private var postToDelete: Int? // Store the post ID to delete if confirmed
     
@@ -131,7 +127,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 hideNavBar = false
             }
             .offset(y: viewOffset)
-            .background( Color("GradientDark3"))
+            .background(Color("GradientDark3"))
     }
     
     //MARK: - Avatar Section Subviews
@@ -168,14 +164,17 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
 
     private var avatarImage: some View {
+        
         if let image = avatarSnapshot {
             return AnyView(
                 Image(uiImage: image)
-                    .resizable()
-                    .frame(width: ScreenUtil.width * 0.46, height: ScreenUtil.height * 0.3)
-                    .scaleEffect(1.5)
-                    .padding(.top, ScreenUtil.height * 0.05)
-                    .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
+                 .resizable()
+                 .scaledToFit()
+                 .scaleEffect(1.4)
+                 .frame(width: ScreenUtil.width * 0.5, height: ScreenUtil.height * 0.32)
+                 .padding(.top, ScreenUtil.height * 0.05)
+                 .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
+                 .allowsHitTesting(false) // Ignore touch events, obstructs acc banner scrolling
             )
         } else if isLoadingAvatar {
             return AnyView(
@@ -233,7 +232,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                 ToolbarItem(placement: .principal) {
                     Text("Settings")
                         .font(.system(size: 18))
-                        .foregroundColor(Color(.label))
+                        .foregroundColor(Color("LightGray"))
                 }
             }) {
             ZStack {
@@ -333,7 +332,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
                     .background(Color("Black0").opacity(0.6))
                     .cornerRadius(10)
                     .frame(width: ScreenUtil.width * 0.9, alignment: .center)
-                    .font(.system(size: ScreenUtil.width * 0.05))
+                    .font(.system(size: ScreenUtil.width * 0.04))
                     .foregroundColor(Color.white)
                     .padding(.top, ScreenUtil.height * 0.01)
                     .opacity(isExpanded ? 0 : 1)
@@ -348,7 +347,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         Button(action: {
             showSocials.toggle()
         }) {
-            Image(systemName: "network")
+            Image(systemName: "person.crop.rectangle.stack")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 30, height: 30)
@@ -372,7 +371,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         }
     }
     
-    private var chevronButton: some View{
+    private var chevronButton: some View {
         HStack {
             Button(action: {
                 withAnimation {
@@ -394,7 +393,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         .overlay(
             Rectangle()
                 .frame(height: 0.6) // Border height
-                .foregroundColor(Color.gray.opacity(0.6)) // Border color
+                .foregroundColor(Color.gray.opacity(0.0)) // Border color
                 .frame(maxHeight: .infinity, alignment: .top),
             alignment: .top
         )
@@ -409,7 +408,8 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
         .opacity(isExpanded ? 0 : 1)
         .disabled(isExpanded)
     }
-    private var chevronButtonExpanded: some View{
+    
+    private var chevronButtonExpanded: some View {
         HStack {
             Button(action: {
                 withAnimation {

@@ -150,10 +150,12 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             return AnyView(
                 Image(uiImage: image)
                     .resizable()
-                    .frame(width: ScreenUtil.width * 0.46, height: ScreenUtil.height * 0.3)
-                    .scaleEffect(1.5)
+                    .scaledToFit()
+                    .scaleEffect(1.4)
+                    .frame(width: ScreenUtil.width * 0.5, height: ScreenUtil.height * 0.32)
                     .padding(.top, ScreenUtil.height * 0.05)
                     .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
+                    .allowsHitTesting(false) // Ignore touch events, obstructs acc banner scrolling
             )
         } else if isLoadingAvatar {
             return AnyView(
@@ -174,7 +176,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
             Image("NamePlate5")
                 .resizable()
                 .scaledToFill()
-            Text(user.username) //shrinks as name length increases
+            Text(profileUsername) //shrinks as name length increases
                 .font(.system(size: (ScreenUtil.height * 0.023) - (CGFloat(user.username.count) * 0.3)))
                 .foregroundColor(Color("LightGray"))
                 .padding(.trailing, ScreenUtil.width * 0.06)
@@ -281,7 +283,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     
     private var followersButtons: some View {
         HStack(spacing: 10) {
-            NavigationLink(destination: FollowersListView(apiService: apiService, username: user.username)) {
+            NavigationLink(destination: FollowersListView(apiService: apiService, username: profileUsername)) {
                 VStack {
                     Text("\(followers)")
                         .font(.headline)
@@ -291,13 +293,11 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                         .foregroundColor(Color.white)
                 }
                 .frame(width: ScreenUtil.width * 0.16, height: ScreenUtil.height * 0.06)
-                //.padding(.vertical, ScreenUtil.height * 0.011)
-                //.padding(.horizontal, ScreenUtil.width * 0.03)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             }
             
-            NavigationLink(destination: FollowingListView(apiService: apiService, username: user.username)) {
+            NavigationLink(destination: FollowingListView(apiService: apiService, username: profileUsername)) {
                 VStack {
                     Text("\(following)")
                         .font(.headline)
@@ -307,10 +307,9 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                         .foregroundColor(Color.white)
                 }
                 .frame(width: ScreenUtil.width * 0.16, height: ScreenUtil.height * 0.06)
-                //.padding(.vertical, ScreenUtil.height * 0.011)
-                //.padding(.horizontal, ScreenUtil.width * 0.03)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
+                
             }
         }
     }
@@ -323,7 +322,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
                     .background(Color("Black0").opacity(0.6))
                     .cornerRadius(10)
                     .frame(width: ScreenUtil.width * 0.9, alignment: .center)
-                    .font(.system(size: ScreenUtil.width * 0.05))
+                    .font(.system(size: ScreenUtil.width * 0.04))
                     .foregroundColor(Color.white)
                     .padding(.top, ScreenUtil.height * 0.01)
                     .opacity(isExpanded ? 0 : 1)
@@ -338,7 +337,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
         Button(action: {
             showSocials.toggle()
         }) {
-            Image(systemName: "network")
+            Image(systemName: "person.crop.rectangle.stack")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 30, height: 30)
@@ -456,7 +455,7 @@ struct OtherProfileView<APIServiceType: APIServiceProtocol>: View {
     // MARK: - Functions
     func fetchUserProfile() {
         isLoading = true
-        apiService.getUserProfile(for: user.username) { result in
+        apiService.getGamerProfile(for: user.email, username: profileUsername) { result in
             handleFetchResult(result)
         }
     }

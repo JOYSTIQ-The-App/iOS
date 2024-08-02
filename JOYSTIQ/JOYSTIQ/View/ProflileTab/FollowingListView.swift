@@ -25,6 +25,7 @@ struct FollowingListView<APIServiceType: APIServiceProtocol>: View {
         }
         .navigationBarTitle("Following", displayMode: .inline)
         .onAppear(perform: fetchFollowing)
+        .preferredColorScheme(.dark)
     }
     
     // MARK: - Functions

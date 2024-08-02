@@ -16,32 +16,52 @@ struct EditBioView<APIServiceType: APIServiceProtocol>: View {
 
     @State private var bioText: String = ""
     @State private var isSaving: Bool = false
-    @State private var hasEditedBio: Bool = false
+    @State private var characterLimit = 500
 
     // MARK: - Body
     var body: some View {
         VStack(spacing: 20) {
+            Spacer()
             Text("Tell us a little about yourself!")
                 .font(.headline)
-            
+                .foregroundColor(Color("LightGray"))
             bioTextField
-            
-            if hasEditedBio {
-                saveButton
-            }
+            saveButton
+            Spacer()
         }
-        .padding()
+        .frame(width: ScreenUtil.width)
         .onAppear(perform: fetchUserBio)
-        .preferredColorScheme(.dark)
+        .background(Color("GradientDark3"))
+        
     }
 
     // MARK: - Subviews
     private var bioTextField: some View {
-        TextField("Enter your bio...", text: $bioText, onEditingChanged: { _ in
-            hasEditedBio = true
-        })
-        .padding()
-        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+        //custom text field for clear background, text wrapping, and scrollview
+        ZStack(alignment: .topLeading) {
+            if bioText.isEmpty {
+                Text("Enter your bio...")
+                    .foregroundColor(Color.gray)
+                    .padding(.top, 15)
+                    .padding(.leading, 15)
+            }
+            
+            TextEditor(text: $bioText)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .padding(10)
+                .scrollContentBackground(.hidden) //opaque background
+                .foregroundColor(Color.white)
+                .frame(width: ScreenUtil.width * 0.9, height: 200, alignment: .leading)
+                .background(Color.gray.opacity(0.15))
+                .cornerRadius(10)
+                .onChange(of: bioText) { newText in
+                    if newText.count > characterLimit {
+                        bioText = String(newText.prefix(characterLimit))
+                    }
+                }
+        }
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.6), lineWidth: 1))
     }
 
     private var saveButton: some View {
@@ -53,10 +73,17 @@ struct EditBioView<APIServiceType: APIServiceProtocol>: View {
             }
         }
         .disabled(isSaving)
-        .padding()
-        .background(Color.blue)
-        .foregroundColor(.white)
-        .cornerRadius(8)
+        .padding(.vertical, 15)
+        .padding(.horizontal, 50)
+        .background(LinearGradient(
+            gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+            startPoint: .topTrailing,
+            endPoint: .bottomLeading
+        ))
+        .foregroundColor(Color.white)
+        .opacity(1)
+        .cornerRadius(10)
+        .contentShape(Rectangle())
     }
 
     // MARK: - Functions

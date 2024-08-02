@@ -14,65 +14,87 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
     var apiService: APIServiceType
     
     @State private var username: String = ""
-    @State private var isAvailable: Bool? = nil
+    @State private var isAvailable: Bool = false
     @State private var isLoading: Bool = false
     @State private var errorMessage: String? = nil
     
     // MARK: - Body
     var body: some View {
         VStack(spacing: 20) {
+            Spacer()
+            usernameRules
             usernameTextField
-            checkAvailabilityButton
-            
-            if let isAvailable = isAvailable {
-                availabilityText
-                if isAvailable {
-                    createUsernameButton
-                }
+            if (username.count >= 3) {
+                status
             }
+            Spacer()
         }
-        .padding()
+        .background(Color("GradientDark3"))
     }
     
     // MARK: - Subviews
-    private var usernameTextField: some View {
-        TextField("Enter Username", text: $username)
-            .onChange(of: username) { _ in
-                isAvailable = nil
-            }
-            .padding()
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-    }
-    
-    private var checkAvailabilityButton: some View {
-        Button(action: checkUsernameAvailability) {
-            if isLoading {
-                ProgressView()
-            } else {
-                Text("Check Availability")
-            }
+    private var usernameRules: some View {
+        VStack {
+            Text("Allowed characters: A-Z, a-z, 0-9, _, and -")
+                .foregroundColor(.gray)
+                .font(.system(size: ScreenUtil.width * 0.04))
+            Text("Must start with a letter and be 3-15 characters long.")
+                .font(.system(size: ScreenUtil.width * 0.04))
+                .foregroundColor(.gray)
         }
-        .padding()
-        .background(Color.blue)
-        .foregroundColor(.white)
-        .cornerRadius(8)
-        .disabled(isLoading || username.isEmpty)
     }
     
-    private var availabilityText: some View {
+    private var usernameTextField: some View {
+        HStack(spacing: ScreenUtil.width * 0.02) {
+            
+            TextField("", text: $username)
+                .placeholder(when: username.isEmpty) {
+                    Text("Enter Username").foregroundColor(Color.gray.opacity(0.6))
+                }
+                .autocapitalization(.none)
+                .onChange(of: username) { _ in
+                    checkUsernameAvailability()
+                }
+            
+                .foregroundColor(Color.white)
+                .padding()
+                .background(Color.gray.opacity(0.15))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.6), lineWidth: 1))
+            
+            updateButton
+        }
+        .padding(.horizontal, ScreenUtil.width * 0.03)
+        
+    }
+    
+    private var updateButton: some View {
+        Button(action: {
+            if (isValidUsername(username) && isAvailable) {
+                updateUsername()
+            }
+
+        }, label: {
+            Text("Update")
+                .padding()
+                .background(LinearGradient(
+                    gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                    startPoint: .topTrailing,
+                    endPoint: .bottomLeading
+                ))
+                .opacity(isValidUsername(username) && isAvailable ? 1 : 0.4) //dim when username not valid / available
+                .disabled(!isValidUsername(username) || !isAvailable)
+                .foregroundColor(Color.white)
+                .cornerRadius(10)
+                .contentShape(Rectangle())
+        })
+    }
+    
+    private var status: some View {
         Group {
             if !isValidUsername(username) {
-                VStack {
-                    Text("Invalid Username!")
-                        .foregroundColor(.red)
-                    Text("Allowed: A-Z, a-z, 0-9, _, and -.")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                    Text("Must start with a letter and be 3-15 characters long.")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-            } else if isAvailable! {
+                Text("Invalid Username!")
+                    .foregroundColor(.red)
+            } else if isAvailable {
                 Text("Username is available!")
                     .foregroundColor(.green)
             } else {
@@ -80,16 +102,6 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
                     .foregroundColor(.red)
             }
         }
-    }
-    
-    private var createUsernameButton: some View {
-        Button("Update Username") {
-            updateUsername()
-        }
-        .padding()
-        .background(Color.green)
-        .foregroundColor(.white)
-        .cornerRadius(8)
     }
     
     // MARK: - Functions

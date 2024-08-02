@@ -24,6 +24,7 @@ struct FollowersListView<APIServiceType: APIServiceProtocol>: View {
         }
         .navigationBarTitle("Followers", displayMode: .inline)
         .onAppear(perform: fetchFollowers)
+        .preferredColorScheme(.dark)
     }
     
     // MARK: - Functions
