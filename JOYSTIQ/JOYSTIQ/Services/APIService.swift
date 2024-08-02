@@ -1710,7 +1710,7 @@ class MockAPIService: APIServiceProtocol {
                 )
             ],
             resume: "Resume for development",
-            socials: ["twitch": "mockTwitchHandle", "xbox": "mockXboxHandle"]
+            socials: ["twitch": "mockTwitchHandle", "xbox": "mockXboxHandle", "discord": "Connor", "youtube": "Connor", "kick": "Connor"]
         )
 
 

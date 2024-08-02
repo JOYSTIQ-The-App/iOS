@@ -20,53 +20,107 @@ struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
     @State private var isSaving: Bool = false
     @State private var showingDeleteConfirmation = false
     @State private var socialToDelete: String?
-
+    @State private var showingActionSheet = false
+    
     private var isUsernameValid: Bool {
         !username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     var body: some View {
-        VStack(spacing: 20) {
-            ForEach(currentSocials.sorted(by: <), id: \.key) { key, value in
-                HStack {
-                    Text(key.capitalized).bold() + Text(": \(value)")
-                    Spacer()
-                    Button(action: {
-                        self.socialToDelete = key
-                        self.showingDeleteConfirmation = true
-                    }) {
-                        Image(systemName: "trash.fill")
-                            .foregroundColor(.red)
-                    }
-                }
+            VStack(spacing: 20) {
+                Spacer()
+                
+                SocialsList
+                
+                Divider().padding(.vertical, 10)
+
+                AddSocials
+                
+                Spacer()
             }
-            .actionSheet(isPresented: $showingDeleteConfirmation) {
-                ActionSheet(
+            .background(Color("GradientDark3"))
+            .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                fetchUserSocials()
+            }
+            .alert(isPresented: $showingDeleteConfirmation) {
+                Alert(
                     title: Text("Delete Social"),
-                    message: Text("Are you sure you want to delete \(socialToDelete?.capitalized ?? "")?"),
-                    buttons: [
-                        .destructive(Text("Delete")) {
-                            if let type = socialToDelete {
-                                deleteUserSocial(socialType: type)
-                            }
-                        },
-                        .cancel()
-                    ]
+                    message: Text("Are you sure you want to delete \(socialToDelete?.capitalized ?? "") username?"),
+                    primaryButton: .destructive(Text("Delete")) {
+                        if let type = socialToDelete {
+                            deleteUserSocial(socialType: type)
+                        }
+                    },
+                    secondaryButton: .cancel()
                 )
             }
-            
-            Divider().padding(.vertical, 10)
-
-            Picker("Select a Social", selection: $selectedSocial) {
-                ForEach(allSocials, id: \.self) {
-                    Text($0.capitalized)
+            .actionSheet(isPresented: $showingActionSheet) {
+                ActionSheet(title: Text("Select a Social"), buttons: actionSheetButtons())
+            }
+        }
+    
+    //MARK: - Subviews
+    private var SocialsList: some View {
+        ForEach(currentSocials.sorted(by: <), id: \.key) { key, value in
+            HStack {
+                Image(key + "Logo")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .cornerRadius(4)
+                
+                Text("\(value)")
+                    .foregroundColor(Color("LightGray"))
+                    .font(.system(size: 20))
+                Spacer()
+                Button(action: {
+                    self.socialToDelete = key
+                    self.showingDeleteConfirmation = true
+                }) {
+                    Image(systemName: "trash.fill")
+                        .foregroundColor(.gray)
                 }
             }
-            .pickerStyle(MenuPickerStyle())
-
-            TextField("Enter username for \(selectedSocial)", text: $username)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 15)
+            .background(Color.gray.opacity(0.2))
+            .cornerRadius(8)
+            .padding(.horizontal, 20)
+            
+        }
+    }
+    
+    private var AddSocials: some View {
+        
+        HStack(spacing: ScreenUtil.width * 0.02) {
+            
+            VStack {
+                Button(action: {
+                    showingActionSheet = true
+                }) {
+                    HStack {
+                        Image(selectedSocial + "Logo")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .cornerRadius(4)
+                        Image(systemName: "chevron.up")
+                            .foregroundColor(.white)
+                    }
+                    .padding(13)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(8)
+                }
+                
+            }
+            
+            TextField("", text: $username)
+                .placeholder(when: username.isEmpty) {
+                    Text("Enter username").foregroundColor(Color.gray.opacity(0.6))
+                }
                 .padding()
-                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                .background(Color.gray.opacity(0.15))
+                .foregroundColor(Color.white)
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.6), lineWidth: 1))
             
             Button(action: saveSocial) {
                 if isSaving {
@@ -77,16 +131,30 @@ struct EditSocialsView<APIServiceType: APIServiceProtocol>: View {
             }
             .disabled(!isUsernameValid || isSaving)
             .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
+            .background(LinearGradient(
+                gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                startPoint: .topTrailing,
+                endPoint: .bottomLeading
+            ))
+            .opacity((!isUsernameValid || isSaving) ? 0.4 : 1)
+            .foregroundColor(Color.white)
             .cornerRadius(8)
+            .contentShape(Rectangle())
         }
-        .padding()
-        .onAppear {
-            fetchUserSocials()
-        }
+        .padding(.horizontal, ScreenUtil.width * 0.02)
     }
 
+    //MARK: - Functions
+    private func actionSheetButtons() -> [ActionSheet.Button] {
+            var buttons = allSocials.map { social in
+                ActionSheet.Button.default(Text(social.capitalized)) {
+                    selectedSocial = social
+                }
+            }
+            buttons.append(.cancel())
+            return buttons
+        }
+    
     func fetchUserSocials() {
         apiService.getUserSocials(for: user.username) { result in
             switch result {

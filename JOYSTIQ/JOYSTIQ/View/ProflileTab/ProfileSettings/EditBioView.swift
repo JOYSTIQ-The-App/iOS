@@ -16,26 +16,18 @@ struct EditBioView<APIServiceType: APIServiceProtocol>: View {
 
     @State private var bioText: String = ""
     @State private var isSaving: Bool = false
-    @State private var hasEditedBio: Bool = false
     @State private var characterLimit = 500
 
     // MARK: - Body
     var body: some View {
         VStack(spacing: 20) {
-            
             Spacer()
-            
             Text("Tell us a little about yourself!")
                 .font(.headline)
                 .foregroundColor(Color("LightGray"))
-        
             bioTextField
-
             saveButton
-            
-            
             Spacer()
-            
         }
         .frame(width: ScreenUtil.width)
         .onAppear(perform: fetchUserBio)
@@ -68,13 +60,8 @@ struct EditBioView<APIServiceType: APIServiceProtocol>: View {
                         bioText = String(newText.prefix(characterLimit))
                     }
                 }
-                .onChange(of: bioText) { _ in
-                    if !hasEditedBio {
-                        hasEditedBio = true
-                    }
-                }
         }
-        
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.6), lineWidth: 1))
     }
 
     private var saveButton: some View {
@@ -85,7 +72,7 @@ struct EditBioView<APIServiceType: APIServiceProtocol>: View {
                 Text("Save")
             }
         }
-        .disabled(isSaving || !hasEditedBio)
+        .disabled(isSaving)
         .padding(.vertical, 15)
         .padding(.horizontal, 50)
         .background(LinearGradient(
@@ -94,7 +81,7 @@ struct EditBioView<APIServiceType: APIServiceProtocol>: View {
             endPoint: .bottomLeading
         ))
         .foregroundColor(Color.white)
-        .opacity(hasEditedBio ? 1 : 0.4)
+        .opacity(1)
         .cornerRadius(10)
         .contentShape(Rectangle())
     }

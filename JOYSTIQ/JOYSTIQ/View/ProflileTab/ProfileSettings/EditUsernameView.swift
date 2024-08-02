@@ -59,7 +59,7 @@ struct EditUsernameView<APIServiceType: APIServiceProtocol>: View {
                 .foregroundColor(Color.white)
                 .padding()
                 .background(Color.gray.opacity(0.15))
-                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.6), lineWidth: 1))
             
             updateButton
         }

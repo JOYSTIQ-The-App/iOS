@@ -30,11 +30,7 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     @State private var following: Int = 0
     
     @State private var userPosts: [Post] = []
-    //@State private var showEditPostModal = false
-    //@State private var currentEditingPost: Post? = nil
-    
     @State var showCommentSection: Bool = false
-    
     @State private var showDeleteConfirmation = false
     @State private var postToDelete: Int? // Store the post ID to delete if confirmed
     
@@ -168,14 +164,17 @@ struct ProfileTabView<APIServiceType: APIServiceProtocol, AuthServiceType: AuthS
     }
 
     private var avatarImage: some View {
+        
         if let image = avatarSnapshot {
             return AnyView(
                 Image(uiImage: image)
-                    .resizable()
-                    .frame(width: ScreenUtil.width * 0.46, height: ScreenUtil.height * 0.3)
-                    .scaleEffect(1.5)
-                    .padding(.top, ScreenUtil.height * 0.05)
-                    .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
+                 .resizable()
+                 .scaledToFit()
+                 .scaleEffect(1.4)
+                 .frame(width: ScreenUtil.width * 0.5, height: ScreenUtil.height * 0.32)
+                 .padding(.top, ScreenUtil.height * 0.05)
+                 .shadow(color: Color.black.opacity(0.6), radius: 1, x: 0, y: 2)
+                 .allowsHitTesting(false) // Ignore touch events, obstructs acc banner scrolling
             )
         } else if isLoadingAvatar {
             return AnyView(

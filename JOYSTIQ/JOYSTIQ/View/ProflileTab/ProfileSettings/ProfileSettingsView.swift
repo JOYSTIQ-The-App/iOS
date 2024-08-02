@@ -89,7 +89,13 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
     }
     
     private var bioNavigationLink: some View {
-        NavigationLink(destination: EditBioView(apiService: apiService)) {
+        NavigationLink(destination: EditBioView(apiService: apiService).toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Update Bio")
+                    .font(.system(size: 18))
+                    .foregroundColor(Color("LightGray"))
+            }
+        }) {
             HStack(spacing: 0) {
                 Image(systemName: "text.bubble")
                     .resizable()
@@ -117,7 +123,13 @@ struct ProfileSettingsView<APIServiceType: APIServiceProtocol, AuthServiceType: 
     }
     
     private var socialsNavigationLink: some View {
-        NavigationLink(destination: EditSocialsView(apiService: apiService)) {
+        NavigationLink(destination: EditSocialsView(apiService: apiService).toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Add Socials")
+                    .font(.system(size: 18))
+                    .foregroundColor(Color("LightGray"))
+            }
+        }) {
             HStack(spacing: 0) {
                 Image(systemName: "person.crop.rectangle.stack")
                     .resizable()
