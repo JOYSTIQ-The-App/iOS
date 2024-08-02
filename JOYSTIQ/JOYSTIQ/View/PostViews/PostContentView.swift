@@ -83,7 +83,7 @@ struct PostContentView: View {
         Group {
             if playerManager.currentlyPlayingID == s3_key.String, playerManager.isReady {
                 VideoPlayer(player: playerManager.player)
-                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
+                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.25)
                     .cornerRadius(10)
             } else if isLoading {
                 screenWithLoading
@@ -100,11 +100,11 @@ struct PostContentView: View {
                 WebImage(url: url)  // Using SDWebImageSwiftUI's WebImage to load the image from the URL
                     .resizable()
                     .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.25)
                     .cornerRadius(10)
             } else {
                 Color.black
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.25)
                     .cornerRadius(10)
             }
             
@@ -120,11 +120,11 @@ struct PostContentView: View {
                 WebImage(url: url)  // Using SDWebImageSwiftUI's WebImage to load the image from the URL
                     .resizable()
                     .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.25)
                     .cornerRadius(10)
             } else {
                 Color.black
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.25)
                     .cornerRadius(10)
             }
             playButtonOverlay
@@ -154,10 +154,9 @@ struct PostContentView: View {
                 WebImage(url: url)
                  .resizable()
                  .scaledToFill()
-                 .frame(minWidth: ScreenUtil.width * 0.3, maxWidth: ScreenUtil.width * 0.9)
-                 .frame(minHeight: ScreenUtil.height * 0.01, maxHeight: ScreenUtil.height * 0.6)
+                 .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.25)
                  .cornerRadius(10)
-                 .onTapGesture {
+                 .onPress {
                      isFullScreen = true
                  }
                  .fullScreenCover(isPresented: $isFullScreen) {
