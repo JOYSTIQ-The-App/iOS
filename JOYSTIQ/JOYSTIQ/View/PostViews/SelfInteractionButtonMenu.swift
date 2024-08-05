@@ -38,7 +38,19 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                 print("Like button pressed on post id", postId)
                 likeButtonAction()
             }) {
-                LikeButton(isLiked: $userLiked, likesCount: $likesCount)
+                HStack(spacing: 0) {
+                    Image(systemName: userLiked ? "heart.fill" : "heart")
+                        .foregroundColor(userLiked ? .red : .white.opacity(0.7))
+                        .imageScale(.small)
+                        .padding(.trailing, 5)
+                    
+                    if let count = likesCount {
+                        Text(formatNumber(count))
+                            .font(.system(size: 14))
+                            .foregroundColor(.white).opacity(0.7)
+                    }
+                }
+
             }
             .padding(.trailing, 5)
         )
@@ -50,7 +62,16 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                 print("Comment button pressed on post id", postId)
                 showComment = true
             }) {
-                CommentButton(commentCount: commentCount)
+                HStack(spacing: 0) {
+                    Image(systemName: "message")
+                        .foregroundColor(Color.white.opacity(0.7))
+                        .imageScale(.small)
+                        .padding(.trailing, 5)
+                    
+                    Text(formatNumber(commentCount))
+                        .font(.system(size: 14))
+                        .foregroundColor(.white).opacity(0.7)
+                }
             }
             .sheet(isPresented: $showComment) {
                 CommentSectionView<APIService>(apiService: apiService, postId: postId)
@@ -96,6 +117,12 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                 print("Error unliking post: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func formatNumber(_ number: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value: number)) ?? ""
     }
     
 }
