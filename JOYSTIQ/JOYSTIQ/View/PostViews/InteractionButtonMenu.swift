@@ -58,8 +58,6 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
             
             //reliably forces re-render, fixes comment button sometimes not working - temp solution
             Text("\(showComment.description)").foregroundColor(Color.clear)
-            //reliably forces re-render, fixes comment button sometimes not working - temp solution
-            Text("\(showingReportAlert.description)").foregroundColor(Color.clear)
             
             Spacer()
             
