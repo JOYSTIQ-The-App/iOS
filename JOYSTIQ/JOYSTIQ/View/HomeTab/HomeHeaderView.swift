@@ -188,7 +188,7 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
                 Text("Beta v1.0.0 Patch Notes")
                     .bold()
                     .foregroundColor(Color.white)
-                    .font(.system(size: ScreenUtil.height * 0.023))
+                    .font(.system(size: ScreenUtil.height * 0.018))
                     
                 +
                 Text("\n- Improved post structures to resolve like & comment button issues \n- Updated JOYSTIQ Menu \n- Improved create post UX \n- Profile page redesign \n- Introduced alpha / beta medals \n- Improved avatars \n- UI improvements in settings")
@@ -227,7 +227,7 @@ struct HomeHeaderView<APIServiceType: APIServiceProtocol>: View {
                 UIApplication.shared.open(url)
             }
         }, label: {
-            Image("discordlogo2")
+            Image("discordLogo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: ScreenUtil.height * 0.15, height: ScreenUtil.height * 0.15)

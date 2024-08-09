@@ -61,10 +61,7 @@ struct PostContentView: View {
     private var content: some View {
         VStack(alignment: .center, spacing: 10) {
             mediaContent
-            HStack(spacing: 0) { //for leading alignment with captions
-                textContent
-                Spacer()
-            }
+            textContent
         }
     }
     
@@ -83,8 +80,10 @@ struct PostContentView: View {
         Group {
             if playerManager.currentlyPlayingID == s3_key.String, playerManager.isReady {
                 VideoPlayer(player: playerManager.player)
-                    .frame(width: UIScreen.main.bounds.width * 0.95, height: UIScreen.main.bounds.height * 0.3)
+                    .frame(width: ScreenUtil.width * 0.95, height: ScreenUtil.height * 0.25)
                     .cornerRadius(10)
+                    .clipped()
+                    .contentShape(Rectangle())
             } else if isLoading {
                 screenWithLoading
             } else {
@@ -99,18 +98,22 @@ struct PostContentView: View {
             if let url = thumbnailURL {
                 WebImage(url: url)  // Using SDWebImageSwiftUI's WebImage to load the image from the URL
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: ScreenUtil.width * 0.95, height: ScreenUtil.height * 0.25)
+                    .clipped()
+                    .contentShape(Rectangle())
                     .cornerRadius(10)
             } else {
                 Color.black
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .frame(width: ScreenUtil.width * 0.95, height: ScreenUtil.height * 0.25)
                     .cornerRadius(10)
+                    .clipped()
+                    .contentShape(Rectangle())
             }
             
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                .scaleEffect(1.5)
+            //ProgressView()
+                //.progressViewStyle(CircularProgressViewStyle(tint: .white))
+               // .scaleEffect(1.5)
         }
     }
 
@@ -119,12 +122,14 @@ struct PostContentView: View {
             if let url = thumbnailURL {
                 WebImage(url: url)  // Using SDWebImageSwiftUI's WebImage to load the image from the URL
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: ScreenUtil.width * 0.95, height: ScreenUtil.height * 0.25)
+                    .clipped()
+                    .contentShape(Rectangle())
                     .cornerRadius(10)
             } else {
                 Color.black
-                    .frame(width: UIScreen.main.bounds.width * 0.92, height: UIScreen.main.bounds.height * 0.24)
+                    .frame(width: ScreenUtil.width * 0.95, height: ScreenUtil.height * 0.25)
                     .cornerRadius(10)
             }
             playButtonOverlay
@@ -141,7 +146,6 @@ struct PostContentView: View {
         }) {
             Image(systemName: "play.circle.fill")
                 .resizable()
-                .scaledToFit()
                 .frame(width: 50, height: 50)
                 .foregroundColor(Color.white.opacity(0.7))
         }
@@ -153,9 +157,10 @@ struct PostContentView: View {
             if let url = imageURL {
                 WebImage(url: url)
                  .resizable()
-                 .scaledToFill()
-                 .frame(minWidth: ScreenUtil.width * 0.3, maxWidth: ScreenUtil.width * 0.9)
-                 .frame(minHeight: ScreenUtil.height * 0.01, maxHeight: ScreenUtil.height * 0.6)
+                 .aspectRatio(contentMode: .fill)
+                 .frame(width: ScreenUtil.width * 0.95, height: ScreenUtil.height * 0.25)
+                 .clipped()
+                 .contentShape(Rectangle())
                  .cornerRadius(10)
                  .onTapGesture {
                      isFullScreen = true
@@ -163,6 +168,7 @@ struct PostContentView: View {
                  .fullScreenCover(isPresented: $isFullScreen) {
                      imageFullScreenViewer
                  }
+                 .id(isFullScreen)
             } else {
                 EmptyView()
             }
@@ -175,7 +181,7 @@ struct PostContentView: View {
             if let url = imageURL {
                 WebImage(url: url)
                     .resizable()
-                    .scaledToFit()
+                    .aspectRatio(contentMode: .fit)
             } else {
                 EmptyView()
             }
@@ -212,9 +218,10 @@ struct PostContentView: View {
         Group {
             if bodyText != "" {
                 Text(bodyText)
+                    .padding(.horizontal, ScreenUtil.width * 0.05)
+                    .frame(width: ScreenUtil.width, alignment: .leading)
                     .font(.system(size: ScreenUtil.height * 0.018))
                     .foregroundColor(.white)
-                    .padding(.horizontal, ScreenUtil.width * 0.05)
             } else {
                 EmptyView()
             }
@@ -273,7 +280,7 @@ struct PostContentView_Previews: PreviewProvider {
     static var previews: some View {
         LazyVStack(alignment: .center, spacing: 0) {
             PostContentView(s3_key: S3Key(String: "someKey1", Valid: false), 
-                            bodyText: "Here's my caption afsd dasf asd fasd fsadf asdasdfsad fsda asd fsad dfas fas fas df sadf sad fsda fsda fsad fsad f",
+                            bodyText: "Here's my caption its a long one but its a good one and its a few lines acutally",
                             mediaType: .video)
         }
         .frame(width: UIScreen.main.bounds.width)

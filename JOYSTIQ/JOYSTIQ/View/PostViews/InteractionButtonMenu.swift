@@ -24,20 +24,40 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                 print("Like button pressed on post id", postId)
                 likeButtonAction()
             }) {
-                LikeButton(isLiked: $userLiked, likesCount: $likesCount)
+                HStack(spacing: 0) {
+                    Image(systemName: userLiked ? "heart.fill" : "heart")
+                        .foregroundColor(userLiked ? .red : .white.opacity(0.7))
+                        .imageScale(.small)
+                        .padding(.trailing, 5)
+                    
+                    if let count = likesCount {
+                        Text(formatNumber(count))
+                            .font(.system(size: 14))
+                            .foregroundColor(.white).opacity(0.7)
+                    }
+                }
             }
             .padding(.trailing, 5)
             
             Button(action: {
                 print("Comment button pressed on post id", postId)
                 showComment = true
+                print("showComment is now \(showComment)")
             }) {
-                CommentButton(commentCount: commentCount)
+                HStack(spacing: 0) {
+                    Image(systemName: "message")
+                        .foregroundColor(Color.white.opacity(0.7))
+                        .imageScale(.small)
+                        .padding(.trailing, 5)
+                    
+                    Text(formatNumber(commentCount))
+                        .font(.system(size: 14))
+                        .foregroundColor(.white).opacity(0.7)
+                }
             }
-            .sheet(isPresented: $showComment) {
-                CommentSectionView<APIService>(apiService: apiService, postId: postId)
-                    .presentationDetents([.fraction(0.9)])
-            }
+            
+            //reliably forces re-render, fixes comment button sometimes not working - temp solution
+            Text("\(showComment.description)").foregroundColor(Color.clear)
             
             Spacer()
             
@@ -51,6 +71,11 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
         }
         .padding(.horizontal, ScreenUtil.width * 0.05)
         .padding(.vertical, ScreenUtil.height * 0.01)
+        .sheet(isPresented: $showComment) {
+            CommentSectionView<APIService>(apiService: apiService, postId: postId)
+                .presentationDetents([.fraction(0.9)])
+        }
+        .id(showingReportAlert)
     }
 
     // MARK: - Functions
@@ -72,7 +97,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
         apiService.createLike(username: user.username, postId: postId) { result in
             switch result {
             case .success:
-//                userLiked = true
+                userLiked = true
                 print("success")
             case .failure(let error):
                 print("Error liking post: \(error.localizedDescription)")
@@ -84,12 +109,18 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
         apiService.deleteLike(username: user.username, postId: postId) { result in
             switch result {
             case .success:
-//                userLiked = false
+                userLiked = false
                 print("success")
             case .failure(let error):
                 print("Error unliking post: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func formatNumber(_ number: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value: number)) ?? ""
     }
 }
 
