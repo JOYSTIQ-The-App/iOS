@@ -46,7 +46,7 @@ struct WardrobeView: View {
             Image("createyouravatar")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: UIScreen.main.bounds.width * 0.6, height: 30)
+                .frame(width: ScreenUtil.width * 0.6, height: 30)
                 .padding(.bottom, 10)
             
             Divider()
@@ -56,237 +56,317 @@ struct WardrobeView: View {
             ZStack { //for scene and backround environment image
                 
                 sceneKitView
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
+                    .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.5)
                     .zIndex(1)
                 
                 Image("wardrobeTest3")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
+                    .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.5)
                     .zIndex(0)
                     
                 
             }//end ZStack for scene and backround environment image
-            
-            
-            
-            
-            
+
             Divider()
-                .frame(height: 4)
+                .frame(height: 2)
                 .background(Color.black)
             
-            
-            NavigationView {
-                
-                    
-                Grid(horizontalSpacing: 20, verticalSpacing: 20) { //start grid for cosmetic customizations menu
-                    
-                    GridRow { //start gridrow1
-                        
-                        NavigationLink(destination: SkinToneSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
-                            
-                            ZStack { //for torso button
+            wardrobeButtons
 
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "figure.stand")
-                                    .resizable()
-                                    .frame(width: 15, height: 30)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            } //end zstack for torso button
-                            
-                        } //end navLink
-                        
-                        NavigationLink(destination: HairSwitcherView(sceneKitView: $sceneKitView)) { //start hair navlink
-                            
-                            ZStack {
-                                
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                Image("hairicon")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            }
-                        }
-                        
-                        NavigationLink(destination: ShirtSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
-                            
-                            ZStack { //for torso button
-
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "tshirt.fill")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            } //end zstack for torso button
-                            
-                            
-                                                    
-                       } //end navLink
-
-                    } //end gridrow1
-                    
-                    GridRow { //start gridrow2
-                        
-                        NavigationLink(destination: PantSwitcherView(sceneKitView: $sceneKitView)) {
-                            
-                            ZStack {
-                                
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image("shorts")
-                                    .resizable()
-                                    .frame(width: 25, height: 30)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            }
-                            
-                        }
-                        
-                        NavigationLink(destination: ShoeSwitcherView(sceneKitView: $sceneKitView)) {
-                                Image(systemName: "shoe.2.fill")
-                                    .resizable()
-                                    .frame(width: 50, height: 35)
-                                    .foregroundColor(Color("LightGray"))
-                                    .padding(10)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 5) // Adjust corner radius as needed
-                                            .stroke(Color("LightGray"), lineWidth: 2) // Customize border color and width
-                                    )
-                        } //end navLink for shoes
-                        
-                        
-                        NavigationLink(destination: EnvironmentSwitcherView(enviroInt: $enviroInt)) {
-                            
-                            ZStack {
-                                
-                                Image(systemName: "square")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                                
-                                Image(systemName: "photo.on.rectangle.angled")
-                                    .resizable()
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color("LightGray"))
-                                
-                            }
-                        }
-                        
-                    } //end gridrow2
-                    
-                    
-                    Divider()
-                        .frame(width: UIScreen.main.bounds.width * 0.7, height: 1)
-                        .background(Color.gray)
-                    
-                    
-                    HStack(spacing: 20) { //for save and cancel buttons
-                        
-                        /*
-                        //Cancel button
-                        Button(action: {
-                            
-                            
-                        }, label: {
-                            
-                            Text("Cancel")
-                                .foregroundColor(.white)
-                                .frame(width: UIScreen.main.bounds.width * 0.25, height: 45)
-                                .background(LinearGradient(
-                                    gradient: Gradient(colors: [Color.red, Color(red: 0.9, green: 0.3, blue: 0)]),
-                                                startPoint: .topTrailing,
-                                                endPoint: .bottomLeading
-                                            ))
-                                .cornerRadius(30)
-                        })
-                        .contentShape(Rectangle())
-                    */
-                        
-
-                        
-                        //Save button
-                        Button(action: {
-                            isLoading = true
-                            saveAvatar()
-                        }, label: {
-                            if isLoading {
-                                ProgressView() // Spinning loader
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                    .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
-                                    .background(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
-                                            startPoint: .topTrailing,
-                                            endPoint: .bottomLeading
-                                        )
-                                    )
-                                    .cornerRadius(30)
-                            } else {
-                                Text("Save")
-                                    .foregroundColor(.white)
-                                    .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
-                                    .background(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
-                                            startPoint: .topTrailing,
-                                            endPoint: .bottomLeading
-                                        )
-                                    )
-                                    .cornerRadius(30)
-                            }
-                        })
-                        .contentShape(Rectangle())
-                        .disabled(isLoading)
-
-                        
-          
-                        
-                    } //end HStack for save and cancel buttons
-                    
-                    
-                } //end grid for cosmetic customizations menu/
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-                .background(Color("GradientDark"))
-                     
-    
-            } //end navigation view
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-            .accentColor(Color.white.opacity(0.8))
-             
-        
             
         } //end Main VStack for scenekitview and wardrobe controls
         .edgesIgnoringSafeArea(.all)
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height)
         .background(Color("GradientDark"))
         .onAppear {
             hideNavBar = true
         }
+    }
+    
+    private var wardrobeButtons: some View {
+        HStack(spacing: 0) {
+            skinButton
+            hairButton
+            torsoButton
+            pantsButton
+            shoesButton
+            envButton
+        }
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.35)
+
+    }
+    
+    private var skinButton: some View {
+        Button(action: {
+            //action
+        }) {
+            Image(systemName: "person.fill")
+                .resizable()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .foregroundColor(Color("LightGray"))
+                .padding(10)
+                .overlay(
+                    Rectangle()
+                        .stroke(Color("LightGray"), lineWidth: 2)
+                )
+        }
+    }
+    
+    private var hairButton: some View {
+        Button(action: {
+            //action
+        }) {
+            Image("hairicon")
+                .resizable()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .foregroundColor(Color("LightGray"))
+                .padding(10)
+                .overlay(
+                    Rectangle()
+                        .stroke(Color("LightGray"), lineWidth: 2)
+                )
+
+        }
+    }
+    
+    private var torsoButton: some View {
+        Button(action: {
+            //action
+        }) {
+            Image(systemName: "tshirt.fill")
+                .resizable()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .foregroundColor(Color("LightGray"))
+                .padding(10)
+                .overlay(
+                    Rectangle()
+                        .stroke(Color("LightGray"), lineWidth: 2)
+                )
+        }
+    }
+    
+    private var pantsButton: some View {
+        Button(action: {
+            //action
+        }) {
+            Image("shorts")
+                .resizable()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .foregroundColor(Color("LightGray"))
+                .padding(10)
+                .overlay(
+                    Rectangle()
+                        .stroke(Color("LightGray"), lineWidth: 2)
+                )
+        }
+    }
+    
+    private var shoesButton: some View {
+        Button(action: {
+            //action
+        }) {
+            Image(systemName: "shoe.2.fill")
+                .resizable()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .foregroundColor(Color("LightGray"))
+                .padding(10)
+                .overlay(
+                    Rectangle()
+                        .stroke(Color("LightGray"), lineWidth: 2)
+                )
+
+        }
+    }
+    
+    private var envButton: some View {
+        Button(action: {
+            //action
+        }) {
+            Image(systemName: "photo.on.rectangle.angled")
+                .resizable()
+                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .foregroundColor(Color("LightGray"))
+                .padding(10)
+                .overlay(
+                    Rectangle()
+                        .stroke(Color("LightGray"), lineWidth: 2)
+                )
+        }
+    }
+    
+    private var EarlierIteration: some View {
         
-        
+        NavigationView {
+                
+            Grid(horizontalSpacing: 20, verticalSpacing: 20) { //start grid for cosmetic customizations menu
+                
+                GridRow { //start gridrow1
+                    
+                    NavigationLink(destination: SkinToneSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
+                        
+                        ZStack { //for torso button
+
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image(systemName: "figure.stand")
+                                .resizable()
+                                .frame(width: 15, height: 30)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        } //end zstack for torso button
+                        
+                    } //end navLink
+                    
+                    NavigationLink(destination: HairSwitcherView(sceneKitView: $sceneKitView)) { //start hair navlink
+                        
+                        ZStack {
+                            
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            Image("hairicon")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
+                    }
+                    
+                    NavigationLink(destination: ShirtSwitcherView(sceneKitView: $sceneKitView)) { //start navlink
+                        
+                        ZStack { //for torso button
+
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image(systemName: "tshirt.fill")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        } //end zstack for torso button
+                        
+                        
+                                                
+                   } //end navLink
+
+                } //end gridrow1
+                
+                GridRow { //start gridrow2
+                    
+                    NavigationLink(destination: PantSwitcherView(sceneKitView: $sceneKitView)) {
+                        
+                        ZStack {
+                            
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image("shorts")
+                                .resizable()
+                                .frame(width: 25, height: 30)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
+                        
+                    }
+                    
+                    NavigationLink(destination: ShoeSwitcherView(sceneKitView: $sceneKitView)) {
+                            Image(systemName: "shoe.2.fill")
+                                .resizable()
+                                .frame(width: 50, height: 35)
+                                .foregroundColor(Color("LightGray"))
+                                .padding(10)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5) // Adjust corner radius as needed
+                                        .stroke(Color("LightGray"), lineWidth: 2) // Customize border color and width
+                                )
+                    } //end navLink for shoes
+                    
+                    
+                    NavigationLink(destination: EnvironmentSwitcherView(enviroInt: $enviroInt)) {
+                        
+                        ZStack {
+                            
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color("LightGray"))
+                            
+                            
+                            Image(systemName: "photo.on.rectangle.angled")
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(Color("LightGray"))
+                            
+                        }
+                    }
+                    
+                } //end gridrow2
+                
+                Divider()
+                    .frame(width: UIScreen.main.bounds.width * 0.7, height: 1)
+                    .background(Color.gray)
+                
+                
+                HStack(spacing: 0) { //for save and cancel buttons
+            
+                    //Save button
+                    Button(action: {
+                        isLoading = true
+                        saveAvatar()
+                    }, label: {
+                        if isLoading {
+                            ProgressView() // Spinning loader
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                        startPoint: .topTrailing,
+                                        endPoint: .bottomLeading
+                                    )
+                                )
+                                .cornerRadius(30)
+                        } else {
+                            Text("Save")
+                                .foregroundColor(.white)
+                                .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                        startPoint: .topTrailing,
+                                        endPoint: .bottomLeading
+                                    )
+                                )
+                                .cornerRadius(30)
+                        }
+                    })
+                    .contentShape(Rectangle())
+                    .disabled(isLoading)
+               
+                } //end HStack for save and cancel buttons
+                
+                
+            } //end grid for cosmetic customizations menu/
+            .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.35)
+            .background(Color("GradientDark"))
+
+        } //end navigation view
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
+        .accentColor(Color.white.opacity(0.8))
     }
     
     func saveAvatar() {
@@ -342,15 +422,7 @@ struct WardrobeView: View {
             }
         }
     }
-
-
-
-    
 }
-
-
-
-
 
 
 struct WardrobeView_Previews: PreviewProvider {
