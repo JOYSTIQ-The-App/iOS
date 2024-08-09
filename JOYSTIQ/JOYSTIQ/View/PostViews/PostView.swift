@@ -51,7 +51,7 @@ struct PostView<APIServiceType: APIServiceProtocol>: View {
             .padding(.top, 10)
             .environmentObject(user)
             .alert(isPresented: $showingReportAlert, content: reportAlert)
-            
+            .id(showingReportAlert)
             Divider()
                 .background(
                     LinearGradient(

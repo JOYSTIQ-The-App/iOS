@@ -42,6 +42,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
             Button(action: {
                 print("Comment button pressed on post id", postId)
                 showComment = true
+                print("showComment is now \(showComment)")
             }) {
                 HStack(spacing: 0) {
                     Image(systemName: "message")
@@ -55,6 +56,10 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
                 }
             }
             
+            //reliably forces re-render, fixes comment button sometimes not working - temp solution
+            Text("\(showComment.description)").foregroundColor(Color.clear)
+            //reliably forces re-render, fixes comment button sometimes not working - temp solution
+            Text("\(showingReportAlert.description)").foregroundColor(Color.clear)
             
             Spacer()
             
@@ -72,6 +77,7 @@ struct InteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
             CommentSectionView<APIService>(apiService: apiService, postId: postId)
                 .presentationDetents([.fraction(0.9)])
         }
+        .id(showingReportAlert)
     }
 
     // MARK: - Functions

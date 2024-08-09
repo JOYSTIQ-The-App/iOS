@@ -25,6 +25,9 @@ struct SelfInteractionButtonMenu<APIServiceType: APIServiceProtocol>: View {
             likeButton
             commentButton
             
+            //reliably forces re-render, fixes comment button sometimes not working - temp solution
+            Text("showComment: \(showComment.description)").foregroundColor(Color.clear)
+            
             Spacer()
         }
         .padding(.horizontal, 25)

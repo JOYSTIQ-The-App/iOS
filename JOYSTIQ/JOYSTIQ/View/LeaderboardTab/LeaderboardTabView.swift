@@ -30,6 +30,7 @@ struct LeaderboardTabView<APIServiceType: APIServiceProtocol>: View {
                 }
             }
             .accentColor(Color.green)
+            .padding(.bottom, ScreenUtil.height * 0.04)
         }
     }
     

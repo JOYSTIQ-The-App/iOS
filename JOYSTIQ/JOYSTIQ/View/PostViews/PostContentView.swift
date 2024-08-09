@@ -168,6 +168,7 @@ struct PostContentView: View {
                  .fullScreenCover(isPresented: $isFullScreen) {
                      imageFullScreenViewer
                  }
+                 .id(isFullScreen)
             } else {
                 EmptyView()
             }
