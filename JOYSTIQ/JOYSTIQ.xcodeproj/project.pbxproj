@@ -346,6 +346,7 @@
 		9941DC582A93F6F000215948 /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				9941DC452A93F6F000215948 /* SceneKitExtras.swift */,
 				9941DC4D2A93F6F000215948 /* DiscPostView.swift */,
 				9989F6902AB3B12E00A1B6F2 /* Testing */,
 			);
@@ -412,7 +413,6 @@
 			isa = PBXGroup;
 			children = (
 				990B8C042AB8E8FF00A2E794 /* SceneKitView.swift */,
-				9941DC452A93F6F000215948 /* SceneKitExtras.swift */,
 				997062D02ABB827F005596A3 /* WardrobeViews */,
 			);
 			path = AvatarViews;

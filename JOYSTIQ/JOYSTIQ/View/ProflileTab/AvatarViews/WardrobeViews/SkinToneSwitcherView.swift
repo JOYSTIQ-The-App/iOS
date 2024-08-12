@@ -10,123 +10,70 @@ import SwiftUI
 struct SkinToneSwitcherView: View {
     
     @Binding var sceneKitView: SceneKitView
-    
-    // [Black, brown, blonde, red, white]
     let skinColorCodes =  ["#ffdab0", "#ffc380", "#bd9b7b", "#a37d5a", "#705032"]
-    
     @State private var selectedSkinToneIndex = 0
     
-    
     var body: some View {
-        
-        VStack {
+        HStack {
             
-            Text("Select Skin Tone")
-                .font(.system(size: 18))
-                .foregroundColor(Color.white)
-                
+            Spacer()
             
-            HStack {
+            Button(action: {
                 
-                Spacer()
-                
-                // Left arrow button for skin tone selector
-                Button("<") {
-                    
-                    if selectedSkinToneIndex >= 1 {
-                        selectedSkinToneIndex -= 1
-                        
-                        sceneKitView.changeSkinTone(named: skinColorCodes[selectedSkinToneIndex])
-                    }
-                    
-                }
-                .foregroundColor(selectedSkinToneIndex == 0 ? .gray : .green)
-                .font(.system(size: 28))
-                .frame(width: 40, height: 40)
-                .background(Color("GradientLight"))
-                .cornerRadius(10)
-                .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
-                .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
-
-                
-                ZStack {
-                    
-                    Rectangle()
-                        .frame(width: 200, height: 40)
-                        .foregroundColor(Color("GradientLight"))
-                        .cornerRadius(5)
-                        .padding(.horizontal, 10)
-                        .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
-                        .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
-                    
-                    Rectangle()
-                        .frame(width: 150, height: 20)
-                        .foregroundColor(Color(UIColor(hexString: skinColorCodes[selectedSkinToneIndex])!))
-                        .cornerRadius(5)
+                if selectedSkinToneIndex >= 1 {
+                    selectedSkinToneIndex -= 1
+                    sceneKitView.changeSkinTone(named: skinColorCodes[selectedSkinToneIndex])
                 }
                 
-                    
+            }) {
+                Image(systemName: "chevron.backward.square.fill")
+                    .resizable()
+                    .frame(width: ScreenUtil.width * 0.114, height: ScreenUtil.width * 0.11)
+                    .foregroundColor(selectedSkinToneIndex == 0 ? Color("LightGray").opacity(0.2) : Color("LightGray"))
+            }
+            
+            ZStack {
                 
+                Rectangle()
+                    .frame(width: ScreenUtil.width * 0.4, height: ScreenUtil.width * 0.11)
+                    .foregroundColor(Color("LightGray"))
+                    .cornerRadius(5)
+                    .padding(.horizontal, 10)
                 
-                // Right arrow button for skin tone selector
-                Button(">") {
-                    
-                    //selectedHairColorIndex = (selectedHairColorIndex + 1) % hairColorOptions.count
-                    
-                    if selectedSkinToneIndex <= 3 {
-                        selectedSkinToneIndex += 1
-                        
-                       
-                        sceneKitView.changeSkinTone(named: skinColorCodes[selectedSkinToneIndex])
-                        
-                    } //end if
-                    
-    
-                    
+                Rectangle()
+                    .frame(width: ScreenUtil.width * 0.38, height: ScreenUtil.width * 0.09)
+                    .foregroundColor(Color(UIColor(hexString: skinColorCodes[selectedSkinToneIndex])!))
+                    .cornerRadius(5)
+            }
+            
+                
+            Button(action: {
+                if selectedSkinToneIndex <= 3 {
+                    selectedSkinToneIndex += 1
+                    sceneKitView.changeSkinTone(named: skinColorCodes[selectedSkinToneIndex])
                 }
-                .foregroundColor(selectedSkinToneIndex == 4 ? .gray : .green)
-                .font(.system(size: 28))
-                .frame(width: 40, height: 40)
-                .background(Color("GradientLight"))
-                .cornerRadius(10)
-                .shadow(color: Color.black.opacity(0.8), radius: 2, x: 2, y: 2)
-                .shadow(color: Color.white.opacity(0.4), radius: 2, x: -1, y: -1)
-                
-                Spacer()
-                
-                
-            }//end HStack for color selector
+            }) {
+                Image(systemName: "chevron.forward.square.fill")
+                    .resizable()
+                    .frame(width: ScreenUtil.width * 0.114, height: ScreenUtil.width * 0.11)
+                    .foregroundColor(selectedSkinToneIndex == 4 ? Color("LightGray").opacity(0.2) : Color("LightGray"))
+            }
             
+            Spacer()
             
-        } //end main VStack
-        .padding(.bottom, 60)
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
-        .background(Color("GradientDark"))
-        
-        
+        }//end HStack for skin tone selector
     } //end body
-    
-    
 }
 
 struct ContentView9: View {
-    
-    
     @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
-    
     var body: some View {
-        
         VStack {
-            
             sceneKitView
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
-            
             SkinToneSwitcherView(sceneKitView: $sceneKitView)
-            
         }
-        
     }
-    
 }
 
 struct SkinToneSwitcherView_Previews: PreviewProvider {

@@ -13,13 +13,9 @@ struct WardrobeView: View {
     
     @EnvironmentObject var user: User
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    
     @Binding var hideNavBar: Bool
-
     @Binding var avatarSnapshot: UIImage?
     @Binding var enviroInt: Int
-    
     @State private var sceneKitView = SceneKitView(named: "CamTest6", skinColor: "#ffdab0")
     
     private var s3Service: S3ServiceProtocol
@@ -35,6 +31,13 @@ struct WardrobeView: View {
         self.s3Service = s3Service
         self.apiService = apiService
     }
+    
+    //new menu props
+    enum CustomizationOption {
+        case skin, hair, torso, pants, shoes, env, none
+    }
+    @State private var selectedOption: CustomizationOption = .skin
+
 
 
     var body: some View {
@@ -67,12 +70,9 @@ struct WardrobeView: View {
                     
                 
             }//end ZStack for scene and backround environment image
-
-            Divider()
-                .frame(height: 2)
-                .background(Color.black)
+            .shadow(color: Color.black.opacity(0.6), radius: 5, x: 0, y: 2)
             
-            wardrobeButtons
+            wardrobeCustomizer
 
             
         } //end Main VStack for scenekitview and wardrobe controls
@@ -84,6 +84,38 @@ struct WardrobeView: View {
         }
     }
     
+    private var wardrobeCustomizer: some View {
+        VStack(spacing: 0) {
+            wardrobeButtons
+            Spacer()
+            customizerView
+            Spacer()
+            saveButton
+        }
+        .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.35)
+        .padding(.bottom, ScreenUtil.height * 0.05)
+    }
+
+    @ViewBuilder
+    private var customizerView: some View {
+        switch selectedOption {
+        case .skin:
+            SkinToneSwitcherView(sceneKitView: $sceneKitView)
+        case .hair:
+            HairSwitcherView(sceneKitView: $sceneKitView)
+        case .torso:
+            ShirtSwitcherView(sceneKitView: $sceneKitView)
+        case .pants:
+            PantSwitcherView(sceneKitView: $sceneKitView)
+        case .shoes:
+            ShoeSwitcherView(sceneKitView: $sceneKitView)
+        case .env:
+            EnvironmentSwitcherView(enviroInt: $enviroInt)
+        case .none:
+            EmptyView()  // Or provide a default view
+        }
+    }
+
     private var wardrobeButtons: some View {
         HStack(spacing: 0) {
             skinButton
@@ -93,106 +125,124 @@ struct WardrobeView: View {
             shoesButton
             envButton
         }
-        .frame(width: ScreenUtil.width, height: ScreenUtil.height * 0.35)
-
     }
     
     private var skinButton: some View {
         Button(action: {
-            //action
+            selectedOption = .skin
         }) {
             Image(systemName: "person.fill")
                 .resizable()
-                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .frame(width: ScreenUtil.width * 0.114, height: ScreenUtil.width * 0.11)
                 .foregroundColor(Color("LightGray"))
-                .padding(10)
-                .overlay(
-                    Rectangle()
-                        .stroke(Color("LightGray"), lineWidth: 2)
-                )
+                .padding(ScreenUtil.width * 0.026)
+                .background(selectedOption == .skin ? Color.clear : Color("GradientDark2").opacity(0.2))
         }
     }
     
     private var hairButton: some View {
         Button(action: {
-            //action
+            selectedOption = .hair
         }) {
             Image("hairicon")
                 .resizable()
-                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .frame(width: ScreenUtil.width * 0.114, height: ScreenUtil.width * 0.11)
                 .foregroundColor(Color("LightGray"))
-                .padding(10)
-                .overlay(
-                    Rectangle()
-                        .stroke(Color("LightGray"), lineWidth: 2)
-                )
-
+                .padding(ScreenUtil.width * 0.026)
+                .background(selectedOption == .hair ? Color.clear : Color("GradientDark2").opacity(0.2))
         }
     }
     
     private var torsoButton: some View {
         Button(action: {
-            //action
+            selectedOption = .torso
         }) {
             Image(systemName: "tshirt.fill")
                 .resizable()
-                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .frame(width: ScreenUtil.width * 0.114, height: ScreenUtil.width * 0.11)
                 .foregroundColor(Color("LightGray"))
-                .padding(10)
-                .overlay(
-                    Rectangle()
-                        .stroke(Color("LightGray"), lineWidth: 2)
-                )
+                .padding(ScreenUtil.width * 0.026)
+                .background(selectedOption == .torso ? Color.clear: Color("GradientDark2").opacity(0.2))
         }
     }
     
     private var pantsButton: some View {
         Button(action: {
-            //action
+            selectedOption = .pants
         }) {
             Image("shorts")
                 .resizable()
-                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .frame(width: ScreenUtil.width * 0.114, height: ScreenUtil.width * 0.11)
                 .foregroundColor(Color("LightGray"))
-                .padding(10)
-                .overlay(
-                    Rectangle()
-                        .stroke(Color("LightGray"), lineWidth: 2)
-                )
+                .padding(ScreenUtil.width * 0.026)
+                .background(selectedOption == .pants ? Color.clear : Color("GradientDark2").opacity(0.2))
         }
     }
     
     private var shoesButton: some View {
         Button(action: {
-            //action
+            selectedOption = .shoes
         }) {
             Image(systemName: "shoe.2.fill")
                 .resizable()
-                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .frame(width: ScreenUtil.width * 0.114, height: ScreenUtil.width * 0.08)
+                .padding(.vertical, ScreenUtil.height * 0.007)
                 .foregroundColor(Color("LightGray"))
-                .padding(10)
-                .overlay(
-                    Rectangle()
-                        .stroke(Color("LightGray"), lineWidth: 2)
-                )
-
+                .padding(ScreenUtil.width * 0.026)
+                .background(selectedOption == .shoes ? Color.clear : Color("GradientDark2").opacity(0.2))
         }
     }
     
     private var envButton: some View {
         Button(action: {
-            //action
+            selectedOption = .env
         }) {
             Image(systemName: "photo.on.rectangle.angled")
                 .resizable()
-                .frame(width: ScreenUtil.width * 0.11, height: ScreenUtil.width * 0.11)
+                .frame(width: ScreenUtil.width * 0.114, height: ScreenUtil.width * 0.11)
                 .foregroundColor(Color("LightGray"))
-                .padding(10)
-                .overlay(
-                    Rectangle()
-                        .stroke(Color("LightGray"), lineWidth: 2)
-                )
+                .padding(ScreenUtil.width * 0.026)
+                .background(selectedOption == .env ? Color.clear : Color("GradientDark2").opacity(0.2))
         }
+    }
+    
+    private var saveButton: some View {
+        HStack(spacing: 0) { //for save and cancel buttons
+    
+            //Save button
+            Button(action: {
+                isLoading = true
+                saveAvatar()
+            }, label: {
+                if isLoading {
+                    ProgressView() // Spinning loader
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                startPoint: .topTrailing,
+                                endPoint: .bottomLeading
+                            )
+                        )
+                        .cornerRadius(30)
+                } else {
+                    Text("Save")
+                        .foregroundColor(.white)
+                        .frame(width: UIScreen.main.bounds.width * 0.5, height: 45)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color("GradientLight2"), Color("GradientDark2")]),
+                                startPoint: .topTrailing,
+                                endPoint: .bottomLeading
+                            )
+                        )
+                        .cornerRadius(30)
+                }
+            })
+            .contentShape(Rectangle())
+            .disabled(isLoading)
+        } //end HStack
     }
     
     private var EarlierIteration: some View {
